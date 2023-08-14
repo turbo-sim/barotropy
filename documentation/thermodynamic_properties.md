@@ -54,7 +54,8 @@ The fluid libraries use the Helmholtz energy equation to evaluate the thermodyna
 
 The properties in the two-phase region are not computed from the Helmholtz energy equation of state, but from equilibrium relations. To understand the reason for this consider the isotherm illustrated in the pressure-density diagram below.
 
-![](./images/maxwell_loop_spinodal_line_Td.png)
+<img src="./images/maxwell_loop_spinodal_line_Td.png" width="600"/>
+
 
 It is well known that the pressure in the two-phase region depends only on temperature and, therefore, it should be constant along an isotherm line. However, the mathematical form of the HEOS produces unphysical wiggles known as Maxwell loops. Consequently, HEOS cannot be used predict the thermodynamic properties within the two-phase region. Instead, two-phase thermodynamic properties are computed using the rules described below.
 
@@ -70,7 +71,7 @@ where $q_{\mathrm{L}}$ and $q_{\mathrm{V}}$ are the the mass fractions of liquid
 ### Volume weighted averages
 The density and isobaric and isochoric heat capacities are computed as volume-weighted averages of the saturated liquid/vapor states:
 
-$$ \rho_v = \alpha_{\mathrm{L}} \, \rho_{v,\,\mathrm{L}} + \alpha_{\mathrm{V}} \, \rho_{v,\,\mathrm{V}}$$
+$$ \rho_v = \alpha_{\mathrm{L}} \, \rho_{\mathrm{L}} + \alpha_{\mathrm{V}} \, \rho_{\mathrm{V}}$$
 $$ c_v = \alpha_{\mathrm{L}} \, c_{v,\,\mathrm{L}} + \alpha_{\mathrm{V}} \, c_{v,\,\mathrm{V}}$$
 $$ c_p = \alpha_{\mathrm{L}} \, c_{p,\,\mathrm{L}} + \alpha_{\mathrm{V}} \, c_{p,\,\mathrm{V}}$$
 
@@ -120,10 +121,13 @@ $$K_T = \rho \left( \frac{\partial p}{\partial \rho} \right)_T = 0$$
 
 More precisely, a vapor spinodal point is the first local maximum of a isotherm line in a pressure-density diagram as the density increases. Conversely, a liquid spinodal point is the first local minimum of a isotherm line in a pressure-density diagram as the density decreases.  The figure below illustrates the spinodal point definition for the carbon dioxide HEOS developed by [Span and Wagner (1996)](https://doi.org/10.1063/1.555991).
 
-![](./images/spinodal_points_CO2.png)
+
+<img src="./images/spinodal_points_CO2.png" width="600"/>
+
 
 The thermodynamic properties in metastable ses between the saturation and spinodal curves can be computed extrapolating the Helmholtz-energy equation of state beyond the single-phase region. However, state-of-the-art Helmholtz energy equations of state do not include metastable states in the set of data points used to fit the model parameters. Therefore, the accuracy of HEOS to estimate metastable thermodynamic properties is questionable.
 
 In fact, it is well known that some Helmholtz energy equations of state cannot be used to estimate the location of the spinodal line because their mathematical form or set of fitting coefficients are not well-posed. This is exemplified by the nitrogen HEOS developed by [Span et al. (2000)](https://doi.org/10.1063/1.1349047). The figure below illustrates that the HEOS is not well-posed because there are isotherms that do not have a local minimum/maximum corresponding to a state with zero isothermal bulk modulus. In those case, the inflection point of the isotherms (corresponding to the point closest to zero bulk modulus) was marked for illustrating purposes.
 
-![](./images/spinodal_points_nitrogen.png)
+<img src="./images/spinodal_points_nitrogen.png" width="600"/>
+
