@@ -1,5 +1,4 @@
 /results
-./tests/results
+/tests/results
 
 *.asv
-*.m
