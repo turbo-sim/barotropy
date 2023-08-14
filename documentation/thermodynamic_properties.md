@@ -84,17 +84,17 @@ The speed of sound for a homogeneous flow within the two-phase region is compute
 
 According to [Flåtten and Lund (2011)](https://doi.org/10.1142/S0218202511005775) if the two-phase mixture not in equilibrium (i.e., both phases have different pressures, temperatures and chemical potentials) the square of the speed of sound is given by the arithmetic average of the squared sound speed of the saturated liquid and vapor weighted on their mass fractions:
 
-$$ c^2 = q_{\mathrm{L}} \, c^2_{\mathrm{L}} + q_{\mathrm{V}} \, c^2_{\mathrm{V}}$$
+$$c^2 = q_{\mathrm{L}} \, c^2_{\mathrm{L}} + q_{\mathrm{V}} \, c^2_{\mathrm{V}}$$
 
 If the two-phase mixture is in mechanical equilibrium (i.e., both phases have the same pressure, but different temperatures and chemical potentials) the bulk modulus of the mixture $\rho c^2$ is computed as the harmonic average of the bulk moduli of the saturated liquid and vapor weighted on their volume fractions:
 
-$$ \frac{1}{\rho c^2} = \frac{\alpha_{\mathrm{L}}}{\rho_{\mathrm{L}} c^2_{\mathrm{L}}} \, + \frac{\alpha_{\mathrm{V}}}{\rho_{\mathrm{V}} c^2_{\mathrm{V}}}$$
+$$\frac{1}{\rho c^2} = \frac{\alpha_{\mathrm{L}}}{\rho_{\mathrm{L}} c^2_{\mathrm{L}}} + \frac{\alpha_{\mathrm{V}}}{\rho_{\mathrm{V}} c^2_{\mathrm{V}}}$$
 
 This expression is also known as Wood's formula, or as the Homogeneous Frozen Model (HFM) for the speed of sound.
 
 Lastly, if the two-phase mixture is in mechanical, thermal, and phase equilibrium (i.e. both phases have the same pressure, temperature, and chemical potential) the speed of sound is given by the following expression:
 
-$$ \frac{1}{\rho c^2} = \frac{\alpha_{\mathrm{L}}}{\rho_{\mathrm{L}} c^2_{\mathrm{L}}} \, + \frac{\alpha_{\mathrm{V}}}{\rho_{\mathrm{V}} c^2_{\mathrm{V}}} + T \left( \frac{\rho_\mathrm{L} \alpha_\mathrm{L}}{c_{p,\,\mathrm{L}}} \left( \frac{\mathrm{ds_\mathrm{L}}}{\mathrm{d}p}\right)^2_{\mathrm{sat}} + \frac{\rho_\mathrm{V} \alpha_\mathrm{V}}{c_{p,\,\mathrm{V}}} \left( \frac{\mathrm{ds_\mathrm{V}}}{\mathrm{d}p}\right)^2_{\mathrm{sat}} \right)$$
+$$\frac{1}{\rho c^2} = \frac{\alpha_{\mathrm{L}}}{\rho_{\mathrm{L}} c^2_{\mathrm{L}}} + \frac{\alpha_{\mathrm{V}}}{\rho_{\mathrm{V}} c^2_{\mathrm{V}}} + T \left( \frac{\rho_\mathrm{L} \alpha_\mathrm{L}}{c_{p,\,\mathrm{L}}} \left( \frac{\mathrm{ds_\mathrm{L}}}{\mathrm{d}p}\right)^2_{\mathrm{sat}} + \frac{\rho_\mathrm{V} \alpha_\mathrm{V}}{c_{p,\,\mathrm{V}}} \left( \frac{\mathrm{ds_\mathrm{V}}}{\mathrm{d}p}\right)^2_{\mathrm{sat}} \right)$$
 
 This formula is also known as Homogeneous Equilibrium Model (HEM) for the speed of sound. Refer to the work from [Flåtten and Lund (2011)](https://doi.org/10.1142/S0218202511005775) for more information about the different speed of sound definitions.
 
@@ -115,7 +115,9 @@ Also note that many single-phase CFD codes will not be able to compute flow solu
 When a single-phase fluid undergoes a thermodynamic process and enters the two-phase region it can temporarily exist in a single-phase state that is different from the equilibrium two-phase state. Such states are know as metastable states and they are only possible in the thermodynamic region between the saturation lines and the spinodal lines. If the thermodynamic process continues and crosses the spinodal lines metastable states become unstable and the transition to two-distinct phase occurs immediately. Therefore, the spinodal line represents the boundary that separates the region where a mixture is thermodynamically unstable and prone to phase separation from the region where metastable states are physically possible.
 
 In mathematical terms, the spinodal line is defined as the loci of thermodynamic states in which the isothermal bulk modulus of the fluid is zero:
+
 $$K_T = \rho \left( \frac{\partial p}{\partial \rho} \right)_T = 0$$
+
 More precisely, a vapor spinodal point is the first local maximum of a isotherm line in a pressure-density diagram as the density increases. Conversely, a liquid spinodal point is the first local minimum of a isotherm line in a pressure-density diagram as the density decreases.  The figure below illustrates the spinodal point definition for the carbon dioxide HEOS developed by [Span and Wagner (1996)](https://doi.org/10.1063/1.555991).
 
 ![](./images/spinodal_points_CO2.png)
