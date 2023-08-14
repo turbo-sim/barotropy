@@ -1,8 +1,12 @@
 ## Helmholtz Energy equation of state
 Modern fluid property libraries (like REFPROP and CoolProp) use Helmholtz equations of state (HEOS) to evaluate the thermodynamic properties. These equations of state express the Helmholtz energy of the fluid as an explicit function of temperature and density:
-$$\Phi = \Phi(\rho,T) $$
+
+$$\Phi = \Phi(\rho,T)$$
+
 The equation of state can also be formulated in dimensionless form as:
+
 $$ \phi(\delta, \tau) = \frac{\Phi(\delta, \tau)}{R\,T}$$
+
 Where:
 - $\phi$ is the dimensionless Helmholtz energy
 - $R$ is the gas constant of the fluid
@@ -56,42 +60,42 @@ It is well known that the pressure in the two-phase region depends only on tempe
 
 ### Mass-weighted averages
 Intensive properties (like internal energy, enthalpy and entropy) are computed as mass-weighted averages of the saturated liquid/vapor states:
-$$ u = q_{\mathrm{L}} \, u_{\mathrm{L}} + q_{\mathrm{V}} \, u_{\mathrm{V}}
-$$
-$$ h = q_{\mathrm{L}} \, h_{\mathrm{L}} + q_{\mathrm{V}} \, h_{\mathrm{V}}
-$$
-$$ s = q_{\mathrm{L}} \, s_{\mathrm{L}} + q_{\mathrm{V}} \, s_{\mathrm{V}}
-$$
+
+$$ u = q_{\mathrm{L}} \, u_{\mathrm{L}} + q_{\mathrm{V}} \, u_{\mathrm{V}}$$
+$$ h = q_{\mathrm{L}} \, h_{\mathrm{L}} + q_{\mathrm{V}} \, h_{\mathrm{V}}$$
+$$ s = q_{\mathrm{L}} \, s_{\mathrm{L}} + q_{\mathrm{V}} \, s_{\mathrm{V}}$$
+
 where $q_{\mathrm{L}}$ and $q_{\mathrm{V}}$ are the the mass fractions of liquid and vapor, respectively.
 
 ### Volume weighted averages
 The density and isobaric and isochoric heat capacities are computed as volume-weighted averages of the saturated liquid/vapor states:
-$$ \rho_v = \alpha_{\mathrm{L}} \, \rho_{v,\,\mathrm{L}} + \alpha_{\mathrm{V}} \, \rho_{v,\,\mathrm{V}}
-$$
-$$ c_v = \alpha_{\mathrm{L}} \, c_{v,\,\mathrm{L}} + \alpha_{\mathrm{V}} \, c_{v,\,\mathrm{V}}
-$$
-$$ c_p = \alpha_{\mathrm{L}} \, c_{p,\,\mathrm{L}} + \alpha_{\mathrm{V}} \, c_{p,\,\mathrm{V}}
-$$
+
+$$ \rho_v = \alpha_{\mathrm{L}} \, \rho_{v,\,\mathrm{L}} + \alpha_{\mathrm{V}} \, \rho_{v,\,\mathrm{V}}$$
+$$ c_v = \alpha_{\mathrm{L}} \, c_{v,\,\mathrm{L}} + \alpha_{\mathrm{V}} \, c_{v,\,\mathrm{V}}$$
+$$ c_p = \alpha_{\mathrm{L}} \, c_{p,\,\mathrm{L}} + \alpha_{\mathrm{V}} \, c_{p,\,\mathrm{V}}$$
+
 where $\alpha_{\mathrm{L}}$ and $\alpha_{\mathrm{V}}$ are the the volume fractions of liquid and vapor, respectively. Transport properties, including viscosity and conductivity are also computed as volume-weighted averages:
-$$ \mu = \alpha_{\mathrm{L}} \, \mu_{\mathrm{L}} + \alpha_{\mathrm{V}} \, \mu_{\mathrm{V}}
-$$
-$$ \kappa = \alpha_{\mathrm{L}} \, \kappa _{\mathrm{L}} + \alpha_{\mathrm{V}} \, \kappa _{\mathrm{V}}
-$$
+
+$$ \mu = \alpha_{\mathrm{L}} \, \mu_{\mathrm{L}} + \alpha_{\mathrm{V}} \, \mu_{\mathrm{V}}$$
+$$ \kappa = \alpha_{\mathrm{L}} \, \kappa _{\mathrm{L}} + \alpha_{\mathrm{V}} \, \kappa _{\mathrm{V}}$$
 
 ### Speed of sound
 The speed of sound for a homogeneous flow within the two-phase region is computed according to different formulas depending the level of equilibrium.
 
 According to [Flåtten and Lund (2011)](https://doi.org/10.1142/S0218202511005775) if the two-phase mixture not in equilibrium (i.e., both phases have different pressures, temperatures and chemical potentials) the square of the speed of sound is given by the arithmetic average of the squared sound speed of the saturated liquid and vapor weighted on their mass fractions:
-$$ c^2 = q_{\mathrm{L}} \, c^2_{\mathrm{L}} + q_{\mathrm{V}} \, c^2_{\mathrm{V}}
-$$
+
+$$ c^2 = q_{\mathrm{L}} \, c^2_{\mathrm{L}} + q_{\mathrm{V}} \, c^2_{\mathrm{V}}$$
+
 If the two-phase mixture is in mechanical equilibrium (i.e., both phases have the same pressure, but different temperatures and chemical potentials) the bulk modulus of the mixture $\rho c^2$ is computed as the harmonic average of the bulk moduli of the saturated liquid and vapor weighted on their volume fractions:
-$$ \frac{1}{\rho c^2} = \frac{\alpha_{\mathrm{L}}}{\rho_{\mathrm{L}} c^2_{\mathrm{L}}} \, + \frac{\alpha_{\mathrm{V}}}{\rho_{\mathrm{V}} c^2_{\mathrm{V}}}
-$$
+
+$$ \frac{1}{\rho c^2} = \frac{\alpha_{\mathrm{L}}}{\rho_{\mathrm{L}} c^2_{\mathrm{L}}} \, + \frac{\alpha_{\mathrm{V}}}{\rho_{\mathrm{V}} c^2_{\mathrm{V}}}$$
+
 This expression is also known as Wood's formula, or as the Homogeneous Frozen Model (HFM) for the speed of sound.
 
 Lastly, if the two-phase mixture is in mechanical, thermal, and phase equilibrium (i.e. both phases have the same pressure, temperature, and chemical potential) the speed of sound is given by the following expression:
-$$ \frac{1}{\rho c^2} = \frac{\alpha_{\mathrm{L}}}{\rho_{\mathrm{L}} c^2_{\mathrm{L}}} \, + \frac{\alpha_{\mathrm{V}}}{\rho_{\mathrm{V}} c^2_{\mathrm{V}}} + T \left( \frac{\rho_\mathrm{L} \alpha_\mathrm{L}}{c_{p,\,\mathrm{L}}} \left( \frac{\mathrm{ds_\mathrm{L}}}{\mathrm{d}p}\right)^2_{\mathrm{sat}} + \frac{\rho_\mathrm{V} \alpha_\mathrm{V}}{c_{p,\,\mathrm{V}}} \left( \frac{\mathrm{ds_\mathrm{V}}}{\mathrm{d}p}\right)^2_{\mathrm{sat}} \right)
-$$
+
+$$ \frac{1}{\rho c^2} = \frac{\alpha_{\mathrm{L}}}{\rho_{\mathrm{L}} c^2_{\mathrm{L}}} \, + \frac{\alpha_{\mathrm{V}}}{\rho_{\mathrm{V}} c^2_{\mathrm{V}}} + T \left( \frac{\rho_\mathrm{L} \alpha_\mathrm{L}}{c_{p,\,\mathrm{L}}} \left( \frac{\mathrm{ds_\mathrm{L}}}{\mathrm{d}p}\right)^2_{\mathrm{sat}} + \frac{\rho_\mathrm{V} \alpha_\mathrm{V}}{c_{p,\,\mathrm{V}}} \left( \frac{\mathrm{ds_\mathrm{V}}}{\mathrm{d}p}\right)^2_{\mathrm{sat}} \right)$$
+
 This formula is also known as Homogeneous Equilibrium Model (HEM) for the speed of sound. Refer to the work from [Flåtten and Lund (2011)](https://doi.org/10.1142/S0218202511005775) for more information about the different speed of sound definitions.
 
 
