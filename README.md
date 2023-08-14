@@ -3,7 +3,7 @@
 ## Description
 This repository contains functions to generate a barotropic model for fluid properties. A barotropic model is a simplified mathematical representation that assumes the fluid's properties are only a function of pressure. This is simplification can be useful to model flows in which the fluid approximatelly follows a known thermodynamic process, such as an isentropic process within a turbine or compressor
 
->Note that using a barotropic model in the context of a CFD simulation does not imply that the flow is frictionless and isentropic. Indeed, the barotropic model can include mechanical dissipation due to the viscous and turbulence terms of the momentum equations. Instead, the implication of using the barotropic model is that the variation of fluid properties due the entropy increase caused by mechanical dissipation is ignored.
+>Note that using a barotropic model in the context of a CFD simulation does not imply that the flow is frictionless since the momentum equations include dissipation terms due to the viscous friction. Instead, the implication of using the barotropic model is that the variation of fluid properties caused by mechanical dissipation (i.e., entropy generation) is ignored.
 
 The script `barotropic_model.m` evaluates the properties of the fluid (e.g., density, viscosity, heat capacity, conductivity) along a line of constant entropy using the CoolProp library. Once computed, the fluid properties are automatically fitted with piece-wise polynomials and exported as [Fluent Expressions](https://ansyshelp.ansys.com/account/secured?returnurl=/Views/Secured/corp/v232/en/flu_ug/flu_ug_expressions_intro.html) that to be used in conjuction with the pressure-based solver.
 
