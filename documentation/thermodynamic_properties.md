@@ -13,7 +13,7 @@ Where:
 - $\delta=\rho/\rho_c$ is the reduced density
 - $\tau=T_c/T$ is the inverse of the reduced temperature
 
-$\frac{c_v}{R}= \frac{1}{R} \big(\frac{\partial u}{\partial T} \big)_{v} = -\tau^2 \, \phi_{\tau \tau}$
+$\frac{c_v}{R}= \frac{1}{R} \lparen(\frac{\partial u}{\partial T} \rparen)_{v} = -\tau^2 \, \phi_{\tau \tau}$
 
 
 One of the advantages of the HEOS formulation is that any thermodynamic property (like pressure, enthalpy, or speed of sound) can be computed as a combination of density, temperature and the Helmholtz energy and its partial derivatives. The table below summarizes the expressions for many common thermodynamic properties:
@@ -24,20 +24,20 @@ One of the advantages of the HEOS formulation is that any thermodynamic property
 | Entropy | $\frac{s}{R}=\tau \, \phi_{\tau} - \phi$ |
 | Internal energy| $\frac{u}{R\,T}=\tau \, \phi_{\tau}$ |
 | Enthalpy | $\frac{h}{R\,T}=\tau \,\phi_{\tau} + \delta\, \phi_{\delta}$ |
-| Isochoric heat capacity | $\frac{c_v}{R}= \frac{1}{R}\left(\frac{\partial u}{\partial T}\right)_{v} = -\tau^2 \, \phi_{\tau \tau}$ |
-| Isobaric heat capacity | $\frac{c_p}{R}= \frac{1}{R}\left(\frac{\partial h}{\partial T}\right)_{p} =-\tau^2 \, \phi_{\tau \tau} + \frac{\left(\delta \, \phi_{\delta} - \tau \delta \, \phi_{\tau \delta}\right)^2}{2\delta \, \phi_{\delta} + \delta^2 \, \phi_{\delta \delta}}$ |
-| Isobaric expansivity | $\alpha \, T = -\frac{T}{\rho}\left( \frac{\partial \rho}{\partial T} \right)_p = \frac{\delta\,\phi_{\delta} - \tau \delta \, \phi_{\tau \delta}}{2\delta \, \phi_{\delta} + \delta^2\, \phi_{\delta \delta}}$  |
-| Isothermal compressibility | $\rho R\, T\, \beta = R\, T \left( \frac{\partial \rho}{\partial p} \right)_T = \left(2\delta \, \phi_{\delta} + \delta^2 \, \phi_{\delta \delta} \right)^{-1}$ |
-| Isothermal bulk modulus | $\frac{K_T}{\rho R \,T} = \frac{1}{R\, T} \left( \frac{\partial p}{\partial \rho} \right)_T = 2\delta \, \phi_{\delta} + \delta^2 \, \phi_{\delta \delta}$ |
-| Isentropic bulk modulus | $\frac{K_s}{\rho R \, T} = \frac{1}{R\,T}\left(\frac{\partial p}{\partial \rho}\right)_{s} = \frac{c^2}{R\,T} = 2\delta \, \phi_{\delta} + \delta^2 \, \phi_{\delta \delta} - \frac{\left(\delta \, \phi_{\delta} - \tau \delta \, \phi_{\tau \delta}\right)^2}{\tau^2 \, \phi_{\tau \tau}}$ |
-| Joule-Thompson coefficient | $\rho R \, \mu_{\mathrm{JT}} = \rho R \left( \frac{\partial T}{\partial p} \right)_{h} = - \frac{\delta \, \phi_{\delta} + \tau \delta \, \phi_{\tau \delta} + \delta^2 \, \phi_{\delta \delta}}{\left( \delta \, \phi_{\delta} - \tau \delta \, \phi_{\tau \delta} \right)^2 - \tau^2 \, \phi_{\tau \tau} \, \left( 2\delta\, \phi_{\delta} + \delta^2 \, \phi_{\delta \delta} \right) }$ |
+| Isochoric heat capacity | $\frac{c_v}{R}= \frac{1}{R}\lparen\frac{\partial u}{\partial T}\rparen_{v} = -\tau^2 \, \phi_{\tau \tau}$ |
+| Isobaric heat capacity | $\frac{c_p}{R}= \frac{1}{R}\lparen\frac{\partial h}{\partial T}\rparen_{p} =-\tau^2 \, \phi_{\tau \tau} + \frac{\lparen\delta \, \phi_{\delta} - \tau \delta \, \phi_{\tau \delta}\rparen^2}{2\delta \, \phi_{\delta} + \delta^2 \, \phi_{\delta \delta}}$ |
+| Isobaric expansivity | $\alpha \, T = -\frac{T}{\rho}\lparen \frac{\partial \rho}{\partial T} \rparen_p = \frac{\delta\,\phi_{\delta} - \tau \delta \, \phi_{\tau \delta}}{2\delta \, \phi_{\delta} + \delta^2\, \phi_{\delta \delta}}$  |
+| Isothermal compressibility | $\rho R\, T\, \beta = R\, T \lparen \frac{\partial \rho}{\partial p} \rparen_T = \lparen2\delta \, \phi_{\delta} + \delta^2 \, \phi_{\delta \delta} \rparen^{-1}$ |
+| Isothermal bulk modulus | $\frac{K_T}{\rho R \,T} = \frac{1}{R\, T} \lparen \frac{\partial p}{\partial \rho} \rparen_T = 2\delta \, \phi_{\delta} + \delta^2 \, \phi_{\delta \delta}$ |
+| Isentropic bulk modulus | $\frac{K_s}{\rho R \, T} = \frac{1}{R\,T}\lparen\frac{\partial p}{\partial \rho}\rparen_{s} = \frac{c^2}{R\,T} = 2\delta \, \phi_{\delta} + \delta^2 \, \phi_{\delta \delta} - \frac{\lparen\delta \, \phi_{\delta} - \tau \delta \, \phi_{\tau \delta}\rparen^2}{\tau^2 \, \phi_{\tau \tau}}$ |
+| Joule-Thompson coefficient | $\rho R \, \mu_{\mathrm{JT}} = \rho R \lparen \frac{\partial T}{\partial p} \rparen_{h} = - \frac{\delta \, \phi_{\delta} + \tau \delta \, \phi_{\tau \delta} + \delta^2 \, \phi_{\delta \delta}}{\lparen \delta \, \phi_{\delta} - \tau \delta \, \phi_{\tau \delta} \rparen^2 - \tau^2 \, \phi_{\tau \tau} \, \lparen 2\delta\, \phi_{\delta} + \delta^2 \, \phi_{\delta \delta} \rparen }$ |
 
 where the following abbreviations where used:
-- $\phi_{\delta} = \left(\frac{\partial \phi}{\partial \delta} \right)_{\mathrm{\tau}}$
-- $\phi_{\tau}= \left(\frac{\partial \phi}{\partial \tau} \right)_{\mathrm{\delta}}$
-- $\phi_{\delta\delta}= \left(\frac{\partial^2 \phi}{\partial \delta^2} \right)_{\mathrm{\tau,\tau}}$
-- $\phi_{\tau\tau}= \left(\frac{\partial^2 \phi}{\partial \tau^2} \right)_{\mathrm{\delta, \delta}}$
-- $\phi_{\tau\delta} = \left(\frac{\partial^2 \phi}{\partial \tau \delta} \right)_{\mathrm{\delta, \tau}}$
+- $\phi_{\delta} = \lparen\frac{\partial \phi}{\partial \delta} \rparen_{\mathrm{\tau}}$
+- $\phi_{\tau}= \lparen\frac{\partial \phi}{\partial \tau} \rparen_{\mathrm{\delta}}$
+- $\phi_{\delta\delta}= \lparen\frac{\partial^2 \phi}{\partial \delta^2} \rparen_{\mathrm{\tau,\tau}}$
+- $\phi_{\tau\tau}= \lparen\frac{\partial^2 \phi}{\partial \tau^2} \rparen_{\mathrm{\delta, \delta}}$
+- $\phi_{\tau\delta} = \lparen\frac{\partial^2 \phi}{\partial \tau \delta} \rparen_{\mathrm{\delta, \tau}}$
 
 ## Temperature-density input pairs
 Helmholtz-energy equations of state are explicit in temperature and density. Therefore, when the the input variable pair is temperature-density the Helmholtz energy and its derivatives can be directly computed. Any other thermodynamic variable is then given by combination of the Helmholtz energy and its derivatives.
@@ -98,7 +98,7 @@ This expression is also known as Wood's formula, or as the Homogeneous Frozen Mo
 
 Lastly, if the two-phase mixture is in mechanical, thermal, and phase equilibrium (i.e. both phases have the same pressure, temperature, and chemical potential) the speed of sound is given by the following expression:
 
-$$\frac{1}{\rho c^2} = \frac{\alpha_{\mathrm{L}}}{\rho_{\mathrm{L}} c^2_{\mathrm{L}}} + \frac{\alpha_{\mathrm{V}}}{\rho_{\mathrm{V}} c^2_{\mathrm{V}}} + T \left( \frac{\rho_\mathrm{L} \alpha_\mathrm{L}}{c_{p,\,\mathrm{L}}} \left( \frac{\mathrm{ds_\mathrm{L}}}{\mathrm{d}p}\right)^2_{\mathrm{sat}} + \frac{\rho_\mathrm{V} \alpha_\mathrm{V}}{c_{p,\,\mathrm{V}}} \left( \frac{\mathrm{ds_\mathrm{V}}}{\mathrm{d}p}\right)^2_{\mathrm{sat}} \right)$$
+$$\frac{1}{\rho c^2} = \frac{\alpha_{\mathrm{L}}}{\rho_{\mathrm{L}} c^2_{\mathrm{L}}} + \frac{\alpha_{\mathrm{V}}}{\rho_{\mathrm{V}} c^2_{\mathrm{V}}} + T \lparen \frac{\rho_\mathrm{L} \alpha_\mathrm{L}}{c_{p,\,\mathrm{L}}} \lparen \frac{\mathrm{ds_\mathrm{L}}}{\mathrm{d}p}\rparen^2_{\mathrm{sat}} + \frac{\rho_\mathrm{V} \alpha_\mathrm{V}}{c_{p,\,\mathrm{V}}} \lparen \frac{\mathrm{ds_\mathrm{V}}}{\mathrm{d}p}\rparen^2_{\mathrm{sat}} \rparen$$
 
 This formula is also known as Homogeneous Equilibrium Model (HEM) for the speed of sound. Refer to the work from [Flåtten and Lund (2011)](https://doi.org/10.1142/S0218202511005775) for more information about the different speed of sound definitions.
 
@@ -120,7 +120,7 @@ When a single-phase fluid undergoes a thermodynamic process and enters the two-p
 
 In mathematical terms, the spinodal line is defined as the loci of thermodynamic states in which the isothermal bulk modulus of the fluid is zero:
 
-$$K_T = \rho \left( \frac{\partial p}{\partial \rho} \right)_T = 0$$
+$$K_T = \rho \lparen \frac{\partial p}{\partial \rho} \rparen_T = 0$$
 
 More precisely, a vapor spinodal point is the first local maximum of a isotherm line in a pressure-density diagram as the density increases. Conversely, a liquid spinodal point is the first local minimum of a isotherm line in a pressure-density diagram as the density decreases.  The figure below illustrates the spinodal point definition for the carbon dioxide HEOS developed by [Span and Wagner (1996)](https://doi.org/10.1063/1.555991).
 
