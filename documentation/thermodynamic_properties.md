@@ -13,24 +13,24 @@ Where:
 - $\delta=\rho/\rho_c$ is the reduced density
 - $\tau=T_c/T$ is the inverse of the reduced temperature
 
-$\frac{c_v}{R}= \frac{1}{R} \lparen(\frac{\partial u}{\partial T} \rparen)_{v} = -\tau^2 \, \phi_{\tau \tau}$
+$\frac{c_v}{R}= \frac{1}{R} \lparen(\frac{\partial u}{\partial T} \rparen)_{v} = -\tau^2 \thinspace \phi_{\tau \tau}$
 
 
 One of the advantages of the HEOS formulation is that any thermodynamic property (like pressure, enthalpy, or speed of sound) can be computed as a combination of density, temperature and the Helmholtz energy and its partial derivatives. The table below summarizes the expressions for many common thermodynamic properties:
 
 | Property name | Mathematical relation | 
 | -------- | -------- | 
-| Pressure | $Z = \frac{p}{\rho R\,T}=\delta \, \phi_{\delta}$ |
-| Entropy | $\frac{s}{R}=\tau \, \phi_{\tau} - \phi$ |
-| Internal energy| $\frac{u}{R\,T}=\tau \, \phi_{\tau}$ |
+| Pressure | $Z = \frac{p}{\rho R\,T}=\delta \thinspace \phi_{\delta}$ |
+| Entropy | $\frac{s}{R}=\tau \thinspace \phi_{\tau} - \phi$ |
+| Internal energy| $\frac{u}{R\,T}=\tau \thinspace \phi_{\tau}$ |
 | Enthalpy | $\frac{h}{R\,T}=\tau \,\phi_{\tau} + \delta\, \phi_{\delta}$ |
-| Isochoric heat capacity | $\frac{c_v}{R}= \frac{1}{R}\lparen\frac{\partial u}{\partial T}\rparen_{v} = -\tau^2 \, \phi_{\tau \tau}$ |
-| Isobaric heat capacity | $\frac{c_p}{R}= \frac{1}{R}\lparen\frac{\partial h}{\partial T}\rparen_{p} =-\tau^2 \, \phi_{\tau \tau} + \frac{\lparen\delta \, \phi_{\delta} - \tau \delta \, \phi_{\tau \delta}\rparen^2}{2\delta \, \phi_{\delta} + \delta^2 \, \phi_{\delta \delta}}$ |
-| Isobaric expansivity | $\alpha \, T = -\frac{T}{\rho}\lparen \frac{\partial \rho}{\partial T} \rparen_p = \frac{\delta\,\phi_{\delta} - \tau \delta \, \phi_{\tau \delta}}{2\delta \, \phi_{\delta} + \delta^2\, \phi_{\delta \delta}}$  |
-| Isothermal compressibility | $\rho R\, T\, \beta = R\, T \lparen \frac{\partial \rho}{\partial p} \rparen_T = \lparen2\delta \, \phi_{\delta} + \delta^2 \, \phi_{\delta \delta} \rparen^{-1}$ |
-| Isothermal bulk modulus | $\frac{K_T}{\rho R \,T} = \frac{1}{R\, T} \lparen \frac{\partial p}{\partial \rho} \rparen_T = 2\delta \, \phi_{\delta} + \delta^2 \, \phi_{\delta \delta}$ |
-| Isentropic bulk modulus | $\frac{K_s}{\rho R \, T} = \frac{1}{R\,T}\lparen\frac{\partial p}{\partial \rho}\rparen_{s} = \frac{c^2}{R\,T} = 2\delta \, \phi_{\delta} + \delta^2 \, \phi_{\delta \delta} - \frac{\lparen\delta \, \phi_{\delta} - \tau \delta \, \phi_{\tau \delta}\rparen^2}{\tau^2 \, \phi_{\tau \tau}}$ |
-| Joule-Thompson coefficient | $\rho R \, \mu_{\mathrm{JT}} = \rho R \lparen \frac{\partial T}{\partial p} \rparen_{h} = - \frac{\delta \, \phi_{\delta} + \tau \delta \, \phi_{\tau \delta} + \delta^2 \, \phi_{\delta \delta}}{\lparen \delta \, \phi_{\delta} - \tau \delta \, \phi_{\tau \delta} \rparen^2 - \tau^2 \, \phi_{\tau \tau} \, \lparen 2\delta\, \phi_{\delta} + \delta^2 \, \phi_{\delta \delta} \rparen }$ |
+| Isochoric heat capacity | $\frac{c_v}{R}= \frac{1}{R}\lparen\frac{\partial u}{\partial T}\rparen_{v} = -\tau^2 \thinspace \phi_{\tau \tau}$ |
+| Isobaric heat capacity | $\frac{c_p}{R}= \frac{1}{R}\lparen\frac{\partial h}{\partial T}\rparen_{p} =-\tau^2 \thinspace \phi_{\tau \tau} + \frac{\lparen\delta \thinspace \phi_{\delta} - \tau \delta \thinspace \phi_{\tau \delta}\rparen^2}{2\delta \thinspace \phi_{\delta} + \delta^2 \thinspace \phi_{\delta \delta}}$ |
+| Isobaric expansivity | $\alpha \thinspace T = -\frac{T}{\rho}\lparen \frac{\partial \rho}{\partial T} \rparen_p = \frac{\delta\,\phi_{\delta} - \tau \delta \thinspace \phi_{\tau \delta}}{2\delta \thinspace \phi_{\delta} + \delta^2\, \phi_{\delta \delta}}$ |
+| Isothermal compressibility | $\rho R\, T\, \beta = R\, T \lparen \frac{\partial \rho}{\partial p} \rparen_T = \lparen2\delta \thinspace \phi_{\delta} + \delta^2 \thinspace \phi_{\delta \delta} \rparen^{-1}$ |
+| Isothermal bulk modulus | $\frac{K_T}{\rho R \,T} = \frac{1}{R\, T} \lparen \frac{\partial p}{\partial \rho} \rparen_T = 2\delta \thinspace \phi_{\delta} + \delta^2 \thinspace \phi_{\delta \delta}$ |
+| Isentropic bulk modulus | $\frac{K_s}{\rho R \thinspace T} = \frac{1}{R\,T}\lparen\frac{\partial p}{\partial \rho}\rparen_{s} = \frac{c^2}{R\,T} = 2\delta \thinspace \phi_{\delta} + \delta^2 \thinspace \phi_{\delta \delta} - \frac{\lparen\delta \thinspace \phi_{\delta} - \tau \delta \thinspace \phi_{\tau \delta}\rparen^2}{\tau^2 \thinspace \phi_{\tau \tau}}$ |
+| Joule-Thompson coefficient | $\rho R \thinspace \mu_{\mathrm{JT}} = \rho R \lparen \frac{\partial T}{\partial p} \rparen_{h} = - \frac{\delta \thinspace \phi_{\delta} + \tau \delta \thinspace \phi_{\tau \delta} + \delta^2 \thinspace \phi_{\delta \delta}}{\lparen \delta \thinspace \phi_{\delta} - \tau \delta \thinspace \phi_{\tau \delta} \rparen^2 - \tau^2 \thinspace \phi_{\tau \tau} \thinspace \lparen 2\delta\, \phi_{\delta} + \delta^2 \thinspace \phi_{\delta \delta} \rparen }$ |
 
 where the following abbreviations where used:
 - $\phi_{\delta} = \lparen\frac{\partial \phi}{\partial \delta} \rparen_{\mathrm{\tau}}$
@@ -65,30 +65,30 @@ It is well known that the pressure in the two-phase region depends only on tempe
 ### Mass-weighted averages
 Intensive properties (like internal energy, enthalpy and entropy) are computed as mass-weighted averages of the saturated liquid/vapor states:
 
-$$ u = q_{\mathrm{L}} \, u_{\mathrm{L}} + q_{\mathrm{V}} \, u_{\mathrm{V}}$$
-$$ h = q_{\mathrm{L}} \, h_{\mathrm{L}} + q_{\mathrm{V}} \, h_{\mathrm{V}}$$
-$$ s = q_{\mathrm{L}} \, s_{\mathrm{L}} + q_{\mathrm{V}} \, s_{\mathrm{V}}$$
+$$ u = q_{\mathrm{L}} \thinspace u_{\mathrm{L}} + q_{\mathrm{V}} \thinspace u_{\mathrm{V}}$$
+$$ h = q_{\mathrm{L}} \thinspace h_{\mathrm{L}} + q_{\mathrm{V}} \thinspace h_{\mathrm{V}}$$
+$$ s = q_{\mathrm{L}} \thinspace s_{\mathrm{L}} + q_{\mathrm{V}} \thinspace s_{\mathrm{V}}$$
 
 where $q_{\mathrm{L}}$ and $q_{\mathrm{V}}$ are the the mass fractions of liquid and vapor, respectively.
 
 ### Volume weighted averages
 The density and isobaric and isochoric heat capacities are computed as volume-weighted averages of the saturated liquid/vapor states:
 
-$$ \rho_v = \alpha_{\mathrm{L}} \, \rho_{\mathrm{L}} + \alpha_{\mathrm{V}} \, \rho_{\mathrm{V}}$$
-$$ c_v = \alpha_{\mathrm{L}} \, c_{v,\,\mathrm{L}} + \alpha_{\mathrm{V}} \, c_{v,\,\mathrm{V}}$$
-$$ c_p = \alpha_{\mathrm{L}} \, c_{p,\,\mathrm{L}} + \alpha_{\mathrm{V}} \, c_{p,\,\mathrm{V}}$$
+$$ \rho_v = \alpha_{\mathrm{L}} \thinspace \rho_{\mathrm{L}} + \alpha_{\mathrm{V}} \thinspace \rho_{\mathrm{V}}$$
+$$ c_v = \alpha_{\mathrm{L}} \thinspace c_{v,\,\mathrm{L}} + \alpha_{\mathrm{V}} \thinspace c_{v,\,\mathrm{V}}$$
+$$ c_p = \alpha_{\mathrm{L}} \thinspace c_{p,\,\mathrm{L}} + \alpha_{\mathrm{V}} \thinspace c_{p,\,\mathrm{V}}$$
 
 where $\alpha_{\mathrm{L}}$ and $\alpha_{\mathrm{V}}$ are the the volume fractions of liquid and vapor, respectively. Transport properties, including viscosity and conductivity are also computed as volume-weighted averages:
 
-$$\mu = \alpha_{\mathrm{L}} \, \mu_{\mathrm{L}} + \alpha_{\mathrm{V}} \, \mu_{\mathrm{V}}$$
-$$\kappa = \alpha_{\mathrm{L}} \, \kappa_{\mathrm{L}} + \alpha_{\mathrm{V}} \, \kappa_{\mathrm{V}}$$
+$$\mu = \alpha_{\mathrm{L}} \thinspace \mu_{\mathrm{L}} + \alpha_{\mathrm{V}} \thinspace \mu_{\mathrm{V}}$$
+$$\kappa = \alpha_{\mathrm{L}} \thinspace \kappa_{\mathrm{L}} + \alpha_{\mathrm{V}} \thinspace \kappa_{\mathrm{V}}$$
 
 ### Speed of sound
 The speed of sound for a homogeneous flow within the two-phase region is computed according to different formulas depending the level of equilibrium.
 
 According to [Flåtten and Lund (2011)](https://doi.org/10.1142/S0218202511005775) if the two-phase mixture not in equilibrium (i.e., both phases have different pressures, temperatures and chemical potentials) the square of the speed of sound is given by the arithmetic average of the squared sound speed of the saturated liquid and vapor weighted on their mass fractions:
 
-$$c^2 = q_{\mathrm{L}} \, c^2_{\mathrm{L}} + q_{\mathrm{V}} \, c^2_{\mathrm{V}}$$
+$$c^2 = q_{\mathrm{L}} \thinspace c^2_{\mathrm{L}} + q_{\mathrm{V}} \thinspace c^2_{\mathrm{V}}$$
 
 If the two-phase mixture is in mechanical equilibrium (i.e., both phases have the same pressure, but different temperatures and chemical potentials) the bulk modulus of the mixture $\rho c^2$ is computed as the harmonic average of the bulk moduli of the saturated liquid and vapor weighted on their volume fractions:
 
@@ -108,7 +108,7 @@ The solution of compressible CFD problems depends directly or indirectly on the 
 
 Most commercial single-phase CFD codes do not allow the user to set a custom definition for the speed of sound. Instead, they compute the speed of sound from the equation of state used to evaluate the thermodynamic properties (e.g., ideal gas law, barotropic model, real-gas property tables). Computing the speed of sound from the equation of state implicitly assumes complete equilibrium between the phase and, therefore, the speed of sound definition corresponds to the Homogeneous Equilibrium Model (HEM).
 
-This means that the results obtained from a single-phase CFD code operating in the two-phase region implicitly assume that the speed of sound follows the Homogeneous Equilibrium Model (HEM).  Therefore, it is meaningless to post-process the flow solution using other speed of sound definitions because the flow field was not computed using those speed of sound values.
+This means that the results obtained from a single-phase CFD code operating in the two-phase region implicitly assume that the speed of sound follows the Homogeneous Equilibrium Model (HEM). Therefore, it is meaningless to post-process the flow solution using other speed of sound definitions because the flow field was not computed using those speed of sound values.
 
 Also note that many single-phase CFD codes will not be able to compute flow solutions in the two-phase region because they are formulated using pressure and temperature as independent thermodynamic variables and equations of state using these variables are not well-posed in the two-phase region.
 
@@ -122,7 +122,7 @@ In mathematical terms, the spinodal line is defined as the loci of thermodynamic
 
 $$K_T = \rho \lparen \frac{\partial p}{\partial \rho} \rparen_T = 0$$
 
-More precisely, a vapor spinodal point is the first local maximum of a isotherm line in a pressure-density diagram as the density increases. Conversely, a liquid spinodal point is the first local minimum of a isotherm line in a pressure-density diagram as the density decreases.  The figure below illustrates the spinodal point definition for the carbon dioxide HEOS developed by [Span and Wagner (1996)](https://doi.org/10.1063/1.555991).
+More precisely, a vapor spinodal point is the first local maximum of a isotherm line in a pressure-density diagram as the density increases. Conversely, a liquid spinodal point is the first local minimum of a isotherm line in a pressure-density diagram as the density decreases. The figure below illustrates the spinodal point definition for the carbon dioxide HEOS developed by [Span and Wagner (1996)](https://doi.org/10.1063/1.555991).
 
 
 <img src="./images/spinodal_points_CO2.png" width="600"/>
