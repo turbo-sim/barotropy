@@ -13,7 +13,7 @@ Where:
 - $\delta=\rho/\rho_c$ is the reduced density
 - $\tau=T_c/T$ is the inverse of the reduced temperature
 
-a  a $\frac{c_v}{R}= \frac{1}{R}\frac{\partial u}{\partial T} = -\tau^2 \, \phi_{\tau \tau}$
+a  a $\frac{c_v}{R}= \frac{1}{R} \left( \frac{\partial u}{\partial T} \right) = -\tau^2 \, \phi_{\tau \tau}$
 
 
 One of the advantages of the HEOS formulation is that any thermodynamic property (like pressure, enthalpy, or speed of sound) can be computed as a combination of density, temperature and the Helmholtz energy and its partial derivatives. The table below summarizes the expressions for many common thermodynamic properties:
