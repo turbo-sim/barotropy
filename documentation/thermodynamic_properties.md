@@ -5,7 +5,7 @@ $$\Phi = \Phi(\rho,T)$$
 
 The equation of state can also be formulated in dimensionless form as:
 
-$$ \phi(\delta, \tau) = \frac{\Phi(\delta, \tau)}{R\,T}$$
+$$ \phi(\delta, \tau) = \frac{\Phi(\delta, \tau)}{R \thinspace T}$$
 
 Where:
 - $\phi$ is the dimensionless Helmholtz energy
@@ -20,17 +20,17 @@ One of the advantages of the HEOS formulation is that any thermodynamic property
 
 | Property name | Mathematical relation | 
 | -------- | -------- | 
-| Pressure | $Z = \frac{p}{\rho R\,T}=\delta \thinspace \phi_{\delta}$ |
+| Pressure | $Z = \frac{p}{\rho R \thinspace T}=\delta \thinspace \phi_{\delta}$ |
 | Entropy | $\frac{s}{R}=\tau \thinspace \phi_{\tau} - \phi$ |
-| Internal energy| $\frac{u}{R\,T}=\tau \thinspace \phi_{\tau}$ |
-| Enthalpy | $\frac{h}{R\,T}=\tau \,\phi_{\tau} + \delta\, \phi_{\delta}$ |
+| Internal energy| $\frac{u}{R \thinspace T}=\tau \thinspace \phi_{\tau}$ |
+| Enthalpy | $\frac{h}{R \thinspace T}=\tau \thinspace \phi_{\tau} + \delta \thinspace \phi_{\delta}$ |
 | Isochoric heat capacity | $\frac{c_v}{R}= \frac{1}{R}\lparen\frac{\partial u}{\partial T}\rparen_{v} = -\tau^2 \thinspace \phi_{\tau \tau}$ |
 | Isobaric heat capacity | $\frac{c_p}{R}= \frac{1}{R}\lparen\frac{\partial h}{\partial T}\rparen_{p} =-\tau^2 \thinspace \phi_{\tau \tau} + \frac{\lparen\delta \thinspace \phi_{\delta} - \tau \delta \thinspace \phi_{\tau \delta}\rparen^2}{2\delta \thinspace \phi_{\delta} + \delta^2 \thinspace \phi_{\delta \delta}}$ |
-| Isobaric expansivity | $\alpha \thinspace T = -\frac{T}{\rho}\lparen \frac{\partial \rho}{\partial T} \rparen_p = \frac{\delta\,\phi_{\delta} - \tau \delta \thinspace \phi_{\tau \delta}}{2\delta \thinspace \phi_{\delta} + \delta^2\, \phi_{\delta \delta}}$ |
-| Isothermal compressibility | $\rho R\, T\, \beta = R\, T \lparen \frac{\partial \rho}{\partial p} \rparen_T = \lparen2\delta \thinspace \phi_{\delta} + \delta^2 \thinspace \phi_{\delta \delta} \rparen^{-1}$ |
-| Isothermal bulk modulus | $\frac{K_T}{\rho R \,T} = \frac{1}{R\, T} \lparen \frac{\partial p}{\partial \rho} \rparen_T = 2\delta \thinspace \phi_{\delta} + \delta^2 \thinspace \phi_{\delta \delta}$ |
-| Isentropic bulk modulus | $\frac{K_s}{\rho R \thinspace T} = \frac{1}{R\,T}\lparen\frac{\partial p}{\partial \rho}\rparen_{s} = \frac{c^2}{R\,T} = 2\delta \thinspace \phi_{\delta} + \delta^2 \thinspace \phi_{\delta \delta} - \frac{\lparen\delta \thinspace \phi_{\delta} - \tau \delta \thinspace \phi_{\tau \delta}\rparen^2}{\tau^2 \thinspace \phi_{\tau \tau}}$ |
-| Joule-Thompson coefficient | $\rho R \thinspace \mu_{\mathrm{JT}} = \rho R \lparen \frac{\partial T}{\partial p} \rparen_{h} = - \frac{\delta \thinspace \phi_{\delta} + \tau \delta \thinspace \phi_{\tau \delta} + \delta^2 \thinspace \phi_{\delta \delta}}{\lparen \delta \thinspace \phi_{\delta} - \tau \delta \thinspace \phi_{\tau \delta} \rparen^2 - \tau^2 \thinspace \phi_{\tau \tau} \thinspace \lparen 2\delta\, \phi_{\delta} + \delta^2 \thinspace \phi_{\delta \delta} \rparen }$ |
+| Isobaric expansivity | $\alpha \thinspace T = -\frac{T}{\rho}\lparen \frac{\partial \rho}{\partial T} \rparen_p = \frac{\delta \thinspace \phi_{\delta} - \tau \delta \thinspace \phi_{\tau \delta}}{2\delta \thinspace \phi_{\delta} + \delta^2 \thinspace \phi_{\delta \delta}}$ |
+| Isothermal compressibility | $\rho R \thinspace T \thinspace \beta = R \thinspace T \lparen \frac{\partial \rho}{\partial p} \rparen_T = \lparen2\delta \thinspace \phi_{\delta} + \delta^2 \thinspace \phi_{\delta \delta} \rparen^{-1}$ |
+| Isothermal bulk modulus | $\frac{K_T}{\rho R \thinspace T} = \frac{1}{R \thinspace T} \lparen \frac{\partial p}{\partial \rho} \rparen_T = 2\delta \thinspace \phi_{\delta} + \delta^2 \thinspace \phi_{\delta \delta}$ |
+| Isentropic bulk modulus | $\frac{K_s}{\rho R \thinspace T} = \frac{1}{R \thinspace T}\lparen\frac{\partial p}{\partial \rho}\rparen_{s} = \frac{c^2}{R \thinspace T} = 2\delta \thinspace \phi_{\delta} + \delta^2 \thinspace \phi_{\delta \delta} - \frac{\lparen\delta \thinspace \phi_{\delta} - \tau \delta \thinspace \phi_{\tau \delta}\rparen^2}{\tau^2 \thinspace \phi_{\tau \tau}}$ |
+| Joule-Thompson coefficient | $\rho R \thinspace \mu_{\mathrm{JT}} = \rho R \lparen \frac{\partial T}{\partial p} \rparen_{h} = - \frac{\delta \thinspace \phi_{\delta} + \tau \delta \thinspace \phi_{\tau \delta} + \delta^2 \thinspace \phi_{\delta \delta}}{\lparen \delta \thinspace \phi_{\delta} - \tau \delta \thinspace \phi_{\tau \delta} \rparen^2 - \tau^2 \thinspace \phi_{\tau \tau} \thinspace \lparen 2\delta \thinspace \phi_{\delta} + \delta^2 \thinspace \phi_{\delta \delta} \rparen }$ |
 
 where the following abbreviations where used:
 - $\phi_{\delta} = \lparen\frac{\partial \phi}{\partial \delta} \rparen_{\mathrm{\tau}}$
@@ -75,8 +75,8 @@ where $q_{\mathrm{L}}$ and $q_{\mathrm{V}}$ are the the mass fractions of liquid
 The density and isobaric and isochoric heat capacities are computed as volume-weighted averages of the saturated liquid/vapor states:
 
 $$ \rho_v = \alpha_{\mathrm{L}} \thinspace \rho_{\mathrm{L}} + \alpha_{\mathrm{V}} \thinspace \rho_{\mathrm{V}}$$
-$$ c_v = \alpha_{\mathrm{L}} \thinspace c_{v,\,\mathrm{L}} + \alpha_{\mathrm{V}} \thinspace c_{v,\,\mathrm{V}}$$
-$$ c_p = \alpha_{\mathrm{L}} \thinspace c_{p,\,\mathrm{L}} + \alpha_{\mathrm{V}} \thinspace c_{p,\,\mathrm{V}}$$
+$$ c_v = \alpha_{\mathrm{L}} \thinspace c_{v, \thinspace \mathrm{L}} + \alpha_{\mathrm{V}} \thinspace c_{v, \thinspace \mathrm{V}}$$
+$$ c_p = \alpha_{\mathrm{L}} \thinspace c_{p, \thinspace \mathrm{L}} + \alpha_{\mathrm{V}} \thinspace c_{p, \thinspace \mathrm{V}}$$
 
 where $\alpha_{\mathrm{L}}$ and $\alpha_{\mathrm{V}}$ are the the volume fractions of liquid and vapor, respectively. Transport properties, including viscosity and conductivity are also computed as volume-weighted averages:
 
@@ -98,7 +98,7 @@ This expression is also known as Wood's formula, or as the Homogeneous Frozen Mo
 
 Lastly, if the two-phase mixture is in mechanical, thermal, and phase equilibrium (i.e. both phases have the same pressure, temperature, and chemical potential) the speed of sound is given by the following expression:
 
-$$\frac{1}{\rho c^2} = \frac{\alpha_{\mathrm{L}}}{\rho_{\mathrm{L}} c^2_{\mathrm{L}}} + \frac{\alpha_{\mathrm{V}}}{\rho_{\mathrm{V}} c^2_{\mathrm{V}}} + T \lparen \frac{\rho_\mathrm{L} \alpha_\mathrm{L}}{c_{p,\,\mathrm{L}}} \lparen \frac{\mathrm{ds_\mathrm{L}}}{\mathrm{d}p}\rparen^2_{\mathrm{sat}} + \frac{\rho_\mathrm{V} \alpha_\mathrm{V}}{c_{p,\,\mathrm{V}}} \lparen \frac{\mathrm{ds_\mathrm{V}}}{\mathrm{d}p}\rparen^2_{\mathrm{sat}} \rparen$$
+$$\frac{1}{\rho c^2} = \frac{\alpha_{\mathrm{L}}}{\rho_{\mathrm{L}} c^2_{\mathrm{L}}} + \frac{\alpha_{\mathrm{V}}}{\rho_{\mathrm{V}} c^2_{\mathrm{V}}} + T \lparen \frac{\rho_\mathrm{L} \alpha_\mathrm{L}}{c_{p, \thinspace \mathrm{L}}} \lparen \frac{\mathrm{ds_\mathrm{L}}}{\mathrm{d}p}\rparen^2_{\mathrm{sat}} + \frac{\rho_\mathrm{V} \alpha_\mathrm{V}}{c_{p, \thinspace \mathrm{V}}} \lparen \frac{\mathrm{ds_\mathrm{V}}}{\mathrm{d}p}\rparen^2_{\mathrm{sat}} \rparen$$
 
 This formula is also known as Homogeneous Equilibrium Model (HEM) for the speed of sound. Refer to the work from [Flåtten and Lund (2011)](https://doi.org/10.1142/S0218202511005775) for more information about the different speed of sound definitions.
 
