@@ -76,8 +76,8 @@ $$ c_p = \alpha_{\mathrm{L}} \, c_{p,\,\mathrm{L}} + \alpha_{\mathrm{V}} \, c_{p
 
 where $\alpha_{\mathrm{L}}$ and $\alpha_{\mathrm{V}}$ are the the volume fractions of liquid and vapor, respectively. Transport properties, including viscosity and conductivity are also computed as volume-weighted averages:
 
-$$ \mu = \alpha_{\mathrm{L}} \, \mu_{\mathrm{L}} + \alpha_{\mathrm{V}} \, \mu_{\mathrm{V}}$$
-$$ \kappa = \alpha_{\mathrm{L}} \, \kappa _{\mathrm{L}} + \alpha_{\mathrm{V}} \, \kappa _{\mathrm{V}}$$
+$$\mu = \alpha_{\mathrm{L}} \, \mu_{\mathrm{L}} + \alpha_{\mathrm{V}} \, \mu_{\mathrm{V}}$$
+$$\kappa = \alpha_{\mathrm{L}} \, \kappa _{\mathrm{L}} + \alpha_{\mathrm{V}} \, \kappa_{\mathrm{V}}$$
 
 ### Speed of sound
 The speed of sound for a homogeneous flow within the two-phase region is computed according to different formulas depending the level of equilibrium.
