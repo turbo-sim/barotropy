@@ -13,6 +13,9 @@ Where:
 - $\delta=\rho/\rho_c$ is the reduced density
 - $\tau=T_c/T$ is the inverse of the reduced temperature
 
+a  a $\frac{c_v}{R}= \frac{1}{R}\left(\frac{\partial u}{\partial T}\right)_{v} = -\tau^2 \, \phi_{\tau \tau}$
+
+
 One of the advantages of the HEOS formulation is that any thermodynamic property (like pressure, enthalpy, or speed of sound) can be computed as a combination of density, temperature and the Helmholtz energy and its partial derivatives. The table below summarizes the expressions for many common thermodynamic properties:
 
 | Property name | Mathematical relation | 
@@ -21,7 +24,7 @@ One of the advantages of the HEOS formulation is that any thermodynamic property
 | Entropy | $\frac{s}{R}=\tau \, \phi_{\tau} - \phi$ |
 | Internal energy| $\frac{u}{R\,T}=\tau \, \phi_{\tau}$ |
 | Enthalpy | $\frac{h}{R\,T}=\tau \,\phi_{\tau} + \delta\, \phi_{\delta}$ |
-| Isochoric heat capacity | $\frac{c_v}{R}= \frac{1}{R}\left(\frac{\partial u}{\partial T}\right)_{v} = -\tau^2  \phi_{\tau \tau}$ |
+| Isochoric heat capacity | $\frac{c_v}{R}= \frac{1}{R}\left(\frac{\partial u}{\partial T}\right)_{v} = -\tau^2 \, \phi_{\tau \tau}$ |
 | Isobaric heat capacity | $\frac{c_p}{R}= \frac{1}{R}\left(\frac{\partial h}{\partial T}\right)_{p} =-\tau^2 \, \phi_{\tau \tau} + \frac{\left(\delta \, \phi_{\delta} - \tau \delta \, \phi_{\tau \delta}\right)^2}{2\delta \, \phi_{\delta} + \delta^2 \, \phi_{\delta \delta}}$ |
 | Isobaric expansivity | $\alpha \, T = -\frac{T}{\rho}\left( \frac{\partial \rho}{\partial T} \right)_p = \frac{\delta\,\phi_{\delta} - \tau \delta \, \phi_{\tau \delta}}{2\delta \, \phi_{\delta} + \delta^2\, \phi_{\delta \delta}}$  |
 | Isothermal compressibility | $\rho R\, T\, \beta = R\, T \left( \frac{\partial \rho}{\partial p} \right)_T = \left(2\delta \, \phi_{\delta} + \delta^2 \, \phi_{\delta \delta} \right)^{-1}$ |
