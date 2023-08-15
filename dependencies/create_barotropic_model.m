@@ -206,6 +206,7 @@ end
 
 function [s1, p1, s2, p2] = get_spinodal_line_ps_limits(fluid)
 
+
     % Compute the spinodal lines
     [spinodal_liq, spinodal_vap] = compute_spinodal_line(fluid, N_points=100, method='robust');
 

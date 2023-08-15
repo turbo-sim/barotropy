@@ -46,4 +46,3 @@ function isentrope = create_barotropic_model_segment(state_inlet, p_out, fluid, 
     isentrope.property_names = property_names;
 
 end
-

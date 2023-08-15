@@ -7,7 +7,7 @@ function [spinodal_liq, spinodal_vap] = compute_spinodal_line(fluid, NameValueAr
     end
 
     % Temperature array with refinement close to the critical point
-    ratio = 1 - 1.01*fluid.Ttriple/fluid.T_critical;
+    ratio = 1 - 1.0*fluid.Ttriple/fluid.T_critical;
     t1 = logspace(log10(1-0.999), log10(ratio/10), ceil(NameValueArgs.N_points/2));
     t2 = logspace(log10(ratio/10), log10(ratio), floor(NameValueArgs.N_points/2));
     T = (1-[t1 t2])*fluid.T_critical;
