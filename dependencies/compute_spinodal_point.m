@@ -81,7 +81,13 @@ function rho_guess = get_spinodal_liquid_density_guess(T, fluid, N)
     residual = abs(arrayfun(@(rho) get_residual(T, rho, fluid), rho_guess));
 
     % Get the first local minimum (closest to saturation)
-    rho_guess = rho_guess(find(islocalmin(residual), 1, 'first'));
+    index = find(islocalmin(residual), 1, 'first');
+    if ~isempty(index)
+        rho_guess = rho_guess(find(islocalmin(residual), 1, 'first'));
+    else
+        [~, index] = min(residual);
+        rho_guess = rho_guess(index);
+    end
 
 end
 
@@ -99,8 +105,14 @@ function rho_guess = get_spinodal_vapor_density_guess(T, fluid, N)
     residual = abs(arrayfun(@(rho) get_residual(T, rho, fluid), rho_guess));
 
     % Get the first local minimum (closest to saturation)
-    rho_guess = rho_guess(find(islocalmin(residual), 1, 'first'));
-
+    index = find(islocalmin(residual), 1, 'first');
+    if ~isempty(index)
+        rho_guess = rho_guess(find(islocalmin(residual), 1, 'first'));
+    else
+        [~, index] = min(residual);
+        rho_guess = rho_guess(index);
+    end
+    
 end
 
 

@@ -10,6 +10,7 @@ function isentrope_segments = create_barotropic_model(T_in, p_in, fluid, NameVal
         NameValueArgs.p_low (1, 1) double = -1
         NameValueArgs.properties (1, :) string = ["rhomass", "cpmass", "speed_sound", "viscosity", "conductivity"]
         NameValueArgs.include_metastable (1, 1) logical = false
+        NameValueArgs.spinodal_point_method (1, 1) string = 'robust'
     end
 
     
@@ -64,7 +65,7 @@ function isentrope_segments = create_barotropic_model(T_in, p_in, fluid, NameVal
     % Compute spinodal point if entropy is within limits
     if NameValueArgs.include_metastable
         if (s_in >= s1_spinodal) && (s_in <= s2_spinodal)
-            spinodal_props = compute_spinodal_point_entropy(s_in, fluid.abstractstate);
+            spinodal_props = compute_spinodal_point_entropy(s_in, fluid.abstractstate, method=NameValueArgs.spinodal_point_method);
             for i = 1:numel(property_names)
                 state_spinodal.(property_names{i}) = spinodal_props.(property_names{i});
             end
