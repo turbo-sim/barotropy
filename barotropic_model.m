@@ -77,6 +77,6 @@ plot_barotropic_polynomials(fluid, isentrope_segments, case_name, ...
                             smoothing_factor=0.00)
 
 % Export fitted polynomials
-export_fluent_expressions(case_name, isentrope_segments)
+export_fluent_expressions(fluid, isentrope_segments, case_name)
 
 
