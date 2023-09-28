@@ -1,0 +1,6 @@
+VERSION='2ddp_node'
+FLUENT_ARCH='win64'
+FLUENT_RELEASE='fluent23.1.0'
+CSOURCES=' $(SRC)barotropic_model_udf.cpp'
+HSOURCES=''
+GPU_SUPPORT='off'
