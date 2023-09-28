@@ -12,4 +12,4 @@ build_docs:
     paths:
       - docs/build/html/
   only:
-    - master  # Run this job only when pushing to the 'master' branch
+    - main  # Run this job only when pushing to the 'master' branch
