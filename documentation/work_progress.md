@@ -52,8 +52,10 @@
 	- Linear with big slope
 	- High compressibility with negative pressure safeguard
 - Can we run the density-based solver without energy equation? Probably not, I get SIGSEGV error
+
+
 ## Work to do:
-- Run new simulation closer to the critical point
+- Run new simulation closer to the critical point (good convergence for some cases)
 - Check sensitivity with respect to:
 	- y+ value
 	- turbulence intensity boundary condition

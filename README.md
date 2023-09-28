@@ -162,3 +162,28 @@ The code in this repository is licensed under the terms of the MIT license. See 
 
 ## Contact information
 The code in this repository was developed by Roberto Agromayor at the Department of Civil and Mechanical Engineering of DTU. Drop an email to roagr@dtu.dk if you have questions about the code or you have a bug to report!
+
+
+
+
+## Installation advanced
+If you are using [Conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/windows.html), you can use the following [Bash](https://gitforwindows.org/) command to create a new virtual environment with all the dependencies required to run the code in this repository:
+``` bash
+conda env create --file environment.yaml
+```
+This will create the `barotropic_env` virtual environment and install all the packages in the specified in the YAML file, including the Python wrapper for the REFPROP DLL.
+
+To activate the virtual environment use:
+``` bash
+conda activate barotropic_env
+```
+If you need to install additional packages you can use the following command:
+``` bash
+conda install <name of the package>
+```
+You can also install new packages by adding their names to the `environment.yaml` file and updating the environment (using `--prune` removes any dependencies that are no longer required):
+``` bash
+conda env update --file environment.yaml --prune
+```
+
+

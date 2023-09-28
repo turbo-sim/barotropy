@@ -1,5 +1,7 @@
 ## List of functions
 
+TODO: convert these functionality to Python
+
 ### Fluid properties
 - `compute_properties_metastable_Td`
   - Compute all thermodynamic properties from the Helmholtz energy equation
