@@ -1,0 +1,6 @@
+# requirements.txt
+
+# Sphinx and extensions
+sphinx==3.5.4               # Replace with the desired Sphinx version
+sphinx-book-theme==0.1.0    # Replace with the desired theme version
+numpydoc==1.1.0             # If you're using numpydoc extension
