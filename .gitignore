@@ -1,20 +1,3 @@
-# Python-specific
-__pycache__/     # Compiled Python files
-*.pyc            # Old Python compiled files
-*.pyo            # Optimized Python compiled files
-*.egg-info       # Python egg metadata
-*.egg            # Python egg package
-
-# Virtual environment (venv or virtualenv)
-venv/            # Default directory for venv
-*.venv/          # Alternate name for venv
-.env/            # Directory for environment variables/settings
-.env*            # Environment configuration
-.Python          # Virtualenv reference to interpreter
-
-# Jupyter Notebook
-.ipynb_checkpoints/
-
 # MATLAB-specific
 *.mat            # MATLAB data files
 *.mex*           # Compiled MEX-files
@@ -34,6 +17,36 @@ venv/            # Default directory for venv
 *.mexa64         # Linux 64-bit MEX-files cache
 *.ctf            # MATLAB Compiler applications cache
 simresults.mat   # Default simulation results name for Simulink
+
+# Compiled Python files
+__pycache__/
+*.pyc
+*.pyo
+
+# Compiled documentation
+_build/
+docs/_build/
+docs/build/
+
+# Sphinx generated files
+.doctrees/
+environment.pickle
+
+# Output directories
+_output/
+_results/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Generated LaTeX files
+*.latex
+*.pdf
+
+# Virtual environment
+venv/
+
+
 
 # Visual Studio Code specific
 .vscode/         # VS Code settings and cache
