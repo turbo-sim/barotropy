@@ -19,7 +19,7 @@
 simresults.mat   # Default simulation results name for Simulink
 
 # Python-specific
-**/__pycache__/  # Compiled Python files
+__pycache__/  # Compiled Python files
 *.pyc            # Old Python compiled files
 *.pyo            # Optimized Python compiled files
 *.egg-info       # Python egg metadata
