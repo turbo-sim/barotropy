@@ -3,11 +3,12 @@ stages:
 
 build_docs:
   stage: build
+  image: python:latest  # Specify a Docker image that includes a shell
   script:
     - pip install -r requirements.txt  # Install Sphinx and other dependencies
-    - /bin/bash -c "make -C docs html"  # Use /bin/bash as the shell
+    - make -C docs html
   artifacts:
     paths:
       - docs/build/html/
   only:
-    - main  # Run this job only when pushing to the 'master' branch
+    - main  # Run this job only when pushing to the 'main' branch
