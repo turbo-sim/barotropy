@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 # Python-specific
 __pycache__/     # Compiled Python files
 *.pyc            # Old Python compiled files
@@ -17,8 +15,6 @@ venv/            # Default directory for venv
 # Jupyter Notebook
 .ipynb_checkpoints/
 
-=======
->>>>>>> ded74db047698f12d17f121cfb0ec5b0a18009f3
 # MATLAB-specific
 *.mat            # MATLAB data files
 *.mex*           # Compiled MEX-files
@@ -39,27 +35,6 @@ venv/            # Default directory for venv
 *.ctf            # MATLAB Compiler applications cache
 simresults.mat   # Default simulation results name for Simulink
 
-<<<<<<< HEAD
-=======
-# Python-specific
-**/__pycache__/  # Compiled Python files
-__pycache__/     # Compiled Python files
-*.pyc            # Old Python compiled files
-*.pyo            # Optimized Python compiled files
-*.egg-info       # Python egg metadata
-*.egg            # Python egg package
-
-# Virtual environment (venv or virtualenv)
-venv/            # Default directory for venv
-*.venv/          # Alternate name for venv
-.env/            # Directory for environment variables/settings
-.env*            # Environment configuration
-.Python          # Virtualenv reference to interpreter
-
-# Jupyter Notebook
-.ipynb_checkpoints/
-
->>>>>>> ded74db047698f12d17f121cfb0ec5b0a18009f3
 # Visual Studio Code specific
 .vscode/         # VS Code settings and cache
 settings.json    # VS Code settings file
