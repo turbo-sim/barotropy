@@ -6,7 +6,7 @@ function [liquid_line, vapor_line] = compute_saturation_line(fluid, NameValueArg
     end
 
     % Define property names
-    prop_names = ["T", "p", "rhomass", "smass", "hmass", "umass", "speed_sound", "cpmass", "cvmass", "viscosity", "conductivity", "isothermal_compressibility"];
+    prop_names = ["T", "p", "rhomass", "smass", "hmass", "umass", "gibbsmass", "speed_sound", "cpmass", "cvmass", "viscosity", "conductivity", "isothermal_compressibility"];
 %     prop_names = ["T", "p", "rhomass", "smass", "hmass", "umass", "speed_sound", "cpmass", "cvmass"];
 
     % Temperature array with refinement close to the critical point

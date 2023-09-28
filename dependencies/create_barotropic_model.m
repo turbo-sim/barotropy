@@ -1,13 +1,15 @@
-function isentrope_segments = create_barotropic_model(T_in, p_in, fluid, NameValueArgs)
+function barotropic_model = create_barotropic_model(T_in, p_in, fluid, NameValueArgs)
 
     arguments
         T_in (1, 1) double
         p_in (1, 1) double
         fluid
+
         NameValueArgs.N_points (1, 1) = 100
         NameValueArgs.polynomial_order (1, 1) double = 4
-        NameValueArgs.p_high (1, 1) double = -1
         NameValueArgs.p_low (1, 1) double = -1
+        NameValueArgs.p_high (1, 1) double = -1
+        NameValueArgs.p_scale (1, 1) double = -1 
         NameValueArgs.properties (1, :) string = ["rhomass", "cpmass", "speed_sound", "viscosity", "conductivity"]
         NameValueArgs.include_metastable (1, 1) logical = false
         NameValueArgs.spinodal_point_method (1, 1) string = 'robust'
@@ -16,24 +18,32 @@ function isentrope_segments = create_barotropic_model(T_in, p_in, fluid, NameVal
     
     %% Preliminary definitions
     % Define list of property names
-    property_names = [["p", "T", "smass"], NameValueArgs.properties];
+    prop_names = [["p", "T", "smass"], NameValueArgs.properties];
 
-    % Compute triple pressure
+    % Compute triple and critical pressures
     fluid.abstractstate.update(py.CoolProp.QT_INPUTS, 0, fluid.abstractstate.Ttriple);
     p_triple = fluid.abstractstate.p;
-    
+    p_critical = fluid.abstractstate.p_critical;
+        
+    % Define the low pressure limit
+    if NameValueArgs.p_low ~= -1
+        p_low = NameValueArgs.p_low;
+    else
+        p_low = p_triple;        
+    end
+
     % Define the high pressure limit
     if NameValueArgs.p_high ~= -1
         p_high = NameValueArgs.p_high;
     else
         p_high = p_in;
     end
-    
-    % Define the low pressure limit
-    if NameValueArgs.p_low ~= -1
-        p_low = NameValueArgs.p_low;
+
+    % Define the scaling pressure
+    if NameValueArgs.p_scale ~= -1
+        p_scale = NameValueArgs.p_scale;
     else
-        p_low = p_triple;        
+        p_scale = p_critical;        
     end
 
 
@@ -42,8 +52,8 @@ function isentrope_segments = create_barotropic_model(T_in, p_in, fluid, NameVal
     fluid.abstractstate.update(py.CoolProp.PT_INPUTS, p_in, T_in)
     s_in = fluid.abstractstate.smass;
     fluid.set_prop_Ps(p_high, s_in)
-    for i = 1:numel(property_names)
-        state_inlet.(property_names{i}) = fluid.fluid_properties.(property_names{i});
+    for i = 1:numel(prop_names)
+        state_inlet.(prop_names{i}) = fluid.fluid_properties.(prop_names{i});
     end
 
     % Compute the p-s limits of the saturation line
@@ -57,8 +67,9 @@ function isentrope_segments = create_barotropic_model(T_in, p_in, fluid, NameVal
     % Compute saturation point if entropy is within limits
     if (s_in >= s1_sat) && (s_in <= s2_sat)
         saturation_props = compute_saturation_point_entropy(s_in, fluid.abstractstate);
-        for i = 1:numel(property_names)
-            state_saturation.(property_names{i}) = saturation_props.(property_names{i});
+        fluid.set_prop_rho_T(saturation_props.rhomass, saturation_props.T)
+        for i = 1:numel(prop_names)
+            state_saturation.(prop_names{i}) = fluid.fluid_properties.(prop_names{i});
         end
     end
 
@@ -66,8 +77,8 @@ function isentrope_segments = create_barotropic_model(T_in, p_in, fluid, NameVal
     if NameValueArgs.include_metastable
         if (s_in >= s1_spinodal) && (s_in <= s2_spinodal)
             spinodal_props = compute_spinodal_point_entropy(s_in, fluid.abstractstate, method=NameValueArgs.spinodal_point_method);
-            for i = 1:numel(property_names)
-                state_spinodal.(property_names{i}) = spinodal_props.(property_names{i});
+            for i = 1:numel(prop_names)
+                state_spinodal.(prop_names{i}) = spinodal_props.(prop_names{i});
             end
         end
     end
@@ -85,25 +96,25 @@ function isentrope_segments = create_barotropic_model(T_in, p_in, fluid, NameVal
             % Properties from inlet state to saturation
             % Segment ends above the saturation line to prevent common points
             p_sat_plus = (1+1e-6)*state_saturation.p;
-            isentrope_segments(1) = create_barotropic_model_segment(state_inlet, p_sat_plus, fluid, ...
-                N_points=NameValueArgs.N_points, polynomial_order=NameValueArgs.polynomial_order, force_helmholtz=true);
+            property_segments(1) = compute_properties_isentrope(state_inlet, p_sat_plus, fluid, ...
+                N_points=NameValueArgs.N_points, force_helmholtz=true);
         
             % Properties from saturation to the lowest pressure
-            isentrope_segments(2) = create_barotropic_model_segment(state_saturation, p_low, fluid, ...
-                N_points=NameValueArgs.N_points, polynomial_order=NameValueArgs.polynomial_order, force_helmholtz=false);
+            property_segments(2) = compute_properties_isentrope(state_saturation, p_low, fluid, ...
+                N_points=NameValueArgs.N_points, force_helmholtz=false);
             
             % Give names to each segment
-            isentrope_segments(1).label = 'Single-phase region';
-            isentrope_segments(2).label = 'Two-phase region';
+            property_segments(1).label = 'Single-phase region';
+            property_segments(2).label = 'Two-phase region';
     
         else % (s_in > s2_sat)
     
             % Properties from inlet state to the lowest pressure
-            isentrope_segments(1) = create_barotropic_model_segment(state_inlet, p_low, fluid, ...
-                N_points=NameValueArgs.N_points, polynomial_order=NameValueArgs.polynomial_order, force_helmholtz=true);
+            property_segments(1) = compute_properties_isentrope(state_inlet, p_low, fluid, ...
+                N_points=NameValueArgs.N_points, force_helmholtz=true);
         
             % Give names to each segment
-            isentrope_segments(1).label = 'Single-phase region';
+            property_segments(1).label = 'Single-phase region';
     
         end
     end
@@ -121,17 +132,17 @@ function isentrope_segments = create_barotropic_model(T_in, p_in, fluid, NameVal
             % Properties from inlet state to saturation
             % Segment ends above the saturation line to prevent common points
             p_sat_plus = (1+1e-6)*state_saturation.p;
-            isentrope_segments(1) = create_barotropic_model_segment(state_inlet, p_sat_plus, fluid, ...
-                N_points=NameValueArgs.N_points, polynomial_order=NameValueArgs.polynomial_order, force_helmholtz=true);
+            property_segments(1) = compute_properties_isentrope(state_inlet, p_sat_plus, fluid, ...
+                N_points=NameValueArgs.N_points, force_helmholtz=true);
         
             % Properties from saturation to the lowest pressure
             % Segment ends above the spinodal line to prevent common points
-            isentrope_segments(2) = create_barotropic_model_segment(state_saturation, p_low, fluid, ...
-                N_points=NameValueArgs.N_points, polynomial_order=NameValueArgs.polynomial_order, force_helmholtz=true);
+            property_segments(2) = compute_properties_isentrope(state_saturation, p_low, fluid, ...
+                N_points=NameValueArgs.N_points, force_helmholtz=true);
         
             % Give names to each segment
-            isentrope_segments(1).label = 'Single-phase region';
-            isentrope_segments(2).label = 'Metastable region';
+            property_segments(1).label = 'Single-phase region';
+            property_segments(2).label = 'Metastable region';
     
     
         elseif (s_in > s1_spinodal) && (s_in <= s2_spinodal)
@@ -139,52 +150,74 @@ function isentrope_segments = create_barotropic_model(T_in, p_in, fluid, NameVal
             % Properties from inlet state to saturation
             % Segment ends above the saturation line to prevent common points
             p_sat_plus = (1+1e-6)*state_saturation.p;
-            isentrope_segments(1) = create_barotropic_model_segment(state_inlet, p_sat_plus, fluid, ...
-                N_points=NameValueArgs.N_points, polynomial_order=NameValueArgs.polynomial_order, force_helmholtz=true);
+            property_segments(1) = compute_properties_isentrope(state_inlet, p_sat_plus, fluid, ...
+                N_points=NameValueArgs.N_points, force_helmholtz=true);
         
             % Properties from saturation to spinodal point
             % Segment ends above the spinodal line to prevent common points
             p_spinodal_plus = (1+1e-6)*state_spinodal.p;
-            isentrope_segments(2) = create_barotropic_model_segment(state_saturation, p_spinodal_plus, fluid, ...
-                N_points=NameValueArgs.N_points, polynomial_order=NameValueArgs.polynomial_order, force_helmholtz=true);
+            property_segments(2) = compute_properties_isentrope(state_saturation, p_spinodal_plus, fluid, ...
+                N_points=NameValueArgs.N_points, force_helmholtz=true);
         
             % Properties from spinodal to the lowest pressure
-            isentrope_segments(3) = create_barotropic_model_segment(state_spinodal, p_low, fluid, ...
-                N_points=NameValueArgs.N_points, polynomial_order=NameValueArgs.polynomial_order, force_helmholtz=false);
+            property_segments(3) = compute_properties_isentrope(state_spinodal, p_low, fluid, ...
+                N_points=NameValueArgs.N_points, force_helmholtz=false);
             
             % Give names to each segment
-            isentrope_segments(1).label = 'Single-phase region';
-            isentrope_segments(2).label = 'Metastable region';
-            isentrope_segments(3).label = 'Two-phase region';
+            property_segments(1).label = 'Single-phase region';
+            property_segments(2).label = 'Metastable region';
+            property_segments(3).label = 'Two-phase region';
     
         elseif (s_in > s2_spinodal) && (s_in <= s2_sat)
     
             % Properties from inlet state to saturation
             % Segment ends above the saturation line to prevent common points
             p_sat_plus = (1+1e-6)*state_saturation.p;
-            isentrope_segments(1) = create_barotropic_model_segment(state_inlet, p_sat_plus, fluid, ...
-                N_points=NameValueArgs.N_points, polynomial_order=NameValueArgs.polynomial_order, force_helmholtz=true);
+            property_segments(1) = compute_properties_isentrope(state_inlet, p_sat_plus, fluid, ...
+                N_points=NameValueArgs.N_points, force_helmholtz=true);
         
             % Properties from saturation to the lowest pressure
-            isentrope_segments(2) = create_barotropic_model_segment(state_saturation, p_low, fluid, ...
-                N_points=NameValueArgs.N_points, polynomial_order=NameValueArgs.polynomial_order, force_helmholtz=true);
+            property_segments(2) = compute_properties_isentrope(state_saturation, p_low, fluid, ...
+                N_points=NameValueArgs.N_points, force_helmholtz=true);
         
             % Give names to each segment
-            isentrope_segments(1).label = 'Single-phase region';
-            isentrope_segments(2).label = 'Metastable region';
+            property_segments(1).label = 'Single-phase region';
+            property_segments(2).label = 'Metastable region';
     
     
         else % (s_in > s2_sat)
     
             % Properties from inlet state to the lowest pressure
-            isentrope_segments(1) = create_barotropic_model_segment(state_inlet, p_low, fluid, ...
-                N_points=NameValueArgs.N_points, polynomial_order=NameValueArgs.polynomial_order, force_helmholtz=true);
+            property_segments(1) = compute_properties_isentrope(state_inlet, p_low, fluid, ...
+                N_points=NameValueArgs.N_points, force_helmholtz=true);
         
             % Give names to each segment
-            isentrope_segments(1).label = 'Single-phase region';
+            property_segments(1).label = 'Single-phase region';
     
         end
+
     end
+
+    % Fit polynomials to data
+    coeffs(numel(property_segments)) = struct();
+    order = NameValueArgs.polynomial_order;
+    for j = 1:numel(property_segments)
+        p_norm = property_segments(j).p/p_scale;
+        for i = 1:numel(prop_names)
+            values = property_segments(j).(prop_names{i});
+            coeffs(j).(prop_names{i}) = polyfit(p_norm, values, order);
+        end
+    end
+
+    % Export barotropic model
+    barotropic_model = struct();
+    barotropic_model.fluid = fluid;
+    barotropic_model.p_low = p_low;
+    barotropic_model.p_high = p_high;
+    barotropic_model.p_scaling = p_scale;
+    barotropic_model.property_names = prop_names;
+    barotropic_model.property_values = property_segments;
+    barotropic_model.polynomial_coefficients = coeffs;
 
 
 end
@@ -236,4 +269,13 @@ function [s1, p1, s2, p2] = get_spinodal_line_ps_limits(fluid)
 end
 
 
+function y = horner_polyval(coefficients, x)
+
+    % Evaluate polynomial using Horner's rule
+    y = coefficients(1);
+    for i = 2:numel(coefficients)
+        y = coefficients(i) + y.*x;
+    end
+
+end
     

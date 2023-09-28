@@ -11,6 +11,8 @@ function plot_phase_diagram(prop_x, prop_y, fluid, NameValueArgs)
         NameValueArgs.plot_triple_point (1, 1) logical = false
         NameValueArgs.plot_spinodal_line (1, 1) logical = false
         NameValueArgs.spinodal_line_method (1, 1) string = 'standard'
+        NameValueArgs.spinodal_line_color = 0.5*[1, 1, 1]
+        NameValueArgs.spinodal_line_width = 0.75
         NameValueArgs.plot_quality_isolines (1, 1) logical  = false
         NameValueArgs.plot_pseudocritical_line (1, 1) logical = false
         NameValueArgs.quality_levels (:, 1) double = 0.0:0.1:0.9
@@ -33,7 +35,7 @@ function plot_phase_diagram(prop_x, prop_y, fluid, NameValueArgs)
     % Plot spinodal line
     if NameValueArgs.plot_spinodal_line
         [spinodal_liq, spinodal_vap] = compute_spinodal_line(fluid, N_points=NameValueArgs.N_points, method=NameValueArgs.spinodal_line_method);
-        plot(NameValueArgs.axes, [spinodal_liq.(prop_x), spinodal_vap.(prop_x)], [spinodal_liq.(prop_y), spinodal_vap.(prop_y)], Color=0.5*[1, 1, 1], LineWidth=0.75, DisplayName='Spinodal line', HandleVisibility=visible)
+        plot(NameValueArgs.axes, [spinodal_liq.(prop_x), spinodal_vap.(prop_x)], [spinodal_liq.(prop_y), spinodal_vap.(prop_y)], Color=NameValueArgs.spinodal_line_color, LineWidth=NameValueArgs.spinodal_line_width, DisplayName='Spinodal line', HandleVisibility=visible)
     end
     
     % Compute vapor quality isocurves

@@ -22,8 +22,8 @@ function properties = compute_saturation_point_entropy(s_in, fluid)
         error('Spinodal point calculation did not converge')
     end
 
-    % Compute thermodynamic properties at the saturation point
-    fluid.update(py.CoolProp.SmassT_INPUTS, s_in, T+1e-9)
+    % Compute properties at the saturation point (inside 2-phase region)
+    fluid.update(py.CoolProp.SmassT_INPUTS, s_in, T-1e-4)
     properties = fluid;
     % properties = compute_properties_metastable_Ts(T, s_in, fluid);
 

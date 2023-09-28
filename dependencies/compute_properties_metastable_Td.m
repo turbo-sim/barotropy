@@ -38,6 +38,7 @@ function props = compute_properties_metastable_Td(T, d, fluid)
     props.umass = (R/M)*T*(tau*dalpha_dTau);
     props.hmass = (R/M)*T*(tau*dalpha_dTau+delta*dalpha_dDelta);
     props.smass = (R/M)*(tau*dalpha_dTau - alpha);
+    props.gibbsmass = (R/M)*T*(alpha + delta*dalpha_dDelta);
     props.cvmass = (R/M)*(-tau^2*d2alpha_dTau2);
     props.cpmass = (R/M)*(-tau^2*d2alpha_dTau2 + (delta*dalpha_dDelta - delta*tau*d2alpha_dDelta_dTau)^2/(2*delta*dalpha_dDelta + delta^2*d2alpha_dDelta2));
     props.compressibility_factor = delta*dalpha_dDelta;

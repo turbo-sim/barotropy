@@ -1,9 +1,11 @@
-function plot_barotropic_process_ps(fluid, isentrope_segments, case_name, NameValueArgs)
+function plot_barotropic_process_ps(fluid, barotropic_model, NameValueArgs)
 
     arguments
         fluid
-        isentrope_segments
-        case_name (1, 1) string = sprintf('barotropic_model_%s', fluid.fluid_name)
+        barotropic_model
+        NameValueArgs.fluid_name (1, 1) string = barotropic_model.fluid.fluid_name
+        NameValueArgs.case_name (1, 1) string = sprintf('barotropic_model_%s', barotropic_model.fluid.fluid_name)
+        NameValueArgs.output_dir (1, 1) string = sprintf('barotropic_model_%s', barotropic_model.fluid.fluid_name)
         NameValueArgs.save_figures (1, 1) logical = false
         NameValueArgs.plot_saturation_line (1, 1) logical = true
         NameValueArgs.plot_critical_point (1, 1) logical = true
@@ -16,9 +18,13 @@ function plot_barotropic_process_ps(fluid, isentrope_segments, case_name, NameVa
         NameValueArgs.show_in_legend (1, 1) logical = false
     end
 
-    if not(isfolder(case_name))
-        mkdir(case_name)
+    if not(isfolder(NameValueArgs.output_dir))
+        mkdir(NameValueArgs.output_dir)
     end
+
+    % Rename variables
+    case_name = NameValueArgs.case_name;
+    output_dir = NameValueArgs.output_dir;
 
     % Create figure
     fig = figure(); ax = gca; hold on; box on; grid off
@@ -51,11 +57,11 @@ function plot_barotropic_process_ps(fluid, isentrope_segments, case_name, NameVa
     
     % Plot the isentropic expansion
     defaultColors = get(groot, 'factoryAxesColorOrder');
-    for i = 1:numel(isentrope_segments)
-        x = isentrope_segments(i).(prop_x);
-        y = isentrope_segments(i).(prop_y);
+    for i = 1:numel(barotropic_model.property_values)
+        x = barotropic_model.property_values(i).(prop_x);
+        y = barotropic_model.property_values(i).(prop_y);
 %         plot(x, y, Color=defaultColors(i,:), HandleVisibility="off", DisplayName=isentrope_segments(i).label)
-        plot(x([1 end]), y([1 end]), Color=defaultColors(i,:), LineWidth=1.00, LineStyle='-', Marker='o', Markersize=3.5, MarkerFaceColor='w', HandleVisibility="on", DisplayName=isentrope_segments(i).label)
+        plot(x([1 end]), y([1 end]), Color=defaultColors(i,:), LineWidth=1.00, LineStyle='-', Marker='o', Markersize=3.5, MarkerFaceColor='w', HandleVisibility="on", DisplayName=barotropic_model.property_values(i).label)
     end
     
     % Rescale units
@@ -76,9 +82,9 @@ function plot_barotropic_process_ps(fluid, isentrope_segments, case_name, NameVa
     legend(Location="northeast", FontSize=9)
     
     % Save figure
-    subname = split(case_name, '/'); subname = subname{end};
     if NameValueArgs.save_figures
-        exportgraphics(fig, fullfile(case_name, sprintf('%s_ps_diagram.png', subname)), Resolution=500)
+        exportgraphics(fig, fullfile(output_dir, sprintf('%s_ps_diagram.png', case_name)), Resolution=500)
+        savefig(fig, fullfile(output_dir, sprintf('%s_ps_diagram.fig', case_name)))
     end
 
 end
