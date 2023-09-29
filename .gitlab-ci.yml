@@ -5,7 +5,7 @@ build_docs:
   stage: build
   image: python:latest  # Specify a Docker image that includes a shell
   script:
-    - pip install -r requirements.txt  # Install Sphinx and other dependencies
+    - pip install -r .docs/requirements.txt  # Install Sphinx and other dependencies
     - make -C docs html
   artifacts:
     paths:
