@@ -171,7 +171,7 @@ If you are using [Conda](https://docs.conda.io/projects/conda/en/latest/user-gui
 ``` bash
 conda env create --file environment.yaml
 ```
-This will create the `barotropic_env` virtual environment and install all the packages in the specified in the YAML file, including the Python wrapper for the REFPROP DLL.
+This will create the `barotropic_env` virtual environment and install all the packages in the specified in the YAML file.
 
 To activate the virtual environment use:
 ``` bash
