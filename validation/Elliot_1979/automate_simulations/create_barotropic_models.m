@@ -11,9 +11,9 @@ save_figures = true;
 defaultColors = get(groot, 'factoryAxesColorOrder');
 
 % Create folder to save results
-output_dir = fullfile("output");
-if not(isfolder(output_dir))
-    mkdir(output_dir)
+output_rootdir = fullfile("output");
+if not(isfolder(output_rootdir))
+    mkdir(output_rootdir)
 end
 
 % Import CoolProp
@@ -27,7 +27,7 @@ fluid_2 = py.CoolProp.CoolProp.AbstractState('HEOS', 'Nitrogen');
 
 % Load experimental data
 case_data = readtable("simulation_cases.xlsx");
-% case_data = case_data(1:4, :);
+% case_data = case_data(strcmp(case_data.tag, "drag"), :);
 
 % Define properties to create barotropic models for
 property_names = {'p'; 'density'; 'viscosity'; 'speed_sound'; 'void_fraction'; 'mass_fraction'};
@@ -82,6 +82,10 @@ for i = 1:numel(case_data.index)
                                                      N_points=100, ...
                                                      p_min=0.5*p_out, ...
                                                      p_max=2.0*p_in);
+
+    % Viscosity of the mixture equal to the viscosity of the liquid
+%     props.viscosity = props.viscosity_1;
+    [props.viscosity_1(1) , props.viscosity_2(1), props.viscosity(1)]
 
     % Create barotropic model
     barotropicModel = struct();

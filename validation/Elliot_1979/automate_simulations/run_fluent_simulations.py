@@ -16,9 +16,8 @@ from barotropy import (
 
 # Import data about simulation cases
 case_data = pd.read_excel("simulation_cases.xlsx", skiprows=0)
-case_data = case_data[case_data["index"].isin([1])]
-case_data = case_data[case_data["tag"].isin(["a", "b", "c"])]
-
+# case_data = case_data[case_data["index"].isin([8])]
+case_data = case_data[case_data["tag"].isin(["drag"])]
 # Define static filenames and paths
 OUTPUT_ROOTDIR = "output"
 TEMPLATE_JOURNAL_FILENAME = "template_nozzle_elliot_1979.jou"
@@ -34,9 +33,9 @@ SOLUTION_STRATEGY = {
 }
 
 # SOLUTION_STRATEGY = {
-#     "time_scale_factors": [0.50],
-#     "density_relaxation_factors": [1.0],
-#     "number_of_iterations": [100],
+#     "time_scale_factors": [0.25],
+#     "density_relaxation_factors": [1e-9],
+#     "number_of_iterations": [800],
 # }
 
 # Define mapping betweet export filenames and Fluent variable names

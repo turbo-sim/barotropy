@@ -1,7 +1,7 @@
 %% Initialize script
 % Clear the workspace
 clear all
-close all
+% close all
 clc
 
 % Define plot settings
@@ -41,7 +41,7 @@ data_cfd = [data_cfd_1, data_cfd_2];
 
 % Load experimental data
 % exp_data = readtable("experimental_data.xlsx");
-data_exp = readtable("../data_experimental/experimental_cases.xlsx");
+data_exp = readtable("../experimental_data/experimental_cases.xlsx");
 
 % Compute isentropic quantities
 data_isentropic = struct();
@@ -91,7 +91,8 @@ data_exp.exit_mach = (data_exp.exit_velocity./data_isentropic.speed_sound);
 % (same wrong approach as done in the experiments)
 data_cfd.thrust_velocity = data_cfd.mass_flow_rate_inlet.*data_cfd.velocity_outlet;
 data_cfd.thrust_pressure = data_cfd.area_outlet.*(data_cfd.pressure_near_outlet-data_cfd.pressure_outlet);
-data_cfd.thrust_total = data_cfd.thrust_velocity +data_cfd.thrust_pressure;
+data_cfd.thrust_total = data_cfd.thrust_velocity + data_cfd.thrust_pressure;
+% data_cfd.apparent_velocity = data_cfd.velocity_outlet;
 data_cfd.apparent_velocity = data_cfd.thrust_total./data_cfd.mass_flow_rate_inlet;
 tags = unique(data_cfd.tag);
 for i = 1:numel(tags)
@@ -107,7 +108,7 @@ data_cfd.nozzle_efficiency = (data_cfd.apparent_velocity./data_cfd.isentropic_ve
 fig_1 = figure(); ax_1 = gca; hold on; box on;
 xlabel({''; "Mixture ratio ($y_\mathrm{water}/y_\mathrm{nitrogen}$)"})
 ylabel({"Nozzle exit velocity (m/s)", ''})
-ax_1.YLim = [50, 200];
+ax_1.YLim = [75, 175];
 
 % Isentropic efficiency
 fig_2 = figure(); ax_2 = gca; hold on; box on;
@@ -124,12 +125,15 @@ plot(ax_1, data_isentropic.mixture_ratio, data_isentropic.exit_velocity, color=d
 
 % Plot CFD data
 tags = unique(data_cfd.tag);
+tags = {'a'; 'drag'}
+labels = {'Mixture viscosity'; 'Liquid viscosity'}
 for i = 1:length(tags)
     alpha = 0.25 + (i-1)/(numel(tags)-1) * (1.00-0.25);
     blended_1 = alpha * [0,0,0] + (1 - alpha) * [1 1 1];
     idx = strcmp(data_cfd.tag, tags{i});
     roughness = data_cfd.wall_roughness_height(idx);
-    label = ['CFD with $k_s=',num2str(1e6*roughness(1), '%0.2f'), '$ $\mu$m'];
+%     label = ['CFD with $k_s=',num2str(1e6*roughness(1), '%0.2f'), '$ $\mu$m'];
+    label = labels{i};
     plot(ax_1, data_cfd.mixture_ratio(idx), data_cfd.apparent_velocity(idx), linestyle="-", marker='o', markersize=2, color=blended_1, DisplayName=label)
     plot(ax_2, data_cfd.mixture_ratio(idx), data_cfd.nozzle_efficiency(idx)*100, linestyle="-", marker='o', markersize=2, color=blended_1, DisplayName=label)
 end
@@ -151,42 +155,42 @@ pos(1) = 0.66;
 pos(2) = 0.15;
 h.Position = pos;
 
-% Save figures
-if save_figures
-    exportgraphics(fig_1, fullfile(output_dir, 'validation_exit_velocity_vs_mixture_ratio.png'), Resolution=500)
-    exportgraphics(fig_2, fullfile(output_dir, 'validation_nozzle_efficiency_vs_mixture_ratio.png'), Resolution=500)
-end
-
-
-
-
-% % The isentropic and real properties almost do not change as is the case
-% % for liquids (which is the majority of the mass)
-% % 
-% % - density
-% % - viscosity
-% % - speed of sound
-% % 
-% % for gases the properties might change a bit due to friction, but the
-% % effect is not really important in most cases
-% % 
-% % Friction and viscous dissipation has the most important effect on
-% % reducing the speed of the flow (and therefore the mass flow rate?)
-% % 
+% % Save figures
+% if save_figures
+%     exportgraphics(fig_1, fullfile(output_dir, 'validation_exit_velocity_vs_mixture_ratio.png'), Resolution=500)
+%     exportgraphics(fig_2, fullfile(output_dir, 'validation_nozzle_efficiency_vs_mixture_ratio.png'), Resolution=500)
+% end
 % 
 % 
-% % I have to check if the formula mdot = A*rho*v checks out for the CFD
-% % simulations. Make several planes at different x locations?
 % 
-% % % Slip correction factor estimation
-% % % velocity_ratio = 4.5;
-% % % A_out = 0.0005969887023908;
-% % % mass_flow = data_cfd.mass_flow_rate_inlet;
-% % % rho_slip = data.DensityLiquid.*data.VolFractionLiquid + velocity_ratio*data.DensityGas.*data.VolFractionGas;
-% % % v_out = mass_flow/A_out./data.Density;
-% % % v_out_corrected = (y_1 + velocity_ratio*y_2)*mass_flow/A_out./rho_slip;
-% % % scaling = v_out./v_out_corrected
-% % % data_cfd.velocity_out_mas
-% % % s_avg = data_cfd.velocity_out_mass_avg./scaling;
+% 
+% % % The isentropic and real properties almost do not change as is the case
+% % % for liquids (which is the majority of the mass)
+% % % 
+% % % - density
+% % % - viscosity
+% % % - speed of sound
+% % % 
+% % % for gases the properties might change a bit due to friction, but the
+% % % effect is not really important in most cases
+% % % 
+% % % Friction and viscous dissipation has the most important effect on
+% % % reducing the speed of the flow (and therefore the mass flow rate?)
+% % % 
 % % 
-
+% % 
+% % % I have to check if the formula mdot = A*rho*v checks out for the CFD
+% % % simulations. Make several planes at different x locations?
+% % 
+% % % % Slip correction factor estimation
+% % % % velocity_ratio = 4.5;
+% % % % A_out = 0.0005969887023908;
+% % % % mass_flow = data_cfd.mass_flow_rate_inlet;
+% % % % rho_slip = data.DensityLiquid.*data.VolFractionLiquid + velocity_ratio*data.DensityGas.*data.VolFractionGas;
+% % % % v_out = mass_flow/A_out./data.Density;
+% % % % v_out_corrected = (y_1 + velocity_ratio*y_2)*mass_flow/A_out./rho_slip;
+% % % % scaling = v_out./v_out_corrected
+% % % % data_cfd.velocity_out_mas
+% % % % s_avg = data_cfd.velocity_out_mass_avg./scaling;
+% % % 
+% 

@@ -10,7 +10,7 @@ from barotropy import parse_fluent_out
 # Import data about simulation cases
 case_data = pd.read_excel("simulation_cases.xlsx", skiprows=0)
 # case_data = case_data[case_data["index"].isin([1])]
-case_data = case_data[case_data["tag"].isin(["a", "b", "c", "d", "e"])]
+case_data = case_data[case_data["tag"].isin(["a", "b", "c", "d", "e", "drag"])]
 
 # Define directory paths
 SIMULATIONS_ROOTDIR = "output"
