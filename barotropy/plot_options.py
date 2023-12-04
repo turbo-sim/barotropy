@@ -5,6 +5,30 @@ import matplotlib.pyplot as plt
 from cycler import cycler
 
 
+COLORS_PYTHON = [
+    "#1f77b4",
+    "#ff7f0e",
+    "#2ca02c",
+    "#d62728",
+    "#9467bd",
+    "#8c564b",
+    "#e377c2",
+    "#7f7f7f",
+    "#bcbd22",
+    "#17becf",
+]
+
+COLORS_MATLAB = [
+    "#0072BD",
+    "#D95319",
+    "#EDB120",
+    "#7E2F8E",
+    "#77AC30",
+    "#4DBEEE",
+    "#A2142F",
+]
+
+
 def set_plot_options(
     fontsize=13,
     grid=True,
@@ -17,29 +41,10 @@ def set_plot_options(
 
     if isinstance(color_order, str):
         if color_order.lower() == "default":
-            color_order = [
-                "#1f77b4",
-                "#ff7f0e",
-                "#2ca02c",
-                "#d62728",
-                "#9467bd",
-                "#8c564b",
-                "#e377c2",
-                "#7f7f7f",
-                "#bcbd22",
-                "#17becf",
-            ]
+            color_order = COLORS_PYTHON
 
         elif color_order.lower() == "matlab":
-            color_order = [
-                "#0072BD",
-                "#D95319",
-                "#EDB120",
-                "#7E2F8E",
-                "#77AC30",
-                "#4DBEEE",
-                "#A2142F",
-            ]
+            color_order = COLORS_MATLAB
 
     # Define dictionary of custom settings
     rcParams = {
@@ -104,7 +109,7 @@ def set_plot_options(
         "ytick.minor.size": 3,
         "ytick.minor.width": 0.75,
         "ytick.minor.visible": minor_ticks,
-        "savefig.dpi": 500
+        "savefig.dpi": 600,
     }
 
     # Update the internal Matplotlib settings dictionary
@@ -128,68 +133,64 @@ def print_rc_parameters():
     #         file.write(f"{key}: {value}\n")
 
 
-
-
-
-def scale_graphics_x(fig, scale, mode='multiply'):
+def scale_graphics_x(fig, scale, mode="multiply"):
     """Scale x-coordinates of graphics objects"""
 
     for ax in fig.get_axes():
         # Scaling lines
         for line in ax.get_lines():
             xdata, ydata = line.get_data()
-            if mode == 'multiply':
+            if mode == "multiply":
                 line.set_xdata(xdata * scale)
-            elif mode == 'add':
+            elif mode == "add":
                 line.set_xdata(xdata + scale)
-        
+
         # Scaling patches (like rectangles)
         for patch in ax.patches:
-            if mode == 'multiply':
+            if mode == "multiply":
                 patch.set_width(patch.get_width() * scale)
                 patch.set_x(patch.get_x() * scale)
-            elif mode == 'add':
+            elif mode == "add":
                 patch.set_width(patch.get_width() + scale)
                 patch.set_x(patch.get_x() + scale)
-        
+
         # Scaling contour plots
         for collection in ax.collections:
             for path in collection.get_paths():
-                if mode == 'multiply':
+                if mode == "multiply":
                     path.vertices[:, 0] *= scale
-                elif mode == 'add':
+                elif mode == "add":
                     path.vertices[:, 0] += scale
 
 
-def scale_graphics_y(fig, scale, mode='multiply'):
+def scale_graphics_y(fig, scale, mode="multiply"):
     """Scale y-coordinates of graphics objects"""
 
     for ax in fig.get_axes():
         # Scaling lines
         for line in ax.get_lines():
             xdata, ydata = line.get_data()
-            if mode == 'multiply':
+            if mode == "multiply":
                 line.set_ydata(ydata * scale)
-            elif mode == 'add':
+            elif mode == "add":
                 line.set_ydata(ydata + scale)
-        
+
         # Scaling patches (like rectangles)
         for patch in ax.patches:
-            if mode == 'multiply':
+            if mode == "multiply":
                 patch.set_height(patch.get_height() * scale)
                 patch.set_y(patch.get_y() * scale)
-            elif mode == 'add':
+            elif mode == "add":
                 patch.set_height(patch.get_height() + scale)
                 patch.set_y(patch.get_y() + scale)
-        
+
         # Scaling contour plots
         for collection in ax.collections:
             for path in collection.get_paths():
-                if mode == 'multiply':
+                if mode == "multiply":
                     path.vertices[:, 1] *= scale
-                elif mode == 'add':
+                elif mode == "add":
                     path.vertices[:, 1] += scale
-
 
 
 def create_sample_plot():
@@ -220,10 +221,35 @@ def create_sample_plot():
 
     # Display figure
     plt.show()
-    
+
+
+def savefig_in_formats(fig, path_without_extension, formats=[".png", ".svg", ".pdf"]):
+    """
+    Save a given matplotlib figure in multiple file formats.
+
+    Parameters
+    ----------
+    fig : matplotlib.figure.Figure
+        The figure object to be saved.
+    path_without_extension : str
+        The full path to save the figure excluding the file extension.
+    formats : list of str, optional
+        A list of string file extensions to specify which formats the figure should be saved in.
+        Default is ['.png', '.svg', '.pdf'].
+
+    Examples
+    --------
+    >>> import matplotlib.pyplot as plt
+    >>> fig, ax = plt.subplots()
+    >>> ax.plot([0, 1], [0, 1])
+    >>> save_fig_in_formats(fig, "/path/to/figure/filename")
+
+    This will save the figure as "filename.png", "filename.svg", and "filename.pdf" in the "/path/to/figure/" directory.
+    """
+    for ext in formats:
+        fig.savefig(f"{path_without_extension}{ext}", bbox_inches="tight")
 
 
 if __name__ == "__main__":
     set_plot_options()
     create_sample_plot()
-
