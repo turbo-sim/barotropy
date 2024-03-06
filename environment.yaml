@@ -22,4 +22,3 @@ dependencies:
     - pydata-sphinx-theme
     - numpydoc
     - yaml
-    - keyboard
