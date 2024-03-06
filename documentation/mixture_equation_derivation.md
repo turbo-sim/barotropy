@@ -303,7 +303,9 @@ $$
 & +\alpha_p (\rho_p  - \rho_m) (\mathbf{v}_m \cdot \nabla ) \,\mathbf{v}_m) \\
 & - \alpha_p (\rho_p -\rho_m) \, \mathbf{g}
 \end{align}
-$$Introducing the drift velocity to replace the time derivative of the particle velocity we get
+$$
+
+Introducing the drift velocity to replace the time derivative of the particle velocity we get
 
 $$
 \begin{align}
