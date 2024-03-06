@@ -61,7 +61,7 @@ def set_plot_options(
         "axes.titlepad": fontsize * 1.4,
         "axes.labelsize": fontsize,
         "axes.labelweight": "normal",
-        "axes.labelpad": fontsize,
+        "axes.labelpad": fontsize*0.75,
         "axes.xmargin": margin,
         "axes.ymargin": margin,
         "axes.zmargin": margin,
