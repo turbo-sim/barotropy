@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 from parse import parse
 
 from barotropy import stream_residuals, stream_transcript  # Import as module to get its path
-from .utilities import is_float, wait_for_file
+from ..utilities import is_float, wait_for_file
 
 
 def create_fluent_journal(case_name, output_dir, template_filename, template_map, barotropic_vars=None, export_vars=None, export_zones=None, solution_strategy=None):

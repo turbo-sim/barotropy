@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import CoolProp.CoolProp as CP
 import copy
 
-from .solver import (
+from ..solver import (
     NonlinearSystemSolver,
     NonlinearSystemProblem,
     OptimizationProblem,
@@ -99,111 +99,6 @@ def _generate_coolprop_input_table():
         inputs_table += f"     - {value}\n"
 
     return inputs_table
-
-
-def states_to_dict(states):
-    """
-    Convert a list of state objects into a dictionary.
-    Each key is a field name of the state objects, and each value is a NumPy array of all the values for that field.
-    """
-    state_dict = {}
-    for field in states[0].keys():
-        state_dict[field] = np.array([getattr(state, field) for state in states])
-    return state_dict
-
-def states_to_dict_2d(states_grid):
-    """
-    Convert a 2D list (grid) of state objects into a dictionary.
-    Each key is a field name of the state objects, and each value is a 2D NumPy array of all the values for that field.
-
-    Parameters
-    ----------
-    states_grid : list of list of objects
-        A 2D grid where each element is a state object with the same keys.
-
-    Returns
-    -------
-    dict
-        A dictionary where keys are field names and values are 2D arrays of field values.
-    """
-    state_dict_2d = {}
-    for i, row in enumerate(states_grid):
-        for j, state in enumerate(row):
-            for field in state.keys():
-                if field not in state_dict_2d:
-                    state_dict_2d[field] = np.empty((len(states_grid), len(row)), dtype=object)
-                state_dict_2d[field][i, j] = getattr(state, field)
-
-    return state_dict_2d
-
-class FluidState:
-    """
-    A class representing the thermodynamic state of a fluid.
-
-    This class is used to store and access the properties of a fluid state.
-    Properties can be accessed directly as attributes (e.g., `fluid_state.p` for pressure)
-    or through dictionary-like access (e.g., `fluid_state['T']` for temperature).
-
-    Methods
-    -------
-    to_dict():
-        Convert the FluidState properties to a dictionary.
-    keys():
-        Return the keys of the FluidState properties.
-    items():
-        Return the items (key-value pairs) of the FluidState properties.
-
-    """
-    def __init__(self, properties, fluid_name):
-        # Use an internal dictionary to store properties
-        self._properties = properties
-        self._properties["fluid_name"] = fluid_name
-
-    def __getattr__(self, name):
-        # This method is called when an attribute is accessed
-        try:
-            return self._properties[name]
-        except KeyError:
-            raise AttributeError(f"Attribute '{name}' not found in FluidState.")
-
-    def __setattr__(self, name, value):
-        # This method is called when an attribute is set
-        if name == "_properties":
-            # Initialize the _properties dictionary
-            super().__setattr__(name, value)
-        else:
-            self._properties[name] = value
-
-    def __getitem__(self, key):
-        # This method is called when using dictionary-like access
-        try:
-            return self._properties[key]
-        except KeyError:
-            raise KeyError(
-                f"Key '{key}' not found in FluidState. Available keys: {', '.join(self._properties.keys())}"
-            )
-
-    def __setitem__(self, key, value):
-        # This method is called when using dictionary-like assignment
-        self._properties[key] = value
-
-    def __str__(self):
-        properties_str = "\n   ".join(
-            [f"{key}: {value}" for key, value in self._properties.items()]
-        )
-        return f"FluidState:\n   {properties_str}"
-
-    def to_dict(self):
-        return self._properties.copy()
-
-    def keys(self):
-        return self._properties.keys()
-
-    def items(self):
-        return self._properties.items()
-    
-    def values(self):
-        return self._properties.values()
 
 
 class Fluid:
@@ -377,7 +272,7 @@ class Fluid:
             if self.exceptions:
                 raise e
 
-        # TODO Return a new state that is not mutated?
+        # Return inmutable object
         return FluidState(self.properties, self.name)
 
     def compute_properties_1phase(self, generalize_quality=True):
@@ -711,7 +606,7 @@ class Fluid:
         quality_levels=np.linspace(0.1, 1.0, 10),
         quality_labels=False,
         show_in_legend=False,
-        **kwargs
+        **kwargs,
     ):
         if axes is None:
             axes = plt.gca()
@@ -726,7 +621,10 @@ class Fluid:
             x = self.sat_liq[x_variable] + self.sat_vap[x_variable]
             y = self.sat_liq[y_variable] + self.sat_vap[y_variable]
             label_value = "Saturation line" if show_in_legend else "_no_legend_"
-            if hasattr(self, "_graphic_saturation_line") and self._graphic_saturation_line.axes == axes:
+            if (
+                hasattr(self, "_graphic_saturation_line")
+                and self._graphic_saturation_line.axes == axes
+            ):
                 self._graphic_saturation_line.set_data(x, y)
                 self._graphic_saturation_line.set_visible(True)
             else:
@@ -753,7 +651,10 @@ class Fluid:
             x = self.spinodal_liq[x_variable] + self.spinodal_vap[x_variable]
             y = self.spinodal_liq[y_variable] + self.spinodal_vap[y_variable]
             label_value = "Spinodal line" if show_in_legend else "_no_legend_"
-            if hasattr(self, "_graphic_spinodal_line") and self._graphic_spinodal_line.axes == axes:
+            if (
+                hasattr(self, "_graphic_spinodal_line")
+                and self._graphic_spinodal_line.axes == axes
+            ):
                 self._graphic_spinodal_line.set_data(x, y)
                 self._graphic_spinodal_line.set_visible(True)
             else:
@@ -767,14 +668,17 @@ class Fluid:
         else:
             if hasattr(self, "_graphic_spinodal_line"):
                 self._graphic_spinodal_line.set_visible(False)
-                    
+
         # Plot pseudocritical line
         if plot_pseudocritical_line:
             self.pseudo_critical_line = compute_pseudocritical_line(self)
             x = self.pseudo_critical_line[x_variable]
             y = self.pseudo_critical_line[y_variable]
             label_value = "Pseudocritical line" if show_in_legend else "_no_legend_"
-            if hasattr(self, "_graphic_pseudocritical_line") and self._graphic_pseudocritical_line.axes == axes:
+            if (
+                hasattr(self, "_graphic_pseudocritical_line")
+                and self._graphic_pseudocritical_line.axes == axes
+            ):
                 self._graphic_pseudocritical_line.set_data(x, y)
                 self._graphic_pseudocritical_line.set_visible(True)
             else:
@@ -795,7 +699,10 @@ class Fluid:
             x = self.critical_point[x_variable]
             y = self.critical_point[y_variable]
             label_value = "Critical point" if show_in_legend else "_no_legend_"
-            if hasattr(self, "_graphic_critical_point") and self._graphic_critical_point.axes == axes:
+            if (
+                hasattr(self, "_graphic_critical_point")
+                and self._graphic_critical_point.axes == axes
+            ):
                 self._graphic_critical_point.set_data(x, y)
                 self._graphic_critical_point.set_visible(True)
             else:
@@ -816,7 +723,10 @@ class Fluid:
             x = self.triple_point_liquid[x_variable]
             y = self.triple_point_liquid[y_variable]
             label_value = "Triple point liquid" if show_in_legend else "_no_legend_"
-            if hasattr(self, "_graphic_triple_point_liquid") and self._graphic_triple_point_liquid.axes == axes:
+            if (
+                hasattr(self, "_graphic_triple_point_liquid")
+                and self._graphic_triple_point_liquid.axes == axes
+            ):
                 self._graphic_triple_point_liquid.set_data(x, y)
                 self._graphic_triple_point_liquid.set_visible(True)
             else:
@@ -838,7 +748,10 @@ class Fluid:
             y = self.triple_point_vapor[y_variable]
             label_value = "Triple point vapor" if show_in_legend else "_no_legend_"
 
-            if hasattr(self, "_graphic_triple_point_vapor") and self._graphic_triple_point_vapor.axes == axes:
+            if (
+                hasattr(self, "_graphic_triple_point_vapor")
+                and self._graphic_triple_point_vapor.axes == axes
+            ):
                 self._graphic_triple_point_vapor.set_data(x, y)
                 self._graphic_triple_point_vapor.set_visible(True)
             else:
@@ -857,7 +770,6 @@ class Fluid:
         # Compute vapor quality isocurves
         if plot_quality_isolines:
             if self.quality_grid is None:
-
                 # Define temperature levels
                 t1 = np.logspace(
                     np.log10(1 - 0.9999), np.log10(0.1), int(num_points / 2)
@@ -868,7 +780,9 @@ class Fluid:
                     int(num_points / 2),
                 )
                 self.quality_levels = quality_levels
-                self.temperature_levels = (1 - np.hstack((t1, t2))) * self.critical_point.T
+                self.temperature_levels = (
+                    1 - np.hstack((t1, t2))
+                ) * self.critical_point.T
 
                 # Calculate property grid
                 self.quality_grid = []
@@ -890,7 +804,8 @@ class Fluid:
                     coll.remove()
 
             self._graphics_quality_isolines = axes.contour(
-                x, y,
+                x,
+                y,
                 z,
                 quality_levels,
                 colors="black",
@@ -899,7 +814,12 @@ class Fluid:
             )
 
             if quality_labels:
-                axes.clabel(self._graphics_quality_isolines, inline=True, fontsize=9, rightside_up=True)
+                axes.clabel(
+                    self._graphics_quality_isolines,
+                    inline=True,
+                    fontsize=9,
+                    rightside_up=True,
+                )
 
         else:
             if hasattr(self, "_graphics_quality_isolines"):
@@ -907,6 +827,150 @@ class Fluid:
                     coll.set_visible(False)  # Hide the contours
 
         return axes
+
+
+class FluidState:
+    """
+    An immutable class representing the thermodynamic state of a fluid.
+
+    This class is designed to provide a read-only representation of a fluid's state,
+    with properties accessible through both attribute-style and dictionary-style access.
+    The state of a fluid is defined at initialization and cannot be altered thereafter,
+    ensuring the integrity of the data.
+
+    Instances of this class store fluid properties and the fluid's name, providing
+    methods to access these properties but not to modify them.
+
+    Parameters
+    ----------
+    properties : dict
+        A dictionary where keys are property names (as strings) and values are the
+        corresponding properties of the fluid. This dictionary is converted to an
+        immutable internal representation.
+    fluid_name : str
+        The name of the fluid.
+
+    Attributes
+    ----------
+    properties : dict
+        An internal dictionary storing the properties of the fluid state. This attribute
+        is immutable and cannot be modified after the object's initialization.
+    fluid_name : str
+        The name of the fluid. Immutable after initialization.
+
+    Methods
+    -------
+    to_dict():
+        Returns a copy of the fluid properties as a dictionary.
+    keys():
+        Returns the keys of the fluid properties.
+    items():
+        Returns the items (key-value pairs) of the fluid properties.
+    """
+    
+    __slots__ = ("properties", "fluid_name")  # Define allowed attributes
+
+    def __init__(self, properties, fluid_name):
+        # Convert keys to strings and store properties in an internal attribute
+        # Ensure the properties dictionary is immutable (e.g., by using a frozendict if modifications are a concern)
+        object.__setattr__(
+            self, "properties", {str(k): v for k, v in properties.items()}
+        )
+        object.__setattr__(self, "fluid_name", fluid_name)
+
+    def __getattr__(self, name):
+        # Allows attribute-style access to the fluid properties. If the property does not exist, raises AttributeError.
+        try:
+            return self.properties[name]
+        except KeyError:
+            raise AttributeError(f"'{name}' not found in FluidState properties")
+
+    def __getitem__(self, key):
+        # Allows dictionary-style access to the fluid properties. If the key does not exist, raises KeyError.
+        try:
+            return self.properties[str(key)]
+        except KeyError:
+            raise KeyError(f"'{key}' not found in FluidState properties")
+
+    def __setattr__(self, key, value):
+        # Prevents modifications to the instance attributes, ensuring immutability.
+        raise AttributeError(
+            "Cannot modify properties of an immutable FluidState class"
+        )
+
+    def __setitem__(self, key, value):
+        # Prevents modifications to the fluid properties through dictionary-style access, ensuring immutability.
+        raise AttributeError(
+            "Cannot modify properties of an immutable FluidState class"
+        )
+
+    def __repr__(self):
+        # Returns a string representation of the FluidState instance, including its class name, properties, and fluid name.
+        return f"{self.__class__.__name__}({self.properties}, '{self.fluid_name}')"
+
+    def __str__(self):
+        prop_str = "\n   ".join([f"{k}: {v}" for k, v in self.properties.items()])
+        return f"FluidState:\n   {prop_str}"
+    
+    def __iter__(self):
+        # Iterate over the object like a dictionary
+        return iter(self.properties)
+
+    def to_dict(self):
+        # Return a copy of the properties to ensure immutability
+        return dict(self.properties)
+
+    def keys(self):
+        # Return the keys of the properties
+        return self.properties.keys()
+
+    def values(self):
+        # Return the values of the properties
+        return self.properties.values()
+
+    def items(self):
+        # Return the items of the properties
+        return self.properties.items()
+
+
+def states_to_dict(states):
+    """
+    Convert a list of state objects into a dictionary.
+    Each key is a field name of the state objects, and each value is a NumPy array of all the values for that field.
+    """
+    state_dict = {}
+    for field in states[0].keys():
+        state_dict[field] = np.array([getattr(state, field) for state in states])
+    return state_dict
+
+
+def states_to_dict_2d(states_grid):
+    """
+    Convert a 2D list (grid) of state objects into a dictionary.
+    Each key is a field name of the state objects, and each value is a 2D NumPy array of all the values for that field.
+
+    Parameters
+    ----------
+    states_grid : list of list of objects
+        A 2D grid where each element is a state object with the same keys.
+
+    Returns
+    -------
+    dict
+        A dictionary where keys are field names and values are 2D arrays of field values.
+    """
+    state_dict_2d = {}
+    for i, row in enumerate(states_grid):
+        for j, state in enumerate(row):
+            for field in state.keys():
+                if field not in state_dict_2d:
+                    state_dict_2d[field] = np.empty(
+                        (len(states_grid), len(row)), dtype=object
+                    )
+                state_dict_2d[field][i, j] = getattr(state, field)
+
+    return state_dict_2d
+
 
 
 def compute_saturation_line(fluid, N_points=100):
@@ -1008,11 +1072,11 @@ def compute_properties_meshgrid(fluid, input_pair, range_1, range_2):
     for i in range(len(range_2)):
         for j in range(len(range_1)):
             # Set state of the fluid
-            fluid.set_state(input_pair, grid1[i, j], grid2[i, j])
+            state = fluid.set_state(input_pair, grid1[i, j], grid2[i, j])
 
             # Store the properties
-            for key in fluid.properties:
-                properties_dict[key][i, j] = fluid.properties[key]
+            for key in state:
+                properties_dict[key][i, j] = state[key]
 
     return properties_dict
 
@@ -1299,6 +1363,25 @@ def calculate_subcooling(state, fluid):
 
     return state
 
+
+
+def set_state_Qs(fluid, Q, s):
+
+    def get_residual(p):
+        print(p, s)
+        state = fluid.set_state(PSmass_INPUTS, p, s, generalize_quality=False)
+        residual = Q - state.Q
+        return residual
+    
+    p_triple = 1.0*fluid.triple_point_liquid.p
+    p_critical = 1.01*fluid.critical_point.p
+
+    print("hi", get_residual(p_triple))
+    print("bye", get_residual(p_critical))
+
+    # get_residual
+
+    return None
 
 # def compute_properties_metastable_rhoT(rho, T, fluid):
 #     """

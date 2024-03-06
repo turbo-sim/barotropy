@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-import barotropy.fluid_properties as props
+import barotropy.fluids.core as props
 
 from typing import Dict, Tuple
 
@@ -179,11 +179,10 @@ def plot_ps_diagram(fluid, ax, range_x, range_y, range_z):
     prop_pair = props.PSmass_INPUTS
 
     # Plot phase diagram
-    ax = props.plot_phase_diagram(
+    ax = fluid.plot_phase_diagram(
         prop_x,
         prop_y,
-        fluid,
-        plot_critical_point=False,
+        plot_critical_point=True,
         plot_quality_isolines=True,
         plot_pseudocritical_line=True,
     )
@@ -227,11 +226,10 @@ def plot_Ts_diagram(fluid, ax, range_x, range_y, range_z):
     prop_pair = props.SmassT_INPUTS
     
     # Plot phase diagram
-    ax = props.plot_phase_diagram(
+    ax = fluid.plot_phase_diagram(
         prop_x,
         prop_y,
-        fluid,
-        plot_critical_point=False,
+        plot_critical_point=True,
         plot_quality_isolines=True,
         plot_pseudocritical_line=True,
     )

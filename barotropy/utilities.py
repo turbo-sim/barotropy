@@ -112,7 +112,8 @@ def savefig_in_formats(fig, path_without_extension, formats=['.png', '.svg', '.p
     This will save the figure as "filename.png", "filename.svg", and "filename.pdf" in the "/path/to/figure/" directory.
     """
     for ext in formats:
-        fig.savefig(f"{path_without_extension}{ext}", bbox_inches="tight")
+        fig.savefig(f"{path_without_extension}{ext}")
+        # fig.savefig(f"{path_without_extension}{ext}", bbox_inches="tight")
 
 
 def compare_contents_or_files(file_or_content_1, file_or_content_2):
