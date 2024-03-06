@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 import barotropy as bpy
-import barotropy.fluid_properties as props
+import barotropy.fluids.core as props
 import barotropy.sCO2_utilities as sco2
 
 
