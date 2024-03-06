@@ -16,7 +16,8 @@ save_figures = true;
 defaultColors = get(groot, 'factoryAxesColorOrder');
 
 % Load experimental cases
-cases = readtable("../cases_summary.xlsx", NumHeaderLines=1);
+cases = readtable("../cases_summary.xlsx", NumHeaderLines=0);
+cases = cases(cases.Case >= 88, :);
 
 % Create the fluid
 fluid_nane = "nitrogen";
@@ -41,15 +42,16 @@ ax.XScale = "linear";
 ax.YScale = "linear";
 xtickformat('%.2f');
 ytickformat('%.2f')
-ax.XLim = [0.7, 1.1];
+% ax.XLim = [0.7, 1.1];
+% ax.YLim = [0, 2.2];
+ax.XLim = [0.8, 1.2];
 ax.YLim = [0, 2.2];
-
 
 % Plot the phase diagram
 plot_phase_diagram(prop_x, prop_y, fluid.abstractstate, ...
                    plot_critical_point=true, ...
                    plot_saturation_line=true, ...
-                   plot_spinodal_line=true, ...
+                   plot_spinodal_line=false, ...
                    spinodal_line_color='red', ...
                    spinodal_line_width=1.25, ...
                    spinodal_line_method='robust', ...
@@ -68,7 +70,7 @@ for i = 1:numel(cases.P_0_in)
 
     % Plot states
     plot([props_in.(prop_x), props_out.(prop_x)], [props_in.(prop_y), props_out.(prop_y)], 'k-', LineWidth=0.1, Marker='o', MarkerSize=1.5, MarkerFaceColor='w')
-    text(props_in.(prop_x), props_in.(prop_y), 0, ['$\quad$', num2str(cases.Case(i))], FontSize=4)
+%     text(props_in.(prop_x), props_in.(prop_y), 0, ['$\quad$', num2str(cases.Case(i))], FontSize=4)
 
 end
 
