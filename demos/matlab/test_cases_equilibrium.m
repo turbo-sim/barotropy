@@ -86,12 +86,13 @@ for j = 1:numel(s_frac_array)
     % Plot the isentropic expansion
     defaultColors = get(groot, 'factoryAxesColorOrder');
     for i = 1:numel(isentrope_segments)
-        x = isentrope_segments(i).(prop_x);
-        y = isentrope_segments(i).(prop_y);
+        x = isentrope_segments.property_values(i).(prop_x);
+        y = isentrope_segments.property_values(i).(prop_y);
+        label = isentrope_segments.property_values(i).label;
         if j == 1
-            plot(ax, x([1 end]), y([1 end]), Color=defaultColors(i,:), LineWidth=1.00, LineStyle='-', Marker='o', Markersize=3.5, MarkerFaceColor='w', HandleVisibility="on", DisplayName=isentrope_segments(i).label)
+            plot(ax, x([1 end]), y([1 end]), Color=defaultColors(i,:), LineWidth=1.00, LineStyle='-', Marker='o', Markersize=3.5, MarkerFaceColor='w', HandleVisibility="on", DisplayName=label)
         else
-            plot(ax, x([1 end]), y([1 end]), Color=defaultColors(i,:), LineWidth=1.00, LineStyle='-', Marker='o', Markersize=3.5, MarkerFaceColor='w', HandleVisibility="off", DisplayName=isentrope_segments(i).label)
+            plot(ax, x([1 end]), y([1 end]), Color=defaultColors(i,:), LineWidth=1.00, LineStyle='-', Marker='o', Markersize=3.5, MarkerFaceColor='w', HandleVisibility="off", DisplayName=label)
         end
     end
 

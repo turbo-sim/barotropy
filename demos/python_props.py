@@ -3,13 +3,15 @@ import matplotlib.pyplot as plt
 import CoolProp.CoolProp as CP
 import copy
 
-from barotropy import Fluid, NonlinearSystemProblem, PropertyRoot, NonlinearSystemSolver, set_plot_options
+# from barotropy import Fluid, NonlinearSystemProblem, PropertyRoot, NonlinearSystemSolver, set_plot_options
 
-set_plot_options(grid=False)
+import barotropy as bpy
+
+bpy.set_plot_options(grid=False)
 
 
 
-fluid = Fluid('Water', backend="HEOS")
+fluid = bpy.Fluid('Water', backend="HEOS")
 
 # # 
 # props = compute_properties_metastable_rhoT(10, 500, fluid.abstractstate)
@@ -38,18 +40,26 @@ for key in props_stable.keys():
 
 p = props_stable["p"]
 h = props_stable["h"]
-problem = PropertyRoot("p", p, "h", h, fluid)
+problem = bpy.PropertyRoot("p", p, "h", h, fluid)
 
 print(p, h)
 
 x0 = [props_stable["rho"]*1.2, props_stable["T"]+50]
-res = problem.get_values(x0)
+res = problem.residual(x0)
 
 print(res)
 
 
-solver = NonlinearSystemSolver(problem, x0, display=True, plot=True)
-solution = solver.solve(method="lm", x0=x0)
+solver = bpy.solver.NonlinearSystemSolver(problem,
+                                          method="hybr",
+                                          tolerance=1e-6,
+                                          max_iterations=100,
+                                          print_convergence=True,
+                                          update_on="function")
+
+# , display=True, plot=True
+
+solution = solver.solve(x0)
 
 print(props_stable["rho"], props_stable["T"])
 
