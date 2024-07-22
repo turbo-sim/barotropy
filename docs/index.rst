@@ -40,8 +40,8 @@ Use the panel to the left or the table of contents below to navigate the documen
 
 
    source/installation
+   source/tutorials
    source/barotropic_model
-   source/tutorials/tutorial_two_component
-   source/tutorials/tutorial_single_component
-   source/api_reference
+   source/bibliography
+   source/api/modules
 

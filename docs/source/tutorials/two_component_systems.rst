@@ -1,7 +1,7 @@
-.. _tutorial_two_component:
+.. _two_component_systems:
 
 
-Tutorial: Two-component system
+Tutorial: Two-component systems
 =================================
 
 Explanation of how to use the code

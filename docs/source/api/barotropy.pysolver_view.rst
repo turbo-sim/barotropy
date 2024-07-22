@@ -12,7 +12,6 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
-   barotropy.pysolver_view.install_local
    barotropy.pysolver_view.nonlinear_system
    barotropy.pysolver_view.nonlinear_system_problems
    barotropy.pysolver_view.numerical_differentiation
