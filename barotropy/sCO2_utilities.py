@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-import barotropy.fluids.core as props
+from . import props
 
 from typing import Dict, Tuple
 

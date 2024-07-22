@@ -12,8 +12,6 @@ else:
 # Import subpackages
 from .fluent import *
 from .props import *
-# from .solver import *
-from . import pysolver_view as solver
 from .barotropic_model import *
 
 # Import submodules

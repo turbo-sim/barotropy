@@ -1,0 +1,60 @@
+Fluent expressions of nitrogen properties along polytropic process
+Creation datetime: 21-May-2024 14:44:18
+
+case_001_rhomass
+IF(AbsolutePressure>=18779.6752 [Pa], 
+IF(AbsolutePressure>=442031.6383 [Pa], 
++7.312201e+02 + (AbsolutePressure/3.395800e+06 [Pa])*
+(+7.171168e+00 + (AbsolutePressure/3.395800e+06 [Pa])*
+(-3.215255e-01 + (AbsolutePressure/3.395800e+06 [Pa])*
+(+2.923104e-02 + (AbsolutePressure/3.395800e+06 [Pa])*
+(-3.636028e-03 + (AbsolutePressure/3.395800e+06 [Pa])*
+(+4.464363e-04 + (AbsolutePressure/3.395800e+06 [Pa])*
+(-3.314475e-05)))))), 
++8.971749e+00 + (AbsolutePressure/3.395800e+06 [Pa])*
+(-1.176076e+03 + (AbsolutePressure/3.395800e+06 [Pa])*
+(+1.454791e+05 + (AbsolutePressure/3.395800e+06 [Pa])*
+(-4.330984e+06 + (AbsolutePressure/3.395800e+06 [Pa])*
+(+6.883970e+07 + (AbsolutePressure/3.395800e+06 [Pa])*
+(-5.225891e+08 + (AbsolutePressure/3.395800e+06 [Pa])*
+(+1.588096e+09))))))), 
+6.246254e+00*exp((AbsolutePressure - 1.877968e+04 [Pa])/2.657851e+05 [Pa])) * 1 [kg/m^3]
+
+case_001_speed_sound
+IF(AbsolutePressure>=18779.6752 [Pa], 
+IF(AbsolutePressure>=442031.6383 [Pa], 
++6.881381e+02 + (AbsolutePressure/3.395800e+06 [Pa])*
+(+3.086044e+01 + (AbsolutePressure/3.395800e+06 [Pa])*
+(-2.156159e+00 + (AbsolutePressure/3.395800e+06 [Pa])*
+(+3.243652e-01 + (AbsolutePressure/3.395800e+06 [Pa])*
+(-5.631919e-02 + (AbsolutePressure/3.395800e+06 [Pa])*
+(+8.108573e-03 + (AbsolutePressure/3.395800e+06 [Pa])*
+(-6.422826e-04)))))), 
++6.684695e+01 + (AbsolutePressure/3.395800e+06 [Pa])*
+(-7.150589e+02 + (AbsolutePressure/3.395800e+06 [Pa])*
+(+7.295724e+03 + (AbsolutePressure/3.395800e+06 [Pa])*
+(-1.033289e+05 + (AbsolutePressure/3.395800e+06 [Pa])*
+(+9.262326e+05 + (AbsolutePressure/3.395800e+06 [Pa])*
+(-4.552175e+06 + (AbsolutePressure/3.395800e+06 [Pa])*
+(+9.246113e+06))))))), 
+6.309898e+01*exp((AbsolutePressure - 1.877968e+04 [Pa])/-3.331132e+05 [Pa])) * 1 [m/s]
+
+case_001_viscosity
+IF(AbsolutePressure>=18779.6752 [Pa], 
+IF(AbsolutePressure>=442031.6383 [Pa], 
++9.479274e-05 + (AbsolutePressure/3.395800e+06 [Pa])*
+(+2.992079e-06 + (AbsolutePressure/3.395800e+06 [Pa])*
+(-8.911874e-08 + (AbsolutePressure/3.395800e+06 [Pa])*
+(+8.951147e-09 + (AbsolutePressure/3.395800e+06 [Pa])*
+(-1.201692e-09 + (AbsolutePressure/3.395800e+06 [Pa])*
+(+1.536474e-10 + (AbsolutePressure/3.395800e+06 [Pa])*
+(-1.159838e-11)))))), 
++5.485607e-06 + (AbsolutePressure/3.395800e+06 [Pa])*
+(+1.210787e-05 + (AbsolutePressure/3.395800e+06 [Pa])*
+(+1.340370e-02 + (AbsolutePressure/3.395800e+06 [Pa])*
+(-4.429851e-01 + (AbsolutePressure/3.395800e+06 [Pa])*
+(+7.400262e+00 + (AbsolutePressure/3.395800e+06 [Pa])*
+(-5.762528e+01 + (AbsolutePressure/3.395800e+06 [Pa])*
+(+1.781181e+02))))))), 
+5.894208e-06*exp((AbsolutePressure - 1.877968e+04 [Pa])/1.608218e+05 [Pa])) * 1 [Pa*s]
+

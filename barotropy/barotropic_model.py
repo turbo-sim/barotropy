@@ -2,7 +2,7 @@ import numpy as np
 
 from scipy.integrate import solve_ivp
 
-from . import fluids as props
+from . import props
 
 PROCESS_TYPES = ["polytropic", "adiabatic"]
 MULTIPHASE_MODELS = ["blended", "blending", "equilibrium", "metastable"]

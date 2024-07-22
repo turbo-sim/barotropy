@@ -2,7 +2,7 @@ import numpy as np
 import scipy.optimize
 import CoolProp.CoolProp as cp
 
-from .fluids.core import Fluid
+from . import props
 
 
 def compute_supersonic_exit(T_in, p_in, area_ratio, fluid):
@@ -32,7 +32,7 @@ def get_isentropic_sonic_state(state_in, fluid_name):
         return res
 
     # Define a new fluid object to avoid mixing states
-    _fluid = Fluid(fluid_name)
+    _fluid = props.Fluid(fluid_name)
 
     # Define the initial guess
     _fluid.set_state(cp.PSmass_INPUTS, state_in["p"]*0.528, state_in["s"])
@@ -64,7 +64,7 @@ def get_isentropic_outlet_state(area_ratio, state_in, state_sonic, fluid_name):
         return res
 
     # Define a new fluid object to avoid mixing states
-    _fluid = Fluid(fluid_name)
+    _fluid = props.Fluid(fluid_name)
 
     # Define the initial guess
     s_in = state_in["s"]
@@ -87,7 +87,7 @@ if __name__ == "__main__":
 
     # Define fluid
     fluid_name = "water"
-    fluid = Fluid(fluid_name)
+    fluid = props.Fluid(fluid_name)
 
     # Define inlet state
     T_in = 150+273.15

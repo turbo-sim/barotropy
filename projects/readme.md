@@ -1,4 +1,10 @@
 
+
+
+## Code to-do list
+- Make package installation with Pip
+
+
 ## Work progress
 
 - I ran simulations from cases 88 to 117
