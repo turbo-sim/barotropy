@@ -1,6 +1,7 @@
 
 .. _installation:
 
+
 Installation
 ============
 
@@ -44,6 +45,7 @@ This guide will walk you through the process of installing ``barotropy`` via ``p
       python -c "import barotropy; barotropy.print_package_info()"
 
    If the installation was successful, you should see the banner and package information displayed in the console output.
+
 
 
 .. Congratulations! You have now successfully installed Turboflow in its own Conda virtual environment using pip. You're ready to start using Turboflow in your Python projects.
@@ -90,7 +92,7 @@ This installation guide is intended for developers who wish to contribute to or 
 
    .. code-block:: bash
 
-      conda create --file environment.yaml
+      conda env create --file environment.yaml
 
 4. **Activate the newly created virtual environment**:
 
