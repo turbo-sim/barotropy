@@ -128,9 +128,14 @@ def print_rc_parameters():
     params = mpl.rcParams
     for key, value in params.items():
         print(f"{key}: {value}")
-    # with open("rcParams_default.txt", 'w') as file:
-    #     for key, value in params.items():
-    #         file.write(f"{key}: {value}\n")
+
+
+def write_rc_parameters():
+    """Write the current rcParams used by Matplotlib to file"""
+    params = mpl.rcParams
+    with open("rcParams_default.txt", 'w') as file:
+        for key, value in params.items():
+            file.write(f"{key}: {value}\n")
 
 
 def scale_graphics_x(fig, scale, mode="multiply"):

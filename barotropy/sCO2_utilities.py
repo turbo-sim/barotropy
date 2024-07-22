@@ -65,6 +65,7 @@ def compute_outlet_state_isentropic(row, fluid):
 
     return pd.Series(outlet_props)
 
+
 def compute_critical_state(row, fluid):
     # Calculate inlet properties with p-T function call
     p_in = row["pressure_in"] * 1e5  # bar to Pa
@@ -81,7 +82,6 @@ def compute_critical_state(row, fluid):
     }
 
     return pd.Series(critical_props)
-
 
 
 def calculate_scaling_variables(

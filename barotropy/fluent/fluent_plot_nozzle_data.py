@@ -2,7 +2,7 @@ import os
 import matplotlib.pyplot as plt
 
 from .fluent_automation import parse_fluent_xy
-from .utilities import savefig_in_formats
+from ..utilities import savefig_in_formats
 
 
 def plot_nozzle_data(case_name, fig_dir, data_vars):

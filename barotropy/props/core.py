@@ -1,9 +1,14 @@
+import copy
+import scipy
 import numpy as np
+
 import matplotlib.pyplot as plt
 import CoolProp.CoolProp as CP
-import copy
 
-from ..solver import (
+
+from . import functions
+
+from ..pysolver_view import (
     NonlinearSystemSolver,
     NonlinearSystemProblem,
     OptimizationProblem,
@@ -25,6 +30,21 @@ PROPERTY_ALIAS = {
     "mu": "viscosity",
     "k": "conductivity",
 }
+
+MEANLINE_PROPERTIES = [
+    "p",
+    "T",
+    "h",
+    "s",
+    "d",
+    "Z",
+    "a",
+    "mu",
+    "k",
+    "cp",
+    "cv",
+    "gamma",
+]
 
 # Dynamically add INPUTS fields to the module
 # for attr in dir(CP):
@@ -87,8 +107,7 @@ INPUT_PAIRS = sorted(INPUT_PAIRS.items(), key=lambda x: x[1])
 
 def _generate_coolprop_input_table():
     """Create table of input pairs as string to be copy-pasted in Sphinx documentation"""
-
-    inputs_table = ".. list-table:: CoolProp Input Mappings\n"
+    inputs_table = ".. list-table:: CoolProp input mappings\n"
     inputs_table += "   :widths: 50 30\n"
     inputs_table += "   :header-rows: 1\n\n"
     inputs_table += "   * - Input pair name\n"
@@ -106,9 +125,6 @@ class Fluid:
     Represents a fluid with various thermodynamic properties computed via CoolProp.
 
     This class provides a convenient interface to CoolProp for various fluid property calculations.
-
-    Properties can be accessed directly as attributes (e.g., `fluid.properties["p"]` for pressure)
-    or through dictionary-like access (e.g., `fluid.T` for temperature).
 
     Critical and triple point properties are computed upon initialization and stored internally for convenience.
 
@@ -142,6 +158,7 @@ class Fluid:
 
         - fluid.T - Retrieves temperature directly as an attribute.
         - fluid.properties['p'] - Retrieves pressure through dictionary-like access.
+        # TODO change to retrieve state which is inmutable object type
 
     Accessing critical point properties:
 
@@ -167,7 +184,7 @@ class Fluid:
         self._AS = CP.AbstractState(backend, name)
         self.exceptions = exceptions
         self.converged_flag = False
-        self.properties = {}
+        self._properties = {}
 
         # Initialize variables
         self.sat_liq = None
@@ -175,7 +192,9 @@ class Fluid:
         self.spinodal_liq = None
         self.spinodal_vap = None
         self.pseudo_critical_line = None
-        self.quality_grid = None
+        # self.quality_grid = None
+        self.q_mesh = None
+        self.graphic_elements = {}
 
         # Assign critical point properties
         if initialize_critical:
@@ -186,28 +205,30 @@ class Fluid:
             self.triple_point_liquid = self._compute_triple_point_liquid()
             self.triple_point_vapor = self._compute_triple_point_vapor()
 
-    def __getattr__(self, name):
-        if name in self.properties:
-            return self.properties[name]
-        raise AttributeError(f"'Fluid' object has no attribute '{name}'")
+        # Pressure and temperature limits
+        self.p_min = 1
+        self.p_max = self._AS.pmax()
+        self.T_min = self._AS.Tmin()
+        self.T_max = self._AS.Tmax()
 
     def _compute_critical_point(self):
         """Calculate the properties at the critical point"""
         rho_crit, T_crit = self._AS.rhomass_critical(), self._AS.T_critical()
-        self.set_state(DmassT_INPUTS, rho_crit, T_crit, generalize_quality=False)
-        return FluidState(self.properties, self.name)
+        return self.set_state(DmassT_INPUTS, rho_crit, T_crit, generalize_quality=False)
 
     def _compute_triple_point_liquid(self):
         """Calculate the properties at the triple point (liquid state)"""
-        self.set_state(QT_INPUTS, 0.00, self._AS.Ttriple(), generalize_quality=False)
-        return FluidState(self.properties, self.name)
+        return self.set_state(
+            QT_INPUTS, 0.00, self._AS.Ttriple(), generalize_quality=False
+        )
 
     def _compute_triple_point_vapor(self):
         """Calculate the properties at the triple point (vapor state)"""
-        self.set_state(QT_INPUTS, 1.00, self._AS.Ttriple(), generalize_quality=False)
-        return FluidState(self.properties, self.name)
+        return self.set_state(
+            QT_INPUTS, 1.00, self._AS.Ttriple(), generalize_quality=False
+        )
 
-    def set_state(self, input_type, prop_1, prop_2, generalize_quality=True):
+    def set_state(self, input_type, prop_1, prop_2, generalize_quality=False):
         """
         Set the thermodynamic state of the fluid based on input properties.
 
@@ -244,8 +265,6 @@ class Fluid:
         Exception
             If `throw_exceptions` attribute is set to True and an error occurs during property calculation,
             the original exception is re-raised.
-
-
         """
         try:
             # Update Coolprop thermodynamic state
@@ -253,15 +272,17 @@ class Fluid:
 
             # Retrieve single-phase properties
             if self._AS.phase() != CP.iphase_twophase:
-                self.properties = self.compute_properties_1phase(
-                    generalize_quality=generalize_quality
+                self._properties = functions.compute_properties_1phase(
+                    self._AS, generalize_quality
                 )
             else:
-                self.properties = self.compute_properties_2phase()
+                self._properties = functions.compute_properties_2phase(
+                    self._AS
+                )
 
             # Add properties as aliases
             for key, value in PROPERTY_ALIAS.items():
-                self.properties[key] = self.properties[value]
+                self._properties[key] = self._properties[value]
 
             # No errors computing the properies
             self.converged_flag = True
@@ -273,181 +294,46 @@ class Fluid:
                 raise e
 
         # Return inmutable object
-        return FluidState(self.properties, self.name)
-
-    def compute_properties_1phase(self, generalize_quality=True):
-        """Get single-phase properties from CoolProp low level interface"""
-        props = {}
-        props["T"] = self._AS.T()
-        props["p"] = self._AS.p()
-        props["rhomass"] = self._AS.rhomass()
-        props["umass"] = self._AS.umass()
-        props["hmass"] = self._AS.hmass()
-        props["smass"] = self._AS.smass()
-        props["gibbsmass"] = self._AS.gibbsmass()
-        props["cvmass"] = self._AS.cvmass()
-        props["cpmass"] = self._AS.cpmass()
-        props["gamma"] = props["cpmass"] / props["cvmass"]
-        props["compressibility_factor"] = self._AS.compressibility_factor()
-        props["speed_sound"] = self._AS.speed_sound()
-        props["isentropic_bulk_modulus"] = props["rhomass"] * props["speed_sound"] ** 2
-        props["isentropic_compressibility"] = 1 / props["isentropic_bulk_modulus"]
-        props["isothermal_bulk_modulus"] = 1 / self._AS.isothermal_compressibility()
-        props["isothermal_compressibility"] = self._AS.isothermal_compressibility()
-        isobaric_expansion_coefficient = self._AS.isobaric_expansion_coefficient()
-        props["isobaric_expansion_coefficient"] = isobaric_expansion_coefficient
-        props["viscosity"] = self._AS.viscosity()
-        props["conductivity"] = self._AS.conductivity()
-
-        if generalize_quality:
-            # Instantiate new fluid object to compute saturation properties without changing the state of the class
-            temp = CP.AbstractState(self.backend, self.name)
-            # Extend quality calculation beyond the two-phase region
-            if props["p"] < self.critical_point.p:
-                # Set the saturation state of the fluid at the given pressure
-                temp.update(PQ_INPUTS, props["p"], 0.00)
-                h_liq = temp.hmass()
-                temp.update(PQ_INPUTS, props["p"], 1.00)
-                h_vap = temp.hmass()
-                # print(props)
-                quality = (props["hmass"] - h_liq) / (h_vap - h_liq)
-            else:
-                # For states at or above the critical pressure, the concept of saturation states is not applicable
-                # Instead, use a 'pseudo-critical' state for comparison, where the density is set to the critical density
-                # but the pressure is the same as the state of interest
-                # Use a band of a certain width to prevent a discontinuity
-                temp.update(DmassP_INPUTS, self.critical_point.rho, props["p"])
-                # print(props)
-                quality = (props["hmass"] - 0.95 * temp.hmass()) / (
-                    1.05 * temp.hmass() - 0.95 * temp.hmass()
-                )
-
-        else:
-            quality = np.nan
-
-        props["Q"] = quality
-        props["quality_mass"] = np.nan
-        props["quality_volume"] = np.nan
-
-        return props
-
-    def compute_properties_2phase(self):
-        """Get two-phase properties from mixing rules and single-phase CoolProp properties"""
-
-        # Basic properties of the two-phase mixture
-        T_mix = self._AS.T()
-        p_mix = self._AS.p()
-        rho_mix = self._AS.rhomass()
-        u_mix = self._AS.umass()
-        h_mix = self._AS.hmass()
-        s_mix = self._AS.smass()
-        gibbs_mix = self._AS.gibbsmass()
-
-        # Instantiate new fluid object to compute saturation properties without changing the state of the class
-        temp = CP.AbstractState(self.backend, self.name)
-
-        # Saturated liquid properties
-        temp.update(CP.QT_INPUTS, 0.00, T_mix)
-        rho_L = temp.rhomass()
-        cp_L = temp.cpmass()
-        cv_L = temp.cvmass()
-        k_L = temp.conductivity()
-        mu_L = temp.viscosity()
-        speed_sound_L = temp.speed_sound()
-        dsdp_L = temp.first_saturation_deriv(CP.iSmass, CP.iP)
-
-        # Saturated vapor properties
-        temp.update(CP.QT_INPUTS, 1.00, T_mix)
-        rho_V = temp.rhomass()
-        cp_V = temp.cpmass()
-        cv_V = temp.cvmass()
-        k_V = temp.conductivity()
-        mu_V = temp.viscosity()
-        speed_sound_V = temp.speed_sound()
-        dsdp_V = temp.first_saturation_deriv(CP.iSmass, CP.iP)
-
-        # Volume fractions of vapor and liquid
-        vol_frac_V = (rho_mix - rho_L) / (rho_V - rho_L)
-        vol_frac_L = 1.00 - vol_frac_V
-
-        # Mass fractions of vapor and liquid
-        mass_frac_V = (1 / rho_mix - 1 / rho_L) / (1 / rho_V - 1 / rho_L)
-        mass_frac_L = 1.00 - mass_frac_V
-
-        # Heat capacities of the two-phase mixture
-        cp_mix = mass_frac_L * cp_L + mass_frac_V * cp_V
-        cv_mix = mass_frac_L * cv_L + mass_frac_V * cv_V
-
-        # Transport properties of the two-phase mixture
-        k_mix = vol_frac_L * k_L + vol_frac_V * k_V
-        mu_mix = vol_frac_L * mu_L + vol_frac_V * mu_V
-
-        # Compressibility factor of the two-phase mixture
-        M = self._AS.molar_mass()
-        R = self._AS.gas_constant()
-        Z_mix = p_mix / (rho_mix * (R / M) * T_mix)
-
-        # Speed of sound of the two-phase mixture
-        mechanical_equilibrium = vol_frac_L / (
-            rho_L * speed_sound_L**2
-        ) + vol_frac_V / (rho_V * speed_sound_V**2)
-        thermal_equilibrium = T_mix * (
-            vol_frac_L * rho_L / cp_L * dsdp_L**2
-            + vol_frac_V * rho_V / cp_V * dsdp_V**2
-        )
-        compressibility_HEM = mechanical_equilibrium + thermal_equilibrium
-        if mass_frac_V < 1e-6:  # Avoid discontinuity when Q_v=0
-            a_HEM = speed_sound_L
-        elif mass_frac_V > 1.0 - 1e-6:  # Avoid discontinuity when Q_v=1
-            a_HEM = speed_sound_V
-        else:
-            a_HEM = (1 / rho_mix / compressibility_HEM) ** 0.5
-
-        # Store properties in dictionary
-        properties = {}
-        properties["T"] = T_mix
-        properties["p"] = p_mix
-        properties["rhomass"] = rho_mix
-        properties["umass"] = u_mix
-        properties["hmass"] = h_mix
-        properties["smass"] = s_mix
-        properties["gibbsmass"] = gibbs_mix
-        properties["cvmass"] = cv_mix
-        properties["cpmass"] = cp_mix
-        properties["gamma"] = properties["cpmass"] / properties["cvmass"]
-        properties["compressibility_factor"] = Z_mix
-        properties["speed_sound"] = a_HEM
-        properties["isentropic_bulk_modulus"] = rho_mix * a_HEM**2
-        properties["isentropic_compressibility"] = (rho_mix * a_HEM**2) ** -1
-        properties["isothermal_bulk_modulus"] = np.nan
-        properties["isothermal_compressibility"] = np.nan
-        properties["isobaric_expansion_coefficient"] = np.nan
-        properties["viscosity"] = mu_mix
-        properties["conductivity"] = k_mix
-        properties["Q"] = mass_frac_V
-        properties["quality_mass"] = mass_frac_V
-        properties["quality_volume"] = vol_frac_V
-
-        return properties
+        return FluidState(self._properties, self.name)
 
     def set_state_metastable(
-        self, prop_1, prop_1_value, prop_2, prop_2_value, rho_guess, T_guess
+        self,
+        prop_1,
+        prop_1_value,
+        prop_2,
+        prop_2_value,
+        rho_guess,
+        T_guess,
     ):
-        # problem = PropertyRoot()
-
-        return
-
-    def set_state_metastable_rhoT(self, rho, T):
         # TODO: Add check to see if we are inside thespinodal and return two phase properties if yes
         # TODO: implement root finding functionality to accept p-h, T-s, p-s arguments [good initial guess required]
         # TODO: can it be generalized so that it uses equilibrium as initial guess with any inputs? (even if they are T-d)
+
+        outside_spinodal = True
+        problem = functions.HelmholtzResidual(
+            prop_1, prop_1_value, prop_2, prop_2_value, self._AS
+        )
+        solver = NonlinearSystemSolver(
+            problem,
+            method="hybr",
+            tolerance=1e-6,
+            max_iterations=100,
+            print_convergence=False,
+            update_on="function",
+        )
+
         try:
-            # Update Coolprop thermodynamic state
-            self.properties = self.compute_properties_metastable_rhoT(rho, T, self._AS)
+            # Retrieve single-phase properties
+            if outside_spinodal:
+                x0 = np.asarray([rho_guess, T_guess])
+                rho, T = solver.solve(x0)
+                self._properties = functions.compute_properties_metastable_rhoT(rho, T, self._AS)
+            else:
+                self._properties = self.compute_properties_2phase()
 
             # Add properties as aliases
-            for key, value in self.aliases.items():
-                self.properties[key] = self.properties[value]
+            for key, value in PROPERTY_ALIAS.items():
+                self._properties[key] = self._properties[value]
 
             # No errors computing the properies
             self.converged_flag = True
@@ -458,99 +344,15 @@ class Fluid:
             if self.exceptions:
                 raise e
 
-        return self.properties
-
-    @staticmethod
-    def compute_properties_metastable_rhoT(rho, T, AS):
-        """
-        Compute the thermodynamic properties of a fluid using the Helmholtz
-        energy equation of state. All properties thermodynamic properties can
-        be derived as combinations of the Helmholtz energy and its
-        derivatives with respect to density and pressure.
-
-        This function can be used to estimate metastable properties using the
-        equation of state beyond the saturation lines.
-        """
-
-        # Update thermodynamic state
-        AS.update(CP.DmassT_INPUTS, rho, T)
-
-        # Get fluid constant properties
-        R = AS.gas_constant()
-        M = AS.molar_mass()
-        T_crit = AS.T_critical()
-        rho_crit = AS.rhomass_critical()
-
-        # Compute reduced variables
-        tau = T_crit / T
-        delta = rho / rho_crit
-
-        # Compute from the Helmholtz energy derivatives
-        alpha = AS.alpha0() + AS.alphar()
-        dalpha_dTau = AS.dalpha0_dTau() + AS.dalphar_dTau()
-        dalpha_dDelta = AS.dalpha0_dDelta() + AS.dalphar_dDelta()
-        d2alpha_dTau2 = AS.d2alpha0_dTau2() + AS.d2alphar_dTau2()
-        d2alpha_dDelta2 = AS.d2alpha0_dDelta2() + AS.d2alphar_dDelta2()
-        d2alpha_dDelta_dTau = AS.d2alpha0_dDelta_dTau() + AS.d2alphar_dDelta_dTau()
-
-        # Compute thermodynamic properties from Helmholtz energy EOS
-        properties = {}
-        properties["T"] = T
-        properties["p"] = (R / M) * T * rho * delta * dalpha_dDelta
-        properties["rhomass"] = rho
-        properties["umass"] = (R / M) * T * (tau * dalpha_dTau)
-        properties["hmass"] = (R / M) * T * (tau * dalpha_dTau + delta * dalpha_dDelta)
-        properties["smass"] = (R / M) * (tau * dalpha_dTau - alpha)
-        properties["gibbsmass"] = (R / M) * T * (alpha + delta * dalpha_dDelta)
-        properties["cvmass"] = (R / M) * (-(tau**2) * d2alpha_dTau2)
-        properties["cpmass"] = (R / M) * (
-            -(tau**2) * d2alpha_dTau2
-            + (delta * dalpha_dDelta - delta * tau * d2alpha_dDelta_dTau) ** 2
-            / (2 * delta * dalpha_dDelta + delta**2 * d2alpha_dDelta2)
-        )
-        properties["gamma"] = properties["cpmass"] / properties["cvmass"]
-        properties["compressibility_factor"] = delta * dalpha_dDelta
-        properties["speed_sound"] = (
-            (R / M * T)
-            * (
-                (2 * delta * dalpha_dDelta + delta**2 * d2alpha_dDelta2)
-                - (delta * dalpha_dDelta - delta * tau * d2alpha_dDelta_dTau) ** 2
-                / (tau**2 * d2alpha_dTau2)
-            )
-        ) ** 0.5
-        properties["isentropic_bulk_modulus"] = (rho * R / M * T) * (
-            (2 * delta * dalpha_dDelta + delta**2 * d2alpha_dDelta2)
-            - (delta * dalpha_dDelta - delta * tau * d2alpha_dDelta_dTau) ** 2
-            / (tau**2 * d2alpha_dTau2)
-        )
-        properties["isentropic_compressibility"] = (
-            1 / properties["isentropic_bulk_modulus"]
-        )
-        properties["isothermal_bulk_modulus"] = (
-            R / M * T * rho * (2 * delta * dalpha_dDelta + delta**2 * d2alpha_dDelta2)
-        )
-        properties["isothermal_compressibility"] = 1 / (
-            R / M * T * rho * (2 * delta * dalpha_dDelta + delta**2 * d2alpha_dDelta2)
-        )
-        properties["isobaric_expansion_coefficient"] = (
-            (1 / T)
-            * (delta * dalpha_dDelta - delta * tau * d2alpha_dDelta_dTau)
-            / (2 * delta * dalpha_dDelta + delta**2 * d2alpha_dDelta2)
-        )
-        properties["viscosity"] = AS.viscosity()
-        properties["conductivity"] = AS.conductivity()
-        properties["Q"] = np.nan
-        properties["quality_mass"] = np.nan
-        properties["quality_volume"] = np.nan
-
-        return properties
+        # Return inmutable object
+        return FluidState(self._properties, self.name)
 
     def get_property(self, propname):
         """Get the value of a single property"""
-        if propname in self.properties:
-            return self.properties[propname]
+        if propname in self._properties:
+            return self._properties[propname]
         else:
-            valid_options = "\n\t".join(self.properties.keys())
+            valid_options = "\n\t".join(self._properties.keys())
             raise ValueError(
                 f"The requested property '{propname}' is not available. The valid options are:\n\t{valid_options}"
             )
@@ -563,29 +365,58 @@ class Fluid:
 
         # Store a subset of the properties in a dictionary
         fluid_properties = {}
-        property_subset = [
-            "p",
-            "T",
-            "h",
-            "s",
-            "d",
-            "Z",
-            "a",
-            "mu",
-            "k",
-            "cp",
-            "cv",
-            "gamma",
-        ]
-        for item in property_subset:
-            fluid_properties[item] = self.properties[item]
+        for item in MEANLINE_PROPERTIES:
+            fluid_properties[item] = self._properties[item]
 
         return fluid_properties
 
-    def compute_sonic_state(self, input_type, prop_1, prop_2):
-        props = {}
+    # def compute_sonic_state(self, input_type, prop_1, prop_2):
+    #     props = {}
+    #     return FluidState(props)
 
-        return FluidState(props)
+    def _get_label(self, label, show_in_legend):
+        """Returns the appropriate label value based on whether it should be shown in the legend."""
+        return label if show_in_legend else "_no_legend_"
+
+    def _plot_or_update_line(self, axes, x_data, y_data, line_name, **plot_params):
+        # Ensure there is a dictionary for this axes
+        if axes not in self.graphic_elements:
+            self.graphic_elements[axes] = {}
+
+        # Check if the line exists for this axes
+        if line_name in self.graphic_elements[axes]:
+            line = self.graphic_elements[axes][line_name]
+            line.set_data(x_data, y_data)
+            # Update line properties
+            for param, value in plot_params.items():
+                setattr(line, param, value)
+            line.set_visible(True)
+        else:
+            # Create a new line with the provided plot parameters
+            (line,) = axes.plot(x_data, y_data, **plot_params)
+            self.graphic_elements[axes][line_name] = line
+        return line
+
+    def _plot_or_update_contours(
+        self, axes, x_data, y_data, z_data, contour_levels, line_name, **contour_params
+    ):
+        # Ensure there is a dictionary for this axes
+        if axes not in self.graphic_elements:
+            self.graphic_elements[axes] = {}
+
+        # Check if the contour exists for this axes
+        if line_name in self.graphic_elements[axes]:
+            for coll in self.graphic_elements[axes][line_name].collections:
+                coll.remove()  # Remove the old contour collections
+
+        # Create a new contour
+        contour = axes.contour(x_data, y_data, z_data, contour_levels, **contour_params)
+        self.graphic_elements[axes][line_name] = contour
+        return contour
+
+    def _set_visibility(self, axes, line_name, visible):
+        if axes in self.graphic_elements and line_name in self.graphic_elements[axes]:
+            self.graphic_elements[axes][line_name].set_visible(visible)
 
     def plot_phase_diagram(
         self,
@@ -606,227 +437,374 @@ class Fluid:
         quality_levels=np.linspace(0.1, 1.0, 10),
         quality_labels=False,
         show_in_legend=False,
-        **kwargs,
+        # **kwargs,
     ):
         if axes is None:
             axes = plt.gca()
 
-        # Plot saturation line
+        # Saturation line
         if plot_saturation_line:
             if self.sat_liq is None or self.sat_vap is None:
-                self.sat_liq, self.sat_vap = compute_saturation_line(
-                    self, N_points=num_points
-                )
-
+                self.sat_liq, self.sat_vap = compute_saturation_line(self, num_points)
             x = self.sat_liq[x_variable] + self.sat_vap[x_variable]
             y = self.sat_liq[y_variable] + self.sat_vap[y_variable]
-            label_value = "Saturation line" if show_in_legend else "_no_legend_"
-            if (
-                hasattr(self, "_graphic_saturation_line")
-                and self._graphic_saturation_line.axes == axes
-            ):
-                self._graphic_saturation_line.set_data(x, y)
-                self._graphic_saturation_line.set_visible(True)
-            else:
-                (self._graphic_saturation_line,) = axes.plot(
-                    x,
-                    y,
-                    "k",
-                    linewidth=1.25,
-                    label=label_value,
-                )
+            label = self._get_label("Saturation line", show_in_legend)
+            params = {"label": label, "color": "black"}
+            self._graphic_saturation_line = self._plot_or_update_line(
+                axes, x, y, "saturation_line", **params
+            )
         else:
-            if hasattr(self, "_graphic_saturation_line"):
-                self._graphic_saturation_line.set_visible(False)
-
-        # Plot spinodal line
-        if plot_spinodal_line:
-            if self.spinodal_liq is None or self.spinodal_vap is None:
-                self.spinodal_liq, self.spinodal_vap = compute_spinodal_line(
-                    self,
-                    N_points=num_points,
-                    method=spinodal_line_method,
-                )
-
-            x = self.spinodal_liq[x_variable] + self.spinodal_vap[x_variable]
-            y = self.spinodal_liq[y_variable] + self.spinodal_vap[y_variable]
-            label_value = "Spinodal line" if show_in_legend else "_no_legend_"
-            if (
-                hasattr(self, "_graphic_spinodal_line")
-                and self._graphic_spinodal_line.axes == axes
-            ):
-                self._graphic_spinodal_line.set_data(x, y)
-                self._graphic_spinodal_line.set_visible(True)
-            else:
-                (self._graphic_spinodal_line,) = axes.plot(
-                    x,
-                    y,
-                    color=spinodal_line_color,
-                    linewidth=spinodal_line_width,
-                    label=label_value,
-                )
-        else:
-            if hasattr(self, "_graphic_spinodal_line"):
-                self._graphic_spinodal_line.set_visible(False)
+            self._set_visibility(axes, "saturation_line", False)
 
         # Plot pseudocritical line
         if plot_pseudocritical_line:
-            self.pseudo_critical_line = compute_pseudocritical_line(self)
+            if self.pseudo_critical_line is None:
+                self.pseudo_critical_line = compute_pseudocritical_line(self)
             x = self.pseudo_critical_line[x_variable]
             y = self.pseudo_critical_line[y_variable]
-            label_value = "Pseudocritical line" if show_in_legend else "_no_legend_"
-            if (
-                hasattr(self, "_graphic_pseudocritical_line")
-                and self._graphic_pseudocritical_line.axes == axes
-            ):
-                self._graphic_pseudocritical_line.set_data(x, y)
-                self._graphic_pseudocritical_line.set_visible(True)
-            else:
-                (self._graphic_pseudocritical_line,) = axes.plot(
-                    x,
-                    y,
-                    color="black",
-                    linestyle="--",
-                    linewidth=0.75,
-                    label=label_value,
-                )
+            label = self._get_label("Pseudocritical line", show_in_legend)
+            params = {
+                "label": label,
+                "color": "black",
+                "linestyle": "--",
+                "linewidth": 0.75,
+            }
+            self._graphic_pseudocritical_line = self._plot_or_update_line(
+                axes, x, y, "pseudocritical_line", **params
+            )
         else:
-            if hasattr(self, "_graphic_pseudocritical_line"):
-                self._graphic_pseudocritical_line.set_visible(False)
+            self._set_visibility(axes, "pseudocritical_line", False)
+
+        # Plot quality isolines
+        if plot_quality_isolines:
+            if self.q_mesh is None:
+                self.q_mesh = compute_quality_grid(self, num_points, quality_levels)
+            x = self.q_mesh[x_variable]
+            y = self.q_mesh[y_variable]
+            _, m = np.shape(x)
+            z = np.tile(quality_levels, (m, 1)).T
+            params = {"colors": "black", "linestyles": ":", "linewidths": 0.75}
+            self._graphics_q_lines = self._plot_or_update_contours(
+                axes, x, y, z, quality_levels, "quality_isolines", **params
+            )
+
+            if quality_labels:
+                axes.clabel(self._graphics_q_lines, fontsize=9, rightside_up=True)
+
+        else:
+            # Remove existing contour lines if they exist
+            if "quality_isolines" in self.graphic_elements.get(axes, {}):
+                for coll in self.graphic_elements[axes]["quality_isolines"].collections:
+                    coll.remove()
+                del self.graphic_elements[axes]["quality_isolines"]
 
         # Plot critical point
+        params = {
+            "color": "black",
+            "marker": "o",
+            "markersize": 4.5,
+            "markerfacecolor": "w",
+        }
         if plot_critical_point:
             x = self.critical_point[x_variable]
             y = self.critical_point[y_variable]
-            label_value = "Critical point" if show_in_legend else "_no_legend_"
-            if (
-                hasattr(self, "_graphic_critical_point")
-                and self._graphic_critical_point.axes == axes
-            ):
-                self._graphic_critical_point.set_data(x, y)
-                self._graphic_critical_point.set_visible(True)
-            else:
-                (self._graphic_critical_point,) = axes.plot(
-                    x,
-                    y,
-                    "ko",
-                    markersize=4.5,
-                    markerfacecolor="w",
-                    label=label_value,
-                )
+            label = self._get_label("Critical point", show_in_legend)
+            self._graphic_critical_point = self._plot_or_update_line(
+                axes, x, y, "critical_point", label=label, **params
+            )
         else:
-            if hasattr(self, "_graphic_critical_point"):
-                self._graphic_critical_point.set_visible(False)
+            self._set_visibility(axes, "critical_point", False)
 
         # Plot liquid triple point
         if plot_triple_point_liquid:
             x = self.triple_point_liquid[x_variable]
             y = self.triple_point_liquid[y_variable]
-            label_value = "Triple point liquid" if show_in_legend else "_no_legend_"
-            if (
-                hasattr(self, "_graphic_triple_point_liquid")
-                and self._graphic_triple_point_liquid.axes == axes
-            ):
-                self._graphic_triple_point_liquid.set_data(x, y)
-                self._graphic_triple_point_liquid.set_visible(True)
-            else:
-                (self._graphic_triple_point_liquid,) = axes.plot(
-                    x,
-                    y,
-                    "ko",
-                    markersize=4.5,
-                    markerfacecolor="w",
-                    label=label_value,
-                )
+            label = self._get_label("Triple point liquid", show_in_legend)
+            self._graphic_triple_point_liquid = self._plot_or_update_line(
+                axes, x, y, "triple_point_liquid", label=label, **params
+            )
         else:
-            if hasattr(self, "_graphic_triple_point_liquid"):
-                self._graphic_triple_point_liquid.set_visible(False)
+            self._set_visibility(axes, "triple_point_liquid", False)
 
         # Plot vapor triple point
         if plot_triple_point_vapor:
             x = self.triple_point_vapor[x_variable]
             y = self.triple_point_vapor[y_variable]
-            label_value = "Triple point vapor" if show_in_legend else "_no_legend_"
-
-            if (
-                hasattr(self, "_graphic_triple_point_vapor")
-                and self._graphic_triple_point_vapor.axes == axes
-            ):
-                self._graphic_triple_point_vapor.set_data(x, y)
-                self._graphic_triple_point_vapor.set_visible(True)
-            else:
-                (self._graphic_triple_point_vapor,) = axes.plot(
-                    x,
-                    y,
-                    "ko",
-                    markersize=4.5,
-                    markerfacecolor="w",
-                    label=label_value,
-                )
-        else:
-            if hasattr(self, "_graphic_triple_point_vapor"):
-                self._graphic_triple_point_vapor.set_visible(False)
-
-        # Compute vapor quality isocurves
-        if plot_quality_isolines:
-            if self.quality_grid is None:
-                # Define temperature levels
-                t1 = np.logspace(
-                    np.log10(1 - 0.9999), np.log10(0.1), int(num_points / 2)
-                )
-                t2 = np.logspace(
-                    np.log10(0.1),
-                    np.log10(1 - (self.triple_point_liquid.T) / self.critical_point.T),
-                    int(num_points / 2),
-                )
-                self.quality_levels = quality_levels
-                self.temperature_levels = (
-                    1 - np.hstack((t1, t2))
-                ) * self.critical_point.T
-
-                # Calculate property grid
-                self.quality_grid = []
-                for q in self.quality_levels:
-                    row = []
-                    for T in self.temperature_levels:
-                        row.append(self.set_state(CP.QT_INPUTS, q, T))
-                    self.quality_grid.append(row)
-
-                self.quality_grid = states_to_dict_2d(self.quality_grid)
-
-            # Retrieve property arrays
-            x = self.quality_grid[x_variable]
-            y = self.quality_grid[y_variable]
-            z = np.tile(self.quality_levels, (len(self.temperature_levels), 1)).T
-
-            if hasattr(self, "_graphics_quality_isolines"):
-                for coll in self._graphics_quality_isolines.collections:
-                    coll.remove()
-
-            self._graphics_quality_isolines = axes.contour(
-                x,
-                y,
-                z,
-                quality_levels,
-                colors="black",
-                linestyles=":",
-                linewidths=0.75,
+            label = self._get_label("Triple point vapor", show_in_legend)
+            self._graphic_triple_point_vapor = self._plot_or_update_line(
+                axes, x, y, "triple_point_vapor", label=label, **params
             )
-
-            if quality_labels:
-                axes.clabel(
-                    self._graphics_quality_isolines,
-                    inline=True,
-                    fontsize=9,
-                    rightside_up=True,
-                )
-
         else:
-            if hasattr(self, "_graphics_quality_isolines"):
-                for coll in self._graphics_quality_isolines.collections:
-                    coll.set_visible(False)  # Hide the contours
+            self._set_visibility(axes, "triple_point_vapor", False)
 
         return axes
+
+
+# ------------------------------------------------------------------------------------ #
+# ------------------------------------------------------------------------------------ #
+# ------------------------------------------------------------------------------------ #
+
+
+def compute_quality_grid(fluid, num_points, quality_levels):
+    # Define temperature levels
+    t1 = np.logspace(np.log10(1 - 0.9999), np.log10(0.1), int(num_points / 2))
+    t2 = np.logspace(
+        np.log10(0.1),
+        np.log10(1 - (fluid.triple_point_liquid.T) / fluid.critical_point.T),
+        int(num_points / 2),
+    )
+    temperature_levels = (1 - np.hstack((t1, t2))) * fluid.critical_point.T
+
+    # Calculate property grid
+    quality_grid = []
+    for q in quality_levels:
+        row = []
+        for T in temperature_levels:
+            row.append(fluid.set_state(CP.QT_INPUTS, q, T))
+        quality_grid.append(row)
+
+    return states_to_dict_2d(quality_grid)
+
+    # def plot_phase_diagram(
+    #     self,
+    #     x_variable="s",
+    #     y_variable="T",
+    #     axes=None,
+    #     num_points=200,
+    #     plot_saturation_line=True,
+    #     plot_critical_point=True,
+    #     plot_triple_point_liquid=False,
+    #     plot_triple_point_vapor=False,
+    #     plot_spinodal_line=False,
+    #     spinodal_line_method="standard",
+    #     spinodal_line_color=0.5 * np.array([1, 1, 1]),
+    #     spinodal_line_width=0.75,
+    #     plot_quality_isolines=False,
+    #     plot_pseudocritical_line=False,
+    #     quality_levels=np.linspace(0.1, 1.0, 10),
+    #     quality_labels=False,
+    #     show_in_legend=False,
+    #     **kwargs,
+    # ):
+    #     if axes is None:
+    #         axes = plt.gca()
+
+    #     # Plot saturation line
+    #     if plot_saturation_line:
+    #         if self.sat_liq is None or self.sat_vap is None:
+    #             self.sat_liq, self.sat_vap = compute_saturation_line(
+    #                 self, N_points=num_points
+    #             )
+
+    #         x = self.sat_liq[x_variable] + self.sat_vap[x_variable]
+    #         y = self.sat_liq[y_variable] + self.sat_vap[y_variable]
+    #         label_value = "Saturation line" if show_in_legend else "_no_legend_"
+    #         if (
+    #             hasattr(self, "_graphic_saturation_line")
+    #             and self._graphic_saturation_line.axes == axes
+    #         ):
+    #             self._graphic_saturation_line.set_data(x, y)
+    #             self._graphic_saturation_line.set_visible(True)
+    #         else:
+    #             (self._graphic_saturation_line,) = axes.plot(
+    #                 x,
+    #                 y,
+    #                 "k",
+    #                 linewidth=1.25,
+    #                 label=label_value,
+    #             )
+    #     else:
+    #         if hasattr(self, "_graphic_saturation_line"):
+    #             self._graphic_saturation_line.set_visible(False)
+
+    #     # Plot spinodal line
+    #     if plot_spinodal_line:
+    #         if self.spinodal_liq is None or self.spinodal_vap is None:
+    #             self.spinodal_liq, self.spinodal_vap = compute_spinodal_line(
+    #                 self,
+    #                 N_points=num_points,
+    #                 method=spinodal_line_method,
+    #             )
+
+    #         x = self.spinodal_liq[x_variable] + self.spinodal_vap[x_variable]
+    #         y = self.spinodal_liq[y_variable] + self.spinodal_vap[y_variable]
+    #         label_value = "Spinodal line" if show_in_legend else "_no_legend_"
+    #         if (
+    #             hasattr(self, "_graphic_spinodal_line")
+    #             and self._graphic_spinodal_line.axes == axes
+    #         ):
+    #             self._graphic_spinodal_line.set_data(x, y)
+    #             self._graphic_spinodal_line.set_visible(True)
+    #         else:
+    #             (self._graphic_spinodal_line,) = axes.plot(
+    #                 x,
+    #                 y,
+    #                 color=spinodal_line_color,
+    #                 linewidth=spinodal_line_width,
+    #                 label=label_value,
+    #             )
+    #     else:
+    #         if hasattr(self, "_graphic_spinodal_line"):
+    #             self._graphic_spinodal_line.set_visible(False)
+
+    #     # Plot pseudocritical line
+    #     if plot_pseudocritical_line:
+    #         self.pseudo_critical_line = compute_pseudocritical_line(self)
+    #         x = self.pseudo_critical_line[x_variable]
+    #         y = self.pseudo_critical_line[y_variable]
+    #         label_value = "Pseudocritical line" if show_in_legend else "_no_legend_"
+    #         if (
+    #             hasattr(self, "_graphic_pseudocritical_line")
+    #             and self._graphic_pseudocritical_line.axes == axes
+    #         ):
+    #             self._graphic_pseudocritical_line.set_data(x, y)
+    #             self._graphic_pseudocritical_line.set_visible(True)
+    #         else:
+    #             (self._graphic_pseudocritical_line,) = axes.plot(
+    #                 x,
+    #                 y,
+    #                 color="black",
+    #                 linestyle="--",
+    #                 linewidth=0.75,
+    #                 label=label_value,
+    #             )
+    #     else:
+    #         if hasattr(self, "_graphic_pseudocritical_line"):
+    #             self._graphic_pseudocritical_line.set_visible(False)
+
+    #     # Plot critical point
+    #     if plot_critical_point:
+    #         x = self.critical_point[x_variable]
+    #         y = self.critical_point[y_variable]
+    #         label_value = "Critical point" if show_in_legend else "_no_legend_"
+    #         if (
+    #             hasattr(self, "_graphic_critical_point")
+    #             and self._graphic_critical_point.axes == axes
+    #         ):
+    #             self._graphic_critical_point.set_data(x, y)
+    #             self._graphic_critical_point.set_visible(True)
+    #         else:
+    #             (self._graphic_critical_point,) = axes.plot(
+    #                 x,
+    #                 y,
+    #                 "ko",
+    #                 markersize=4.5,
+    #                 markerfacecolor="w",
+    #                 label=label_value,
+    #             )
+    #     else:
+    #         if hasattr(self, "_graphic_critical_point"):
+    #             self._graphic_critical_point.set_visible(False)
+
+    #     # Plot liquid triple point
+    #     if plot_triple_point_liquid:
+    #         x = self.triple_point_liquid[x_variable]
+    #         y = self.triple_point_liquid[y_variable]
+    #         label_value = "Triple point liquid" if show_in_legend else "_no_legend_"
+    #         if (
+    #             hasattr(self, "_graphic_triple_point_liquid")
+    #             and self._graphic_triple_point_liquid.axes == axes
+    #         ):
+    #             self._graphic_triple_point_liquid.set_data(x, y)
+    #             self._graphic_triple_point_liquid.set_visible(True)
+    #         else:
+    #             (self._graphic_triple_point_liquid,) = axes.plot(
+    #                 x,
+    #                 y,
+    #                 "ko",
+    #                 markersize=4.5,
+    #                 markerfacecolor="w",
+    #                 label=label_value,
+    #             )
+    #     else:
+    #         if hasattr(self, "_graphic_triple_point_liquid"):
+    #             self._graphic_triple_point_liquid.set_visible(False)
+
+    #     # Plot vapor triple point
+    #     if plot_triple_point_vapor:
+    #         x = self.triple_point_vapor[x_variable]
+    #         y = self.triple_point_vapor[y_variable]
+    #         label_value = "Triple point vapor" if show_in_legend else "_no_legend_"
+
+    #         if (
+    #             hasattr(self, "_graphic_triple_point_vapor")
+    #             and self._graphic_triple_point_vapor.axes == axes
+    #         ):
+    #             self._graphic_triple_point_vapor.set_data(x, y)
+    #             self._graphic_triple_point_vapor.set_visible(True)
+    #         else:
+    #             (self._graphic_triple_point_vapor,) = axes.plot(
+    #                 x,
+    #                 y,
+    #                 "ko",
+    #                 markersize=4.5,
+    #                 markerfacecolor="w",
+    #                 label=label_value,
+    #             )
+    #     else:
+    #         if hasattr(self, "_graphic_triple_point_vapor"):
+    #             self._graphic_triple_point_vapor.set_visible(False)
+
+    #     # Compute vapor quality isocurves
+    #     if plot_quality_isolines:
+    #         if self.quality_grid is None:
+    #             # Define temperature levels
+    #             t1 = np.logspace(
+    #                 np.log10(1 - 0.9999), np.log10(0.1), int(num_points / 2)
+    #             )
+    #             t2 = np.logspace(
+    #                 np.log10(0.1),
+    #                 np.log10(1 - (self.triple_point_liquid.T) / self.critical_point.T),
+    #                 int(num_points / 2),
+    #             )
+    #             self.quality_levels = quality_levels
+    #             self.temperature_levels = (
+    #                 1 - np.hstack((t1, t2))
+    #             ) * self.critical_point.T
+
+    #             # Calculate property grid
+    #             self.quality_grid = []
+    #             for q in self.quality_levels:
+    #                 row = []
+    #                 for T in self.temperature_levels:
+    #                     row.append(self.set_state(CP.QT_INPUTS, q, T))
+    #                 self.quality_grid.append(row)
+
+    #             self.quality_grid = states_to_dict_2d(self.quality_grid)
+
+    #         # Retrieve property arrays
+    #         x = self.quality_grid[x_variable]
+    #         y = self.quality_grid[y_variable]
+    #         z = np.tile(self.quality_levels, (len(self.temperature_levels), 1)).T
+
+    #         if hasattr(self, "_graphics_quality_isolines"):
+    #             for coll in self._graphics_quality_isolines.collections:
+    #                 coll.remove()
+
+    #         self._graphics_quality_isolines = axes.contour(
+    #             x,
+    #             y,
+    #             z,
+    #             quality_levels,
+    #             colors="black",
+    #             linestyles=":",
+    #             linewidths=0.75,
+    #         )
+
+    #         if quality_labels:
+    #             axes.clabel(
+    #                 self._graphics_quality_isolines,
+    #                 inline=True,
+    #                 fontsize=9,
+    #                 rightside_up=True,
+    #             )
+
+    #     else:
+    #         if hasattr(self, "_graphics_quality_isolines"):
+    #             for coll in self._graphics_quality_isolines.collections:
+    #                 coll.set_visible(False)  # Hide the contours
+
+    #     return axes
 
 
 class FluidState:
@@ -867,28 +845,28 @@ class FluidState:
     items():
         Returns the items (key-value pairs) of the fluid properties.
     """
-    
-    __slots__ = ("properties", "fluid_name")  # Define allowed attributes
+
+    __slots__ = ("_properties", "fluid_name")  # Define allowed attributes
 
     def __init__(self, properties, fluid_name):
         # Convert keys to strings and store properties in an internal attribute
         # Ensure the properties dictionary is immutable (e.g., by using a frozendict if modifications are a concern)
         object.__setattr__(
-            self, "properties", {str(k): v for k, v in properties.items()}
+            self, "_properties", {str(k): v for k, v in properties.items()}
         )
         object.__setattr__(self, "fluid_name", fluid_name)
 
     def __getattr__(self, name):
         # Allows attribute-style access to the fluid properties. If the property does not exist, raises AttributeError.
         try:
-            return self.properties[name]
+            return self._properties[name]
         except KeyError:
             raise AttributeError(f"'{name}' not found in FluidState properties")
 
     def __getitem__(self, key):
         # Allows dictionary-style access to the fluid properties. If the key does not exist, raises KeyError.
         try:
-            return self.properties[str(key)]
+            return self._properties[str(key)]
         except KeyError:
             raise KeyError(f"'{key}' not found in FluidState properties")
 
@@ -906,31 +884,34 @@ class FluidState:
 
     def __repr__(self):
         # Returns a string representation of the FluidState instance, including its class name, properties, and fluid name.
-        return f"{self.__class__.__name__}({self.properties}, '{self.fluid_name}')"
+        return f"{self.__class__.__name__}({self._properties}, '{self.fluid_name}')"
 
     def __str__(self):
-        prop_str = "\n   ".join([f"{k}: {v}" for k, v in self.properties.items()])
+        prop_str = "\n   ".join([f"{k}: {v}" for k, v in self._properties.items()])
         return f"FluidState:\n   {prop_str}"
-    
+
     def __iter__(self):
         # Iterate over the object like a dictionary
-        return iter(self.properties)
+        return iter(self._properties)
 
     def to_dict(self):
         # Return a copy of the properties to ensure immutability
-        return dict(self.properties)
+        return dict(self._properties)
 
     def keys(self):
         # Return the keys of the properties
-        return self.properties.keys()
+        return self._properties.keys()
 
     def values(self):
         # Return the values of the properties
-        return self.properties.values()
+        return self._properties.values()
 
     def items(self):
         # Return the items of the properties
-        return self.properties.items()
+        return self._properties.items()
+
+    def get(self, key, default=None):
+        return self._properties.get(key, default)
 
 
 def states_to_dict(states):
@@ -972,10 +953,9 @@ def states_to_dict_2d(states_grid):
     return state_dict_2d
 
 
-
 def compute_saturation_line(fluid, N_points=100):
     # Initialize objects to store properties
-    prop_names = fluid.properties.keys()
+    prop_names = fluid._properties.keys()
     liquid_line = {name: [] for name in prop_names}
     vapor_line = {name: [] for name in prop_names}
 
@@ -990,14 +970,14 @@ def compute_saturation_line(fluid, N_points=100):
     # Loop over temperatures and property names in an efficient way
     for T in T_sat:
         # Compute liquid saturation line
+        state_liquid = fluid.set_state(CP.QT_INPUTS, 0.00, T)
         for name in prop_names:
-            fluid.set_state(CP.QT_INPUTS, 0.00, T)
-            liquid_line[name].append(fluid.properties[name])
+            liquid_line[name].append(state_liquid[name])
 
         # Compute vapor saturation line
+        state_vapor = fluid.set_state(CP.QT_INPUTS, 1.00, T)
         for name in prop_names:
-            fluid.set_state(CP.QT_INPUTS, 1.00, T)
-            vapor_line[name].append(fluid.properties[name])
+            vapor_line[name].append(state_vapor[name])
 
     # Add critical point as part of the spinodal line
     for name in prop_names:
@@ -1019,7 +999,7 @@ def compute_spinodal_line(fluid, N_points=100, method="standard"):
 
 def compute_pseudocritical_line(fluid, N_points=100):
     # Initialize objects to store properties
-    prop_names = fluid.properties.keys()
+    prop_names = fluid._properties.keys()
     pseudocritical_line = {name: [] for name in prop_names}
 
     # Define temperature array with refinement close to the critical point
@@ -1029,13 +1009,15 @@ def compute_pseudocritical_line(fluid, N_points=100):
     # Loop over temperatures and compute pseudocritical properties
     for T in T_range:
         for name in prop_names:
-            fluid.set_state(DmassT_INPUTS, fluid.critical_point.d, T)
-            pseudocritical_line[name].append(fluid.properties[name])
+            state = fluid.set_state(DmassT_INPUTS, fluid.critical_point.d, T)
+            pseudocritical_line[name].append(state[name])
 
     return pseudocritical_line
 
 
-def compute_properties_meshgrid(fluid, input_pair, range_1, range_2):
+def compute_properties_meshgrid(
+    fluid, input_pair, range_1, range_2, generalize_quality=True
+):
     """
     Compute fluid properties over a specified range and store them in a dictionary.
 
@@ -1066,13 +1048,18 @@ def compute_properties_meshgrid(fluid, input_pair, range_1, range_2):
     grid1, grid2 = np.meshgrid(range_1, range_2)
 
     # Initialize dictionary to store properties and pre-allocate storage
-    properties_dict = {key: np.zeros_like(grid1) for key in fluid.properties}
+    properties_dict = {key: np.zeros_like(grid1) for key in fluid._properties}
 
     # Compute properties at each point
     for i in range(len(range_2)):
         for j in range(len(range_1)):
             # Set state of the fluid
-            state = fluid.set_state(input_pair, grid1[i, j], grid2[i, j])
+            state = fluid.set_state(
+                input_pair,
+                grid1[i, j],
+                grid2[i, j],
+                generalize_quality=generalize_quality,
+            )
 
             # Store the properties
             for key in state:
@@ -1082,70 +1069,6 @@ def compute_properties_meshgrid(fluid, input_pair, range_1, range_2):
 
 
 # Implement class to calculate intersection with saturation line?
-
-
-class PropertyRoot(NonlinearSystemProblem):
-    """
-    Find the root for thermodynamic state by iterating on the density-temperature
-    native inputs to the helmholtz energy equations of state.
-
-    Attributes
-    ----------
-    prop_1 : str
-        The first property to be compared.
-    prop_1_value : float
-        The value of the first property.
-    prop_2 : str
-        The second property to be compared.
-    prop_2_value : float
-        The value of the second property.
-    fluid : object
-        An instance of the fluid class which has the helmholtz energy equations of state.
-
-    Methods
-    -------
-    get_values(x)
-        Calculates the residuals based on the given input values of density and temperature.
-    """
-
-    def __init__(self, prop_1, prop_1_value, prop_2, prop_2_value, fluid):
-        self.prop_1 = prop_1
-        self.prop_2 = prop_2
-        self.prop_1_value = prop_1_value
-        self.prop_2_value = prop_2_value
-        self.fluid = fluid
-
-    def get_values(self, x):
-        """
-        Compute the residuals for the given density and temperature.
-
-        Parameters
-        ----------
-        x : list
-            List containing the values for density and temperature.
-
-        Returns
-        -------
-        np.ndarray
-            Array containing residuals (difference) for the two properties.
-        """
-        # Ensure x can be indexed and contains exactly two elements
-        if not hasattr(x, "__getitem__") or len(x) != 2:
-            raise ValueError(
-                "Input x must be a list, tuple or numpy array containing exactly two elements: density and temperature."
-            )
-
-        rho, T = x
-        props = self.fluid.set_state_metastable_rhoT(rho, T)
-
-        residual = np.asarray(
-            [
-                self.prop_1_value - props[self.prop_1],
-                self.prop_2_value - props[self.prop_2],
-            ]
-        )
-
-        return residual
 
 
 class SonicStateProblem(NonlinearSystemProblem):
@@ -1364,24 +1287,40 @@ def calculate_subcooling(state, fluid):
     return state
 
 
-
 def set_state_Qs(fluid, Q, s):
-
+    # Define the residual equation
     def get_residual(p):
-        print(p, s)
-        state = fluid.set_state(PSmass_INPUTS, p, s, generalize_quality=False)
+        state = fluid.set_state(PSmass_INPUTS, p, s, generalize_quality=True)
         residual = Q - state.Q
         return residual
-    
-    p_triple = 1.0*fluid.triple_point_liquid.p
-    p_critical = 1.01*fluid.critical_point.p
 
-    print("hi", get_residual(p_triple))
-    print("bye", get_residual(p_critical))
+    # Solve the scalar equation
+    p_triple = 1.0 * fluid.triple_point_liquid.p
+    p_critical = 1.25 * fluid.critical_point.p
+    bounds = [p_triple, p_critical]
+    # print(get_residual(p_triple), get_residual(p_critical))
+    sol = scipy.optimize.root_scalar(get_residual, bracket=bounds, method="brentq")
 
-    # get_residual
+    # Check if the solver has converged
+    if not sol.converged:
+        raise ValueError("The root-finding algorithm did not converge!")
 
-    return None
+    # Compute the outlet state
+    # print(sol)
+    state = fluid.set_state(PSmass_INPUTS, sol.root, s, generalize_quality=True)
+
+    return state
+
+
+def get_isentropic_saturation_state(fluid, s_in):
+    # Calculate saturation sate
+    if s_in < fluid.critical_point.s:
+        state_sat = set_state_Qs(fluid, Q=0.00, s=s_in)
+    else:
+        state_sat = set_state_Qs(fluid, Q=1.00, s=s_in)
+
+    return state_sat
+
 
 # def compute_properties_metastable_rhoT(rho, T, fluid):
 #     """
