@@ -12,7 +12,9 @@ import matplotlib.pyplot as plt
 
 from parse import parse
 
-from barotropy import stream_residuals, stream_transcript  # Import as module to get its path
+# TODO: This might be broken, verify that it works after I refactored into package
+# from barotropy import stream_residuals, stream_transcript  # Import as module to get its path
+from . import stream_residuals, stream_transcript  # Import as module to get its path
 from ..utilities import is_float, wait_for_file
 
 

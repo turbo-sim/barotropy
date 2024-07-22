@@ -26,8 +26,8 @@ def get_isentropic_sonic_state(state_in, fluid_name):
     # Define residual function
     def get_energy_eq_residual(p, s_in):
         _fluid.set_state(cp.PSmass_INPUTS, p, s_in)
-        h = _fluid.properties["h"]
-        a = _fluid.properties["speed_sound"]
+        h = _fluid._properties["h"]
+        a = _fluid._properties["speed_sound"]
         res = state_in["h"] -  h - a**2 / 2
         return res
 
@@ -49,7 +49,7 @@ def get_isentropic_sonic_state(state_in, fluid_name):
     # Compute the outlet state
     _fluid.set_state(cp.PSmass_INPUTS, sol.root, state_in["s"])
 
-    return _fluid.properties
+    return _fluid._properties
 
 
 def get_isentropic_outlet_state(area_ratio, state_in, state_sonic, fluid_name):
@@ -57,9 +57,9 @@ def get_isentropic_outlet_state(area_ratio, state_in, state_sonic, fluid_name):
     # Define residual function
     def get_energy_eq_residual(p, s_in):
         _fluid.set_state(cp.PSmass_INPUTS, p, s_in)
-        h_out = _fluid.properties["h"]
+        h_out = _fluid._properties["h"]
         v_out = np.sqrt(2*(state_in["h"] - h_out))
-        rho_out = _fluid.properties["rho"]
+        rho_out = _fluid._properties["rho"]
         res = (rho_out/state_sonic["rho"]) * (v_out/state_sonic["speed_sound"]) * area_ratio - 1
         return res
 
@@ -80,7 +80,7 @@ def get_isentropic_outlet_state(area_ratio, state_in, state_sonic, fluid_name):
     # Compute the outlet state
     _fluid.set_state(cp.PSmass_INPUTS, sol.root, state_in["s"])
 
-    return _fluid.properties
+    return _fluid._properties
 
 
 if __name__ == "__main__":

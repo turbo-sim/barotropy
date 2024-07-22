@@ -742,3 +742,39 @@ def print_dict(data, indent=0):
             print_dict(value, indent + 1)
         else:
             print(value)
+
+
+def print_object(obj):
+    """
+    Prints all attributes and methods of an object, sorted alphabetically.
+
+    - Methods are identified as callable and printed with the prefix 'Method: '.
+    - Attributes are identified as non-callable and printed with the prefix 'Attribute: '.
+
+    Parameters
+    ----------
+    obj : object
+        The object whose attributes and methods are to be printed.
+
+    Returns
+    -------
+    None
+        This function does not return any value. It prints the attributes and methods of the given object.
+
+    """
+    # Retrieve all attributes and methods
+    attributes = dir(obj)
+
+    # Sort them alphabetically, case-insensitive
+    sorted_attributes = sorted(attributes, key=lambda x: x.lower())
+
+    # Iterate over sorted attributes
+    for attr in sorted_attributes:
+        # Retrieve the attribute or method from the object
+        attribute_or_method = getattr(obj, attr)
+
+        # Check if it is callable (method) or not (attribute)
+        if callable(attribute_or_method):
+            print(f"Method: {attr}")
+        else:
+            print(f"Attribute: {attr}")
