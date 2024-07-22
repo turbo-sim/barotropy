@@ -1,7 +1,7 @@
-barotropy.PySolverView.optimization module
+barotropy.fluent.fluent\_automation module
 ==========================================
 
-.. automodule:: barotropy.PySolverView.optimization
+.. automodule:: barotropy.fluent.fluent_automation
    :members:
    :undoc-members:
    :show-inheritance:
