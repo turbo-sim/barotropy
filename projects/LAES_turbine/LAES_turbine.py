@@ -4,6 +4,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 import barotropy as bpy
+bpy.print_banner()
+bpy.set_plot_options()
+
 
 from matplotlib import cm
 
@@ -22,7 +25,6 @@ case_table = case_table[case_table["index"].isin(case_indices)]
 var_x = "s"
 var_y = "T"
 n_points = None
-bpy.set_plot_options()
 # colors = bpy.COLORS_MATLAB
 colors = cm.Reds(np.linspace(0.5, 1.0, len(case_indices)))
 save_figures = True
