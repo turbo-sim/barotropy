@@ -1,6 +1,6 @@
 import subprocess
 
-def run_sphinx_apidoc(output_dir, src_dir):
+def run_sphinx_apidoc(output_dir, src_dir,exclude = None, force = False):
     """
     Run the sphinx-apidoc command to generate API documentation.
 
@@ -15,50 +15,49 @@ def run_sphinx_apidoc(output_dir, src_dir):
     - RuntimeError: If the sphinx-apidoc command fails.
     - FileNotFoundError: If the sphinx-apidoc command is not found.
     """
-    try:
-        # Define the command and its arguments in a list and run the command
-        cmd = ["sphinx-apidoc", "-o", output_dir, src_dir, '-e']
-        subprocess.check_call(cmd)
-        print("Sphinx apidoc completed successfully.")
+    cmd = ["sphinx-apidoc", "-o", output_dir, src_dir]
 
-    except subprocess.CalledProcessError:
-        raise RuntimeError("Failed to run sphinx-apidoc.")
+    # Exclude certain packages/modules
+    if isinstance(exclude, list):
+        for exclude_item in exclude:
+            cmd.append(f"{src_dir}/{exclude_item}")
 
-    except FileNotFoundError:
-        raise RuntimeError("'sphinx-apidoc' not found. Ensure Sphinx is installed.")
+    cmd.append("-e") # put documentation for each module on its own page
+    cmd.append('--no-toc') # Do not create a table of contents file
+    cmd.append("-M") # Module first
 
-    except Exception as e:
-        raise RuntimeError(f"An unexpected error occurred: {str(e)}")
+    if force:
+        cmd.append("-f") # Force overwriting oN any existing generated files
+
+    subprocess.check_call(cmd)
+    print("Sphinx apidoc completed successfully.")
 
 
-def run_sphinx_build(docs_dir=".", build_dir="build", builder="html"):
+def run_sphinx_build(docs_dir=".", build_dir="_build", builder="html"):
     """
     Run sphinx-build to generate the documentation.
 
     Parameters:
+    -----------
     - source_dir (str): Directory containing the .rst and other source files.
     - build_dir (str): Directory where the output will be written.
     - builder (str): The output format (e.g., "html", "latex").
 
-    Raises:
-    - RuntimeError: If sphinx-build fails or other errors occur.
     """
-    try:
-        # Define the command and its arguments in a list and run the command
-        cmd = ["sphinx-build", "-b", builder, docs_dir, build_dir]
-        subprocess.check_call(cmd)
-        print(f"Sphinx build ({builder} format) completed successfully.")
+    cmd = ["sphinx-build", "-b", builder, docs_dir, build_dir]
+    subprocess.check_call(cmd)
+    print(f"Sphinx build ({builder} format) completed successfully.")
 
-    except subprocess.CalledProcessError:
-        raise RuntimeError(f"Failed to run sphinx-build for {builder} format.")
 
-    except FileNotFoundError:
-        raise RuntimeError("'sphinx-build' not found. Ensure Sphinx is installed.")
-
-    except Exception as e:
-        raise RuntimeError(f"An unexpected error occurred: {str(e)}")
+def run_script(script_path):
+    """Run the nomenclature generation script."""
+    cmd = ["python", script_path]
+    subprocess.check_call(cmd)
 
 
 if __name__ == "__main__":
+    # run_script("build_nomenclature.py")
+    # run_script("build_bibliography.py")
+    # run_script("build_configuration.py")
     run_sphinx_apidoc(output_dir="source/api/", src_dir="../barotropy")
     run_sphinx_build(docs_dir=".", build_dir="_build")#, builder="html")

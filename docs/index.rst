@@ -38,10 +38,10 @@ Use the panel to the left or the table of contents below to navigate the documen
    :maxdepth: 2
    :caption: Contents:
 
-   source/api/modules
-   
-.. 
-   source/introduction
-   source/tutorial_optimization
-   source/tutorial_nonlinear_system
+
+   source/installation
+   source/barotropic_model
+   source/tutorials/tutorial_two_component
+   source/tutorials/tutorial_single_component
+   source/api_reference
 
