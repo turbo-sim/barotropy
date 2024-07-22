@@ -1,24 +1,7 @@
-name: barotropic_env
-#channels:
-#  - conda-forge
+name: barotropy_env
+channels:
+ - conda-forge
 dependencies:
   - python=3.11
   - pip
-  - pip:
-    - numpy
-    - scipy
-    - matplotlib
-    - pandas
-    - coolprop
-    - openpyxl
-    - parse
-    - black
-    - ipython
-    - pexpect
-    - cycler
-    - sphinx
-    - sphinx-book-theme
-    - sphinx-rtd-theme
-    - pydata-sphinx-theme
-    - numpydoc
-    - yaml
+  
