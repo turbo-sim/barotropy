@@ -1,5 +1,7 @@
 # Barotropic Model 
 
+[Documentation hosted here](https://turbo-sim.github.io/barotropy/)
+
 ## Description
 This repository contains functions to generate a barotropic model for fluid properties. A barotropic model is a simplified mathematical representation that assumes the fluid's properties are only a function of pressure. This is simplification can be useful to model flows in which the fluid approximatelly follows a known thermodynamic process, such as an isentropic process within a turbine or compressor
 

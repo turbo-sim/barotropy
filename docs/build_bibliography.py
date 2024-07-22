@@ -4,7 +4,7 @@ from bibtexparser.bwriter import BibTexWriter
 
 # Configuration
 API_KEY = None
-GROUP_ID = "5219733"
+GROUP_ID = "5252389"
 OUTPUT_FILE = "source/bibliography.bib"
 
 
