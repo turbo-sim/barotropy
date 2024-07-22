@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to barotropy’s documentation! &mdash; barotropy v0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=87e54e7c" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=8b92e751"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script src="_static/design-tabs.js?v=f930bc37"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="source/installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            barotropy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="source/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="source/barotropic_model.html">Barotropic Model Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="source/tutorials/tutorial_two_component.html">Tutorial: Two-component system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="source/api_reference.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">barotropy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Welcome to barotropy’s documentation!</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-barotropy">
+<span id="welcome-to-barotropy-s-documentation"></span><h1>Welcome to barotropy’s documentation!<a class="headerlink" href="#module-barotropy" title="Link to this heading"></a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">barotropy</span></code> is a Python package to generate barotropic fluid property models.
+A barotropic model is a simplified mathematical representation that assumes
+the fluid’s properties are only a function of pressure. This simplification
+can be useful to model flows in which the fluid approximately follows a known
+thermodynamic process, such as an isentropic process within a turbine or compressor.</p>
+<p>Using a barotropic model in the context of a CFD simulation does not imply
+that the flow is frictionless since the momentum equations can have dissipation
+terms due to viscous friction. Instead, the implication of using the barotropic
+model is that the variation of fluid properties caused by viscous dissipation
+(i.e., entropy generation and heating) is ignored.</p>
+<p>The thermodynamic properties are computed using the CoolProp library. Once computed,
+the fluid properties are automatically fitted with piece-wise polynomials and exported
+as <a class="reference external" href="https://ansyshelp.ansys.com/account/secured?returnurl=/Views/Secured/corp/v232/en/flu_ug/flu_ug_expressions_intro.html">Fluent Expressions</a>
+to be used in conjunction with Fluent’s pressure-based solver.</p>
+<p>The fluid properties between the saturation line and the spinodal line can be
+computed according to phase-equilibrium or by extrapolating the Helmholtz-energy
+equation of state into the metastable region. Check the
+<a class="reference external" href="./documentation/thermodynamic_properties.rst">documentation</a> for more information
+about extrapolating the equation of state beyond the saturation line and its limitations.</p>
+<p>Use the panel to the left or the table of contents below to navigate the documentation.</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="source/installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="source/installation.html#user-installation-guide">User Installation Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source/installation.html#developer-installation-guide">Developer Installation Guide</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="source/barotropic_model.html">Barotropic Model Theory</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="source/barotropic_model.html#two-component-systems">Two-component systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source/barotropic_model.html#single-component-systems">Single-component systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source/barotropic_model.html#thermodynamic-equilibrium">Thermodynamic equilibrium</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source/barotropic_model.html#metastable-states">Metastable states</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="source/tutorials/tutorial_two_component.html">Tutorial: Two-component system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="source/api_reference.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="source/api_reference.html#subpackages">Subpackages</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="source/installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Sustainable Thermal Power DTU.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>barotropy.fluid_properties module &mdash; barotropy v0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8b92e751"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="barotropy.isentropic_nozzle module" href="barotropy.isentropic_nozzle.html" />
+    <link rel="prev" title="barotropy.fluent_plot_nozzle_data module" href="barotropy.fluent_plot_nozzle_data.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            barotropy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../barotropic_model.html">Barotropic Model Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial_two_component.html">Tutorial: Two-component system</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api_reference.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../api_reference.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="barotropy.html">barotropy package</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="barotropy.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="barotropy.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.html#module-barotropy">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">barotropy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api_reference.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="barotropy.html">barotropy package</a></li>
+      <li class="breadcrumb-item active">barotropy.fluid_properties module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/source/api/barotropy.fluid_properties.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="barotropy-fluid-properties-module">
+<h1>barotropy.fluid_properties module<a class="headerlink" href="#barotropy-fluid-properties-module" title="Link to this heading"></a></h1>
+<section id="input-pairs-available">
+<span id="module-input-pairs-table"></span><h2>Input pairs available<a class="headerlink" href="#input-pairs-available" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 62.5%" />
+<col style="width: 37.5%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Input pair name</p></th>
+<th class="head"><p>Input pair mapping</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>QT_INPUTS</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>PQ_INPUTS</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>QSmolar_INPUTS</p></td>
+<td><p>3</p></td>
+</tr>
+<tr class="row-odd"><td><p>QSmass_INPUTS</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-even"><td><p>HmolarQ_INPUTS</p></td>
+<td><p>5</p></td>
+</tr>
+<tr class="row-odd"><td><p>HmassQ_INPUTS</p></td>
+<td><p>6</p></td>
+</tr>
+<tr class="row-even"><td><p>DmolarQ_INPUTS</p></td>
+<td><p>7</p></td>
+</tr>
+<tr class="row-odd"><td><p>DmassQ_INPUTS</p></td>
+<td><p>8</p></td>
+</tr>
+<tr class="row-even"><td><p>PT_INPUTS</p></td>
+<td><p>9</p></td>
+</tr>
+<tr class="row-odd"><td><p>DmassT_INPUTS</p></td>
+<td><p>10</p></td>
+</tr>
+<tr class="row-even"><td><p>DmolarT_INPUTS</p></td>
+<td><p>11</p></td>
+</tr>
+<tr class="row-odd"><td><p>HmolarT_INPUTS</p></td>
+<td><p>12</p></td>
+</tr>
+<tr class="row-even"><td><p>HmassT_INPUTS</p></td>
+<td><p>13</p></td>
+</tr>
+<tr class="row-odd"><td><p>SmolarT_INPUTS</p></td>
+<td><p>14</p></td>
+</tr>
+<tr class="row-even"><td><p>SmassT_INPUTS</p></td>
+<td><p>15</p></td>
+</tr>
+<tr class="row-odd"><td><p>TUmolar_INPUTS</p></td>
+<td><p>16</p></td>
+</tr>
+<tr class="row-even"><td><p>TUmass_INPUTS</p></td>
+<td><p>17</p></td>
+</tr>
+<tr class="row-odd"><td><p>DmassP_INPUTS</p></td>
+<td><p>18</p></td>
+</tr>
+<tr class="row-even"><td><p>DmolarP_INPUTS</p></td>
+<td><p>19</p></td>
+</tr>
+<tr class="row-odd"><td><p>HmassP_INPUTS</p></td>
+<td><p>20</p></td>
+</tr>
+<tr class="row-even"><td><p>HmolarP_INPUTS</p></td>
+<td><p>21</p></td>
+</tr>
+<tr class="row-odd"><td><p>PSmass_INPUTS</p></td>
+<td><p>22</p></td>
+</tr>
+<tr class="row-even"><td><p>PSmolar_INPUTS</p></td>
+<td><p>23</p></td>
+</tr>
+<tr class="row-odd"><td><p>PUmass_INPUTS</p></td>
+<td><p>24</p></td>
+</tr>
+<tr class="row-even"><td><p>PUmolar_INPUTS</p></td>
+<td><p>25</p></td>
+</tr>
+<tr class="row-odd"><td><p>HmassSmass_INPUTS</p></td>
+<td><p>26</p></td>
+</tr>
+<tr class="row-even"><td><p>HmolarSmolar_INPUTS</p></td>
+<td><p>27</p></td>
+</tr>
+<tr class="row-odd"><td><p>SmassUmass_INPUTS</p></td>
+<td><p>28</p></td>
+</tr>
+<tr class="row-even"><td><p>SmolarUmolar_INPUTS</p></td>
+<td><p>29</p></td>
+</tr>
+<tr class="row-odd"><td><p>DmassHmass_INPUTS</p></td>
+<td><p>30</p></td>
+</tr>
+<tr class="row-even"><td><p>DmolarHmolar_INPUTS</p></td>
+<td><p>31</p></td>
+</tr>
+<tr class="row-odd"><td><p>DmassSmass_INPUTS</p></td>
+<td><p>32</p></td>
+</tr>
+<tr class="row-even"><td><p>DmolarSmolar_INPUTS</p></td>
+<td><p>33</p></td>
+</tr>
+<tr class="row-odd"><td><p>DmassUmass_INPUTS</p></td>
+<td><p>34</p></td>
+</tr>
+<tr class="row-even"><td><p>DmolarUmolar_INPUTS</p></td>
+<td><p>35</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="barotropy.fluent_plot_nozzle_data.html" class="btn btn-neutral float-left" title="barotropy.fluent_plot_nozzle_data module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="barotropy.isentropic_nozzle.html" class="btn btn-neutral float-right" title="barotropy.isentropic_nozzle module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Sustainable Thermal Power DTU.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

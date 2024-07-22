@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>barotropy.fluent.fluent_automation module &mdash; barotropy v0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8b92e751"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            barotropy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../barotropic_model.html">Barotropic Model Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial_two_component.html">Tutorial: Two-component system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">barotropy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">barotropy.fluent.fluent_automation module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/source/api/barotropy.fluent.fluent_automation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-barotropy.fluent.fluent_automation">
+<span id="barotropy-fluent-fluent-automation-module"></span><h1>barotropy.fluent.fluent_automation module<a class="headerlink" href="#module-barotropy.fluent.fluent_automation" title="Link to this heading"></a></h1>
+<dl class="py exception">
+<dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.TranscriptFileMissingError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">TranscriptFileMissingError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#TranscriptFileMissingError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.TranscriptFileMissingError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></p>
+<p>Raised when plotting residuals is requested but no transcript file is provided.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.add_barotropic_expressions">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">add_barotropic_expressions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">journal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expression_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vars</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#add_barotropic_expressions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.add_barotropic_expressions" title="Link to this definition"></a></dt>
+<dd><p>Modify the Fluent journal to add commands for defining barotropic model expressions.</p>
+<p>The function inserts the appropriate commands right after the “; Define Barotropic Model expressions” comment.</p>
+<p>Parameters:
+- journal (list of str): Existing journal entries.
+- expression_path (str): Path to the expression file.
+- vars (list of str): Variables to extract from the expression file.</p>
+<p>Returns:
+- list of str: Modified journal.</p>
+<p>Raises:
+- ValueError: If the “; Define Barotropic Model expressions” comment is not found.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.add_export_variables">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">add_export_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">journal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zones</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#add_export_variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.add_export_variables" title="Link to this definition"></a></dt>
+<dd><p>Modify a Fluent journal to add commands for exporting specified variables to .xy files.</p>
+<p>The function takes an existing journal list and appends commands to export
+selected variables (as specified in variable_mapping) to .xy files. The filenames
+for the exported .xy files will be prefixed by the provided prefix and the variable name.
+The export commands are inserted right after the “; Save XY plot files” comment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>journal</strong><span class="classifier">list of str</span></dt><dd><p>List of strings, where each string corresponds to a command or comment in the initial Fluent journal content.</p>
+</dd>
+<dt><strong>prefix</strong><span class="classifier">str</span></dt><dd><p>Prefix for the exported .xy filenames, including the path.</p>
+</dd>
+<dt><strong>variable_mapping</strong><span class="classifier">dict</span></dt><dd><p>Mapping from desired variable names (to be used in .xy filenames)
+to their corresponding names in Fluent.</p>
+</dd>
+<dt><strong>zones</strong><span class="classifier">list of str</span></dt><dd><p>List of Fluent zone names or IDs to specify the zones of interest for exporting.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>list of str</dt><dd><p>List of strings with the modified Fluent journal commands.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If the “; Save XY plot files” comment is not found in the journal.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p># Define mapping between export filenames and Fluent variable names:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">EXPORT_VARS_MAPPING</span> <span class="o">=</span> <span class="p">{</span>
+<span class="go">        &quot;pressure&quot;: &quot;pressure&quot;,</span>
+<span class="go">        &quot;density&quot;: &quot;density&quot;,</span>
+<span class="go">        &quot;viscosity&quot;: &quot;viscosity-lam&quot;,</span>
+<span class="go">        &quot;speed_sound&quot;: &quot;sound-speed&quot;,</span>
+<span class="go">        ... # [Other mappings as needed]</span>
+<span class="go">    }</span>
+</pre></div>
+</div>
+<p># Define the journal content and prefix:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">journal_content</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;... [journal commands] ...&quot;</span><span class="p">,</span> <span class="s2">&quot;; Save XY plot files&quot;</span><span class="p">,</span> <span class="s2">&quot;... other commands ...&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;/path/to/simulation/case&quot;</span>
+</pre></div>
+</div>
+<p># Add variables to export as .xy file to the journal:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">new_journal</span> <span class="o">=</span> <span class="n">add_export_variables_to_journal</span><span class="p">(</span><span class="n">journal_content</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">EXPORT_VARS_MAPPING</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;axis&quot;</span><span class="p">,</span> <span class="s2">&quot;wall&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.add_solution_strategy">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">add_solution_strategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">journal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#add_solution_strategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.add_solution_strategy" title="Link to this definition"></a></dt>
+<dd><p>Insert the solution strategy into a Fluent journal after the designated comment.</p>
+<p>This function takes a Fluent journal list of commands and adds the solution strategy
+provided in the <cite>strategy</cite> dictionary right after the comment:
+<cite>“; Run the simulation according to solution strategy”</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>journal</strong><span class="classifier">list of str</span></dt><dd><p>List of strings, where each string corresponds to a command or comment in the initial Fluent journal content.</p>
+</dd>
+<dt><strong>strategy</strong><span class="classifier">dict</span></dt><dd><p>A dictionary containing the solution strategy. It should have the following keys:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>time_scale_factors<span class="classifier">list of float</span></dt><dd><p>List of time scale factors.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>density_relaxation_factors<span class="classifier">list of float</span></dt><dd><p>List of density relaxation factors.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>number_of_iterations<span class="classifier">list of int</span></dt><dd><p>List of number of iterations.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>list of str</dt><dd><p>List of strings with the modified Fluent journal commands.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If the “; Run the simulation according to solution strategy” comment is not found in the initial journal.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">journal_content</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;... [journal commands] ...&quot;</span><span class="p">,</span> <span class="s2">&quot;; Run the simulation according to solution strategy&quot;</span><span class="p">,</span> <span class="s2">&quot;... other commands ...&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">strategy</span> <span class="o">=</span> <span class="p">{</span>
+<span class="go">    &quot;time_scale_factors&quot;: [0.25, 0.50],</span>
+<span class="go">    &quot;density_relaxation_factors&quot;: [1.0, 1e-3],</span>
+<span class="go">    &quot;number_of_iterations&quot;: [200, 300]</span>
+<span class="go">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new_journal</span> <span class="o">=</span> <span class="n">add_solution_strategy_to_journal</span><span class="p">(</span><span class="n">journal_content</span><span class="p">,</span> <span class="n">strategy</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.create_fluent_journal">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">create_fluent_journal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">case_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_map</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">barotropic_vars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">export_vars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">export_zones</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solution_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#create_fluent_journal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.create_fluent_journal" title="Link to this definition"></a></dt>
+<dd><p>Create and validate a Fluent journal based on the provided parameters.</p>
+<p>This function generates a Fluent journal, which is a script containing a sequence 
+of commands for the Fluent simulation software. It uses a template file and a map 
+of variable values to generate this script, with options for adding additional 
+commands related to barotropic variables, export variables, export zones, and 
+a solution strategy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>case_name</strong><span class="classifier">str</span></dt><dd><p>Name of the simulation case.</p>
+</dd>
+<dt><strong>output_dir</strong><span class="classifier">str</span></dt><dd><p>Path to the directory of the current simulation case</p>
+</dd>
+<dt><strong>template_filename</strong><span class="classifier">str</span></dt><dd><p>Path to the template file used to generate the journal.</p>
+</dd>
+<dt><strong>template_map</strong><span class="classifier">dict</span></dt><dd><p>Mapping of variable names to their values used for rendering the template.</p>
+</dd>
+<dt><strong>barotropic_vars</strong><span class="classifier">list of str, optional</span></dt><dd><p>List of barotropic variable expressions to be added to the journal.</p>
+</dd>
+<dt><strong>export_vars</strong><span class="classifier">dict, optional</span></dt><dd><p>Dictionary mapping output filenames to Fluent variable names to be exported.</p>
+</dd>
+<dt><strong>export_zones</strong><span class="classifier">list of str, optional</span></dt><dd><p>List of zones from which data should be exported.</p>
+</dd>
+<dt><strong>solution_strategy</strong><span class="classifier">dict of list, optional</span></dt><dd><p>Dictionary where each value is a list of commands or options for the solution strategy.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>str</dt><dd><p>The generated Fluent journal as a string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.parse_fluent_out">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">parse_fluent_out</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#parse_fluent_out"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.parse_fluent_out" title="Link to this definition"></a></dt>
+<dd><p>Parse an out-formatted datafile from Fluent and return a DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>filename</strong><span class="classifier">str</span></dt><dd><p>The path to the Fluent output file.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>pd.DataFrame</dt><dd><p>A DataFrame containing the parsed data from the Fluent output file.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If the file format is not as expected.</p>
+</dd>
+<dt>FileNotFoundError</dt><dd><p>If the provided filename does not exist.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">parse_fluent_out</span><span class="p">(</span><span class="s2">&quot;path_to_file.out&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.parse_fluent_xy">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">parse_fluent_xy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#parse_fluent_xy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.parse_fluent_xy" title="Link to this definition"></a></dt>
+<dd><p>Parse a Fluent .xy file and return its contents as a dictionary of DataFrames.</p>
+<p>Fluent’s .xy files contain datasets, each representing XY plot data for some solution data 
+(like pressure or velocity) across a specific domain or region (like wall, axis, etc.). 
+This function reads such files and outputs a structured dictionary where the keys are dataset 
+labels (like “wall”, “axis”) and values are corresponding pandas DataFrames.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>filename</strong><span class="classifier">str</span></dt><dd><p>Path to the Fluent .xy file to be parsed.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>data_out</strong><span class="classifier">dict</span></dt><dd><p>A dictionary where:
+- The keys are dataset labels from the .xy file, e.g., “wall”, “axis”.
+- The values are pandas DataFrames containing the XY data. Each DataFrame has two columns 
+representing the X and Y axis data, labeled as per the .xy file’s axis labels.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>For a Fluent .xy file containing datasets “wall” and “axis”, the output dictionary keys might be [‘wall’, ‘axis’].</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.plot_residuals">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">plot_residuals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcript_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savefig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fullpath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#plot_residuals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.plot_residuals" title="Link to this definition"></a></dt>
+<dd><p>Plot the residual history from the given transcript file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>transcript_file</strong><span class="classifier">str</span></dt><dd><p>Path to the transcript file containing residuals.</p>
+</dd>
+<dt><strong>fig</strong><span class="classifier">matplotlib.figure.Figure, optional</span></dt><dd><p>Existing figure to plot on, if provided. Defaults to None.</p>
+</dd>
+<dt><strong>ax</strong><span class="classifier">matplotlib.axes.Axes, optional</span></dt><dd><p>Existing axis to plot on, if provided. Defaults to None.</p>
+</dd>
+<dt><strong>savefig</strong><span class="classifier">bool, optional</span></dt><dd><p>Flag to save the figure to a file. Defaults to False.</p>
+</dd>
+<dt><strong>fullpath</strong><span class="classifier">str, optional</span></dt><dd><p>If savefig is True, path to save the figure to (excluding file extension). Defaults to None.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>fig</strong><span class="classifier">matplotlib.figure.Figure</span></dt><dd><p>Figure containing the plotted residuals.</p>
+</dd>
+<dt><strong>ax</strong><span class="classifier">matplotlib.axes.Axes</span></dt><dd><p>Axes containing the plotted residuals.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The function reads the residuals from the given transcript file using <cite>read_residual_file</cite> 
+and then plots them on a semi-log scale. If <cite>fig</cite> and <cite>ax</cite> are not provided, 
+it creates a new figure and axis. The residuals are mapped to readable labels 
+using a predefined name_map.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.plot_residuals_real_time">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">plot_residuals_real_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcript_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#plot_residuals_real_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.plot_residuals_real_time" title="Link to this definition"></a></dt>
+<dd><p>Plot the residual history contained in the transcript_file.trn in real time.</p>
+<p>This function launches the <cite>stream_residuals.py</cite> script as a subprocess 
+to plot the residual history of the given transcript file in real time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>transcript_file</strong><span class="classifier">str</span></dt><dd><p>Path to the transcript file whose residuals are to be plotted.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>subprocess.Popen</dt><dd><p>The subprocess object representing the background process.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.print_transcript_real_time">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">print_transcript_real_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcript_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#print_transcript_real_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.print_transcript_real_time" title="Link to this definition"></a></dt>
+<dd><p>Print the content of transcript_file.trn in real time.</p>
+<p>This function launches the <cite>stream_transcript.py</cite> script as a subprocess 
+to print the content of the given transcript file in real time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>transcript_file</strong><span class="classifier">str</span></dt><dd><p>Path to the transcript file to be printed.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>subprocess.Popen</dt><dd><p>The subprocess object representing the background process.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.read_expression_file">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">read_expression_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skiprows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#read_expression_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.read_expression_file" title="Link to this definition"></a></dt>
+<dd><p>Read content of barotropic model expression file, extracting desired variables’ descriptions and expressions.</p>
+<p>The file should have:
+1. A header indicating the purpose of the file and its creation timestamp.
+2. Sections for each variable, with a description prefixed by <code class="docutils literal notranslate"><span class="pre">case_</span></code> followed by the mathematical expression.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>filename</strong><span class="classifier">str</span></dt><dd><p>Path to the barotropic model expression file.</p>
+</dd>
+<dt><strong>vars</strong><span class="classifier">list of str</span></dt><dd><p>List of variables to extract from the file.</p>
+</dd>
+<dt><strong>skiprows</strong><span class="classifier">int, optional</span></dt><dd><p>Number of initial rows in the file to skip (default is 2 to bypass header).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>dict</dt><dd><p>Dictionary containing the description and expression for each desired variable. 
+Each variable contributes two keys to the dictionary: ‘{var}_description’ and ‘{var}_expression’.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.read_residual_file">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">read_residual_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">res_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#read_residual_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.read_residual_file" title="Link to this definition"></a></dt>
+<dd><p>Reads a transcript file to extract the residual history and returns it as a Pandas DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>filename</strong><span class="classifier">str</span></dt><dd><p>Path to the transcript file.</p>
+</dd>
+<dt><strong>res_number</strong><span class="classifier">int, optional</span></dt><dd><p>Number of residuals to be extracted. Defaults to 5.</p>
+</dd>
+<dt><strong>line_start</strong><span class="classifier">int, optional</span></dt><dd><p>Line number to start reading from. Useful for files with non-relevant introductory lines. Defaults to 0.</p>
+</dd>
+<dt><strong>header</strong><span class="classifier">list of str, optional</span></dt><dd><p>List of column names for the DataFrame. If not provided, the function tries to extract it from the file.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>pd.DataFrame</dt><dd><p>DataFrame containing the extracted residuals. Column names are either provided or extracted from the file.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>It’s assumed that the residual headers in the transcript file start with ‘iter’ and ‘continuity’.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.render_fluent_journal">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">render_fluent_journal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_map</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#render_fluent_journal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.render_fluent_journal" title="Link to this definition"></a></dt>
+<dd><p>Read a template Fluent journal file and replace placeholders with values from the provided map.</p>
+<p>Read a template Fluent journal file and replace placeholders with values from the provided map.</p>
+<p>This function takes a template Fluent journal file where variables are specified in curly brackets <cite>{}</cite>.
+It then replaces these placeholders with the corresponding values provided in <cite>template_map</cite>.</p>
+<p>The function also checks that all keys from the <cite>template_map</cite> are used in the template. 
+If any keys are unused, the function raises a ValueError.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>template_path</strong><span class="classifier">str</span></dt><dd><p>Path to the template Fluent journal file containing placeholders in curly braces <cite>{}</cite>.</p>
+</dd>
+<dt><strong>template_map</strong><span class="classifier">dict</span></dt><dd><p>Dictionary mapping the placeholders in the template to their replacement values. Values are expected to be numerical.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>list of str</dt><dd><p>List of strings where each string corresponds to a line from the rendered journal.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Suppose the content of ‘journal_template.txt’ is as follows:
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">;</span> <span class="pre">Define</span> <span class="pre">boundary</span> <span class="pre">conditions</span>
+<span class="pre">define/boundary-conditions/pressure-inlet</span> <span class="pre">inlet</span> <span class="pre">yes</span> <span class="pre">no</span> <span class="pre">{p0_in}</span> <span class="pre">no</span> <span class="pre">{p0_in}</span> <span class="pre">no</span> <span class="pre">yes</span> <span class="pre">no</span> <span class="pre">no</span> <span class="pre">yes</span> <span class="pre">{turbulence_intensity_in}</span> <span class="pre">{viscosity_ratio_in}</span> 
+<span class="pre">define/boundary-conditions/pressure-outlet</span> <span class="pre">outlet</span> <span class="pre">yes</span> <span class="pre">no</span> <span class="pre">{p_out}</span> <span class="pre">no</span> <span class="pre">yes</span> <span class="pre">no</span> <span class="pre">no</span> <span class="pre">yes</span> <span class="pre">{turbulence_intensity_in}</span> <span class="pre">{viscosity_ratio_in}</span> <span class="pre">no</span> <span class="pre">yes</span> <span class="pre">no</span> <span class="pre">no</span>
+<span class="pre">define/boundary-conditions/wall</span> <span class="pre">wall</span> <span class="pre">no</span> <span class="pre">no</span> <span class="pre">no</span> <span class="pre">no</span> <span class="pre">{wall_roughness_height}</span> <span class="pre">no</span> <span class="pre">{wall_roughness_constant}</span>
+<span class="pre">`</span></code></p>
+<p>Using the function:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">template_path</span> <span class="o">=</span> <span class="s1">&#39;path_to_template.txt&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">template_map</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s1">&#39;p0_in&#39;</span><span class="p">:</span> <span class="mf">2e6</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;p_out&#39;</span><span class="p">:</span> <span class="mf">1e5</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;turbulence_intensity_in&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>  <span class="c1"># Percentage</span>
+<span class="gp">... </span>    <span class="s1">&#39;viscosity_ratio_in&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> 
+<span class="gp">... </span>    <span class="s1">&#39;wall_roughness_height&#39;</span><span class="p">:</span> <span class="mf">1e-6</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;wall_roughness_constant&#39;</span><span class="p">:</span> <span class="mf">0.5</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rendered_journal</span> <span class="o">=</span> <span class="n">render_fluent_journal</span><span class="p">(</span><span class="n">template_path</span><span class="p">,</span> <span class="n">template_map</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.run_cleanup_script">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">run_cleanup_script</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_retries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#run_cleanup_script"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.run_cleanup_script" title="Link to this definition"></a></dt>
+<dd><p>Execute the cleanup script found in the current working directory.</p>
+<p>This function repeatedly attempts to find and execute files with a prefix 
+of “cleanup-fluent” in the current directory. If the script isn’t found 
+immediately, the function will wait for a short interval and try again, 
+up to a specified maximum number of retries.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><dl class="simple">
+<dt>max_retries (int): Maximum number of times the function will attempt </dt><dd><p>to find and execute the cleanup script.</p>
+</dd>
+<dt>wait_interval (int): Time in seconds to wait between consecutive </dt><dd><p>retries.</p>
+</dd>
+</dl>
+</dd>
+<dt>Note:</dt><dd><p>The function is used to ensure that necessary cleanup operations are 
+performed after the simulation, especially when the creation of the 
+cleanup script might be delayed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.run_fluent_simulation">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">run_fluent_simulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">journal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_proc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3600</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_residuals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_transcript</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transcript_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#run_fluent_simulation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.run_fluent_simulation" title="Link to this definition"></a></dt>
+<dd><p>Orchestrates the execution of a Fluent simulation using the commands from the provided journal file.</p>
+<p>The function manages the entire simulation process from initiating Fluent, sending it the right 
+commands, visualizing output, to cleaning up post-simulation resources. It offers functionalities 
+to both visualize the Fluent console output in Python and plot the residual history in real time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>journal</strong><span class="classifier">str</span></dt><dd><p>The sequence of Fluent commands to be executed.</p>
+</dd>
+<dt><strong>n_proc</strong><span class="classifier">int, optional</span></dt><dd><p>Number of processor cores Fluent should use. Default is 1.</p>
+</dd>
+<dt><strong>timeout</strong><span class="classifier">int, optional</span></dt><dd><p>Maximum allowable time for the Fluent process to run, in seconds. Default is 3600 (1 hour).</p>
+</dd>
+<dt><strong>plot_residuals</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, plots residuals in real time. Requires <cite>transcript_file</cite> to be provided. Default is False.</p>
+</dd>
+<dt><strong>print_transcript</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, the Fluent console output will be displayed in Python. Requires <cite>transcript_file</cite> to be provided. Default is False.</p>
+</dd>
+<dt><strong>transcript_file</strong><span class="classifier">str, optional</span></dt><dd><p>Path to the transcript file which contains the residuals and other output data from Fluent. 
+Mandatory if either <cite>plot_residuals</cite> or <cite>print_transcript</cite> are set to True.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None</dt><dd></dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>TranscriptFileMissingError</dt><dd><p>If either <cite>plot_residuals</cite> or <cite>print_transcript</cite> is True and <cite>transcript_file</cite> is not provided.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>After the simulation, the function automatically invokes the Fluent cleanup script to close open processes.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.validate_journal">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">validate_journal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">journal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#validate_journal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.validate_journal" title="Link to this definition"></a></dt>
+<dd><p>Validate and combine the journal commands into a single string.</p>
+<p>This function takes a list of journal commands, combines them into a single
+string, and checks if there are any curly brackets left. If any curly brackets
+are found, it raises a ValueError indicating that not all variables were rendered.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>journal</strong><span class="classifier">list of str</span></dt><dd><p>List of strings where each string corresponds to a line from the processed journal.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>str</dt><dd><p>Single string containing all journal commands, separated by newlines.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If any curly brackets are found in the combined string, indicating that not all
+variables were successfully rendered.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">journal_lines</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;define bc pressure-inlet </span><span class="si">{p_in}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;solve&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">validate_and_combine_journal</span><span class="p">(</span><span class="n">journal_lines</span><span class="p">)</span>
+<span class="go">ValueError: Not all variables were rendered in the journal. Check for missing or mistyped variable names.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Sustainable Thermal Power DTU.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

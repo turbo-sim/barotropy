@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>barotropy.utilities module &mdash; barotropy v0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8b92e751"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="barotropy.stream_transcript module" href="barotropy.stream_transcript.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            barotropy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../barotropic_model.html">Barotropic Model Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial_two_component.html">Tutorial: Two-component system</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api_reference.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../api_reference.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="barotropy.html">barotropy package</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="barotropy.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="barotropy.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.html#module-barotropy">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">barotropy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api_reference.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="barotropy.html">barotropy package</a></li>
+      <li class="breadcrumb-item active">barotropy.utilities module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/source/api/barotropy.utilities.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-barotropy.utilities">
+<span id="barotropy-utilities-module"></span><h1>barotropy.utilities module<a class="headerlink" href="#module-barotropy.utilities" title="Link to this heading"></a></h1>
+<dl class="py exception">
+<dt class="sig sig-object py" id="barotropy.utilities.DictionaryValidationError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">DictionaryValidationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#DictionaryValidationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.DictionaryValidationError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception raised for errors in the expected options.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.utilities.compare_contents_or_files">
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">compare_contents_or_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_or_content_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_or_content_2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#compare_contents_or_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.compare_contents_or_files" title="Link to this definition"></a></dt>
+<dd><p>Compare the content of two inputs, which can be either file paths or strings.</p>
+<p>This function accepts two arguments. Each argument can be:
+1. A file path pointing to a file containing text content.
+2. A string containing text content directly.</p>
+<p>If the argument is a file path that exists, the function reads its content.
+If the argument is a string, it’s directly used for comparison.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>file_or_content1</strong><span class="classifier">str</span></dt><dd><p>First input which can be a file path or string content.</p>
+</dd>
+<dt><strong>file_or_content2</strong><span class="classifier">str</span></dt><dd><p>Second input which can be a file path or string content.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>bool</dt><dd><p>True if the contents of the two inputs are identical, False otherwise.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">content_same</span><span class="p">(</span><span class="s2">&quot;path/to/file1.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;path/to/file2.txt&quot;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">content_same</span><span class="p">(</span><span class="s2">&quot;Hello, world!&quot;</span><span class="p">,</span> <span class="s2">&quot;path/to/file_with_hello_world_content.txt&quot;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">content_same</span><span class="p">(</span><span class="s2">&quot;Hello, world!&quot;</span><span class="p">,</span> <span class="s2">&quot;Goodbye, world!&quot;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.utilities.convert_configuration_options">
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">convert_configuration_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#convert_configuration_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.convert_configuration_options" title="Link to this definition"></a></dt>
+<dd><p>Processes configuration data by evaluating string expressions as numerical values and converting lists to numpy arrays.</p>
+<p>This function iteratively goes through the configuration dictionary and converts string representations of numbers
+(e.g., “1+2”, “2*np.pi”) into actual numerical values using Python’s <cite>eval</cite> function. It also ensures that all numerical
+values are represented as Numpy types for consistency across the application.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>config</strong><span class="classifier">dict</span></dt><dd><p>The configuration data loaded from a YAML file, typically containing a mix of strings, numbers, and lists.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>dict</dt><dd><p>The postprocessed configuration data where string expressions are evaluated as numbers, and all numerical values
+are cast to corresponding NumPy types.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ConfigurationError</dt><dd><p>If a list contains elements of different types after conversion, indicating an inconsistency in the expected data types.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.utilities.convert_numpy_to_python">
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">convert_numpy_to_python</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#convert_numpy_to_python"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.convert_numpy_to_python" title="Link to this definition"></a></dt>
+<dd><p>Recursively converts numpy arrays, scalars, and other numpy types to their Python counterparts
+and rounds numerical values to the specified precision.</p>
+<p>Parameters:
+- data: The numpy data to convert.
+- precision: The decimal precision to which float values should be rounded.</p>
+<p>Returns:
+- The converted data with all numpy types replaced by native Python types and float values rounded.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.utilities.ensure_iterable">
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">ensure_iterable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#ensure_iterable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.ensure_iterable" title="Link to this definition"></a></dt>
+<dd><p>Ensure that an object is iterable. If the object is already an iterable
+(except for strings, which are not treated as iterables in this context),
+it will be returned as is. If the object is not an iterable, or if it is
+a string, it will be placed into a list to make it iterable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>obj</strong><span class="classifier">any type</span></dt><dd><p>The object to be checked and possibly converted into an iterable.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>Iterable</dt><dd><p>The original object if it is an iterable (and not a string), or a new
+list containing the object if it was not iterable or was a string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ensure_iterable</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="go">[1, 2, 3]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ensure_iterable</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+<span class="go">[&#39;abc&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ensure_iterable</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="go">[42]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ensure_iterable</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span>
+<span class="go">array([1, 2, 3])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.utilities.evaluate_constraints">
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">evaluate_constraints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constraints</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#evaluate_constraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.evaluate_constraints" title="Link to this definition"></a></dt>
+<dd><p>Evaluates the constraints based on the provided data and constraint definitions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>data</strong><span class="classifier">dict</span></dt><dd><p>A dictionary containing performance data against which the constraints will be evaluated.</p>
+</dd>
+<dt><strong>constraints</strong><span class="classifier">list of dicts</span></dt><dd><p>A list of constraint definitions, where each constraint is defined as a dictionary.
+Each dictionary must have ‘variable’ (str), ‘type’ (str, one of ‘=’, ‘&gt;’, ‘&lt;’), and ‘value’ (numeric).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>tuple of numpy.ndarray</dt><dd><p>Returns two numpy arrays: the first is an array of equality constraints, and the second is an array of 
+inequality constraints. These arrays are flattened and concatenated from the evaluated constraint values.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If an unknown constraint type is specified in the constraints list.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.utilities.evaluate_objective_function">
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">evaluate_objective_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objective_function</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#evaluate_objective_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.evaluate_objective_function" title="Link to this definition"></a></dt>
+<dd><p>Evaluates the objective function based on the provided data and configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>data</strong><span class="classifier">dict</span></dt><dd><p>A dictionary containing performance data against which the objective function will be evaluated.</p>
+</dd>
+<dt><strong>objective_function</strong><span class="classifier">dict</span></dt><dd><p>A dictionary defining the objective function. It must have ‘variable’ (str) 
+and ‘type’ (str, either ‘minimize’ or ‘maximize’).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>float</dt><dd><p>The value of the objective function, adjusted for optimization. Positive for minimization and 
+negative for maximization.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If an unknown objective function type is specified in the configuration.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.utilities.is_float">
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">is_float</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../_modules/barotropy/utilities.html#is_float"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.is_float" title="Link to this definition"></a></dt>
+<dd><p>Check if the given element can be converted to a float.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>element</strong><span class="classifier">any</span></dt><dd><p>The element to be checked.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>bool</dt><dd><p>True if the element can be converted to a float, False otherwise.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.utilities.is_numeric">
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">is_numeric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#is_numeric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.is_numeric" title="Link to this definition"></a></dt>
+<dd><p>Check if a value is a numeric type, including both Python and NumPy numeric types.</p>
+<p>This function checks if the given value is a numeric type (int, float, complex) 
+in the Python standard library or NumPy, while explicitly excluding boolean types.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">any type</span></dt><dd><p>The value to be checked for being a numeric type.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>bool</dt><dd><p>Returns True if the value is a numeric type (excluding booleans), 
+otherwise False.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.utilities.print_dict">
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">print_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#print_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.print_dict" title="Link to this definition"></a></dt>
+<dd><p>Recursively prints nested dictionaries with indentation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>data</strong><span class="classifier">dict</span></dt><dd><p>The dictionary to print. It can contain nested dictionaries as values.</p>
+</dd>
+<dt><strong>indent</strong><span class="classifier">int, optional</span></dt><dd><p>The initial level of indentation for the keys of the dictionary, by default 0.
+It controls the number of spaces before each key.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;e&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}}}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">print_dict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">a: 1</span>
+<span class="go">b:</span>
+<span class="go">    c: 2</span>
+<span class="go">    d:</span>
+<span class="go">        e: 3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.utilities.print_object">
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">print_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#print_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.print_object" title="Link to this definition"></a></dt>
+<dd><p>Prints all attributes and methods of an object, sorted alphabetically.</p>
+<ul class="simple">
+<li><p>Methods are identified as callable and printed with the prefix ‘Method: ‘.</p></li>
+<li><p>Attributes are identified as non-callable and printed with the prefix ‘Attribute: ‘.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>obj</strong><span class="classifier">object</span></dt><dd><p>The object whose attributes and methods are to be printed.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None</dt><dd><p>This function does not return any value. It prints the attributes and methods of the given object.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.utilities.read_configuration_file">
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">read_configuration_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#read_configuration_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.read_configuration_file" title="Link to this definition"></a></dt>
+<dd><p>Reads and validates a YAML configuration file (return multiple outputs)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.utilities.render_and_evaluate">
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">render_and_evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#render_and_evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.render_and_evaluate" title="Link to this definition"></a></dt>
+<dd><p>Render variables prefixed with ‘$’ in an expression and evaluate the resulting expression.</p>
+<p>This function processes an input string <cite>expr</cite>, identifying all occurrences of variables
+indicated by a leading ‘$’ symbol. Each such variable is resolved to its value from the
+provided <cite>context</cite> dictionary. The expression with all variables resolved is then evaluated
+and the result is returned.</p>
+<p>This function is useful to render strings defined in a YAML configuration file to values 
+that are calculated within the code and stored in a dicitonary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>expr</strong><span class="classifier">str</span></dt><dd><p>The expression string containing variables to be rendered. Variables in the
+expression are expected to be prefixed with a ‘$’ symbol.</p>
+</dd>
+<dt><strong>data</strong><span class="classifier">dict</span></dt><dd><p>A dictionary containing variables and their corresponding values. These variables
+are used to render values in the expression.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>The result of evaluating the rendered expression. The type of the result depends on the</dt><dd></dd>
+<dt>expression.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p><cite>pattern</cite>: A regular expression pattern used to identify variables within the expression.
+Variables are expected to be in the format <cite>$variableName</cite>, potentially with dot-separated
+sub-properties (e.g., <cite>$variable.property</cite>).</p></li>
+<li><p><cite>replace_with_value</cite>: An inner function that takes a regex match object and returns
+the value of the variable from <cite>context</cite>. <cite>match.group(1)</cite> returns the first captured
+group from the matched text, which in this case is the variable name excluding the
+leading ‘$’ symbol. For example, in <cite>$variableName</cite>, <cite>match.group(1)</cite> would return
+<cite>variableName</cite>.</p></li>
+<li><p>The function uses Python’s <cite>eval</cite> for evaluation, which should be used cautiously as
+it can execute arbitrary code. Ensure that the context and expressions are from a trusted
+source.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.utilities.render_nested_value">
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">render_nested_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nested_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#render_nested_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.render_nested_value" title="Link to this definition"></a></dt>
+<dd><p>Retrieves a value from a nested structure (dictionaries or objects with attributes) using a dot-separated key.</p>
+<p>This function is designed to navigate through a combination of dictionaries and objects. For an object to be
+compatible with this function, it must implement a <cite>keys()</cite> method that returns its attribute names.</p>
+<p>This function is intended as a subroutine of the more genera <code class="docutils literal notranslate"><span class="pre">render_expression</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>nested_key</strong><span class="classifier">str</span></dt><dd><p>A dot-separated key string that specifies the path in the structure.
+For example, ‘level1.level2.key’ will retrieve data[‘level1’][‘level2’][‘key’] if data is a dictionary,
+or data.level1.level2.key if data is an object or a combination of dictionaries and objects.</p>
+</dd>
+<dt><strong>data</strong><span class="classifier">dict or object</span></dt><dd><p>The starting dictionary or object from which to retrieve the value. This can be a nested structure
+of dictionaries and objects.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>value</dt><dd><p>The value retrieved from the nested structure using the specified key. 
+The type of the value depends on what is stored at the specified key in the structure.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>KeyError</dt><dd><p>If the specified nested key is not found in the data structure. The error message includes the part
+of the path that was successfully traversed and the available keys or attributes at the last valid level.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.utilities.savefig_in_formats">
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">savefig_in_formats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_without_extension</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['.png',</span> <span class="pre">'.svg',</span> <span class="pre">'.pdf']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#savefig_in_formats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.savefig_in_formats" title="Link to this definition"></a></dt>
+<dd><p>Save a given matplotlib figure in multiple file formats.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>fig</strong><span class="classifier">matplotlib.figure.Figure</span></dt><dd><p>The figure object to be saved.</p>
+</dd>
+<dt><strong>path_without_extension</strong><span class="classifier">str</span></dt><dd><p>The full path to save the figure excluding the file extension.</p>
+</dd>
+<dt><strong>formats</strong><span class="classifier">list of str, optional</span></dt><dd><p>A list of string file extensions to specify which formats the figure should be saved in. 
+Default is [‘.png’, ‘.svg’, ‘.pdf’].</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">save_fig_in_formats</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="s2">&quot;/path/to/figure/filename&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will save the figure as “filename.png”, “filename.svg”, and “filename.pdf” in the “/path/to/figure/” directory.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.utilities.validate_keys">
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">validate_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">checked_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required_keys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowed_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#validate_keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.validate_keys" title="Link to this definition"></a></dt>
+<dd><p>Validate the presence of required keys and check for any unexpected keys in a dictionary.</p>
+<p>Give required keys and allowed keys to have complete control
+Give required keys twice to check that the list of keys is necessary and sufficient
+Give only required keys to allow all extra additional key</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>checked_dict</strong><span class="classifier">dict</span></dt><dd><p>The dictionary to be checked.</p>
+</dd>
+<dt><strong>required_keys</strong><span class="classifier">set</span></dt><dd><p>A set of keys that are required in the dictionary.</p>
+</dd>
+<dt><strong>allowed_keys</strong><span class="classifier">set</span></dt><dd><p>A set of keys that are allowed in the dictionary.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>ConfigurationError</dt><dd><p>If either required keys are missing or unexpected keys are found.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.utilities.wait_for_file">
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">wait_for_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#wait_for_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.wait_for_file" title="Link to this definition"></a></dt>
+<dd><p>Wait until the specified file is created.</p>
+<p>This function is used to wait until a Fluent transcript file is created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>file_path</strong><span class="classifier">str</span></dt><dd><p>Path to the file to wait for.</p>
+</dd>
+<dt><strong>timeout</strong><span class="classifier">float, optional</span></dt><dd><p>Maximum time to wait in seconds. If None, waits indefinitely.</p>
+</dd>
+<dt><strong>poll_interval</strong><span class="classifier">int, optional</span></dt><dd><p>Time interval between checks in seconds.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>bool</dt><dd><p>True if the file was found, False otherwise (only if timeout is set).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="barotropy.stream_transcript.html" class="btn btn-neutral float-left" title="barotropy.stream_transcript module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Sustainable Thermal Power DTU.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
