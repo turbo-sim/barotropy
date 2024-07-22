@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>barotropy.barotropic_model &mdash; barotropy v0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8b92e751"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            barotropy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../source/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/barotropic_model.html">Barotropic Model Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/tutorials/tutorial_two_component.html">Tutorial: Two-component system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/api_reference.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">barotropy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../barotropy.html">barotropy</a></li>
+      <li class="breadcrumb-item active">barotropy.barotropic_model</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for barotropy.barotropic_model</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">solve_ivp</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">props</span>
+
+<span class="n">PROCESS_TYPES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;polytropic&quot;</span><span class="p">,</span> <span class="s2">&quot;adiabatic&quot;</span><span class="p">]</span>
+<span class="n">MULTIPHASE_MODELS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;blended&quot;</span><span class="p">,</span> <span class="s2">&quot;blending&quot;</span><span class="p">,</span> <span class="s2">&quot;equilibrium&quot;</span><span class="p">,</span> <span class="s2">&quot;metastable&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="calculate_barotropic_process">
+<a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.calculate_barotropic_process">[docs]</a>
+<span class="k">def</span> <span class="nf">calculate_barotropic_process</span><span class="p">(</span><span class="n">calculation_type</span><span class="o">=</span><span class="s2">&quot;polytropic&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Rename parameters</span>
+    <span class="n">fluid_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fluid_name&quot;</span><span class="p">)</span>
+    <span class="n">T0_in</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;T_in&quot;</span><span class="p">)</span>
+    <span class="n">p0_in</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;p_in&quot;</span><span class="p">)</span>
+    <span class="n">p_out</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;p_out&quot;</span><span class="p">)</span>
+    <span class="n">efficiency</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;efficiency&quot;</span><span class="p">)</span>
+    <span class="n">n_points</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;number_of_points&quot;</span><span class="p">)</span>
+    <span class="n">tol</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tol&quot;</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">)</span>
+
+    <span class="c1"># Compute process as an adiabatic or polytropic expansion</span>
+    <span class="k">if</span> <span class="n">calculation_type</span> <span class="o">==</span> <span class="s2">&quot;adiabatic&quot;</span><span class="p">:</span>
+        <span class="n">states</span> <span class="o">=</span> <span class="n">calculate_adiabatic_process</span><span class="p">(</span>
+            <span class="n">fluid_name</span><span class="o">=</span><span class="n">fluid_name</span><span class="p">,</span>
+            <span class="n">T_in</span><span class="o">=</span><span class="n">T0_in</span><span class="p">,</span>
+            <span class="n">p_in</span><span class="o">=</span><span class="n">p0_in</span><span class="p">,</span>
+            <span class="n">p_out</span><span class="o">=</span><span class="n">p_out</span><span class="p">,</span>
+            <span class="n">efficiency</span><span class="o">=</span><span class="n">efficiency</span><span class="p">,</span>
+            <span class="n">number_of_points</span><span class="o">=</span><span class="n">n_points</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">calculation_type</span> <span class="o">==</span> <span class="s2">&quot;polytropic&quot;</span><span class="p">:</span>
+        <span class="n">states</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">calculate_polytropic_process</span><span class="p">(</span>
+            <span class="n">fluid_name</span><span class="o">=</span><span class="n">fluid_name</span><span class="p">,</span>
+            <span class="n">T_in</span><span class="o">=</span><span class="n">T0_in</span><span class="p">,</span>
+            <span class="n">p_in</span><span class="o">=</span><span class="n">p0_in</span><span class="p">,</span>
+            <span class="n">p_out</span><span class="o">=</span><span class="n">p_out</span><span class="p">,</span>
+            <span class="n">efficiency</span><span class="o">=</span><span class="n">efficiency</span><span class="p">,</span>
+            <span class="n">number_of_points</span><span class="o">=</span><span class="n">n_points</span><span class="p">,</span>
+            <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&#39;&quot;</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">PROCESS_TYPES</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Invalid process type &#39;</span><span class="si">{</span><span class="n">calculation_type</span><span class="si">}</span><span class="s2">&#39;. Available options: </span><span class="si">{</span><span class="n">options</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">states</span></div>
+
+
+
+<div class="viewcode-block" id="calculate_polytropic_process">
+<a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.calculate_polytropic_process">[docs]</a>
+<span class="k">def</span> <span class="nf">calculate_polytropic_process</span><span class="p">(</span>
+    <span class="n">fluid_name</span><span class="p">,</span>
+    <span class="n">T_in</span><span class="p">,</span>
+    <span class="n">p_in</span><span class="p">,</span>
+    <span class="n">p_out</span><span class="p">,</span>
+    <span class="n">efficiency</span><span class="p">,</span>
+    <span class="n">multiphase_model</span><span class="o">=</span><span class="s2">&quot;blended&quot;</span><span class="p">,</span>
+    <span class="n">q_onset</span><span class="o">=</span><span class="mf">0.00</span><span class="p">,</span>
+    <span class="n">q_transition</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
+    <span class="n">number_of_points</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+
+    <span class="c1"># Differential equation defining the polytropic process</span>
+    <span class="k">def</span> <span class="nf">odefun</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="c1"># Keep variables in memory to use previous state as initial guess</span>
+        <span class="k">nonlocal</span> <span class="n">rho_guess</span><span class="p">,</span> <span class="n">T_guess</span>
+
+        <span class="c1"># Rename input variables</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">t</span>
+        <span class="p">(</span><span class="n">h</span><span class="p">,)</span> <span class="o">=</span> <span class="n">y</span>
+
+        <span class="c1"># Compute equilibrium state</span>
+        <span class="n">state_eq</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">HmassP_INPUTS</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">generalize_quality</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Compute metastable state</span>
+        <span class="n">state_meta</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">set_state_metastable</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="s2">&quot;hmass&quot;</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">rho_guess</span><span class="p">,</span> <span class="n">T_guess</span><span class="p">)</span>
+        <span class="n">rho_guess</span> <span class="o">=</span> <span class="n">state_meta</span><span class="o">.</span><span class="n">rho</span>  <span class="c1"># Update guess for the next iteration</span>
+        <span class="n">T_guess</span> <span class="o">=</span> <span class="n">state_meta</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># Update guess for the next iteration</span>
+        
+        <span class="c1"># Determine the actual thermodynamic state</span>
+        <span class="k">if</span> <span class="n">multiphase_model</span> <span class="o">==</span> <span class="s2">&quot;equilibrium&quot;</span><span class="p">:</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="n">state_eq</span>
+        <span class="k">elif</span> <span class="n">multiphase_model</span> <span class="o">==</span> <span class="s2">&quot;metastable&quot;</span><span class="p">:</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="n">state_meta</span>
+        <span class="k">elif</span> <span class="n">multiphase_model</span> <span class="o">==</span> <span class="s2">&quot;blended&quot;</span> <span class="ow">or</span> <span class="n">multiphase_model</span> <span class="o">==</span> <span class="s2">&quot;blending&quot;</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">state_eq</span><span class="p">[</span><span class="s2">&quot;Q&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">q_onset</span><span class="p">)</span> <span class="o">/</span> <span class="n">q_transition</span>
+            <span class="c1"># sigma = sigmoid_smoothstep(x)</span>
+            <span class="n">sigma</span> <span class="o">=</span> <span class="n">sigmoid_smootherstep</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">state_eq</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">state</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">state_eq</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">sigma</span><span class="p">)</span> <span class="o">+</span> <span class="n">state_meta</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">*</span><span class="n">sigma</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">options</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&#39;&quot;</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">MULTIPHASE_MODELS</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Invalid multiphase model </span><span class="si">{</span><span class="n">multiphase_model</span><span class="si">}</span><span class="s2">&#39;. Available options: </span><span class="si">{</span><span class="n">options</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Compute right-hand-side of the ODE</span>
+        <span class="n">dhdp</span> <span class="o">=</span> <span class="n">efficiency</span> <span class="o">/</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">dhdp</span><span class="p">,</span> <span class="n">state</span>
+    
+    <span class="c1"># Compute inlet state</span>
+    <span class="n">fluid</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">Fluid</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">fluid_name</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;HEOS&quot;</span><span class="p">,</span> <span class="n">exceptions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">state_in</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">PT_INPUTS</span><span class="p">,</span> <span class="n">p_in</span><span class="p">,</span> <span class="n">T_in</span><span class="p">)</span>
+    <span class="n">rho_guess</span> <span class="o">=</span> <span class="n">state_in</span><span class="o">.</span><span class="n">rho</span>
+    <span class="n">T_guess</span> <span class="o">=</span> <span class="n">state_in</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="c1"># Solve polytropic expansion differential equation</span>
+    <span class="n">solution</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">p</span><span class="p">,</span> <span class="n">h</span><span class="p">:</span> <span class="n">odefun</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">h</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">state_in</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">p_out</span><span class="p">],</span>
+        <span class="p">[</span><span class="n">state_in</span><span class="o">.</span><span class="n">h</span><span class="p">],</span>
+        <span class="n">t_eval</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">state_in</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="n">p_out</span><span class="p">,</span> <span class="n">number_of_points</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">number_of_points</span>
+        <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;LSODA&quot;</span><span class="p">,</span>  <span class="c1"># &quot;RK45&quot;, &quot;Radau&quot;, &quot;LSODA&quot;</span>
+        <span class="n">rtol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span>
+        <span class="n">atol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">solution</span><span class="o">.</span><span class="n">success</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">solution</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="c1"># Postprocess solution</span>
+    <span class="n">states</span> <span class="o">=</span> <span class="n">postprocess_ode</span><span class="p">(</span><span class="n">solution</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">solution</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">odefun</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">states</span><span class="p">,</span> <span class="n">solution</span></div>
+
+
+
+<div class="viewcode-block" id="calculate_adiabatic_process">
+<a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.calculate_adiabatic_process">[docs]</a>
+<span class="k">def</span> <span class="nf">calculate_adiabatic_process</span><span class="p">(</span>
+    <span class="n">fluid_name</span><span class="p">,</span>
+    <span class="n">T_in</span><span class="p">,</span>
+    <span class="n">p_in</span><span class="p">,</span>
+    <span class="n">p_out</span><span class="p">,</span>
+    <span class="n">efficiency</span><span class="p">,</span>
+    <span class="n">number_of_points</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="c1"># Compute inlet state</span>
+    <span class="n">fluid</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">Fluid</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">fluid_name</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;HEOS&quot;</span><span class="p">,</span> <span class="n">exceptions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">state_in</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">PT_INPUTS</span><span class="p">,</span> <span class="n">p_in</span><span class="p">,</span> <span class="n">T_in</span><span class="p">)</span>
+
+    <span class="c1"># Compute outlet state</span>
+    <span class="n">state_out_s</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">PSmass_INPUTS</span><span class="p">,</span> <span class="n">p_out</span><span class="p">,</span> <span class="n">state_in</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">h_out</span> <span class="o">=</span> <span class="n">state_in</span><span class="o">.</span><span class="n">h</span> <span class="o">-</span> <span class="n">efficiency</span> <span class="o">*</span> <span class="p">(</span><span class="n">state_in</span><span class="o">.</span><span class="n">h</span> <span class="o">-</span> <span class="n">state_out_s</span><span class="o">.</span><span class="n">h</span><span class="p">)</span>
+    <span class="n">state_out</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">HmassP_INPUTS</span><span class="p">,</span> <span class="n">h_out</span><span class="p">,</span> <span class="n">p_out</span><span class="p">)</span>
+
+    <span class="c1"># Prepare list of states</span>
+    <span class="k">if</span> <span class="n">number_of_points</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">T_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">state_in</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">state_out</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">number_of_points</span><span class="p">)</span>
+        <span class="n">s_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">state_in</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">state_out</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">number_of_points</span><span class="p">)</span>
+        <span class="n">states</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">T</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">T_array</span><span class="p">,</span> <span class="n">s_array</span><span class="p">):</span>
+            <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fluid</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">SmassT_INPUTS</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">T</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="n">state_in</span><span class="p">,</span> <span class="n">state_out</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">props</span><span class="o">.</span><span class="n">states_to_dict</span><span class="p">(</span><span class="n">states</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="postprocess_ode">
+<a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.postprocess_ode">[docs]</a>
+<span class="k">def</span> <span class="nf">postprocess_ode</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ode_handle</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Post-processes the output of an ordinary differential equation (ODE) solver.</span>
+
+<span class="sd">    This function takes the time points and corresponding ODE solution matrix,</span>
+<span class="sd">    and for each time point, it calls a user-defined ODE handling function to</span>
+<span class="sd">    process the state of the ODE system. It collects the results into a</span>
+<span class="sd">    dictionary where each key corresponds to a state variable and the values</span>
+<span class="sd">    are numpy arrays of that state variable at each integration step</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    t : array_like</span>
+<span class="sd">        Integration points at which the ODE was solved, as a 1D numpy array.</span>
+<span class="sd">    y : array_like</span>
+<span class="sd">        The solution of the ODE system, as a 2D numpy array with shape (n,m) where</span>
+<span class="sd">        n is the number of points and m is the number of state variables.</span>
+<span class="sd">    ode_handle : callable</span>
+<span class="sd">        A function that takes in a integration point and state vector and returns a tuple,</span>
+<span class="sd">        where the first element is ignored (can be None) and the second element</span>
+<span class="sd">        is a dictionary representing the processed state of the system.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ode_out : dict</span>
+<span class="sd">        A dictionary where each key corresponds to a state variable and each value</span>
+<span class="sd">        is a numpy array containing the values of that state variable at each integration step.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Initialize ode_out as a dictionary</span>
+    <span class="n">ode_out</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">t_i</span><span class="p">,</span> <span class="n">y_i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">):</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">ode_handle</span><span class="p">(</span><span class="n">t_i</span><span class="p">,</span> <span class="n">y_i</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">out</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># Initialize with an empty list</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ode_out</span><span class="p">:</span>
+                <span class="n">ode_out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="c1"># Append the value to list of current key</span>
+            <span class="n">ode_out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="c1"># Convert lists to numpy arrays</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">ode_out</span><span class="p">:</span>
+        <span class="n">ode_out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ode_out</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">ode_out</span></div>
+
+
+
+<div class="viewcode-block" id="sigmoid_hyperbolic">
+<a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.sigmoid_hyperbolic">[docs]</a>
+<span class="k">def</span> <span class="nf">sigmoid_hyperbolic</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the sigmoid hyperbolic function.</span>
+
+<span class="sd">    This function calculates a sigmoid function based on the hyperbolic tangent.</span>
+<span class="sd">    The formula is given by:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \sigma(x) = \frac{1 + \tanh\left(\frac{x - x_0}{\alpha}\right)}{2}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : array_like</span>
+<span class="sd">        Input data.</span>
+<span class="sd">    x0 : float, optional</span>
+<span class="sd">        Center of the sigmoid function. Default is 0.5.</span>
+<span class="sd">    alpha : float, optional</span>
+<span class="sd">        Scale parameter. Default is 0.1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    array_like</span>
+<span class="sd">        Output of the sigmoid hyperbolic function.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># Ensure x is a NumPy array for vectorized operations</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">x0</span><span class="p">)</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">sigma</span></div>
+
+
+
+<div class="viewcode-block" id="sigmoid_rational">
+<a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.sigmoid_rational">[docs]</a>
+<span class="k">def</span> <span class="nf">sigmoid_rational</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the sigmoid rational function.</span>
+
+<span class="sd">    This function calculates a sigmoid function using an algebraic approach based on a rational function.</span>
+<span class="sd">    The formula is given by:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \sigma(x) = \frac{x^n}{x^n + (1-x)^m}</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : array_like</span>
+<span class="sd">        Input data.</span>
+<span class="sd">    n : int</span>
+<span class="sd">        Power of the numerator.</span>
+<span class="sd">    m : int</span>
+<span class="sd">        Power of the denominator.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    array_like</span>
+<span class="sd">        Output of the sigmoid algebraic function.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># Ensure x is a NumPy array for vectorized operations</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>  <span class="c1"># Set x to 0 where x &lt; 0</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>  <span class="c1"># Set x to 1 where x &gt; 1</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="n">n</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="n">n</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span> <span class="o">**</span> <span class="n">m</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sigma</span></div>
+
+
+
+<div class="viewcode-block" id="sigmoid_smoothstep">
+<a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.sigmoid_smoothstep">[docs]</a>
+<span class="k">def</span> <span class="nf">sigmoid_smoothstep</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the smooth step function.</span>
+
+<span class="sd">    This function calculates a smooth step function with zero first-order</span>
+<span class="sd">    derivatives at the endpoints. More information available at:</span>
+<span class="sd">    https://resources.wolframcloud.com/FunctionRepository/resources/SmoothStep/</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : array_like</span>
+<span class="sd">        Input data.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    array_like</span>
+<span class="sd">        Output of the sigmoid smoothstep function.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># Ensure x is a NumPy array for vectorized operations</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>  <span class="c1"># Set x to 0 where x &lt; 0</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>  <span class="c1"># Set x to 1 where x &gt; 1</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">3</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="sigmoid_smootherstep">
+<a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.sigmoid_smootherstep">[docs]</a>
+<span class="k">def</span> <span class="nf">sigmoid_smootherstep</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the smoother step function.</span>
+
+<span class="sd">    This function calculates a smoother step function with zero second-order</span>
+<span class="sd">    derivatives at the endpoints. It is a modification of the smoothstep</span>
+<span class="sd">    function to provide smoother transitions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : array_like</span>
+<span class="sd">        Input data.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    array_like</span>
+<span class="sd">        Output of the sigmoid smootherstep function.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># Ensure x is a NumPy array for vectorized operations</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>  <span class="c1"># Set x to 0 where x &lt; 0</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>  <span class="c1"># Set x to 1 where x &gt; 1</span>
+    <span class="k">return</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">5</span> <span class="o">-</span> <span class="mi">15</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">4</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Sustainable Thermal Power DTU.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
