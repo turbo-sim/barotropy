@@ -1,100 +1,392 @@
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../../">
-<head>
-  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>barotropy.fluent.fluent_automation module &mdash; barotropy v0.0.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
-      <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>barotropy.fluent.fluent_automation module &#8212; barotropy v0.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
   
-        <script src="../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=8b92e751"></script>
-        <script src="../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script>let toggleHintShow = 'Click to show';</script>
-        <script>let toggleHintHide = 'Click to hide';</script>
-        <script>let toggleOpenOnPrint = 'true';</script>
-        <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
-        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-        <script src="../../_static/design-tabs.js?v=f930bc37"></script>
-        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../../_static/js/theme.js"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=28af074a"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'source/api/barotropy.fluent.fluent_automation';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
-</head>
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="barotropy.fluent.fluent_plot_nozzle_data module" href="barotropy.fluent.fluent_plot_nozzle_data.html" />
+    <link rel="prev" title="barotropy.fluent package" href="barotropy.fluent.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
-          
-          
-          <a href="../../index.html" class="icon icon-home">
-            barotropy
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">barotropy v0.0.0 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/one_component_systems.html">Tutorial: One-component systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/two_component_systems.html">Tutorial: Two-component systems</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="../barotropic_model.html">Barotropic Model Theory</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial_two_component.html">Tutorial: Two-component system</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api_reference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="modules.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="barotropy.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="barotropy.props.html">barotropy.props package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.props.core.html">barotropy.props.core module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.props.functions.html">barotropy.props.functions module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="barotropy.fluent.html">barotropy.fluent package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">barotropy.fluent.fluent_automation module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.fluent.fluent_plot_nozzle_data.html">barotropy.fluent.fluent_plot_nozzle_data module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.fluent.stream_residuals.html">barotropy.fluent.stream_residuals module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.fluent.stream_transcript.html">barotropy.fluent.stream_transcript module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="barotropy.pysolver_view.html">barotropy.pysolver_view package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.pysolver_view.nonlinear_system.html">barotropy.pysolver_view.nonlinear_system module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.pysolver_view.nonlinear_system_problems.html">barotropy.pysolver_view.nonlinear_system_problems module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.pysolver_view.numerical_differentiation.html">barotropy.pysolver_view.numerical_differentiation module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.pysolver_view.optimization.html">barotropy.pysolver_view.optimization module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.pysolver_view.optimization_problems.html">barotropy.pysolver_view.optimization_problems module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.pysolver_view.optimization_wrappers.html">barotropy.pysolver_view.optimization_wrappers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.pysolver_view.pysolver_utilities.html">barotropy.pysolver_view.pysolver_utilities module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.barotropic_model.html">barotropy.barotropic_model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.isentropic_nozzle.html">barotropy.isentropic_nozzle module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.plot_options.html">barotropy.plot_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.sCO2_utilities.html">barotropy.sCO2_utilities module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.utilities.html">barotropy.utilities module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
 </ul>
 
-        </div>
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
       </div>
-    </nav>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">barotropy</a>
-      </nav>
+<div class="sbt-scroll-pixel-helper"></div>
 
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">barotropy.fluent.fluent_automation module</li>
-      <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/source/api/barotropy.fluent.fluent_automation.rst.txt" rel="nofollow"> View page source</a>
-      </li>
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/source/api/barotropy.fluent.fluent_automation.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
   </ul>
-  <hr/>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>barotropy.fluent.fluent_automation module</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.TranscriptFileMissingError"><code class="docutils literal notranslate"><span class="pre">TranscriptFileMissingError</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.add_barotropic_expressions"><code class="docutils literal notranslate"><span class="pre">add_barotropic_expressions()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.add_export_variables"><code class="docutils literal notranslate"><span class="pre">add_export_variables()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.add_solution_strategy"><code class="docutils literal notranslate"><span class="pre">add_solution_strategy()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.create_fluent_journal"><code class="docutils literal notranslate"><span class="pre">create_fluent_journal()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.parse_fluent_out"><code class="docutils literal notranslate"><span class="pre">parse_fluent_out()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.parse_fluent_xy"><code class="docutils literal notranslate"><span class="pre">parse_fluent_xy()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.plot_residuals"><code class="docutils literal notranslate"><span class="pre">plot_residuals()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.plot_residuals_real_time"><code class="docutils literal notranslate"><span class="pre">plot_residuals_real_time()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.print_transcript_real_time"><code class="docutils literal notranslate"><span class="pre">print_transcript_real_time()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.read_expression_file"><code class="docutils literal notranslate"><span class="pre">read_expression_file()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.read_residual_file"><code class="docutils literal notranslate"><span class="pre">read_residual_file()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.render_fluent_journal"><code class="docutils literal notranslate"><span class="pre">render_fluent_journal()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.run_cleanup_script"><code class="docutils literal notranslate"><span class="pre">run_cleanup_script()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.run_fluent_simulation"><code class="docutils literal notranslate"><span class="pre">run_fluent_simulation()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.validate_journal"><code class="docutils literal notranslate"><span class="pre">validate_journal()</span></code></a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
   <section id="module-barotropy.fluent.fluent_automation">
-<span id="barotropy-fluent-fluent-automation-module"></span><h1>barotropy.fluent.fluent_automation module<a class="headerlink" href="#module-barotropy.fluent.fluent_automation" title="Link to this heading"></a></h1>
+<span id="barotropy-fluent-fluent-automation-module"></span><h1>barotropy.fluent.fluent_automation module<a class="headerlink" href="#module-barotropy.fluent.fluent_automation" title="Link to this heading">#</a></h1>
 <dl class="py exception">
 <dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.TranscriptFileMissingError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">TranscriptFileMissingError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#TranscriptFileMissingError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.TranscriptFileMissingError" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">TranscriptFileMissingError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#TranscriptFileMissingError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.TranscriptFileMissingError" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></p>
 <p>Raised when plotting residuals is requested but no transcript file is provided.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.add_barotropic_expressions">
-<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">add_barotropic_expressions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">journal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expression_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vars</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#add_barotropic_expressions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.add_barotropic_expressions" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">add_barotropic_expressions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">journal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expression_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vars</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#add_barotropic_expressions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.add_barotropic_expressions" title="Link to this definition">#</a></dt>
 <dd><p>Modify the Fluent journal to add commands for defining barotropic model expressions.</p>
 <p>The function inserts the appropriate commands right after the “; Define Barotropic Model expressions” comment.</p>
 <p>Parameters:
@@ -109,7 +401,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.add_export_variables">
-<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">add_export_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">journal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zones</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#add_export_variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.add_export_variables" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">add_export_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">journal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zones</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#add_export_variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.add_export_variables" title="Link to this definition">#</a></dt>
 <dd><p>Modify a Fluent journal to add commands for exporting specified variables to .xy files.</p>
 <p>The function takes an existing journal list and appends commands to export
 selected variables (as specified in variable_mapping) to .xy files. The filenames
@@ -166,7 +458,7 @@ to their corresponding names in Fluent.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.add_solution_strategy">
-<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">add_solution_strategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">journal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#add_solution_strategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.add_solution_strategy" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">add_solution_strategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">journal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#add_solution_strategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.add_solution_strategy" title="Link to this definition">#</a></dt>
 <dd><p>Insert the solution strategy into a Fluent journal after the designated comment.</p>
 <p>This function takes a Fluent journal list of commands and adds the solution strategy
 provided in the <cite>strategy</cite> dictionary right after the comment:
@@ -224,7 +516,7 @@ provided in the <cite>strategy</cite> dictionary right after the comment:
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.create_fluent_journal">
-<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">create_fluent_journal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">case_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_map</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">barotropic_vars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">export_vars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">export_zones</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solution_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#create_fluent_journal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.create_fluent_journal" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">create_fluent_journal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">case_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_map</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">barotropic_vars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">export_vars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">export_zones</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solution_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#create_fluent_journal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.create_fluent_journal" title="Link to this definition">#</a></dt>
 <dd><p>Create and validate a Fluent journal based on the provided parameters.</p>
 <p>This function generates a Fluent journal, which is a script containing a sequence 
 of commands for the Fluent simulation software. It uses a template file and a map 
@@ -263,7 +555,7 @@ a solution strategy.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.parse_fluent_out">
-<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">parse_fluent_out</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#parse_fluent_out"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.parse_fluent_out" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">parse_fluent_out</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#parse_fluent_out"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.parse_fluent_out" title="Link to this definition">#</a></dt>
 <dd><p>Parse an out-formatted datafile from Fluent and return a DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -296,7 +588,7 @@ a solution strategy.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.parse_fluent_xy">
-<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">parse_fluent_xy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#parse_fluent_xy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.parse_fluent_xy" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">parse_fluent_xy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#parse_fluent_xy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.parse_fluent_xy" title="Link to this definition">#</a></dt>
 <dd><p>Parse a Fluent .xy file and return its contents as a dictionary of DataFrames.</p>
 <p>Fluent’s .xy files contain datasets, each representing XY plot data for some solution data 
 (like pressure or velocity) across a specific domain or region (like wall, axis, etc.). 
@@ -325,7 +617,7 @@ representing the X and Y axis data, labeled as per the .xy file’s axis labels.
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.plot_residuals">
-<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">plot_residuals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcript_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savefig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fullpath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#plot_residuals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.plot_residuals" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">plot_residuals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcript_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savefig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fullpath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#plot_residuals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.plot_residuals" title="Link to this definition">#</a></dt>
 <dd><p>Plot the residual history from the given transcript file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -360,7 +652,7 @@ using a predefined name_map.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.plot_residuals_real_time">
-<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">plot_residuals_real_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcript_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#plot_residuals_real_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.plot_residuals_real_time" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">plot_residuals_real_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcript_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#plot_residuals_real_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.plot_residuals_real_time" title="Link to this definition">#</a></dt>
 <dd><p>Plot the residual history contained in the transcript_file.trn in real time.</p>
 <p>This function launches the <cite>stream_residuals.py</cite> script as a subprocess 
 to plot the residual history of the given transcript file in real time.</p>
@@ -382,7 +674,7 @@ to plot the residual history of the given transcript file in real time.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.print_transcript_real_time">
-<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">print_transcript_real_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcript_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#print_transcript_real_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.print_transcript_real_time" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">print_transcript_real_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcript_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#print_transcript_real_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.print_transcript_real_time" title="Link to this definition">#</a></dt>
 <dd><p>Print the content of transcript_file.trn in real time.</p>
 <p>This function launches the <cite>stream_transcript.py</cite> script as a subprocess 
 to print the content of the given transcript file in real time.</p>
@@ -404,7 +696,7 @@ to print the content of the given transcript file in real time.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.read_expression_file">
-<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">read_expression_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skiprows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#read_expression_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.read_expression_file" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">read_expression_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skiprows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#read_expression_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.read_expression_file" title="Link to this definition">#</a></dt>
 <dd><p>Read content of barotropic model expression file, extracting desired variables’ descriptions and expressions.</p>
 <p>The file should have:
 1. A header indicating the purpose of the file and its creation timestamp.
@@ -432,7 +724,7 @@ Each variable contributes two keys to the dictionary: ‘{var}_description’ an
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.read_residual_file">
-<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">read_residual_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">res_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#read_residual_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.read_residual_file" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">read_residual_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">res_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#read_residual_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.read_residual_file" title="Link to this definition">#</a></dt>
 <dd><p>Reads a transcript file to extract the residual history and returns it as a Pandas DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -460,7 +752,7 @@ Each variable contributes two keys to the dictionary: ‘{var}_description’ an
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.render_fluent_journal">
-<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">render_fluent_journal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_map</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#render_fluent_journal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.render_fluent_journal" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">render_fluent_journal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_map</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#render_fluent_journal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.render_fluent_journal" title="Link to this definition">#</a></dt>
 <dd><p>Read a template Fluent journal file and replace placeholders with values from the provided map.</p>
 <p>Read a template Fluent journal file and replace placeholders with values from the provided map.</p>
 <p>This function takes a template Fluent journal file where variables are specified in curly brackets <cite>{}</cite>.
@@ -508,7 +800,7 @@ If any keys are unused, the function raises a ValueError.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.run_cleanup_script">
-<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">run_cleanup_script</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_retries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#run_cleanup_script"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.run_cleanup_script" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">run_cleanup_script</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_retries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#run_cleanup_script"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.run_cleanup_script" title="Link to this definition">#</a></dt>
 <dd><p>Execute the cleanup script found in the current working directory.</p>
 <p>This function repeatedly attempts to find and execute files with a prefix 
 of “cleanup-fluent” in the current directory. If the script isn’t found 
@@ -531,7 +823,7 @@ cleanup script might be delayed.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.run_fluent_simulation">
-<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">run_fluent_simulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">journal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_proc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3600</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_residuals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_transcript</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transcript_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#run_fluent_simulation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.run_fluent_simulation" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">run_fluent_simulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">journal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_proc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3600</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_residuals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_transcript</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transcript_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#run_fluent_simulation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.run_fluent_simulation" title="Link to this definition">#</a></dt>
 <dd><p>Orchestrates the execution of a Fluent simulation using the commands from the provided journal file.</p>
 <p>The function manages the entire simulation process from initiating Fluent, sending it the right 
 commands, visualizing output, to cleaning up post-simulation resources. It offers functionalities 
@@ -572,7 +864,7 @@ Mandatory if either <cite>plot_residuals</cite> or <cite>print_transcript</cite>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.fluent.fluent_automation.validate_journal">
-<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">validate_journal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">journal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#validate_journal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.validate_journal" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">validate_journal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">journal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent/fluent_automation.html#validate_journal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent.fluent_automation.validate_journal" title="Link to this definition">#</a></dt>
 <dd><p>Validate and combine the journal commands into a single string.</p>
 <p>This function takes a list of journal commands, combines them into a single
 string, and checks if there are any curly brackets left. If any curly brackets
@@ -609,31 +901,118 @@ variables were successfully rendered.</p>
 </section>
 
 
-           </div>
-          </div>
-          <footer>
+                </article>
+              
 
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2023, Sustainable Thermal Power DTU.</p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
-        </div>
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="barotropy.fluent.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">barotropy.fluent package</p>
       </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
+    </a>
+    <a class="right-next"
+       href="barotropy.fluent.fluent_plot_nozzle_data.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">barotropy.fluent.fluent_plot_nozzle_data module</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
-</body>
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.TranscriptFileMissingError"><code class="docutils literal notranslate"><span class="pre">TranscriptFileMissingError</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.add_barotropic_expressions"><code class="docutils literal notranslate"><span class="pre">add_barotropic_expressions()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.add_export_variables"><code class="docutils literal notranslate"><span class="pre">add_export_variables()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.add_solution_strategy"><code class="docutils literal notranslate"><span class="pre">add_solution_strategy()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.create_fluent_journal"><code class="docutils literal notranslate"><span class="pre">create_fluent_journal()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.parse_fluent_out"><code class="docutils literal notranslate"><span class="pre">parse_fluent_out()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.parse_fluent_xy"><code class="docutils literal notranslate"><span class="pre">parse_fluent_xy()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.plot_residuals"><code class="docutils literal notranslate"><span class="pre">plot_residuals()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.plot_residuals_real_time"><code class="docutils literal notranslate"><span class="pre">plot_residuals_real_time()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.print_transcript_real_time"><code class="docutils literal notranslate"><span class="pre">print_transcript_real_time()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.read_expression_file"><code class="docutils literal notranslate"><span class="pre">read_expression_file()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.read_residual_file"><code class="docutils literal notranslate"><span class="pre">read_residual_file()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.render_fluent_journal"><code class="docutils literal notranslate"><span class="pre">render_fluent_journal()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.run_cleanup_script"><code class="docutils literal notranslate"><span class="pre">run_cleanup_script()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.run_fluent_simulation"><code class="docutils literal notranslate"><span class="pre">run_fluent_simulation()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent.fluent_automation.validate_journal"><code class="docutils literal notranslate"><span class="pre">validate_journal()</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, Sustainable Thermal Power DTU.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
 </html>

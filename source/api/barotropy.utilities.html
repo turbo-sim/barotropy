@@ -1,114 +1,392 @@
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="../../">
-<head>
-  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>barotropy.utilities module &mdash; barotropy v0.0.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
-      <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>barotropy.utilities module &#8212; barotropy v0.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
   
-        <script src="../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=8b92e751"></script>
-        <script src="../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script>let toggleHintShow = 'Click to show';</script>
-        <script>let toggleHintHide = 'Click to hide';</script>
-        <script>let toggleOpenOnPrint = 'true';</script>
-        <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
-        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-        <script src="../../_static/design-tabs.js?v=f930bc37"></script>
-        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../../_static/js/theme.js"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=28af074a"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'source/api/barotropy.utilities';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="prev" title="barotropy.stream_transcript module" href="barotropy.stream_transcript.html" /> 
-</head>
+    <link rel="prev" title="barotropy.sCO2_utilities module" href="barotropy.sCO2_utilities.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
-          
-          
-          <a href="../../index.html" class="icon icon-home">
-            barotropy
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">barotropy v0.0.0 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/one_component_systems.html">Tutorial: One-component systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/two_component_systems.html">Tutorial: Two-component systems</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="../barotropic_model.html">Barotropic Model Theory</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorial_two_component.html">Tutorial: Two-component system</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../api_reference.html">API Reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../api_reference.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="barotropy.html">barotropy package</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="barotropy.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="barotropy.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="barotropy.html#module-barotropy">Module contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="modules.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="barotropy.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="barotropy.props.html">barotropy.props package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.props.core.html">barotropy.props.core module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.props.functions.html">barotropy.props.functions module</a></li>
 </ul>
-</li>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="barotropy.fluent.html">barotropy.fluent package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.fluent.fluent_automation.html">barotropy.fluent.fluent_automation module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.fluent.fluent_plot_nozzle_data.html">barotropy.fluent.fluent_plot_nozzle_data module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.fluent.stream_residuals.html">barotropy.fluent.stream_residuals module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.fluent.stream_transcript.html">barotropy.fluent.stream_transcript module</a></li>
 </ul>
-</li>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="barotropy.pysolver_view.html">barotropy.pysolver_view package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.pysolver_view.nonlinear_system.html">barotropy.pysolver_view.nonlinear_system module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.pysolver_view.nonlinear_system_problems.html">barotropy.pysolver_view.nonlinear_system_problems module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.pysolver_view.numerical_differentiation.html">barotropy.pysolver_view.numerical_differentiation module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.pysolver_view.optimization.html">barotropy.pysolver_view.optimization module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.pysolver_view.optimization_problems.html">barotropy.pysolver_view.optimization_problems module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.pysolver_view.optimization_wrappers.html">barotropy.pysolver_view.optimization_wrappers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.pysolver_view.pysolver_utilities.html">barotropy.pysolver_view.pysolver_utilities module</a></li>
 </ul>
-</li>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.barotropic_model.html">barotropy.barotropic_model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.isentropic_nozzle.html">barotropy.isentropic_nozzle module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.plot_options.html">barotropy.plot_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.sCO2_utilities.html">barotropy.sCO2_utilities module</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">barotropy.utilities module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
 </ul>
 
-        </div>
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
       </div>
-    </nav>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">barotropy</a>
-      </nav>
+<div class="sbt-scroll-pixel-helper"></div>
 
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../api_reference.html">API Reference</a></li>
-          <li class="breadcrumb-item"><a href="barotropy.html">barotropy package</a></li>
-      <li class="breadcrumb-item active">barotropy.utilities module</li>
-      <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/source/api/barotropy.utilities.rst.txt" rel="nofollow"> View page source</a>
-      </li>
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/source/api/barotropy.utilities.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
   </ul>
-  <hr/>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>barotropy.utilities module</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.DictionaryValidationError"><code class="docutils literal notranslate"><span class="pre">DictionaryValidationError</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.compare_contents_or_files"><code class="docutils literal notranslate"><span class="pre">compare_contents_or_files()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.convert_configuration_options"><code class="docutils literal notranslate"><span class="pre">convert_configuration_options()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.convert_numpy_to_python"><code class="docutils literal notranslate"><span class="pre">convert_numpy_to_python()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.ensure_iterable"><code class="docutils literal notranslate"><span class="pre">ensure_iterable()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.evaluate_constraints"><code class="docutils literal notranslate"><span class="pre">evaluate_constraints()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.evaluate_objective_function"><code class="docutils literal notranslate"><span class="pre">evaluate_objective_function()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.is_float"><code class="docutils literal notranslate"><span class="pre">is_float()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.is_numeric"><code class="docutils literal notranslate"><span class="pre">is_numeric()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.print_dict"><code class="docutils literal notranslate"><span class="pre">print_dict()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.print_object"><code class="docutils literal notranslate"><span class="pre">print_object()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.read_configuration_file"><code class="docutils literal notranslate"><span class="pre">read_configuration_file()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.render_and_evaluate"><code class="docutils literal notranslate"><span class="pre">render_and_evaluate()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.render_nested_value"><code class="docutils literal notranslate"><span class="pre">render_nested_value()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.savefig_in_formats"><code class="docutils literal notranslate"><span class="pre">savefig_in_formats()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.validate_keys"><code class="docutils literal notranslate"><span class="pre">validate_keys()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.wait_for_file"><code class="docutils literal notranslate"><span class="pre">wait_for_file()</span></code></a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
   <section id="module-barotropy.utilities">
-<span id="barotropy-utilities-module"></span><h1>barotropy.utilities module<a class="headerlink" href="#module-barotropy.utilities" title="Link to this heading"></a></h1>
+<span id="barotropy-utilities-module"></span><h1>barotropy.utilities module<a class="headerlink" href="#module-barotropy.utilities" title="Link to this heading">#</a></h1>
 <dl class="py exception">
 <dt class="sig sig-object py" id="barotropy.utilities.DictionaryValidationError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">DictionaryValidationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#DictionaryValidationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.DictionaryValidationError" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">DictionaryValidationError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#DictionaryValidationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.DictionaryValidationError" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
 <p>Exception raised for errors in the expected options.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.utilities.compare_contents_or_files">
-<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">compare_contents_or_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_or_content_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_or_content_2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#compare_contents_or_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.compare_contents_or_files" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">compare_contents_or_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_or_content_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_or_content_2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#compare_contents_or_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.compare_contents_or_files" title="Link to this definition">#</a></dt>
 <dd><p>Compare the content of two inputs, which can be either file paths or strings.</p>
 <p>This function accepts two arguments. Each argument can be:
 1. A file path pointing to a file containing text content.
@@ -144,7 +422,7 @@ If the argument is a string, it’s directly used for comparison.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.utilities.convert_configuration_options">
-<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">convert_configuration_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#convert_configuration_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.convert_configuration_options" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">convert_configuration_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#convert_configuration_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.convert_configuration_options" title="Link to this definition">#</a></dt>
 <dd><p>Processes configuration data by evaluating string expressions as numerical values and converting lists to numpy arrays.</p>
 <p>This function iteratively goes through the configuration dictionary and converts string representations of numbers
 (e.g., “1+2”, “2*np.pi”) into actual numerical values using Python’s <cite>eval</cite> function. It also ensures that all numerical
@@ -174,7 +452,7 @@ are cast to corresponding NumPy types.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.utilities.convert_numpy_to_python">
-<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">convert_numpy_to_python</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#convert_numpy_to_python"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.convert_numpy_to_python" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">convert_numpy_to_python</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#convert_numpy_to_python"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.convert_numpy_to_python" title="Link to this definition">#</a></dt>
 <dd><p>Recursively converts numpy arrays, scalars, and other numpy types to their Python counterparts
 and rounds numerical values to the specified precision.</p>
 <p>Parameters:
@@ -186,7 +464,7 @@ and rounds numerical values to the specified precision.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.utilities.ensure_iterable">
-<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">ensure_iterable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#ensure_iterable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.ensure_iterable" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">ensure_iterable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#ensure_iterable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.ensure_iterable" title="Link to this definition">#</a></dt>
 <dd><p>Ensure that an object is iterable. If the object is already an iterable
 (except for strings, which are not treated as iterables in this context),
 it will be returned as is. If the object is not an iterable, or if it is
@@ -221,7 +499,7 @@ list containing the object if it was not iterable or was a string.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.utilities.evaluate_constraints">
-<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">evaluate_constraints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constraints</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#evaluate_constraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.evaluate_constraints" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">evaluate_constraints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constraints</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#evaluate_constraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.evaluate_constraints" title="Link to this definition">#</a></dt>
 <dd><p>Evaluates the constraints based on the provided data and constraint definitions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -251,7 +529,7 @@ inequality constraints. These arrays are flattened and concatenated from the eva
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.utilities.evaluate_objective_function">
-<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">evaluate_objective_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objective_function</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#evaluate_objective_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.evaluate_objective_function" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">evaluate_objective_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objective_function</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#evaluate_objective_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.evaluate_objective_function" title="Link to this definition">#</a></dt>
 <dd><p>Evaluates the objective function based on the provided data and configuration.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -281,7 +559,7 @@ negative for maximization.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.utilities.is_float">
-<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">is_float</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../_modules/barotropy/utilities.html#is_float"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.is_float" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">is_float</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../_modules/barotropy/utilities.html#is_float"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.is_float" title="Link to this definition">#</a></dt>
 <dd><p>Check if the given element can be converted to a float.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -301,7 +579,7 @@ negative for maximization.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.utilities.is_numeric">
-<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">is_numeric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#is_numeric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.is_numeric" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">is_numeric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#is_numeric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.is_numeric" title="Link to this definition">#</a></dt>
 <dd><p>Check if a value is a numeric type, including both Python and NumPy numeric types.</p>
 <p>This function checks if the given value is a numeric type (int, float, complex) 
 in the Python standard library or NumPy, while explicitly excluding boolean types.</p>
@@ -324,7 +602,7 @@ otherwise False.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.utilities.print_dict">
-<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">print_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#print_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.print_dict" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">print_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#print_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.print_dict" title="Link to this definition">#</a></dt>
 <dd><p>Recursively prints nested dictionaries with indentation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -356,7 +634,7 @@ It controls the number of spaces before each key.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.utilities.print_object">
-<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">print_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#print_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.print_object" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">print_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#print_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.print_object" title="Link to this definition">#</a></dt>
 <dd><p>Prints all attributes and methods of an object, sorted alphabetically.</p>
 <ul class="simple">
 <li><p>Methods are identified as callable and printed with the prefix ‘Method: ‘.</p></li>
@@ -380,13 +658,13 @@ It controls the number of spaces before each key.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.utilities.read_configuration_file">
-<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">read_configuration_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#read_configuration_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.read_configuration_file" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">read_configuration_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#read_configuration_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.read_configuration_file" title="Link to this definition">#</a></dt>
 <dd><p>Reads and validates a YAML configuration file (return multiple outputs)</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.utilities.render_and_evaluate">
-<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">render_and_evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#render_and_evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.render_and_evaluate" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">render_and_evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#render_and_evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.render_and_evaluate" title="Link to this definition">#</a></dt>
 <dd><p>Render variables prefixed with ‘$’ in an expression and evaluate the resulting expression.</p>
 <p>This function processes an input string <cite>expr</cite>, identifying all occurrences of variables
 indicated by a leading ‘$’ symbol. Each such variable is resolved to its value from the
@@ -430,7 +708,7 @@ source.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.utilities.render_nested_value">
-<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">render_nested_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nested_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#render_nested_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.render_nested_value" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">render_nested_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nested_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#render_nested_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.render_nested_value" title="Link to this definition">#</a></dt>
 <dd><p>Retrieves a value from a nested structure (dictionaries or objects with attributes) using a dot-separated key.</p>
 <p>This function is designed to navigate through a combination of dictionaries and objects. For an object to be
 compatible with this function, it must implement a <cite>keys()</cite> method that returns its attribute names.</p>
@@ -466,7 +744,7 @@ of the path that was successfully traversed and the available keys or attributes
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.utilities.savefig_in_formats">
-<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">savefig_in_formats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_without_extension</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['.png',</span> <span class="pre">'.svg',</span> <span class="pre">'.pdf']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#savefig_in_formats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.savefig_in_formats" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">savefig_in_formats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_without_extension</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['.png',</span> <span class="pre">'.svg',</span> <span class="pre">'.pdf']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#savefig_in_formats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.savefig_in_formats" title="Link to this definition">#</a></dt>
 <dd><p>Save a given matplotlib figure in multiple file formats.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -493,7 +771,7 @@ Default is [‘.png’, ‘.svg’, ‘.pdf’].</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.utilities.validate_keys">
-<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">validate_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">checked_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required_keys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowed_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#validate_keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.validate_keys" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">validate_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">checked_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required_keys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowed_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#validate_keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.validate_keys" title="Link to this definition">#</a></dt>
 <dd><p>Validate the presence of required keys and check for any unexpected keys in a dictionary.</p>
 <p>Give required keys and allowed keys to have complete control
 Give required keys twice to check that the list of keys is necessary and sufficient
@@ -520,7 +798,7 @@ Give only required keys to allow all extra additional key</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.utilities.wait_for_file">
-<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">wait_for_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#wait_for_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.wait_for_file" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.utilities.</span></span><span class="sig-name descname"><span class="pre">wait_for_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poll_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/utilities.html#wait_for_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.utilities.wait_for_file" title="Link to this definition">#</a></dt>
 <dd><p>Wait until the specified file is created.</p>
 <p>This function is used to wait until a Fluent transcript file is created.</p>
 <dl class="field-list simple">
@@ -546,33 +824,110 @@ Give only required keys to allow all extra additional key</p>
 </section>
 
 
-           </div>
-          </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="barotropy.stream_transcript.html" class="btn btn-neutral float-left" title="barotropy.stream_transcript module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-    </div>
+                </article>
+              
 
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2023, Sustainable Thermal Power DTU.</p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
-        </div>
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="barotropy.sCO2_utilities.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">barotropy.sCO2_utilities module</p>
       </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
-</body>
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.DictionaryValidationError"><code class="docutils literal notranslate"><span class="pre">DictionaryValidationError</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.compare_contents_or_files"><code class="docutils literal notranslate"><span class="pre">compare_contents_or_files()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.convert_configuration_options"><code class="docutils literal notranslate"><span class="pre">convert_configuration_options()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.convert_numpy_to_python"><code class="docutils literal notranslate"><span class="pre">convert_numpy_to_python()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.ensure_iterable"><code class="docutils literal notranslate"><span class="pre">ensure_iterable()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.evaluate_constraints"><code class="docutils literal notranslate"><span class="pre">evaluate_constraints()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.evaluate_objective_function"><code class="docutils literal notranslate"><span class="pre">evaluate_objective_function()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.is_float"><code class="docutils literal notranslate"><span class="pre">is_float()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.is_numeric"><code class="docutils literal notranslate"><span class="pre">is_numeric()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.print_dict"><code class="docutils literal notranslate"><span class="pre">print_dict()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.print_object"><code class="docutils literal notranslate"><span class="pre">print_object()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.read_configuration_file"><code class="docutils literal notranslate"><span class="pre">read_configuration_file()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.render_and_evaluate"><code class="docutils literal notranslate"><span class="pre">render_and_evaluate()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.render_nested_value"><code class="docutils literal notranslate"><span class="pre">render_nested_value()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.savefig_in_formats"><code class="docutils literal notranslate"><span class="pre">savefig_in_formats()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.validate_keys"><code class="docutils literal notranslate"><span class="pre">validate_keys()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.utilities.wait_for_file"><code class="docutils literal notranslate"><span class="pre">wait_for_file()</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, Sustainable Thermal Power DTU.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
 </html>
