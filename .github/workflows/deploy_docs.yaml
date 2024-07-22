@@ -34,14 +34,14 @@ jobs:
     - name: Install dependencies
       run: |
         source "$(conda info --base)/etc/profile.d/conda.sh"
-        conda activate barotropy
+        conda activate barotropy_env
         pip install poetry
         poetry install
 
     - name: Build Sphinx documentation
       run: |
         source "$(conda info --base)/etc/profile.d/conda.sh"
-        conda activate barotropy
+        conda activate barotropy_env
         cd docs
         python build_docs.py
 
