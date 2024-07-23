@@ -15,6 +15,7 @@ from .props import *
 from .barotropic_model import *
 
 # Import submodules
+from .math import *
 from .plot_options import *
 from .sCO2_utilities import *
 from .utilities import *
@@ -59,7 +60,6 @@ def print_package_info():
  Repository:    {URL_GITHUB}
  Documentation: {URL_DOCS}"""
     print_banner()
-    print(BREAKLINE)
     print(info)
     print(BREAKLINE)
 
