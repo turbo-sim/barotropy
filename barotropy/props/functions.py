@@ -4,6 +4,7 @@ import numpy as np
 import CoolProp.CoolProp as CP
 
 from .. import pysolver_view as solver
+from .. import math as math
 
 # ------------------------------------------------------------------------------------ #
 # Equilibrum property calculations through CoolProp
@@ -110,8 +111,7 @@ def compute_properties_2phase(AS):
         rho_V * speed_sound_V**2
     )
     thermal_equilibrium = T_mix * (
-        vol_frac_L * rho_L / cp_L * dsdp_L**2
-        + vol_frac_V * rho_V / cp_V * dsdp_V**2
+        vol_frac_L * rho_L / cp_L * dsdp_L**2 + vol_frac_V * rho_V / cp_V * dsdp_V**2
     )
     compressibility_HEM = mechanical_equilibrium + thermal_equilibrium
     if mass_frac_V < 1e-6:  # Avoid discontinuity when Q_v=0
@@ -148,49 +148,88 @@ def compute_properties_2phase(AS):
     return props
 
 
-def calculate_generalized_quality(abstract_state):
+def calculate_generalized_quality(abstract_state, alpha=10):
+    r"""
+    Calculate the generalized quality of a fluid, extending the quality calculation beyond the two-phase region if necessary.
+
+    Below the critical temperature, the quality is calculated from the specific volume of the saturated liquid and vapor states.
+    Above the critical temperature, an artificial two-phase region is defined around the critical density line to allow for a finite-width quality computation.
+
+    The quality, \( Q \), is given by:
+
+    .. math::
+
+        Q = \frac{v - v(T, q=0)}{v(T, q=1) - v(T, q=0)}
+
+    where \( v \) is the specific volume, \( T \) is the temperature, and \( q \) is the quality.
+
+    Additionally, this function applies smoothing limiters to ensure the quality is bounded between -1 and 2.
+    These limiters prevent the quality value from taking arbitrarily large values, enhancing stability and robustness of downstream calculation.
+    The limiters use the `logsumexp` method for smooth transitions, with a specified alpha value controlling the smoothness.
+
+    Parameters
+    ----------
+    abstract_state : CoolProp.AbstractState
+        CoolProp abstract state of the fluid.
+
+    alpha : float
+        Smoothing factor of the quality-calculation limiters.
+
+    Returns
+    -------
+    float
+        The calculated quality of the fluid.
     """
-    Calculates the generalized quality of a fluid, extending the quality calculation
-    beyond the two-phase region if necessary.
-
-    Parameters:
-    - backend: The backend used by CoolProp for property calculations.
-    - name: The name of the fluid.
-    - pressure: The pressure of the fluid state.
-    - critical_point: A dictionary containing the critical point properties, including 'p' (pressure) and 'rho' (density).
-
-    Returns:
-    - quality: The calculated quality of the fluid. Returns np.nan if the quality is not generalized.
-    """
-
     # Instantiate new fluid object to compute saturation properties without changing the state of the class
     cloned_state = CP.AbstractState(
         abstract_state.backend_name(), abstract_state.name()
     )
 
     # Extend quality calculation beyond the two-phase region
-    if abstract_state.p() < abstract_state.p_critical():
+    if abstract_state.T() < abstract_state.T_critical():
         # Saturated liquid
-        cloned_state.update(CP.PQ_INPUTS, abstract_state.p(), 0.00)
-        h_liq = cloned_state.hmass()
+        cloned_state.update(CP.QT_INPUTS, 0.00, abstract_state.T())
+        rho_liq = cloned_state.rhomass()
 
         # Saturated vapor
-        cloned_state.update(CP.PQ_INPUTS, abstract_state.p(), 1.00)
-        h_vap = cloned_state.hmass()
+        cloned_state.update(CP.QT_INPUTS, 1.00, abstract_state.T())
+        rho_vap = cloned_state.rhomass()
 
-        # Generalized quality
-        quality = (abstract_state.hmass() - h_liq) / (h_vap - h_liq)
+        # Quality computation
+        rho = abstract_state.rhomass()
+        quality = (1 / rho - 1 / rho_liq) / (1 / rho_vap - 1 / rho_liq)
+
     else:
-        # For states at or above the critical pressure, the concept of saturation states is not applicable
-        # Instead, use a 'pseudo-critical' state for comparison, where the density is set to the critical density
-        # but the pressure is the same as the state of interest
-        # Use a band of a certain width to prevent a discontinuity
-        cloned_state.update(
-            CP.DmassP_INPUTS, abstract_state.rhomass_critical(), abstract_state.p()
-        )
-        quality = (abstract_state.hmass() - 0.99 * cloned_state.hmass()) / (
-            1.01 * cloned_state.hmass() - 0.99 * cloned_state.hmass()
-        )
+        # For states at or above the critical temperature, the concept of saturation states is not applicable
+        # Instead, an artificial two-phase region is created around the pseudo-critical density line (line of critical density)
+        # The width of the artificial two-phase region is assumed to increase linearly with temperature
+
+        # Compute critical entropy
+        T_crit = abstract_state.T_critical()
+        rho_crit = abstract_state.rhomass_critical()
+        cloned_state.update(CP.DmassT_INPUTS, rho_crit, T_crit)
+        s_crit = cloned_state.smass()
+
+        # Compute actual state
+        cloned_state.update(CP.DmassP_INPUTS, rho_crit, abstract_state.p())
+        T = abstract_state.T()
+        s = abstract_state.smass()
+        rho = abstract_state.rhomass()
+
+        # Define pseudocritical region
+        T_hat = 1.5 * T_crit
+        rho_hat_liq = 1.1 * rho_crit
+        rho_hat_vap = 0.9 * rho_crit
+        rho_liq = rho_crit + (rho_hat_liq - rho_crit) * (T - T_crit) / (T_hat - T_crit)
+        rho_vap = rho_crit + (rho_hat_vap - rho_crit) * (T - T_crit) / (T_hat - T_crit)
+
+        # Quality computation
+        quality = (1 / rho - 1 / rho_liq) / (1 / rho_vap - 1 / rho_liq)
+
+    # Apply smoothing limiters so that the quality is bounded between [-1, 2]
+    # The margin is defined as delta_Q=1 to the left of Q=0 and to the right of Q=1
+    quality = math.smooth_minimum(quality, +2, method="logsumexp", alpha=alpha)
+    quality = math.smooth_maximum(quality, -1, method="logsumexp", alpha=alpha)
 
     return quality
 
