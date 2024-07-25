@@ -2,7 +2,7 @@ import numpy as np
 import scipy.optimize
 import CoolProp.CoolProp as cp
 
-from . import props
+from . import fluid_properties as props
 
 
 def compute_supersonic_exit(T_in, p_in, area_ratio, fluid):

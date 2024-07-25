@@ -10,8 +10,8 @@ else:
     sys.excepthook = IPython.core.ultratb.ColorTB()
 
 # Import subpackages
-from .fluent import *
-from .props import *
+from .fluent_automation import *
+from .fluid_properties import *
 from .barotropic_model import *
 
 # Import submodules
