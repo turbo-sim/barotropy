@@ -50,7 +50,7 @@ res = problem.residual(x0)
 print(res)
 
 
-solver = bpy.solver.NonlinearSystemSolver(problem,
+solver = bpy.psv.NonlinearSystemSolver(problem,
                                           method="hybr",
                                           tolerance=1e-6,
                                           max_iterations=100,
