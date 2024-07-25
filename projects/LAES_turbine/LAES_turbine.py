@@ -4,55 +4,61 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 import barotropy as bpy
-bpy.print_banner()
+bpy.print_package_info()
 bpy.set_plot_options()
 
 
 from matplotlib import cm
 
 # Create folder to save results
-DIR_OUT = "./data_simulations_python"
+DIR_OUT = "./output"
 if not os.path.isdir(DIR_OUT):
     os.makedirs(DIR_OUT)
 
 # Load cases from Excel
 case_table = pd.read_excel("./simulation_cases.xlsx")
 case_indices = case_table["index"]
-# case_indices = [1, 2, 3, 4]
+# case_indices = [1, 2, 3]
+case_indices = [2]
 case_table = case_table[case_table["index"].isin(case_indices)]
 
 # Define plot settings
 var_x = "s"
 var_y = "T"
-n_points = None
+n_points = 100
 # colors = bpy.COLORS_MATLAB
 colors = cm.Reds(np.linspace(0.5, 1.0, len(case_indices)))
 save_figures = True
 
 # Loop over cases
-for idx, row in case_table.iterrows():
+for i, (idx, row) in enumerate(case_table.iterrows()):
+
+
+    print(f"Processing case {i+1} of {len(case_table)}")
     print(row)
+    print()
 
     # Create fluid object
     fluid_name = row["fluid_name"]
     fluid = bpy.Fluid(name=fluid_name, backend="HEOS", exceptions=True)
 
     # Evaluate barotropic model
-    states, _ = bpy.calculate_polytropic_process(
+    states = bpy.barotropic_model_one_fluid(
         fluid_name=fluid_name,
         T_in=row["T0_in"],
         p_in=row["p0_in"],
         p_out=row["p_out"],
         efficiency=row["polytropic_efficiency"],
         multiphase_model=row["multiphase_model"],
-        q_onset=row["q_onset"],
-        q_transition=row["q_transition"],
+        # q_onset=row["q_onset"],
+        # q_transition=row["q_transition"],
         number_of_points=n_points,
-        tol=1e-8,
+        tolerance=1e-8,
+        calculation_type="adiabatic"
     )
 
     # Create figure for plotting
-    if idx == 0:
+    if i == 0:
         # Plot phase diagram
         fig_1, ax_1 = plt.subplots(figsize=(6.0, 5.0))
         ax_1.set_xlabel("Entropy (J/kg/K)")
@@ -76,11 +82,10 @@ for idx, row in case_table.iterrows():
         ax_2.set_xlabel("Pressure (Pa)")
         ax_2.set_ylabel("Density (kg/m$^3$)")
 
-
-    if idx == 0:
+    if i == 0:
         color = "black"
     else:
-        color = colors[idx-1]
+        color = colors[i-1]
 
     ax_1.plot(
         states[var_x],
@@ -96,7 +101,7 @@ for idx, row in case_table.iterrows():
         states["p"],
         states["rho"],
         # marker="none",
-        # marker="+",
+        marker="+",
         linewidth=1.25,
         markeredgewidth=1.25,
         markersize=3.5,

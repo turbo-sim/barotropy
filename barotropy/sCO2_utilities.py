@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-from . import props
+from . import fluid_properties as props
 
 from typing import Dict, Tuple
 
@@ -188,7 +188,7 @@ def plot_ps_diagram(fluid, ax, range_x, range_y, range_z):
     )
 
     # Plot pressure isobars
-    prop_dict = props.compute_properties_meshgrid(fluid, prop_pair, range_y, range_x)
+    prop_dict = props.compute_property_grid(fluid, prop_pair, range_y, range_x)
     contour = ax.contour(
         prop_dict[prop_x],
         prop_dict[prop_y],
@@ -235,7 +235,7 @@ def plot_Ts_diagram(fluid, ax, range_x, range_y, range_z):
     )
 
     # Plot pressure isobars
-    prop_dict = props.compute_properties_meshgrid(fluid, prop_pair, range_x, range_y)
+    prop_dict = props.compute_property_grid(fluid, prop_pair, range_x, range_y)
     contour = ax.contour(
         prop_dict[prop_x],
         prop_dict[prop_y],
