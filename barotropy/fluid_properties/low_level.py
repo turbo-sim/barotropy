@@ -6,6 +6,25 @@ from .. import math as math
 from .. import pysolver_view as psv
 
 
+
+# Define property aliases
+PROPERTY_ALIAS = {
+    "P": "p",
+    "rho": "rhomass",
+    "d": "rhomass",
+    "u": "umass",
+    "h": "hmass",
+    "s": "smass",
+    "cv": "cvmass",
+    "cp": "cpmass",
+    "a": "speed_sound",
+    "Z": "compressibility_factor",
+    "mu": "viscosity",
+    "k": "conductivity",
+}
+
+
+
 # ------------------------------------------------------------------------------------ #
 # Equilibrum property calculations through CoolProp
 # ------------------------------------------------------------------------------------ #
@@ -64,6 +83,10 @@ def compute_properties_1phase(
 
     if compute_superheating:
         props["superheating"] = calculate_superheating(AS)
+
+    # Add properties as aliases
+    for key, value in PROPERTY_ALIAS.items():
+        props[key] = props[value]
 
     return props
 
@@ -178,6 +201,10 @@ def compute_properties_2phase(
 
     if compute_superheating:
         props["superheating"] = calculate_superheating(AS)
+
+    # Add properties as aliases
+    for key, value in PROPERTY_ALIAS.items():
+        props[key] = props[value]
 
     return props
 
@@ -531,7 +558,7 @@ def compute_properties_metastable(
     # Define initial guess and solve the problem
     x0 = np.asarray([rho_guess, T_guess])
     rho, T = solver.solve(x0)
-    props = compute_properties_metastable_rhoT(rho, T, AS)
+    props = compute_properties_metastable_rhoT(AS, rho, T)
 
     # Check if solver converged
     if not solver.success:
@@ -542,18 +569,18 @@ def compute_properties_metastable(
     return props
 
 
-def compute_properties_metastable_rhoT(rho, T, abstract_state):
+def compute_properties_metastable_rhoT(abstract_state, rho, T):
     r"""
     Compute the thermodynamic properties of a fluid using temperature-density calls to the Helmholtz energy equation of state (HEOS).
-    
+
     Parameters
     ----------
+    abstract_state : CoolProp.AbstractState
+        The abstract state of the fluid for which the properties are to be calculated.
     rho : float
         Density of the fluid (kg/m³).
     T : float
         Temperature of the fluid (K).
-    abstract_state : CoolProp.AbstractState
-        The abstract state of the fluid for which the properties are to be calculated.
 
     Returns
     -------
@@ -562,27 +589,27 @@ def compute_properties_metastable_rhoT(rho, T, abstract_state):
 
     Notes
     -----
-    The Helmholtz energy equation of state (HEOS) expresses the Helmholtz energy as an explicit function 
+    The Helmholtz energy equation of state (HEOS) expresses the Helmholtz energy as an explicit function
     of temperature and density:
-    
+
     .. math::
         \Phi = \Phi(\rho, T)
-    
+
     In dimensionless form, the Helmholtz energy is given by:
-    
+
     .. math::
         \phi(\delta, \tau) = \frac{\Phi(\delta, \tau)}{R T}
-    
+
     where:
-    
+
     - :math:`\phi` is the dimensionless Helmholtz energy
     - :math:`R` is the gas constant of the fluid
     - :math:`\delta = \rho / \rho_c` is the reduced density
     - :math:`\tau = T_c / T` is the inverse of the reduced temperature
-    
-    Thermodynamic properties can be derived from the Helmholtz energy and its partial derivatives. 
+
+    Thermodynamic properties can be derived from the Helmholtz energy and its partial derivatives.
     The following table summarizes the expressions for various properties:
-    
+
     .. list-table:: Helmholtz energy thermodynamic relations
         :widths: 30 70
         :header-rows: 1
@@ -611,15 +638,15 @@ def compute_properties_metastable_rhoT(rho, T, abstract_state):
           - .. math:: \frac{K_s}{\rho R T} = 2 \cdot \delta \cdot \phi_{\delta} + \delta^2 \ \cdot \phi_{\delta \delta} - \frac{(\delta \cdot \phi_{\delta} - \tau \cdot \delta \cdot \phi_{\tau \delta})^2}{\tau^2 \cdot \phi_{\tau \tau}}
         * - Joule-Thompson coefficient
           - .. math:: \rho R \mu_{\mathrm{JT}} = - \frac{\delta \cdot \phi_{\delta} + \tau \cdot \delta \cdot \phi_{\tau \delta} + \delta^2 \cdot \phi_{\delta \delta}}{(\delta \cdot \phi_{\delta} - \tau \cdot \delta \cdot \phi_{\tau \delta})^2 - \tau^2 \cdot \phi_{\tau \tau} \cdot (2 \cdot \delta \cdot \phi_{\delta} + \delta^2 \cdot \phi_{\delta \delta})}
-          
+
     Where the following abbreviations are used:
-    
+
     - :math:`\phi_{\delta} = \left(\frac{\partial \phi}{\partial \delta}\right)_{\tau}`
     - :math:`\phi_{\tau} = \left(\frac{\partial \phi}{\partial \tau}\right)_{\delta}`
     - :math:`\phi_{\delta \delta} = \left(\frac{\partial^2 \phi}{\partial \delta^2}\right)_{\tau, \tau}`
     - :math:`\phi_{\tau \tau} = \left(\frac{\partial^2 \phi}{\partial \tau^2}\right)_{\delta, \delta}`
     - :math:`\phi_{\tau \delta} = \left(\frac{\partial^2 \phi}{\partial \tau \delta}\right)_{\delta, \tau}`
-    
+
     This function can be used to estimate metastable properties using the equation of state beyond the saturation lines.
     """
 
@@ -692,6 +719,10 @@ def compute_properties_metastable_rhoT(rho, T, abstract_state):
     props["quality_mass"] = np.nan
     props["quality_volume"] = np.nan
 
+    # Add properties as aliases
+    for key, value in PROPERTY_ALIAS.items():
+        props[key] = props[value]
+
     return props
 
 
@@ -724,7 +755,7 @@ class _HelmholtzFlashCalculation(psv.NonlinearSystemProblem):
             msg = f"Input x={x} must be a list, tuple or numpy array containing exactly two elements: density and temperature."
             raise ValueError(msg)
         rho, T = x
-        state = compute_properties_metastable_rhoT(rho, T, self.AS)
+        state = compute_properties_metastable_rhoT(self.AS, rho, T)
         res_1 = 1 - state[self.prop_1] / self.prop_1_value
         res_2 = 1 - state[self.prop_2] / self.prop_2_value
         return np.asarray([res_1, res_2])
@@ -735,7 +766,15 @@ class _HelmholtzFlashCalculation(psv.NonlinearSystemProblem):
 # ------------------------------------------------------------------------------------ #
 
 
-def compute_spinodal_point(T, abstract_state, branch="liquid", N_trial=50):
+def compute_spinodal_point(
+    T,
+    abstract_state,
+    branch,
+    rho_guess=None,
+    N_trial=50,
+    tolerance=1e-6,
+    print_convergence=False,
+):
     r"""
     Compute the vapor or liquid spinodal point of a fluid at a given temperature.
 
@@ -745,11 +784,18 @@ def compute_spinodal_point(T, abstract_state, branch="liquid", N_trial=50):
         Temperature of the fluid (K).
     abstract_state : CoolProp.AbstractState
         The abstract state of the fluid for which the spinodal point is to be calculated.
-    branch : str, optional
+    branch : str
         Branch of the spinodal line used to determine the density initial guess.
-        Options: 'liquid' or 'vapor'. Default is 'liquid'.
+        Options: 'liquid' or 'vapor'.
+    rho_guess : float, optional
+        Initial guess for the density. If provided, this value will be used directly.
+        If not provided, the density initial guess will be generated based on a number of trial points.
     N_trial : int, optional
         Number of trial points to generate the density initial guess. Default is 50.
+    tolerance : float, optional
+        Tolerance for the solver termination. Defaults to 1e-6.
+    print_convergence : bool, optional
+        If True, displays the convergence progress. Defaults to False.
 
     Returns
     -------
@@ -764,9 +810,9 @@ def compute_spinodal_point(T, abstract_state, branch="liquid", N_trial=50):
 
     Notes
     ------
-    When a single-phase fluid undergoes a thermodynamic process and enters the two-phase region it 
-    can exist in a single-phase state that is different from the equilibrium two-phase state. 
-    Such states are know as metastable states and they are only possible in the thermodynamic 
+    When a single-phase fluid undergoes a thermodynamic process and enters the two-phase region it
+    can exist in a single-phase state that is different from the equilibrium two-phase state.
+    Such states are know as metastable states and they are only possible in the thermodynamic
     region between the saturation lines and the spinodal lines. If the thermodynamic process
     continues and crosses the spinodal lines metastable states become unstable and the transition
     to two-distinct phase occurs rapidly. Therefore, the spinodal line represents the locus of points
@@ -776,17 +822,17 @@ def compute_spinodal_point(T, abstract_state, branch="liquid", N_trial=50):
     In mathematical terms, the spinodal line is defined as the loci of thermodynamic states in which the isothermal bulk modulus of the fluid is zero:
 
     .. math::
-        
+
         K_T = \rho \left( \frac{\partial p}{\partial \rho} \right)_T = 0
-    
+
     More precisely, a vapor spinodal point is the first local maximum of a isotherm line in a pressure-density diagram as the density increases.
-    Conversely, a liquid spinodal point is the first local minimum of a isotherm line in a pressure-density diagram as the density decreases. 
-    The spinodal lines and phase envelope of carbon dioxide according to the HEOS developed by :cite:`span_new_1996` are illustrated in the figure below    
+    Conversely, a liquid spinodal point is the first local minimum of a isotherm line in a pressure-density diagram as the density decreases.
+    The spinodal lines and phase envelope of carbon dioxide according to the HEOS developed by :cite:`span_new_1996` are illustrated in the figure below
 
     .. image:: /_static/spinodal_points_CO2.svg
         :alt: Pressure-density diagram and spinodal points for carbon dioxide.
-    
-        
+
+
     Some equations of state are not well-posed and do not satisfy the condition :math:`K_T=0` within the two-phase region.
     This is exemplified by the nitrogen HEOS developed by :cite:`span_reference_2000`.
 
@@ -805,14 +851,14 @@ def compute_spinodal_point(T, abstract_state, branch="liquid", N_trial=50):
     # Check that the inlet temperature is lower than the critical temperature
     T_critical = AS.T_critical()
     if T >= T_critical:
-        raise ValueError(
-            f"T={T:.3f}K must be less than T_critical={AS.T_critical:.3f}K"
-        )
+        msg = f"T={T:.3f}K must be less than T_critical={AS.T_critical:.3f}K"
+        raise ValueError(msg)
 
     # Check that the inlet temperature is greater than the triple temperature
     T_triple = AS.Ttriple()
     if T < T_triple:
-        raise ValueError(f"T={T:.3f}K must be greater than T_triple={AS.T_triple:.3f}K")
+        msg = f"T={T:.3f}K must be greater than T_triple={T_triple:.3f}K"
+        raise ValueError(msg)
 
     # Create spinodal point optimization problem
     problem = _SpinodalPointProblem(T, abstract_state, branch)
@@ -820,16 +866,28 @@ def compute_spinodal_point(T, abstract_state, branch="liquid", N_trial=50):
     # Create solver object
     solver = psv.OptimizationSolver(
         problem=problem,
-        library="scipy",  # "l-bfgs-b"
-        method="slsqp",
-        tolerance=1e-6,
-        print_convergence=True,
+        library="scipy",  
+        method="bfgs", # "l-bfgs-b", "slsqp" "bfgs"
+        tolerance=tolerance,
+        print_convergence=print_convergence,
     )
 
-    # Generate initial guess and solve the problem
-    rho_guess = problem.generate_density_guess(N_trial)
-    rho_opt = solver.solve(rho_guess)
-    props = compute_properties_metastable_rhoT(rho_opt, T, abstract_state)
+    # Generate initial guess if not provided
+    if rho_guess is None:
+        rho_guess = problem.generate_density_guess(N_trial)
+
+    # Solve the problem using the provided or generated initial guess
+    rho_opt = solver.solve(rho_guess).item()
+    props = compute_properties_metastable_rhoT(AS, rho_opt, T)
+
+    # I tried different combinations of solvers and initial guesses
+    # SLSQP is very fast, but also very aggresive and can lead to unpredictable results
+    # BFGS is reliable when the initial guess is good
+    # Achieving a good initial guess is possible by:
+    #  1. Using previous point in the spinodal line and having high resolution on the spinodal line
+    #  2. Generating an initial guess for each point with the initial guess strategy
+    # Option 2. seems the most reliable, and even if the computational cost can be a bit hight
+    # it seems to be the most effective way to get accurate spinodal lines.
 
     return props
 
@@ -855,7 +913,6 @@ class _SpinodalPointProblem(psv.OptimizationProblem):
         # Caclulate the critical density (used to determine initial guess)
         self.rho_crit = self.abstract_state.rhomass_critical()
 
-
     def generate_density_guess(self, N):
         """Generate a density initial guess that is close to the first local minima of the absolute value of the bulk modulus"""
 
@@ -871,48 +928,41 @@ class _SpinodalPointProblem(psv.OptimizationProblem):
         # Evaluate residual vector at trial densities
         residual = np.abs([self.fitness(rho) for rho in rho_array])
 
-        # Find the first local minima in the residual vector
+        # Return the first local minima in the residual vector
         for i in range(1, N - 1):
             if residual[i - 1] > residual[i] < residual[i + 1]:
                 self.rho_guess = rho_array[i + 1]
                 return self.rho_guess
 
-
     def fitness(self, rho):
         """
         Compute the objective function of the optimization problem: the absolute value of the isothermal bulk modulus.
-        
+
         This function uses the absolute value of residual to solve an optimization problem
         rather than a non-linear equation having the bulk modulus as residual. This approach
         is adopted because some fluids (e.g., nitrogen) have ill-posed EoS that not have a well-defined
         spinodal points where the isothermal bulk modulus is zero.
 
-        The value of the bulk modulus returned is divided by the fluid pressure to enhance
-        the scaling of the problem and improve convergence reliability.
+        Not a good idea to scale the bulk modulus by pressure because it can take negative values or zero when evaluated with the HEOS.
         """
-        props = compute_properties_metastable_rhoT(rho, self.T, self.abstract_state)
-        return np.abs(props["isothermal_bulk_modulus"] / props["p"])
-
+        props = compute_properties_metastable_rhoT(self.abstract_state, rho, self.T)
+        return np.atleast_1d(np.abs(props["isothermal_bulk_modulus"]))
 
     def get_bounds(self):
-        """
-        Compute the bounds of the optimization problem.
-
-        The bounds use the previosly computed density guess that is beyond the
-        first local minima of the fitness function, thereby ensuring that the
-        spinodal point is within the bounds of the optimization problem.
-        """
-        if self.branch == "liquid":
-            return [(self.rho_guess,), (self.rho_liq,)]
-        elif self.branch == "vapor":
-            return [(self.rho_vap,), (self.rho_guess,)]
-        else:
-            raise ValueError(f"Invalid value for branch={self.branch}")
-
-
+        """Compute the bounds of the optimization problem."""
+        # if self.branch == "liquid":
+        #     return [(self.rho_crit,), (self.rho_liq,)]
+        # elif self.branch == "vapor":
+        #     return [(self.rho_vap,), (self.rho_crit,)]
+        # else:
+        #     raise ValueError(f"Invalid value for branch={self.branch}")
+        return None
+    
     def get_nec(self):
         return 0
 
-
     def get_nic(self):
         return 0
+
+
+
