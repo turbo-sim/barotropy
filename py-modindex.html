@@ -170,17 +170,10 @@
 <li class="toctree-l1"><a class="reference internal" href="source/barotropic_model.html">Barotropic Model Theory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="source/bibliography.html">Bibliography</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="source/api/modules.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="source/api/barotropy.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="source/api/barotropy.props.html">barotropy.props package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.props.core.html">barotropy.props.core module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.props.functions.html">barotropy.props.functions module</a></li>
-</ul>
-</details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="source/api/barotropy.fluent.html">barotropy.fluent package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.fluent.fluent_automation.html">barotropy.fluent.fluent_automation module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.fluent.fluent_plot_nozzle_data.html">barotropy.fluent.fluent_plot_nozzle_data module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.fluent.stream_residuals.html">barotropy.fluent.stream_residuals module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.fluent.stream_transcript.html">barotropy.fluent.stream_transcript module</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="source/api/barotropy.html">barotropy</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="source/api/barotropy.fluid_properties.html">barotropy.fluid_properties package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.fluid_properties.core.html">barotropy.fluid_properties.core module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.fluid_properties.low_level_interface.html">barotropy.fluid_properties.low_level_interface module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="source/api/barotropy.pysolver_view.html">barotropy.pysolver_view package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -193,10 +186,18 @@
 <li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.pysolver_view.pysolver_utilities.html">barotropy.pysolver_view.pysolver_utilities module</a></li>
 </ul>
 </details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="source/api/barotropy.fluent_automation.html">barotropy.fluent_automation package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.fluent_automation.fluent_automation.html">barotropy.fluent_automation.fluent_automation module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html">barotropy.fluent_automation.fluent_plot_nozzle_data module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.fluent_automation.stream_residuals.html">barotropy.fluent_automation.stream_residuals module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.fluent_automation.stream_transcript.html">barotropy.fluent_automation.stream_transcript module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.barotropic_model.html">barotropy.barotropic_model module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.isentropic_nozzle.html">barotropy.isentropic_nozzle module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.plot_options.html">barotropy.plot_options module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.sCO2_utilities.html">barotropy.sCO2_utilities module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.math.html">barotropy.math module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.plot_options.html">barotropy.plot_options module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.utilities.html">barotropy.utilities module</a></li>
 </ul>
 </details></li>
@@ -329,27 +330,42 @@ document.write(`
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="source/api/barotropy.fluent.html#module-barotropy.fluent"><code class="xref">barotropy.fluent</code></a></td><td>
+       <a href="source/api/barotropy.fluent_automation.html#module-barotropy.fluent_automation"><code class="xref">barotropy.fluent_automation</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="source/api/barotropy.fluent.fluent_automation.html#module-barotropy.fluent.fluent_automation"><code class="xref">barotropy.fluent.fluent_automation</code></a></td><td>
+       <a href="source/api/barotropy.fluent_automation.fluent_automation.html#module-barotropy.fluent_automation.fluent_automation"><code class="xref">barotropy.fluent_automation.fluent_automation</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="source/api/barotropy.fluent.fluent_plot_nozzle_data.html#module-barotropy.fluent.fluent_plot_nozzle_data"><code class="xref">barotropy.fluent.fluent_plot_nozzle_data</code></a></td><td>
+       <a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#module-barotropy.fluent_automation.fluent_plot_nozzle_data"><code class="xref">barotropy.fluent_automation.fluent_plot_nozzle_data</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="source/api/barotropy.fluent.stream_residuals.html#module-barotropy.fluent.stream_residuals"><code class="xref">barotropy.fluent.stream_residuals</code></a></td><td>
+       <a href="source/api/barotropy.fluent_automation.stream_residuals.html#module-barotropy.fluent_automation.stream_residuals"><code class="xref">barotropy.fluent_automation.stream_residuals</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
-       <a href="source/api/barotropy.fluent.stream_transcript.html#module-barotropy.fluent.stream_transcript"><code class="xref">barotropy.fluent.stream_transcript</code></a></td><td>
+       <a href="source/api/barotropy.fluent_automation.stream_transcript.html#module-barotropy.fluent_automation.stream_transcript"><code class="xref">barotropy.fluent_automation.stream_transcript</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="source/api/barotropy.fluid_properties.html#module-barotropy.fluid_properties"><code class="xref">barotropy.fluid_properties</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="source/api/barotropy.fluid_properties.core.html#module-barotropy.fluid_properties.core"><code class="xref">barotropy.fluid_properties.core</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="source/api/barotropy.fluid_properties.low_level_interface.html#module-barotropy.fluid_properties.low_level_interface"><code class="xref">barotropy.fluid_properties.low_level_interface</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
@@ -359,22 +375,12 @@ document.write(`
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
+       <a href="source/api/barotropy.math.html#module-barotropy.math"><code class="xref">barotropy.math</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
        <a href="source/api/barotropy.plot_options.html#module-barotropy.plot_options"><code class="xref">barotropy.plot_options</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="source/api/barotropy.props.html#module-barotropy.props"><code class="xref">barotropy.props</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="source/api/barotropy.props.core.html#module-barotropy.props.core"><code class="xref">barotropy.props.core</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="source/api/barotropy.props.functions.html#module-barotropy.props.functions"><code class="xref">barotropy.props.functions</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>

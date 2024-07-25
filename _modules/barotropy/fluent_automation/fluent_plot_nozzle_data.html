@@ -1,0 +1,590 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>barotropy.fluent_automation.fluent_plot_nozzle_data &#8212; barotropy v0.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=87e54e7c" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../_static/documentation_options.js?v=28af074a"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/barotropy/fluent_automation/fluent_plot_nozzle_data';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">barotropy v0.0.0 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../source/installation.html">Installation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../source/tutorials.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/tutorials/one_component_systems.html">Tutorial: One-component systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/tutorials/two_component_systems.html">Tutorial: Two-component systems</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/barotropic_model.html">Barotropic Model Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/bibliography.html">Bibliography</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../source/api/modules.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../source/api/barotropy.html">barotropy</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../source/api/barotropy.fluid_properties.html">barotropy.fluid_properties package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.fluid_properties.core.html">barotropy.fluid_properties.core module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.fluid_properties.low_level_interface.html">barotropy.fluid_properties.low_level_interface module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../source/api/barotropy.pysolver_view.html">barotropy.pysolver_view package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.pysolver_view.nonlinear_system.html">barotropy.pysolver_view.nonlinear_system module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.pysolver_view.nonlinear_system_problems.html">barotropy.pysolver_view.nonlinear_system_problems module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.pysolver_view.numerical_differentiation.html">barotropy.pysolver_view.numerical_differentiation module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.pysolver_view.optimization.html">barotropy.pysolver_view.optimization module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.pysolver_view.optimization_problems.html">barotropy.pysolver_view.optimization_problems module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.pysolver_view.optimization_wrappers.html">barotropy.pysolver_view.optimization_wrappers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.pysolver_view.pysolver_utilities.html">barotropy.pysolver_view.pysolver_utilities module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../source/api/barotropy.fluent_automation.html">barotropy.fluent_automation package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.fluent_automation.fluent_automation.html">barotropy.fluent_automation.fluent_automation module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html">barotropy.fluent_automation.fluent_plot_nozzle_data module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.fluent_automation.stream_residuals.html">barotropy.fluent_automation.stream_residuals module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.fluent_automation.stream_transcript.html">barotropy.fluent_automation.stream_transcript module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../source/api/barotropy.barotropic_model.html">barotropy.barotropic_model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../source/api/barotropy.isentropic_nozzle.html">barotropy.isentropic_nozzle module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../source/api/barotropy.sCO2_utilities.html">barotropy.sCO2_utilities module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../source/api/barotropy.math.html">barotropy.math module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../source/api/barotropy.plot_options.html">barotropy.plot_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../source/api/barotropy.utilities.html">barotropy.utilities module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for barotropy.fluent_automation.fluent_plot_nozzle_data</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">.fluent_automation</span> <span class="kn">import</span> <span class="n">parse_fluent_xy</span>
+<span class="kn">from</span> <span class="nn">..utilities</span> <span class="kn">import</span> <span class="n">savefig_in_formats</span>
+
+
+<div class="viewcode-block" id="plot_nozzle_data">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_nozzle_data">[docs]</a>
+<span class="k">def</span> <span class="nf">plot_nozzle_data</span><span class="p">(</span><span class="n">case_name</span><span class="p">,</span> <span class="n">fig_dir</span><span class="p">,</span> <span class="n">data_vars</span><span class="p">):</span>
+    <span class="n">root_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">fig_dir</span><span class="p">)</span>
+    
+    <span class="c1"># Parse all the requested files at the start</span>
+    <span class="n">parsed_data</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">data_vars</span><span class="p">:</span>
+        <span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">case_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">.xy&quot;</span><span class="p">)</span>
+        <span class="n">parsed_data</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">parse_fluent_xy</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+
+    <span class="c1"># Define dictionary of variable/functions</span>
+    <span class="n">var_funcs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;pressure&quot;</span><span class="p">:</span> <span class="n">plot_pressure_distribution</span><span class="p">,</span>
+        <span class="s2">&quot;velocity&quot;</span><span class="p">:</span> <span class="n">plot_velocity_distribution</span><span class="p">,</span>
+        <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="n">plot_density_distribution</span><span class="p">,</span>
+        <span class="s2">&quot;speed_sound&quot;</span><span class="p">:</span> <span class="n">plot_speed_sound_distribution</span><span class="p">,</span>
+        <span class="s2">&quot;viscosity&quot;</span><span class="p">:</span> <span class="n">plot_viscosity_distribution</span><span class="p">,</span>
+        <span class="s2">&quot;void_fraction&quot;</span><span class="p">:</span> <span class="n">plot_void_fraction_distribution</span><span class="p">,</span>
+        <span class="s2">&quot;mass_fraction&quot;</span><span class="p">:</span> <span class="n">plot_mass_fraction_distribution</span><span class="p">,</span>
+        <span class="s2">&quot;y_plus&quot;</span><span class="p">:</span> <span class="n">plot_yplus_distribution</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Loop only over the functions whose keys are substrings in any of the keys of data_vars</span>
+    <span class="k">for</span> <span class="n">var_func_key</span> <span class="ow">in</span> <span class="n">var_funcs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">var_func_key</span> <span class="ow">in</span> <span class="n">data_var</span> <span class="k">for</span> <span class="n">data_var</span> <span class="ow">in</span> <span class="n">data_vars</span><span class="p">):</span>
+            <span class="n">base_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">case_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">var_func_key</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">var_funcs</span><span class="p">[</span><span class="n">var_func_key</span><span class="p">](</span><span class="n">parsed_data</span><span class="p">)</span>
+            <span class="n">savefig_in_formats</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fig_dir</span><span class="p">,</span> <span class="n">base_name</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="plot_pressure_distribution">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_pressure_distribution">[docs]</a>
+<span class="k">def</span> <span class="nf">plot_pressure_distribution</span><span class="p">(</span><span class="n">parsed_data</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pressure&quot;</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="s2">&quot;wall&quot;</span><span class="p">,</span> <span class="s2">&quot;Static Pressure&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">generic_plot_distribution</span><span class="p">(</span>
+        <span class="n">lines</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Pressure distribution&quot;</span><span class="p">,</span> 
+        <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Axial position (mm)&quot;</span><span class="p">,</span> 
+        <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Static pressure (bar)&quot;</span><span class="p">,</span> 
+        <span class="n">scale_x</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span>
+        <span class="n">scale_y</span><span class="o">=</span><span class="mf">1e-5</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="plot_velocity_distribution">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_velocity_distribution">[docs]</a>
+<span class="k">def</span> <span class="nf">plot_velocity_distribution</span><span class="p">(</span><span class="n">parsed_data</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;velocity&quot;</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="s2">&quot;axis&quot;</span><span class="p">,</span> <span class="s2">&quot;Velocity Magnitude&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">generic_plot_distribution</span><span class="p">(</span>
+        <span class="n">lines</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Velocity distribution&quot;</span><span class="p">,</span> 
+        <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Axial position (mm)&quot;</span><span class="p">,</span> 
+        <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Fluid velocity (m/s)&quot;</span><span class="p">,</span> 
+        <span class="n">scale_x</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span>
+        <span class="n">scale_y</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="plot_density_distribution">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_density_distribution">[docs]</a>
+<span class="k">def</span> <span class="nf">plot_density_distribution</span><span class="p">(</span><span class="n">parsed_data</span><span class="p">):</span>
+    <span class="n">df1</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;density&quot;</span><span class="p">)</span>
+    <span class="n">df2</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;barotropic_density&quot;</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df1</span><span class="p">,</span> <span class="s2">&quot;wall&quot;</span><span class="p">,</span> <span class="s2">&quot;Density&quot;</span><span class="p">,</span> <span class="s2">&quot;Fluent data&quot;</span><span class="p">)</span>
+    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df2</span><span class="p">,</span> <span class="s2">&quot;wall&quot;</span><span class="p">,</span> <span class="s2">&quot;barotropic_density&quot;</span><span class="p">,</span> <span class="s2">&quot;Barotropic model&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">generic_plot_distribution</span><span class="p">(</span>
+        <span class="n">lines</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Density distribution&quot;</span><span class="p">,</span> 
+        <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Axial position (mm)&quot;</span><span class="p">,</span> 
+        <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Density (kg/m$^3$)&quot;</span><span class="p">,</span> 
+        <span class="n">scale_x</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span>
+        <span class="n">scale_y</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="plot_viscosity_distribution">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_viscosity_distribution">[docs]</a>
+<span class="k">def</span> <span class="nf">plot_viscosity_distribution</span><span class="p">(</span><span class="n">parsed_data</span><span class="p">):</span>
+    <span class="n">df1</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;viscosity&quot;</span><span class="p">)</span>
+    <span class="n">df2</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;barotropic_viscosity&quot;</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df1</span><span class="p">,</span> <span class="s2">&quot;wall&quot;</span><span class="p">,</span> <span class="s2">&quot;Molecular Viscosity&quot;</span><span class="p">)</span>
+    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df2</span><span class="p">,</span> <span class="s2">&quot;wall&quot;</span><span class="p">,</span> <span class="s2">&quot;barotropic_viscosity&quot;</span><span class="p">,</span> <span class="s2">&quot;Barotropic model&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">generic_plot_distribution</span><span class="p">(</span>
+        <span class="n">lines</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Viscosity distribution&quot;</span><span class="p">,</span> 
+        <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Axial position (mm)&quot;</span><span class="p">,</span> 
+        <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Viscosity ($\mathrm{\mu}$Pa s)&quot;</span><span class="p">,</span> 
+        <span class="n">scale_x</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span>
+        <span class="n">scale_y</span><span class="o">=</span><span class="mf">1e-6</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="plot_speed_sound_distribution">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_speed_sound_distribution">[docs]</a>
+<span class="k">def</span> <span class="nf">plot_speed_sound_distribution</span><span class="p">(</span><span class="n">parsed_data</span><span class="p">):</span>
+    <span class="n">df1</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;speed_sound&quot;</span><span class="p">)</span>
+    <span class="n">df2</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;barotropic_speed_sound&quot;</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df1</span><span class="p">,</span> <span class="s2">&quot;wall&quot;</span><span class="p">,</span> <span class="s2">&quot;Sound Speed&quot;</span><span class="p">)</span>
+    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df2</span><span class="p">,</span> <span class="s2">&quot;wall&quot;</span><span class="p">,</span> <span class="s2">&quot;barotropic_speed_sound&quot;</span><span class="p">,</span> <span class="s2">&quot;Barotropic model&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">generic_plot_distribution</span><span class="p">(</span>
+        <span class="n">lines</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Speed of sound distribution&quot;</span><span class="p">,</span> 
+        <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Axial position (mm)&quot;</span><span class="p">,</span> 
+        <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Speed of sound (m/s)&quot;</span><span class="p">,</span> 
+        <span class="n">scale_x</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span>
+        <span class="n">scale_y</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="plot_void_fraction_distribution">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_void_fraction_distribution">[docs]</a>
+<span class="k">def</span> <span class="nf">plot_void_fraction_distribution</span><span class="p">(</span><span class="n">parsed_data</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;barotropic_void_fraction&quot;</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="s2">&quot;wall&quot;</span><span class="p">,</span> <span class="s2">&quot;barotropic_void_fraction&quot;</span><span class="p">,</span> <span class="s2">&quot;Barotropic model&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">generic_plot_distribution</span><span class="p">(</span>
+        <span class="n">lines</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Void fraction distribution&quot;</span><span class="p">,</span> 
+        <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Axial position (mm)&quot;</span><span class="p">,</span> 
+        <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Void fraction (%)&quot;</span><span class="p">,</span> 
+        <span class="n">scale_x</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span>
+        <span class="n">scale_y</span><span class="o">=</span><span class="mi">100</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="plot_mass_fraction_distribution">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_mass_fraction_distribution">[docs]</a>
+<span class="k">def</span> <span class="nf">plot_mass_fraction_distribution</span><span class="p">(</span><span class="n">parsed_data</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;barotropic_mass_fraction&quot;</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="s2">&quot;wall&quot;</span><span class="p">,</span> <span class="s2">&quot;barotropic_mass_fraction&quot;</span><span class="p">,</span> <span class="s2">&quot;Barotropic model&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">generic_plot_distribution</span><span class="p">(</span>
+        <span class="n">lines</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Mass fraction distribution&quot;</span><span class="p">,</span> 
+        <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Axial position (mm)&quot;</span><span class="p">,</span> 
+        <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Mass fraction (%)&quot;</span><span class="p">,</span> 
+        <span class="n">scale_x</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span>
+        <span class="n">scale_y</span><span class="o">=</span><span class="mi">100</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="plot_yplus_distribution">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_yplus_distribution">[docs]</a>
+<span class="k">def</span> <span class="nf">plot_yplus_distribution</span><span class="p">(</span><span class="n">parsed_data</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;y_plus&quot;</span><span class="p">)</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="s2">&quot;wall&quot;</span><span class="p">,</span> <span class="s2">&quot;Wall Yplus&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">generic_plot_distribution</span><span class="p">(</span>
+        <span class="n">lines</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;$y+$ distribution&quot;</span><span class="p">,</span> 
+        <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Axial position (mm)&quot;</span><span class="p">,</span> 
+        <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;$y+$ at the wall&quot;</span><span class="p">,</span> 
+        <span class="n">scale_x</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span>
+        <span class="n">scale_y</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span></div>
+
+
+
+
+<span class="c1"># Helper functions</span>
+<div class="viewcode-block" id="add_line">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.add_line">[docs]</a>
+<span class="k">def</span> <span class="nf">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">zone</span><span class="p">,</span> <span class="n">data_key</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="s2">&quot;Fluent data&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">data_key</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="n">zone</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s2">&quot;df&quot;</span><span class="p">:</span> <span class="n">df</span><span class="p">,</span> 
+            <span class="s2">&quot;zone&quot;</span><span class="p">:</span> <span class="n">zone</span><span class="p">,</span> 
+            <span class="s2">&quot;data_key&quot;</span><span class="p">:</span> <span class="n">data_key</span><span class="p">,</span> 
+            <span class="s2">&quot;legend&quot;</span><span class="p">:</span> <span class="n">legend</span><span class="p">,</span> 
+            <span class="s2">&quot;linestyle&quot;</span><span class="p">:</span> <span class="n">linestyle</span>
+        <span class="p">})</span></div>
+
+
+
+<div class="viewcode-block" id="generic_plot_distribution">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.generic_plot_distribution">[docs]</a>
+<span class="k">def</span> <span class="nf">generic_plot_distribution</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">scale_x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">scale_y</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">fig</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">ax</span><span class="p">:</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">6.4</span><span class="p">,</span> <span class="mf">4.8</span><span class="p">))</span>
+    
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;df&#39;</span><span class="p">)</span>
+        <span class="n">zone</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">data_key</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;data_key&#39;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">legend</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;legend&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">linestyle</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;linestyle&#39;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
+        
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">zone</span><span class="p">][</span><span class="s2">&quot;Position&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">scale_x</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="n">zone</span><span class="p">][</span><span class="n">data_key</span><span class="p">]</span> <span class="o">*</span> <span class="n">scale_y</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.25</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="n">linestyle</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">legend</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    
+    <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, Sustainable Thermal Power DTU.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
