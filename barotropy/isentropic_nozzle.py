@@ -25,7 +25,7 @@ def get_isentropic_sonic_state(state_in, fluid_name):
 
     # Define residual function
     def get_energy_eq_residual(p, s_in):
-        _fluid.set_state(cp.PSmass_INPUTS, p, s_in)
+        _fluid.get_state(cp.PSmass_INPUTS, p, s_in)
         h = _fluid._properties["h"]
         a = _fluid._properties["speed_sound"]
         res = state_in["h"] -  h - a**2 / 2
@@ -35,7 +35,7 @@ def get_isentropic_sonic_state(state_in, fluid_name):
     _fluid = props.Fluid(fluid_name)
 
     # Define the initial guess
-    _fluid.set_state(cp.PSmass_INPUTS, state_in["p"]*0.528, state_in["s"])
+    _fluid.get_state(cp.PSmass_INPUTS, state_in["p"]*0.528, state_in["s"])
     s_in = state_in["s"]
     p_in = state_in["p"]
 
@@ -47,7 +47,7 @@ def get_isentropic_sonic_state(state_in, fluid_name):
         raise ValueError("The root-finding algorithm did not converge!")
 
     # Compute the outlet state
-    _fluid.set_state(cp.PSmass_INPUTS, sol.root, state_in["s"])
+    _fluid.get_state(cp.PSmass_INPUTS, sol.root, state_in["s"])
 
     return _fluid._properties
 
@@ -56,7 +56,7 @@ def get_isentropic_outlet_state(area_ratio, state_in, state_sonic, fluid_name):
 
     # Define residual function
     def get_energy_eq_residual(p, s_in):
-        _fluid.set_state(cp.PSmass_INPUTS, p, s_in)
+        _fluid.get_state(cp.PSmass_INPUTS, p, s_in)
         h_out = _fluid._properties["h"]
         v_out = np.sqrt(2*(state_in["h"] - h_out))
         rho_out = _fluid._properties["rho"]
@@ -78,7 +78,7 @@ def get_isentropic_outlet_state(area_ratio, state_in, state_sonic, fluid_name):
         raise ValueError("The root-finding algorithm did not converge!")
     
     # Compute the outlet state
-    _fluid.set_state(cp.PSmass_INPUTS, sol.root, state_in["s"])
+    _fluid.get_state(cp.PSmass_INPUTS, sol.root, state_in["s"])
 
     return _fluid._properties
 

@@ -76,10 +76,10 @@ def polytropic_process_one_fluid(
         (h,) = y
 
         # Compute equilibrium state
-        state_eq = fluid.set_state(props.HmassP_INPUTS, h, p, generalize_quality=True)
+        state_eq = fluid.get_state(props.HmassP_INPUTS, h, p, generalize_quality=True)
 
         # Compute metastable state
-        state_meta = fluid.set_state_metastable("p", p, "hmass", h, rho_guess, T_guess)
+        state_meta = fluid.get_state_metastable("p", p, "hmass", h, rho_guess, T_guess)
         rho_guess = state_meta.rho  # Update guess for the next iteration
         T_guess = state_meta.T  # Update guess for the next iteration
         
@@ -108,7 +108,7 @@ def polytropic_process_one_fluid(
     
     # Compute inlet state
     fluid = props.Fluid(name=fluid_name, backend="HEOS", exceptions=True)
-    state_in = fluid.set_state(props.PT_INPUTS, p_in, T_in)
+    state_in = fluid.get_state(props.PT_INPUTS, p_in, T_in)
     rho_guess = state_in.rho
     T_guess = state_in.T
 
@@ -143,12 +143,12 @@ def calculate_adiabatic_process(
 ):
     # Compute inlet state
     fluid = props.Fluid(name=fluid_name, backend="HEOS", exceptions=True)
-    state_in = fluid.set_state(props.PT_INPUTS, p_in, T_in)
+    state_in = fluid.get_state(props.PT_INPUTS, p_in, T_in)
 
     # Compute outlet state
-    state_out_s = fluid.set_state(props.PSmass_INPUTS, p_out, state_in.s)
+    state_out_s = fluid.get_state(props.PSmass_INPUTS, p_out, state_in.s)
     h_out = state_in.h - efficiency * (state_in.h - state_out_s.h)
-    state_out = fluid.set_state(props.HmassP_INPUTS, h_out, p_out)
+    state_out = fluid.get_state(props.HmassP_INPUTS, h_out, p_out)
 
     # Prepare list of states
     if number_of_points is not None:
@@ -156,7 +156,7 @@ def calculate_adiabatic_process(
         s_array = np.linspace(state_in.s, state_out.s, number_of_points)
         states = []
         for p, s in zip(p_array, s_array):
-            states.append(fluid.set_state(props.PSmass_INPUTS, p, s))
+            states.append(fluid.get_state(props.PSmass_INPUTS, p, s))
     else:
         states = [state_in, state_out]
 
