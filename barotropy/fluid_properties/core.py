@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import CoolProp.CoolProp as CP
 
 
-from . import functions
+from . import low_level_interface as functions
 
 from ..pysolver_view import (
     NonlinearSystemSolver,
@@ -154,21 +154,30 @@ class Fluid:
 
     Examples
     --------
-    Accessing properties:
 
-        - fluid.T - Retrieves temperature directly as an attribute.
-        - fluid.properties['p'] - Retrieves pressure through dictionary-like access.
-        # TODO change to retrieve state which is inmutable object type
+    Calculating properties with Fluid.set_state()
+
+    >>> fluid = bpy.Fluid(name="Water", backend="HEOS")
+    >>> state = fluid.set_state(bpy.PT_INPUTS, 101325, 300)
+    >>> print(f"Water density is {state.rho:0.2f} kg/m3 at p={state.p:0.2f} Pa and T={state.T:0.2f} K")
+    Water density is 996.56 kg/m3 at p=101325.00 Pa and T=300.00 K
+    
+    >>> fluid = bpy.Fluid(name="Air", backend="HEOS")
+    >>> state = fluid.set_state(bpy.PT_INPUTS, 101325, 300)
+    >>> print(f"Air heat capacity ratio is {state.gamma:0.2f} at p={state.p:0.2f} Pa and T={state.T:0.2f} K")
+    Air heat capacity ratio is 1.40 at p=101325.00 Pa and T=300.00 K
+
 
     Accessing critical point properties:
 
-        - fluid.critical_point.p - Retrieves critical pressure.
-        - fluid.critical_point['T'] - Retrieves critical temperature.
+    >>> fluid.critical_point.p  # Retrieves critical pressure
+    >>> fluid.critical_point['T']  # Retrieves critical temperature
 
     Accessing triple point properties:
 
-        - fluid.triple_point_liquid.h - Retrieves liquid enthalpy at the triple point.
-        - fluid.triple_point_vapor.s - Retrieves vapor entropy at the triple point.
+    >>> fluid.triple_point_liquid.h  # Retrieves liquid enthalpy at the triple point
+    >>> fluid.triple_point_vapor.s  # Retrieves vapor entropy at the triple point
+
     """
 
     def __init__(
@@ -176,8 +185,11 @@ class Fluid:
         name,
         backend="HEOS",
         exceptions=True,
-        initialize_critical=True,
-        initialize_triple=True,
+        generalize_quality=True,
+        compute_superheating=True,
+        compute_subcooling=True,
+        # initialize_critical=True,
+        # initialize_triple=True,
     ):
         self.name = name
         self.backend = backend
@@ -185,6 +197,11 @@ class Fluid:
         self.exceptions = exceptions
         self.converged_flag = False
         self._properties = {}
+
+        # Define calculations peformend
+        self.generalize_quality = generalize_quality
+        self.compute_subcooling = compute_subcooling
+        self.compute_superheating = compute_superheating
 
         # Initialize variables
         self.sat_liq = None
@@ -196,14 +213,21 @@ class Fluid:
         self.q_mesh = None
         self.graphic_elements = {}
 
-        # Assign critical point properties
-        if initialize_critical:
-            self.critical_point = self._compute_critical_point()
 
-        # Assign triple point properties
-        if initialize_triple:
+        # Get critical and triple point properties
+        if self._AS.fluid_param_string("pure") == "true":
+            self.critical_point = self._compute_critical_point()
             self.triple_point_liquid = self._compute_triple_point_liquid()
             self.triple_point_vapor = self._compute_triple_point_vapor()
+
+        # # Assign critical point properties
+        # if initialize_critical:
+        #     self.critical_point = self._compute_critical_point()
+
+        # # Assign triple point properties
+        # if initialize_triple:
+        #     self.triple_point_liquid = self._compute_triple_point_liquid()
+        #     self.triple_point_vapor = self._compute_triple_point_vapor()
 
         # Pressure and temperature limits
         self.p_min = 1
@@ -214,21 +238,22 @@ class Fluid:
     def _compute_critical_point(self):
         """Calculate the properties at the critical point"""
         rho_crit, T_crit = self._AS.rhomass_critical(), self._AS.T_critical()
-        return self.set_state(DmassT_INPUTS, rho_crit, T_crit, generalize_quality=False)
+        return self.set_state(DmassT_INPUTS, rho_crit, T_crit)
 
     def _compute_triple_point_liquid(self):
         """Calculate the properties at the triple point (liquid state)"""
-        return self.set_state(
-            QT_INPUTS, 0.00, self._AS.Ttriple(), generalize_quality=False
-        )
+        return self.set_state(QT_INPUTS, 0.00, self._AS.Ttriple())
 
     def _compute_triple_point_vapor(self):
         """Calculate the properties at the triple point (vapor state)"""
-        return self.set_state(
-            QT_INPUTS, 1.00, self._AS.Ttriple(), generalize_quality=False
-        )
+        return self.set_state(QT_INPUTS, 1.00, self._AS.Ttriple())
 
-    def set_state(self, input_type, prop_1, prop_2, generalize_quality=False):
+    def set_state(
+        self,
+        input_type,
+        prop_1,
+        prop_2,
+    ):
         """
         Set the thermodynamic state of the fluid based on input properties.
 
@@ -243,16 +268,14 @@ class Fluid:
 
         Parameters
         ----------
-        input_type : str or int
+        input_type : int
             The variable pair used to define the thermodynamic state. This should be one of the
             predefined input pairs in CoolProp, such as ``PT_INPUTS`` for pressure and temperature.
-            For all available input pairs, refer to :ref:`this list <module-input-pairs-table>`.
+            For all available input pairs, refer to :ref:`this list <module-input-pairs-table>`.                    
         prop_1 : float
-            The first property value corresponding to the input type (e.g., pressure in Pa if the input
-            type is CP.PT_INPUTS).
+            The first property value corresponding to the input type.
         prop_2 : float
-            The second property value corresponding to the input type (e.g., temperature in K if the input
-            type is CP.PT_INPUTS).
+            The second property value corresponding to the input type.
 
         Returns
         -------
@@ -265,6 +288,8 @@ class Fluid:
         Exception
             If `throw_exceptions` attribute is set to True and an error occurs during property calculation,
             the original exception is re-raised.
+
+
         """
         try:
             # Update Coolprop thermodynamic state
@@ -273,11 +298,16 @@ class Fluid:
             # Retrieve single-phase properties
             if self._AS.phase() != CP.iphase_twophase:
                 self._properties = functions.compute_properties_1phase(
-                    self._AS, generalize_quality
+                    self._AS,
+                    self.generalize_quality,
+                    self.compute_subcooling,
+                    self.compute_superheating,
                 )
             else:
                 self._properties = functions.compute_properties_2phase(
-                    self._AS
+                    self._AS,
+                    self.compute_subcooling,
+                    self.compute_superheating,
                 )
 
             # Add properties as aliases
@@ -304,32 +334,34 @@ class Fluid:
         prop_2_value,
         rho_guess,
         T_guess,
+        solver_algorithm="hybr",
+        print_convergence=False,
     ):
         # TODO: Add check to see if we are inside thespinodal and return two phase properties if yes
         # TODO: implement root finding functionality to accept p-h, T-s, p-s arguments [good initial guess required]
         # TODO: can it be generalized so that it uses equilibrium as initial guess with any inputs? (even if they are T-d)
 
+        # Check if state is outside spinodla line
         outside_spinodal = True
-        problem = functions.HelmholtzResidual(
-            prop_1, prop_1_value, prop_2, prop_2_value, self._AS
-        )
-        solver = NonlinearSystemSolver(
-            problem,
-            method="hybr",
-            tolerance=1e-6,
-            max_iterations=100,
-            print_convergence=False,
-            update_on="function",
-        )
+
 
         try:
             # Retrieve single-phase properties
-            if outside_spinodal:
-                x0 = np.asarray([rho_guess, T_guess])
-                rho, T = solver.solve(x0)
-                self._properties = functions.compute_properties_metastable_rhoT(rho, T, self._AS)
-            else:
-                self._properties = self.compute_properties_2phase()
+            # if outside_spinodal:
+            self._properties = functions.compute_properties_metastable_rhoT(
+                self._AS,
+                prop_1,
+                prop_1_value,
+                prop_2,
+                prop_2_value,
+                rho_guess,
+                T_guess,
+                solver_algorithm=solver_algorithm,
+                print_convergence=print_convergence,
+                )
+
+            # else:
+            #     self._properties = self.compute_properties_2phase()
 
             # Add properties as aliases
             for key, value in PROPERTY_ALIAS.items():
@@ -347,6 +379,7 @@ class Fluid:
         # Return inmutable object
         return FluidState(self._properties, self.name)
 
+
     def get_property(self, propname):
         """Get the value of a single property"""
         if propname in self._properties:
@@ -356,6 +389,7 @@ class Fluid:
             raise ValueError(
                 f"The requested property '{propname}' is not available. The valid options are:\n\t{valid_options}"
             )
+
 
     def compute_properties_meanline(self, input_type, prop_1, prop_2):
         """Extract fluid properties for meanline model"""
@@ -373,6 +407,7 @@ class Fluid:
     # def compute_sonic_state(self, input_type, prop_1, prop_2):
     #     props = {}
     #     return FluidState(props)
+
 
     def _get_label(self, label, show_in_legend):
         """Returns the appropriate label value based on whether it should be shown in the legend."""
@@ -925,7 +960,7 @@ def states_to_dict(states):
     return state_dict
 
 
-def states_to_dict_2d(states_grid):
+def states_to_dict_2d(states):
     """
     Convert a 2D list (grid) of state objects into a dictionary.
     Each key is a field name of the state objects, and each value is a 2D NumPy array of all the values for that field.
@@ -941,16 +976,91 @@ def states_to_dict_2d(states_grid):
         A dictionary where keys are field names and values are 2D arrays of field values.
     """
     state_dict_2d = {}
-    for i, row in enumerate(states_grid):
+    for i, row in enumerate(states):
         for j, state in enumerate(row):
             for field in state.keys():
                 if field not in state_dict_2d:
-                    state_dict_2d[field] = np.empty(
-                        (len(states_grid), len(row)), dtype=object
-                    )
-                state_dict_2d[field][i, j] = getattr(state, field)
+                    m, n = len(states), len(row)
+                    state_dict_2d[field] = np.empty((m, n), dtype=object)
+                state_dict_2d[field][i, j] = state[field]
 
     return state_dict_2d
+
+
+def compute_property_grid(
+    fluid,
+    input_pair,
+    range_1,
+    range_2,
+):
+    """
+    Compute fluid properties over a specified range and store them in a dictionary.
+
+    This function creates a meshgrid of property values based on the specified ranges and input pair,
+    computes the properties of the fluid at each point on the grid, and stores the results in a
+    dictionary where each key corresponds to a fluid property.
+
+    Parameters
+    ----------
+    fluid : Fluid object
+        An instance of the Fluid class.
+    input_pair : tuple
+        The input pair specifying the property type (e.g., PT_INPUTS for pressure-temperature).
+    range1 : tuple
+        The range linspace(min, max, n) for the first property of the input pair.
+    range2 : tuple
+        The range linspace(min, max, n) for the second property of the input pair.
+
+    Returns
+    -------
+    properties_dict : dict
+        A dictionary where keys are property names and values are 2D numpy arrays of computed properties.
+    grid1, grid2 : numpy.ndarray
+        The meshgrid arrays for the first and second properties.
+    """
+
+    # Create the meshgrid
+    grid1, grid2 = np.meshgrid(range_1, range_2)
+
+    # Initialize dictionary to store properties and pre-allocate storage
+    properties_dict = {key: np.zeros_like(grid1) for key in fluid._properties}
+
+    # Compute properties at each point
+    for i in range(len(range_2)):
+        for j in range(len(range_1)):
+            # Set state of the fluid
+            state = fluid.set_state(
+                input_pair,
+                grid1[i, j],
+                grid2[i, j],
+            )
+
+            # Store the properties
+            for key in state:
+                properties_dict[key][i, j] = state[key]
+
+    return properties_dict
+
+
+def compute_property_grid_rhoT(
+    fluid,
+    rho_array,
+    T_array,
+):
+
+    # Calculate property grid
+    states_meta = []
+    for T in T_array:
+        row = []
+        for rho in rho_array:
+            row.append(functions.compute_properties_metastable_rhoT(rho, T, fluid._AS))
+        states_meta.append(row)
+
+    # Convert nested list of dictionaries into dictionary of 2D arrays
+    states_meta = states_to_dict_2d(states_meta)
+
+    return states_meta
+
 
 
 def compute_saturation_line(fluid, N_points=100):
@@ -960,11 +1070,9 @@ def compute_saturation_line(fluid, N_points=100):
     vapor_line = {name: [] for name in prop_names}
 
     # Define temperature array with refinement close to the critical point
-    ratio = 1 - fluid.triple_point_liquid.T / fluid.critical_point.T
-    t1 = np.logspace(
-        np.log10(1 - 0.9999), np.log10(ratio / 10), int(np.ceil(N_points / 2))
-    )
-    t2 = np.logspace(np.log10(ratio / 10), np.log10(ratio), int(np.floor(N_points / 2)))
+    R = 1 - fluid.triple_point_liquid.T / fluid.critical_point.T
+    t1 = np.logspace(np.log10(1 - 0.9999), np.log10(R / 10), int(np.ceil(N_points / 2)))
+    t2 = np.logspace(np.log10(R / 10), np.log10(R), int(np.floor(N_points / 2)))
     T_sat = (1 - np.concatenate([t1, t2])) * fluid.critical_point.T
 
     # Loop over temperatures and property names in an efficient way
@@ -1015,60 +1123,7 @@ def compute_pseudocritical_line(fluid, N_points=100):
     return pseudocritical_line
 
 
-def compute_properties_meshgrid(
-    fluid, input_pair, range_1, range_2, generalize_quality=True
-):
-    """
-    Compute fluid properties over a specified range and store them in a dictionary.
-
-    This function creates a meshgrid of property values based on the specified ranges and input pair,
-    computes the properties of the fluid at each point on the grid, and stores the results in a
-    dictionary where each key corresponds to a fluid property.
-
-    Parameters
-    ----------
-    fluid : Fluid object
-        An instance of the Fluid class.
-    input_pair : tuple
-        The input pair specifying the property type (e.g., PT_INPUTS for pressure-temperature).
-    range1 : tuple
-        The range linspace(min, max, n) for the first property of the input pair.
-    range2 : tuple
-        The range linspace(min, max, n) for the second property of the input pair.
-
-    Returns
-    -------
-    properties_dict : dict
-        A dictionary where keys are property names and values are 2D numpy arrays of computed properties.
-    grid1, grid2 : numpy.ndarray
-        The meshgrid arrays for the first and second properties.
-    """
-
-    # Create the meshgrid
-    grid1, grid2 = np.meshgrid(range_1, range_2)
-
-    # Initialize dictionary to store properties and pre-allocate storage
-    properties_dict = {key: np.zeros_like(grid1) for key in fluid._properties}
-
-    # Compute properties at each point
-    for i in range(len(range_2)):
-        for j in range(len(range_1)):
-            # Set state of the fluid
-            state = fluid.set_state(
-                input_pair,
-                grid1[i, j],
-                grid2[i, j],
-                generalize_quality=generalize_quality,
-            )
-
-            # Store the properties
-            for key in state:
-                properties_dict[key][i, j] = state[key]
-
-    return properties_dict
-
-
-# Implement class to calculate intersection with saturation line?
+# TODO  Implement class to calculate intersection with saturation line?
 
 
 class SonicStateProblem(NonlinearSystemProblem):
@@ -1191,102 +1246,6 @@ class SonicStateProblem2(OptimizationProblem):
         return self.get_number_of_constraints(self.c_ineq)
 
 
-def calculate_superheating(state, fluid):
-    """
-    Calculates the degree of superheating for a given state and adds this information to the state.
-
-    Parameters
-    ----------
-    state : dict
-        A dictionary representing the thermodynamic state, containing at least pressure (p), temperature (T),
-        and enthalpy (h) of the fluid.
-    fluid : object
-        An object representing the fluid with its properties, including methods to set state and critical point data.
-
-    Returns
-    -------
-    dict
-        The input state dictionary with an added field 'superheating' representing the degree of superheating.
-    """
-
-    # Check if the pressure is below the critical pressure of the fluid
-    if state["p"] < fluid.critical_point.p:
-        # Set the saturation state of the fluid at the given pressure
-        sat_state = fluid.set_state(PQ_INPUTS, state["p"], 1.00)
-
-        # Check if the fluid is in the two-phase region
-        if fluid._AS.phase() == CP.iphase_twophase:
-            # In the two-phase region, define superheating as the normalized difference in enthalpy
-            # The normalization is done using the specific heat capacity at saturation (cp)
-            # This provides a continuous measure of superheating, even in the two-phase region
-            state["superheating"] = (state["h"] - sat_state.h) / sat_state.cp
-        else:
-            # Outside the two-phase region, superheating is the difference in temperature
-            # from the saturation temperature at the same pressure
-            state["superheating"] = state["T"] - sat_state.T
-    else:
-        # For states at or above the critical pressure, the concept of saturation temperature is not applicable
-        # Instead, use a 'pseudo-critical' state for comparison, where the density is set to the critical density
-        # but the pressure is the same as the state of interest
-        pseudo_crit = fluid.set_state(
-            DmassP_INPUTS, fluid.critical_point.rho, state["p"]
-        )
-
-        # Define superheating as the difference in enthalpy from this 'pseudo-critical' state
-        # This approach extends the definition of superheating to conditions above the critical pressure
-        state["superheating"] = state.T - pseudo_crit.T
-
-    return state
-
-
-def calculate_subcooling(state, fluid):
-    """
-    Calculates the degree of subcooling for a given state and adds this information to the state.
-
-    Parameters
-    ----------
-    state : dict
-        A dictionary representing the thermodynamic state, containing at least pressure (p), temperature (T),
-        and enthalpy (h) of the fluid.
-    fluid : object
-        An object representing the fluid with its properties, including methods to set state and critical point data.
-
-    Returns
-    -------
-    dict
-        The input state dictionary with an added field 'subcooling' representing the degree of subcooling.
-    """
-
-    # Check if the pressure is below the critical pressure of the fluid
-    if state["p"] < fluid.critical_point.p:
-        # Set the saturation state of the fluid at the given pressure
-        sat_state = fluid.set_state(PQ_INPUTS, state["p"], 0.00)
-
-        # Check if the fluid is in the two-phase region
-        if fluid._AS.phase() == CP.iphase_twophase:
-            # In the two-phase region, define subcooling as the normalized difference in enthalpy
-            # The normalization is done using the specific heat capacity at saturation (cp)
-            # This provides a continuous measure of subcooling, even in the two-phase region
-            state["subcooling"] = (sat_state.h - state["h"]) / sat_state.cp
-        else:
-            # Outside the two-phase region, subcooling is the difference in temperature
-            # from the saturation temperature at the same pressure
-            state["subcooling"] = sat_state.T - state["T"]
-    else:
-        # For states at or above the critical pressure, the concept of saturation temperature is not applicable
-        # Instead, use a 'pseudo-critical' state for comparison, where the density is set to the critical density
-        # but the pressure is the same as the state of interest
-        pseudo_crit = fluid.set_state(
-            DmassP_INPUTS, fluid.critical_point.rho, state["p"]
-        )
-
-        # Define subcooling as the difference in enthalpy from this 'pseudo-critical' state
-        # This approach extends the definition of subcooling to conditions above the critical pressure
-        state["subcooling"] = pseudo_crit.T - state.T
-
-    return state
-
-
 def set_state_Qs(fluid, Q, s):
     # Define the residual equation
     def get_residual(p):
@@ -1298,7 +1257,6 @@ def set_state_Qs(fluid, Q, s):
     p_triple = 1.0 * fluid.triple_point_liquid.p
     p_critical = 1.25 * fluid.critical_point.p
     bounds = [p_triple, p_critical]
-    # print(get_residual(p_triple), get_residual(p_critical))
     sol = scipy.optimize.root_scalar(get_residual, bracket=bounds, method="brentq")
 
     # Check if the solver has converged
@@ -1306,7 +1264,6 @@ def set_state_Qs(fluid, Q, s):
         raise ValueError("The root-finding algorithm did not converge!")
 
     # Compute the outlet state
-    # print(sol)
     state = fluid.set_state(PSmass_INPUTS, sol.root, s, generalize_quality=True)
 
     return state
@@ -1431,3 +1388,83 @@ if __name__ == "__main__":
         print(
             f"{key:35} {value_stable:+15.6e} {value_metastable:+15.6e} {(value_stable - value_metastable)/value_stable:+15.6e}"
         )
+
+
+
+
+            # .. list-table:: CoolProp input mappings
+            #     :widths: 50 30
+            #     :header-rows: 1
+
+            #     * - Input pair name
+            #       - Input pair mapping
+            #     * - QT_INPUTS
+            #       - 1
+            #     * - PQ_INPUTS
+            #       - 2
+            #     * - QSmolar_INPUTS
+            #       - 3
+            #     * - QSmass_INPUTS
+            #       - 4
+            #     * - HmolarQ_INPUTS
+            #       - 5
+            #     * - HmassQ_INPUTS
+            #       - 6
+            #     * - DmolarQ_INPUTS
+            #       - 7
+            #     * - DmassQ_INPUTS
+            #       - 8
+            #     * - PT_INPUTS
+            #       - 9
+            #     * - DmassT_INPUTS
+            #       - 10
+            #     * - DmolarT_INPUTS
+            #       - 11
+            #     * - HmolarT_INPUTS
+            #       - 12
+            #     * - HmassT_INPUTS
+            #       - 13
+            #     * - SmolarT_INPUTS
+            #       - 14
+            #     * - SmassT_INPUTS
+            #       - 15
+            #     * - TUmolar_INPUTS
+            #       - 16
+            #     * - TUmass_INPUTS
+            #       - 17
+            #     * - DmassP_INPUTS
+            #       - 18
+            #     * - DmolarP_INPUTS
+            #       - 19
+            #     * - HmassP_INPUTS
+            #       - 20
+            #     * - HmolarP_INPUTS
+            #       - 21
+            #     * - PSmass_INPUTS
+            #       - 22
+            #     * - PSmolar_INPUTS
+            #       - 23
+            #     * - PUmass_INPUTS
+            #       - 24
+            #     * - PUmolar_INPUTS
+            #       - 25
+            #     * - HmassSmass_INPUTS
+            #       - 26
+            #     * - HmolarSmolar_INPUTS
+            #       - 27
+            #     * - SmassUmass_INPUTS
+            #       - 28
+            #     * - SmolarUmolar_INPUTS
+            #       - 29
+            #     * - DmassHmass_INPUTS
+            #       - 30
+            #     * - DmolarHmolar_INPUTS
+            #       - 31
+            #     * - DmassSmass_INPUTS
+            #       - 32
+            #     * - DmolarSmolar_INPUTS
+            #       - 33
+            #     * - DmassUmass_INPUTS
+            #       - 34
+            #     * - DmolarUmolar_INPUTS
+            #       - 35
