@@ -7,9 +7,9 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   barotropy.props
-   barotropy.fluent
+   barotropy.fluid_properties
    barotropy.pysolver_view
+   barotropy.fluent_automation
 
 Submodules
 ----------
@@ -19,8 +19,9 @@ Submodules
 
    barotropy.barotropic_model
    barotropy.isentropic_nozzle
-   barotropy.plot_options
    barotropy.sCO2_utilities
+   barotropy.math
+   barotropy.plot_options
    barotropy.utilities
 
 Module contents

@@ -114,7 +114,7 @@ Also note that many single-phase CFD codes will not be able to compute flow solu
 
 
 ## Metastable states and the spinodal line
-When a single-phase fluid undergoes a thermodynamic process and enters the two-phase region it can temporarily exist in a single-phase state that is different from the equilibrium two-phase state. Such states are know as metastable states and they are only possible in the thermodynamic region between the saturation lines and the spinodal lines. If the thermodynamic process continues and crosses the spinodal lines metastable states become unstable and the transition to two-distinct phase occurs immediately. Therefore, the spinodal line represents the boundary that separates the region where a mixture is thermodynamically unstable and prone to phase separation from the region where metastable states are physically possible.
+When a single-phase fluid undergoes a thermodynamic process and enters the two-phase region it can temporarily exist in a single-phase state that is different from the equilibrium two-phase state. Such states are know as metastable states and they are only possible in the thermodynamic region between the saturation lines and the spinodal lines. If the thermodynamic process continues and crosses the spinodal lines metastable states become unstable and the transition to two-distinct phase occurs rapidly. Therefore, the spinodal line represents the boundary that separates the region where a mixture is thermodynamically unstable and prone to phase separation from the region where metastable states are physically possible.
 
 In mathematical terms, the spinodal line is defined as the loci of thermodynamic states in which the isothermal bulk modulus of the fluid is zero:
 
