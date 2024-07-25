@@ -167,17 +167,10 @@
 <li class="toctree-l1"><a class="reference internal" href="source/barotropic_model.html">Barotropic Model Theory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="source/bibliography.html">Bibliography</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="source/api/modules.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="source/api/barotropy.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="source/api/barotropy.props.html">barotropy.props package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.props.core.html">barotropy.props.core module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.props.functions.html">barotropy.props.functions module</a></li>
-</ul>
-</details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="source/api/barotropy.fluent.html">barotropy.fluent package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.fluent.fluent_automation.html">barotropy.fluent.fluent_automation module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.fluent.fluent_plot_nozzle_data.html">barotropy.fluent.fluent_plot_nozzle_data module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.fluent.stream_residuals.html">barotropy.fluent.stream_residuals module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.fluent.stream_transcript.html">barotropy.fluent.stream_transcript module</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="source/api/barotropy.html">barotropy</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="source/api/barotropy.fluid_properties.html">barotropy.fluid_properties package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.fluid_properties.core.html">barotropy.fluid_properties.core module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.fluid_properties.low_level_interface.html">barotropy.fluid_properties.low_level_interface module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="source/api/barotropy.pysolver_view.html">barotropy.pysolver_view package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -190,10 +183,18 @@
 <li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.pysolver_view.pysolver_utilities.html">barotropy.pysolver_view.pysolver_utilities module</a></li>
 </ul>
 </details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="source/api/barotropy.fluent_automation.html">barotropy.fluent_automation package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.fluent_automation.fluent_automation.html">barotropy.fluent_automation.fluent_automation module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html">barotropy.fluent_automation.fluent_plot_nozzle_data module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.fluent_automation.stream_residuals.html">barotropy.fluent_automation.stream_residuals module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source/api/barotropy.fluent_automation.stream_transcript.html">barotropy.fluent_automation.stream_transcript module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.barotropic_model.html">barotropy.barotropic_model module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.isentropic_nozzle.html">barotropy.isentropic_nozzle module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.plot_options.html">barotropy.plot_options module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.sCO2_utilities.html">barotropy.sCO2_utilities module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.math.html">barotropy.math module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.plot_options.html">barotropy.plot_options module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.utilities.html">barotropy.utilities module</a></li>
 </ul>
 </details></li>
@@ -330,19 +331,29 @@ document.write(`
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.fluent.fluent_automation.html#barotropy.fluent.fluent_automation.add_barotropic_expressions">add_barotropic_expressions() (in module barotropy.fluent.fluent_automation)</a>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.add_barotropic_expressions">add_barotropic_expressions() (in module barotropy.fluent_automation.fluent_automation)</a>
 </li>
-      <li><a href="source/api/barotropy.fluent.fluent_automation.html#barotropy.fluent.fluent_automation.add_export_variables">add_export_variables() (in module barotropy.fluent.fluent_automation)</a>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.add_export_variables">add_export_variables() (in module barotropy.fluent_automation.fluent_automation)</a>
 </li>
-      <li><a href="source/api/barotropy.fluent.fluent_plot_nozzle_data.html#barotropy.fluent.fluent_plot_nozzle_data.add_line">add_line() (in module barotropy.fluent.fluent_plot_nozzle_data)</a>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.add_line">add_line() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
+</li>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.add_solution_strategy">add_solution_strategy() (in module barotropy.fluent_automation.fluent_automation)</a>
+</li>
+      <li><a href="source/api/barotropy.math.html#barotropy.math.all_non_negative">all_non_negative() (in module barotropy.math)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.fluent.fluent_automation.html#barotropy.fluent.fluent_automation.add_solution_strategy">add_solution_strategy() (in module barotropy.fluent.fluent_automation)</a>
+      <li><a href="source/api/barotropy.math.html#barotropy.math.all_numeric">all_numeric() (in module barotropy.math)</a>
 </li>
       <li><a href="source/api/barotropy.pysolver_view.numerical_differentiation.html#barotropy.pysolver_view.numerical_differentiation.approx_gradient">approx_gradient() (in module barotropy.pysolver_view.numerical_differentiation)</a>
 </li>
       <li><a href="source/api/barotropy.pysolver_view.numerical_differentiation.html#barotropy.pysolver_view.numerical_differentiation.approx_jacobian_hessians">approx_jacobian_hessians() (in module barotropy.pysolver_view.numerical_differentiation)</a>
+</li>
+      <li><a href="source/api/barotropy.math.html#barotropy.math.arccosd">arccosd() (in module barotropy.math)</a>
+</li>
+      <li><a href="source/api/barotropy.math.html#barotropy.math.arcsind">arcsind() (in module barotropy.math)</a>
+</li>
+      <li><a href="source/api/barotropy.math.html#barotropy.math.arctand">arctand() (in module barotropy.math)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -350,6 +361,8 @@ document.write(`
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.barotropic_model_one_fluid">barotropic_model_one_fluid() (in module barotropy.barotropic_model)</a>
+</li>
       <li>
     barotropy
 
@@ -365,38 +378,59 @@ document.write(`
 </li>
       </ul></li>
       <li>
-    barotropy.fluent
+    barotropy.fluent_automation
 
       <ul>
-        <li><a href="source/api/barotropy.fluent.html#module-barotropy.fluent">module</a>
+        <li><a href="source/api/barotropy.fluent_automation.html#module-barotropy.fluent_automation">module</a>
 </li>
       </ul></li>
       <li>
-    barotropy.fluent.fluent_automation
+    barotropy.fluent_automation.fluent_automation
 
       <ul>
-        <li><a href="source/api/barotropy.fluent.fluent_automation.html#module-barotropy.fluent.fluent_automation">module</a>
+        <li><a href="source/api/barotropy.fluent_automation.fluent_automation.html#module-barotropy.fluent_automation.fluent_automation">module</a>
 </li>
       </ul></li>
       <li>
-    barotropy.fluent.fluent_plot_nozzle_data
+    barotropy.fluent_automation.fluent_plot_nozzle_data
 
       <ul>
-        <li><a href="source/api/barotropy.fluent.fluent_plot_nozzle_data.html#module-barotropy.fluent.fluent_plot_nozzle_data">module</a>
+        <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#module-barotropy.fluent_automation.fluent_plot_nozzle_data">module</a>
 </li>
       </ul></li>
       <li>
-    barotropy.fluent.stream_residuals
+    barotropy.fluent_automation.stream_residuals
 
       <ul>
-        <li><a href="source/api/barotropy.fluent.stream_residuals.html#module-barotropy.fluent.stream_residuals">module</a>
+        <li><a href="source/api/barotropy.fluent_automation.stream_residuals.html#module-barotropy.fluent_automation.stream_residuals">module</a>
 </li>
       </ul></li>
       <li>
-    barotropy.fluent.stream_transcript
+    barotropy.fluent_automation.stream_transcript
 
       <ul>
-        <li><a href="source/api/barotropy.fluent.stream_transcript.html#module-barotropy.fluent.stream_transcript">module</a>
+        <li><a href="source/api/barotropy.fluent_automation.stream_transcript.html#module-barotropy.fluent_automation.stream_transcript">module</a>
+</li>
+      </ul></li>
+      <li>
+    barotropy.fluid_properties
+
+      <ul>
+        <li><a href="source/api/barotropy.fluid_properties.html#module-barotropy.fluid_properties">module</a>
+</li>
+      </ul></li>
+      <li>
+    barotropy.fluid_properties.core
+
+      <ul>
+        <li><a href="source/api/barotropy.fluid_properties.core.html#module-barotropy.fluid_properties.core">module</a>
+</li>
+      </ul></li>
+      <li>
+    barotropy.fluid_properties.low_level_interface
+
+      <ul>
+        <li><a href="source/api/barotropy.fluid_properties.low_level_interface.html#module-barotropy.fluid_properties.low_level_interface">module</a>
 </li>
       </ul></li>
       <li>
@@ -406,34 +440,20 @@ document.write(`
         <li><a href="source/api/barotropy.isentropic_nozzle.html#module-barotropy.isentropic_nozzle">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    barotropy.math
+
+      <ul>
+        <li><a href="source/api/barotropy.math.html#module-barotropy.math">module</a>
+</li>
+      </ul></li>
       <li>
     barotropy.plot_options
 
       <ul>
         <li><a href="source/api/barotropy.plot_options.html#module-barotropy.plot_options">module</a>
-</li>
-      </ul></li>
-      <li>
-    barotropy.props
-
-      <ul>
-        <li><a href="source/api/barotropy.props.html#module-barotropy.props">module</a>
-</li>
-      </ul></li>
-      <li>
-    barotropy.props.core
-
-      <ul>
-        <li><a href="source/api/barotropy.props.core.html#module-barotropy.props.core">module</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li>
-    barotropy.props.functions
-
-      <ul>
-        <li><a href="source/api/barotropy.props.functions.html#module-barotropy.props.functions">module</a>
 </li>
       </ul></li>
       <li>
@@ -514,17 +534,13 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.calculate_adiabatic_process">calculate_adiabatic_process() (in module barotropy.barotropic_model)</a>
 </li>
-      <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.calculate_barotropic_process">calculate_barotropic_process() (in module barotropy.barotropic_model)</a>
-</li>
-      <li><a href="source/api/barotropy.props.functions.html#barotropy.props.functions.calculate_generalized_quality">calculate_generalized_quality() (in module barotropy.props.functions)</a>
-</li>
-      <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.calculate_polytropic_process">calculate_polytropic_process() (in module barotropy.barotropic_model)</a>
+      <li><a href="source/api/barotropy.fluid_properties.low_level_interface.html#barotropy.fluid_properties.low_level_interface.calculate_generalized_quality">calculate_generalized_quality() (in module barotropy.fluid_properties.low_level_interface)</a>
 </li>
       <li><a href="source/api/barotropy.sCO2_utilities.html#barotropy.sCO2_utilities.calculate_scaling_variables">calculate_scaling_variables() (in module barotropy.sCO2_utilities)</a>
 </li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.calculate_subcooling">calculate_subcooling() (in module barotropy.props.core)</a>
+      <li><a href="source/api/barotropy.fluid_properties.low_level_interface.html#barotropy.fluid_properties.low_level_interface.calculate_subcooling">calculate_subcooling() (in module barotropy.fluid_properties.low_level_interface)</a>
 </li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.calculate_superheating">calculate_superheating() (in module barotropy.props.core)</a>
+      <li><a href="source/api/barotropy.fluid_properties.low_level_interface.html#barotropy.fluid_properties.low_level_interface.calculate_superheating">calculate_superheating() (in module barotropy.fluid_properties.low_level_interface)</a>
 </li>
       <li><a href="source/api/barotropy.pysolver_view.numerical_differentiation.html#barotropy.pysolver_view.numerical_differentiation.central_finite_differences">central_finite_differences() (in module barotropy.pysolver_view.numerical_differentiation)</a>
 </li>
@@ -544,25 +560,31 @@ document.write(`
 </li>
       <li><a href="source/api/barotropy.sCO2_utilities.html#barotropy.sCO2_utilities.compute_outlet_state_isentropic">compute_outlet_state_isentropic() (in module barotropy.sCO2_utilities)</a>
 </li>
+      <li><a href="source/api/barotropy.fluid_properties.low_level_interface.html#barotropy.fluid_properties.low_level_interface.compute_properties_1phase">compute_properties_1phase() (in module barotropy.fluid_properties.low_level_interface)</a>
+</li>
+      <li><a href="source/api/barotropy.fluid_properties.low_level_interface.html#barotropy.fluid_properties.low_level_interface.compute_properties_2phase">compute_properties_2phase() (in module barotropy.fluid_properties.low_level_interface)</a>
+</li>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.Fluid.compute_properties_meanline">compute_properties_meanline() (barotropy.fluid_properties.core.Fluid method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.props.functions.html#barotropy.props.functions.compute_properties_1phase">compute_properties_1phase() (in module barotropy.props.functions)</a>
+      <li><a href="source/api/barotropy.fluid_properties.low_level_interface.html#barotropy.fluid_properties.low_level_interface.compute_properties_metastable">compute_properties_metastable() (in module barotropy.fluid_properties.low_level_interface)</a>
 </li>
-      <li><a href="source/api/barotropy.props.functions.html#barotropy.props.functions.compute_properties_2phase">compute_properties_2phase() (in module barotropy.props.functions)</a>
+      <li><a href="source/api/barotropy.fluid_properties.low_level_interface.html#barotropy.fluid_properties.low_level_interface.compute_properties_metastable_rhoT">compute_properties_metastable_rhoT() (in module barotropy.fluid_properties.low_level_interface)</a>
 </li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.Fluid.compute_properties_meanline">compute_properties_meanline() (barotropy.props.core.Fluid method)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.compute_property_grid">compute_property_grid() (in module barotropy.fluid_properties.core)</a>
 </li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.compute_properties_meshgrid">compute_properties_meshgrid() (in module barotropy.props.core)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.compute_property_grid_rhoT">compute_property_grid_rhoT() (in module barotropy.fluid_properties.core)</a>
 </li>
-      <li><a href="source/api/barotropy.props.functions.html#barotropy.props.functions.compute_properties_metastable_rhoT">compute_properties_metastable_rhoT() (in module barotropy.props.functions)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.compute_pseudocritical_line">compute_pseudocritical_line() (in module barotropy.fluid_properties.core)</a>
 </li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.compute_pseudocritical_line">compute_pseudocritical_line() (in module barotropy.props.core)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.compute_quality_grid">compute_quality_grid() (in module barotropy.fluid_properties.core)</a>
 </li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.compute_quality_grid">compute_quality_grid() (in module barotropy.props.core)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.compute_saturation_line">compute_saturation_line() (in module barotropy.fluid_properties.core)</a>
 </li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.compute_saturation_line">compute_saturation_line() (in module barotropy.props.core)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.compute_spinodal_line">compute_spinodal_line() (in module barotropy.fluid_properties.core)</a>
 </li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.compute_spinodal_line">compute_spinodal_line() (in module barotropy.props.core)</a>
+      <li><a href="source/api/barotropy.fluid_properties.low_level_interface.html#barotropy.fluid_properties.low_level_interface.compute_spinodal_point">compute_spinodal_point() (in module barotropy.fluid_properties.low_level_interface)</a>
 </li>
       <li><a href="source/api/barotropy.isentropic_nozzle.html#barotropy.isentropic_nozzle.compute_supersonic_exit">compute_supersonic_exit() (in module barotropy.isentropic_nozzle)</a>
 </li>
@@ -572,9 +594,11 @@ document.write(`
 </li>
       <li><a href="source/api/barotropy.pysolver_view.optimization_wrappers.html#barotropy.pysolver_view.optimization_wrappers.convert_pygmo_to_scipy_bounds">convert_pygmo_to_scipy_bounds() (in module barotropy.pysolver_view.optimization_wrappers)</a>
 </li>
+      <li><a href="source/api/barotropy.math.html#barotropy.math.cosd">cosd() (in module barotropy.math)</a>
+</li>
       <li><a href="source/api/barotropy.pysolver_view.optimization.html#barotropy.pysolver_view.optimization.count_constraints">count_constraints() (in module barotropy.pysolver_view.optimization)</a>
 </li>
-      <li><a href="source/api/barotropy.fluent.fluent_automation.html#barotropy.fluent.fluent_automation.create_fluent_journal">create_fluent_journal() (in module barotropy.fluent.fluent_automation)</a>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.create_fluent_journal">create_fluent_journal() (in module barotropy.fluent_automation.fluent_automation)</a>
 </li>
       <li><a href="source/api/barotropy.pysolver_view.pysolver_utilities.html#barotropy.pysolver_view.pysolver_utilities.create_logger">create_logger() (in module barotropy.pysolver_view.pysolver_utilities)</a>
 </li>
@@ -624,11 +648,11 @@ document.write(`
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.Fluid">Fluid (class in barotropy.props.core)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.Fluid">Fluid (class in barotropy.fluid_properties.core)</a>
 </li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.FluidState.fluid_name">fluid_name (barotropy.props.core.FluidState attribute)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.FluidState.fluid_name">fluid_name (barotropy.fluid_properties.core.FluidState attribute)</a>
 </li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.FluidState">FluidState (class in barotropy.props.core)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.FluidState">FluidState (class in barotropy.fluid_properties.core)</a>
 </li>
       <li><a href="source/api/barotropy.pysolver_view.numerical_differentiation.html#barotropy.pysolver_view.numerical_differentiation.forward_finite_differences">forward_finite_differences() (in module barotropy.pysolver_view.numerical_differentiation)</a>
 </li>
@@ -638,11 +662,11 @@ document.write(`
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.fluent.fluent_plot_nozzle_data.html#barotropy.fluent.fluent_plot_nozzle_data.generic_plot_distribution">generic_plot_distribution() (in module barotropy.fluent.fluent_plot_nozzle_data)</a>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.generic_plot_distribution">generic_plot_distribution() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
 </li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.FluidState.get">get() (barotropy.props.core.FluidState method)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.FluidState.get">get() (barotropy.fluid_properties.core.FluidState method)</a>
 </li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.SonicStateProblem2.get_bounds">get_bounds() (barotropy.props.core.SonicStateProblem2 method)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.SonicStateProblem2.get_bounds">get_bounds() (barotropy.fluid_properties.core.SonicStateProblem2 method)</a>
 
       <ul>
         <li><a href="source/api/barotropy.pysolver_view.optimization.html#barotropy.pysolver_view.optimization.OptimizationProblem.get_bounds">(barotropy.pysolver_view.optimization.OptimizationProblem method)</a>
@@ -658,13 +682,13 @@ document.write(`
       </ul></li>
       <li><a href="source/api/barotropy.isentropic_nozzle.html#barotropy.isentropic_nozzle.get_isentropic_outlet_state">get_isentropic_outlet_state() (in module barotropy.isentropic_nozzle)</a>
 </li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.get_isentropic_saturation_state">get_isentropic_saturation_state() (in module barotropy.props.core)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.get_isentropic_saturation_state">get_isentropic_saturation_state() (in module barotropy.fluid_properties.core)</a>
 </li>
       <li><a href="source/api/barotropy.isentropic_nozzle.html#barotropy.isentropic_nozzle.get_isentropic_sonic_state">get_isentropic_sonic_state() (in module barotropy.isentropic_nozzle)</a>
 </li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.SonicStateProblem2.get_n_eq">get_n_eq() (barotropy.props.core.SonicStateProblem2 method)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.SonicStateProblem2.get_n_eq">get_n_eq() (barotropy.fluid_properties.core.SonicStateProblem2 method)</a>
 </li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.SonicStateProblem2.get_n_ineq">get_n_ineq() (barotropy.props.core.SonicStateProblem2 method)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.SonicStateProblem2.get_n_ineq">get_n_ineq() (barotropy.fluid_properties.core.SonicStateProblem2 method)</a>
 </li>
       <li><a href="source/api/barotropy.pysolver_view.optimization.html#barotropy.pysolver_view.optimization.OptimizationProblem.get_nec">get_nec() (barotropy.pysolver_view.optimization.OptimizationProblem method)</a>
 
@@ -692,12 +716,12 @@ document.write(`
         <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.RosenbrockProblemConstrained.get_nic">(barotropy.pysolver_view.optimization_problems.RosenbrockProblemConstrained method)</a>
 </li>
       </ul></li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.Fluid.get_property">get_property() (barotropy.props.core.Fluid method)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.Fluid.get_property">get_property() (barotropy.fluid_properties.core.Fluid method)</a>
 </li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.SonicStateProblem.get_values">get_values() (barotropy.props.core.SonicStateProblem method)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.SonicStateProblem.get_values">get_values() (barotropy.fluid_properties.core.SonicStateProblem method)</a>
 
       <ul>
-        <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.SonicStateProblem2.get_values">(barotropy.props.core.SonicStateProblem2 method)</a>
+        <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.SonicStateProblem2.get_values">(barotropy.fluid_properties.core.SonicStateProblem2 method)</a>
 </li>
       </ul></li>
       <li><a href="source/api/barotropy.pysolver_view.nonlinear_system.html#barotropy.pysolver_view.nonlinear_system.NonlinearSystemSolver.gradient">gradient() (barotropy.pysolver_view.nonlinear_system.NonlinearSystemSolver method)</a>
@@ -718,8 +742,6 @@ document.write(`
 <h2 id="H">H</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.props.functions.html#barotropy.props.functions.HelmholtzResidual">HelmholtzResidual (class in barotropy.props.functions)</a>
-</li>
       <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.RosenbrockProblem.hessians">hessians() (barotropy.pysolver_view.optimization_problems.RosenbrockProblem method)</a>
 
       <ul>
@@ -736,13 +758,17 @@ document.write(`
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.math.html#barotropy.math.is_even">is_even() (in module barotropy.math)</a>
+</li>
       <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.is_float">is_float() (in module barotropy.utilities)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.is_numeric">is_numeric() (in module barotropy.utilities)</a>
 </li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.FluidState.items">items() (barotropy.props.core.FluidState method)</a>
+      <li><a href="source/api/barotropy.math.html#barotropy.math.is_odd">is_odd() (in module barotropy.math)</a>
+</li>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.FluidState.items">items() (barotropy.fluid_properties.core.FluidState method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -750,7 +776,7 @@ document.write(`
 <h2 id="K">K</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.FluidState.keys">keys() (barotropy.props.core.FluidState method)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.FluidState.keys">keys() (barotropy.fluid_properties.core.FluidState method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -784,25 +810,27 @@ document.write(`
 </li>
         <li><a href="source/api/barotropy.barotropic_model.html#module-barotropy.barotropic_model">barotropy.barotropic_model</a>
 </li>
-        <li><a href="source/api/barotropy.fluent.html#module-barotropy.fluent">barotropy.fluent</a>
+        <li><a href="source/api/barotropy.fluent_automation.html#module-barotropy.fluent_automation">barotropy.fluent_automation</a>
 </li>
-        <li><a href="source/api/barotropy.fluent.fluent_automation.html#module-barotropy.fluent.fluent_automation">barotropy.fluent.fluent_automation</a>
+        <li><a href="source/api/barotropy.fluent_automation.fluent_automation.html#module-barotropy.fluent_automation.fluent_automation">barotropy.fluent_automation.fluent_automation</a>
 </li>
-        <li><a href="source/api/barotropy.fluent.fluent_plot_nozzle_data.html#module-barotropy.fluent.fluent_plot_nozzle_data">barotropy.fluent.fluent_plot_nozzle_data</a>
+        <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#module-barotropy.fluent_automation.fluent_plot_nozzle_data">barotropy.fluent_automation.fluent_plot_nozzle_data</a>
 </li>
-        <li><a href="source/api/barotropy.fluent.stream_residuals.html#module-barotropy.fluent.stream_residuals">barotropy.fluent.stream_residuals</a>
+        <li><a href="source/api/barotropy.fluent_automation.stream_residuals.html#module-barotropy.fluent_automation.stream_residuals">barotropy.fluent_automation.stream_residuals</a>
 </li>
-        <li><a href="source/api/barotropy.fluent.stream_transcript.html#module-barotropy.fluent.stream_transcript">barotropy.fluent.stream_transcript</a>
+        <li><a href="source/api/barotropy.fluent_automation.stream_transcript.html#module-barotropy.fluent_automation.stream_transcript">barotropy.fluent_automation.stream_transcript</a>
+</li>
+        <li><a href="source/api/barotropy.fluid_properties.html#module-barotropy.fluid_properties">barotropy.fluid_properties</a>
+</li>
+        <li><a href="source/api/barotropy.fluid_properties.core.html#module-barotropy.fluid_properties.core">barotropy.fluid_properties.core</a>
+</li>
+        <li><a href="source/api/barotropy.fluid_properties.low_level_interface.html#module-barotropy.fluid_properties.low_level_interface">barotropy.fluid_properties.low_level_interface</a>
 </li>
         <li><a href="source/api/barotropy.isentropic_nozzle.html#module-barotropy.isentropic_nozzle">barotropy.isentropic_nozzle</a>
 </li>
+        <li><a href="source/api/barotropy.math.html#module-barotropy.math">barotropy.math</a>
+</li>
         <li><a href="source/api/barotropy.plot_options.html#module-barotropy.plot_options">barotropy.plot_options</a>
-</li>
-        <li><a href="source/api/barotropy.props.html#module-barotropy.props">barotropy.props</a>
-</li>
-        <li><a href="source/api/barotropy.props.core.html#module-barotropy.props.core">barotropy.props.core</a>
-</li>
-        <li><a href="source/api/barotropy.props.functions.html#module-barotropy.props.functions">barotropy.props.functions</a>
 </li>
         <li><a href="source/api/barotropy.pysolver_view.html#module-barotropy.pysolver_view">barotropy.pysolver_view</a>
 </li>
@@ -857,9 +885,9 @@ document.write(`
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.fluent.fluent_automation.html#barotropy.fluent.fluent_automation.parse_fluent_out">parse_fluent_out() (in module barotropy.fluent.fluent_automation)</a>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.parse_fluent_out">parse_fluent_out() (in module barotropy.fluent_automation.fluent_automation)</a>
 </li>
-      <li><a href="source/api/barotropy.fluent.fluent_automation.html#barotropy.fluent.fluent_automation.parse_fluent_xy">parse_fluent_xy() (in module barotropy.fluent.fluent_automation)</a>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.parse_fluent_xy">parse_fluent_xy() (in module barotropy.fluent_automation.fluent_automation)</a>
 </li>
       <li><a href="source/api/barotropy.pysolver_view.nonlinear_system.html#barotropy.pysolver_view.nonlinear_system.NonlinearSystemSolver.plot_convergence_history">plot_convergence_history() (barotropy.pysolver_view.nonlinear_system.NonlinearSystemSolver method)</a>
 
@@ -867,35 +895,37 @@ document.write(`
         <li><a href="source/api/barotropy.pysolver_view.optimization.html#barotropy.pysolver_view.optimization.OptimizationSolver.plot_convergence_history">(barotropy.pysolver_view.optimization.OptimizationSolver method)</a>
 </li>
       </ul></li>
-      <li><a href="source/api/barotropy.fluent.fluent_plot_nozzle_data.html#barotropy.fluent.fluent_plot_nozzle_data.plot_density_distribution">plot_density_distribution() (in module barotropy.fluent.fluent_plot_nozzle_data)</a>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_density_distribution">plot_density_distribution() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
 </li>
-      <li><a href="source/api/barotropy.fluent.fluent_plot_nozzle_data.html#barotropy.fluent.fluent_plot_nozzle_data.plot_mass_fraction_distribution">plot_mass_fraction_distribution() (in module barotropy.fluent.fluent_plot_nozzle_data)</a>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_mass_fraction_distribution">plot_mass_fraction_distribution() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
 </li>
-      <li><a href="source/api/barotropy.fluent.fluent_plot_nozzle_data.html#barotropy.fluent.fluent_plot_nozzle_data.plot_nozzle_data">plot_nozzle_data() (in module barotropy.fluent.fluent_plot_nozzle_data)</a>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_nozzle_data">plot_nozzle_data() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
 </li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.Fluid.plot_phase_diagram">plot_phase_diagram() (barotropy.props.core.Fluid method)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.Fluid.plot_phase_diagram">plot_phase_diagram() (barotropy.fluid_properties.core.Fluid method)</a>
 </li>
-      <li><a href="source/api/barotropy.fluent.fluent_plot_nozzle_data.html#barotropy.fluent.fluent_plot_nozzle_data.plot_pressure_distribution">plot_pressure_distribution() (in module barotropy.fluent.fluent_plot_nozzle_data)</a>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_pressure_distribution">plot_pressure_distribution() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
 </li>
       <li><a href="source/api/barotropy.sCO2_utilities.html#barotropy.sCO2_utilities.plot_ps_diagram">plot_ps_diagram() (in module barotropy.sCO2_utilities)</a>
 </li>
-      <li><a href="source/api/barotropy.fluent.fluent_automation.html#barotropy.fluent.fluent_automation.plot_residuals">plot_residuals() (in module barotropy.fluent.fluent_automation)</a>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.plot_residuals">plot_residuals() (in module barotropy.fluent_automation.fluent_automation)</a>
 </li>
-      <li><a href="source/api/barotropy.fluent.fluent_automation.html#barotropy.fluent.fluent_automation.plot_residuals_real_time">plot_residuals_real_time() (in module barotropy.fluent.fluent_automation)</a>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.plot_residuals_real_time">plot_residuals_real_time() (in module barotropy.fluent_automation.fluent_automation)</a>
 </li>
-      <li><a href="source/api/barotropy.fluent.fluent_plot_nozzle_data.html#barotropy.fluent.fluent_plot_nozzle_data.plot_speed_sound_distribution">plot_speed_sound_distribution() (in module barotropy.fluent.fluent_plot_nozzle_data)</a>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_speed_sound_distribution">plot_speed_sound_distribution() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
 </li>
       <li><a href="source/api/barotropy.sCO2_utilities.html#barotropy.sCO2_utilities.plot_Ts_diagram">plot_Ts_diagram() (in module barotropy.sCO2_utilities)</a>
 </li>
-      <li><a href="source/api/barotropy.fluent.fluent_plot_nozzle_data.html#barotropy.fluent.fluent_plot_nozzle_data.plot_velocity_distribution">plot_velocity_distribution() (in module barotropy.fluent.fluent_plot_nozzle_data)</a>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_velocity_distribution">plot_velocity_distribution() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
+</li>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_viscosity_distribution">plot_viscosity_distribution() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.fluent.fluent_plot_nozzle_data.html#barotropy.fluent.fluent_plot_nozzle_data.plot_viscosity_distribution">plot_viscosity_distribution() (in module barotropy.fluent.fluent_plot_nozzle_data)</a>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_void_fraction_distribution">plot_void_fraction_distribution() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
 </li>
-      <li><a href="source/api/barotropy.fluent.fluent_plot_nozzle_data.html#barotropy.fluent.fluent_plot_nozzle_data.plot_void_fraction_distribution">plot_void_fraction_distribution() (in module barotropy.fluent.fluent_plot_nozzle_data)</a>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_yplus_distribution">plot_yplus_distribution() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
 </li>
-      <li><a href="source/api/barotropy.fluent.fluent_plot_nozzle_data.html#barotropy.fluent.fluent_plot_nozzle_data.plot_yplus_distribution">plot_yplus_distribution() (in module barotropy.fluent.fluent_plot_nozzle_data)</a>
+      <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.polytropic_process_one_fluid">polytropic_process_one_fluid() (in module barotropy.barotropic_model)</a>
 </li>
       <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.postprocess_ode">postprocess_ode() (in module barotropy.barotropic_model)</a>
 </li>
@@ -925,7 +955,7 @@ document.write(`
         <li><a href="source/api/barotropy.pysolver_view.pysolver_utilities.html#barotropy.pysolver_view.pysolver_utilities.print_rc_parameters">(in module barotropy.pysolver_view.pysolver_utilities)</a>
 </li>
       </ul></li>
-      <li><a href="source/api/barotropy.fluent.fluent_automation.html#barotropy.fluent.fluent_automation.print_transcript_real_time">print_transcript_real_time() (in module barotropy.fluent.fluent_automation)</a>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.print_transcript_real_time">print_transcript_real_time() (in module barotropy.fluent_automation.fluent_automation)</a>
 </li>
       <li><a href="source/api/barotropy.pysolver_view.optimization_wrappers.html#barotropy.pysolver_view.optimization_wrappers.PYGMO_SOLVERS">PYGMO_SOLVERS (in module barotropy.pysolver_view.optimization_wrappers)</a>
 </li>
@@ -937,35 +967,33 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.read_configuration_file">read_configuration_file() (in module barotropy.utilities)</a>
 </li>
-      <li><a href="source/api/barotropy.fluent.fluent_automation.html#barotropy.fluent.fluent_automation.read_expression_file">read_expression_file() (in module barotropy.fluent.fluent_automation)</a>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.read_expression_file">read_expression_file() (in module barotropy.fluent_automation.fluent_automation)</a>
 </li>
-      <li><a href="source/api/barotropy.fluent.fluent_automation.html#barotropy.fluent.fluent_automation.read_residual_file">read_residual_file() (in module barotropy.fluent.fluent_automation)</a>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.read_residual_file">read_residual_file() (in module barotropy.fluent_automation.fluent_automation)</a>
 </li>
       <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.render_and_evaluate">render_and_evaluate() (in module barotropy.utilities)</a>
 </li>
-      <li><a href="source/api/barotropy.fluent.fluent_automation.html#barotropy.fluent.fluent_automation.render_fluent_journal">render_fluent_journal() (in module barotropy.fluent.fluent_automation)</a>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.render_fluent_journal">render_fluent_journal() (in module barotropy.fluent_automation.fluent_automation)</a>
 </li>
       <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.render_nested_value">render_nested_value() (in module barotropy.utilities)</a>
 </li>
-      <li><a href="source/api/barotropy.props.functions.html#barotropy.props.functions.HelmholtzResidual.residual">residual() (barotropy.props.functions.HelmholtzResidual method)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.pysolver_view.nonlinear_system.html#barotropy.pysolver_view.nonlinear_system.NonlinearSystemProblem.residual">residual() (barotropy.pysolver_view.nonlinear_system.NonlinearSystemProblem method)</a>
 
       <ul>
-        <li><a href="source/api/barotropy.pysolver_view.nonlinear_system.html#barotropy.pysolver_view.nonlinear_system.NonlinearSystemProblem.residual">(barotropy.pysolver_view.nonlinear_system.NonlinearSystemProblem method)</a>
-</li>
         <li><a href="source/api/barotropy.pysolver_view.nonlinear_system.html#barotropy.pysolver_view.nonlinear_system.NonlinearSystemSolver.residual">(barotropy.pysolver_view.nonlinear_system.NonlinearSystemSolver method)</a>
 </li>
         <li><a href="source/api/barotropy.pysolver_view.nonlinear_system_problems.html#barotropy.pysolver_view.nonlinear_system_problems.LorentzEquations.residual">(barotropy.pysolver_view.nonlinear_system_problems.LorentzEquations method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.RosenbrockProblem">RosenbrockProblem (class in barotropy.pysolver_view.optimization_problems)</a>
 </li>
       <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.RosenbrockProblemConstrained">RosenbrockProblemConstrained (class in barotropy.pysolver_view.optimization_problems)</a>
 </li>
-      <li><a href="source/api/barotropy.fluent.fluent_automation.html#barotropy.fluent.fluent_automation.run_cleanup_script">run_cleanup_script() (in module barotropy.fluent.fluent_automation)</a>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.run_cleanup_script">run_cleanup_script() (in module barotropy.fluent_automation.fluent_automation)</a>
 </li>
-      <li><a href="source/api/barotropy.fluent.fluent_automation.html#barotropy.fluent.fluent_automation.run_fluent_simulation">run_fluent_simulation() (in module barotropy.fluent.fluent_automation)</a>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.run_fluent_simulation">run_fluent_simulation() (in module barotropy.fluent_automation.fluent_automation)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -993,21 +1021,29 @@ document.write(`
         <li><a href="source/api/barotropy.pysolver_view.pysolver_utilities.html#barotropy.pysolver_view.pysolver_utilities.set_plot_options">(in module barotropy.pysolver_view.pysolver_utilities)</a>
 </li>
       </ul></li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.Fluid.set_state">set_state() (barotropy.props.core.Fluid method)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.Fluid.set_state">set_state() (barotropy.fluid_properties.core.Fluid method)</a>
 </li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.Fluid.set_state_metastable">set_state_metastable() (barotropy.props.core.Fluid method)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.Fluid.set_state_metastable">set_state_metastable() (barotropy.fluid_properties.core.Fluid method)</a>
+</li>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.set_state_Qs">set_state_Qs() (in module barotropy.fluid_properties.core)</a>
+</li>
+      <li><a href="source/api/barotropy.math.html#barotropy.math.sigmoid_hyperbolic">sigmoid_hyperbolic() (in module barotropy.math)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.set_state_Qs">set_state_Qs() (in module barotropy.props.core)</a>
+      <li><a href="source/api/barotropy.math.html#barotropy.math.sigmoid_rational">sigmoid_rational() (in module barotropy.math)</a>
 </li>
-      <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.sigmoid_hyperbolic">sigmoid_hyperbolic() (in module barotropy.barotropic_model)</a>
+      <li><a href="source/api/barotropy.math.html#barotropy.math.sigmoid_smootherstep">sigmoid_smootherstep() (in module barotropy.math)</a>
 </li>
-      <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.sigmoid_rational">sigmoid_rational() (in module barotropy.barotropic_model)</a>
+      <li><a href="source/api/barotropy.math.html#barotropy.math.sigmoid_smoothstep">sigmoid_smoothstep() (in module barotropy.math)</a>
 </li>
-      <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.sigmoid_smootherstep">sigmoid_smootherstep() (in module barotropy.barotropic_model)</a>
+      <li><a href="source/api/barotropy.math.html#barotropy.math.sind">sind() (in module barotropy.math)</a>
 </li>
-      <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.sigmoid_smoothstep">sigmoid_smoothstep() (in module barotropy.barotropic_model)</a>
+      <li><a href="source/api/barotropy.math.html#barotropy.math.smooth_abs">smooth_abs() (in module barotropy.math)</a>
+</li>
+      <li><a href="source/api/barotropy.math.html#barotropy.math.smooth_maximum">smooth_maximum() (in module barotropy.math)</a>
+</li>
+      <li><a href="source/api/barotropy.math.html#barotropy.math.smooth_minimum">smooth_minimum() (in module barotropy.math)</a>
 </li>
       <li><a href="source/api/barotropy.pysolver_view.nonlinear_system.html#barotropy.pysolver_view.nonlinear_system.NonlinearSystemSolver.solve">solve() (barotropy.pysolver_view.nonlinear_system.NonlinearSystemSolver method)</a>
 
@@ -1015,13 +1051,13 @@ document.write(`
         <li><a href="source/api/barotropy.pysolver_view.optimization.html#barotropy.pysolver_view.optimization.OptimizationSolver.solve">(barotropy.pysolver_view.optimization.OptimizationSolver method)</a>
 </li>
       </ul></li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.SonicStateProblem">SonicStateProblem (class in barotropy.props.core)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.SonicStateProblem">SonicStateProblem (class in barotropy.fluid_properties.core)</a>
 </li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.SonicStateProblem2">SonicStateProblem2 (class in barotropy.props.core)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.SonicStateProblem2">SonicStateProblem2 (class in barotropy.fluid_properties.core)</a>
 </li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.states_to_dict">states_to_dict() (in module barotropy.props.core)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.states_to_dict">states_to_dict() (in module barotropy.fluid_properties.core)</a>
 </li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.states_to_dict_2d">states_to_dict_2d() (in module barotropy.props.core)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.states_to_dict_2d">states_to_dict_2d() (in module barotropy.fluid_properties.core)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1029,11 +1065,13 @@ document.write(`
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.FluidState.to_dict">to_dict() (barotropy.props.core.FluidState method)</a>
+      <li><a href="source/api/barotropy.math.html#barotropy.math.tand">tand() (in module barotropy.math)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.fluent.fluent_automation.html#barotropy.fluent.fluent_automation.TranscriptFileMissingError">TranscriptFileMissingError</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.FluidState.to_dict">to_dict() (barotropy.fluid_properties.core.FluidState method)</a>
+</li>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.TranscriptFileMissingError">TranscriptFileMissingError</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1041,13 +1079,13 @@ document.write(`
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.fluent.fluent_automation.html#barotropy.fluent.fluent_automation.validate_journal">validate_journal() (in module barotropy.fluent.fluent_automation)</a>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.validate_journal">validate_journal() (in module barotropy.fluent_automation.fluent_automation)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.validate_keys">validate_keys() (in module barotropy.utilities)</a>
 </li>
-      <li><a href="source/api/barotropy.props.core.html#barotropy.props.core.FluidState.values">values() (barotropy.props.core.FluidState method)</a>
+      <li><a href="source/api/barotropy.fluid_properties.core.html#barotropy.fluid_properties.core.FluidState.values">values() (barotropy.fluid_properties.core.FluidState method)</a>
 </li>
   </ul></td>
 </tr></table>

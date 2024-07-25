@@ -1,0 +1,1316 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>barotropy.fluid_properties.low_level_interface &#8212; barotropy v0.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=87e54e7c" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../_static/documentation_options.js?v=28af074a"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/barotropy/fluid_properties/low_level_interface';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">barotropy v0.0.0 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../source/installation.html">Installation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../source/tutorials.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/tutorials/one_component_systems.html">Tutorial: One-component systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/tutorials/two_component_systems.html">Tutorial: Two-component systems</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/barotropic_model.html">Barotropic Model Theory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/bibliography.html">Bibliography</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../source/api/modules.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../source/api/barotropy.html">barotropy</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../source/api/barotropy.fluid_properties.html">barotropy.fluid_properties package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.fluid_properties.core.html">barotropy.fluid_properties.core module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.fluid_properties.low_level_interface.html">barotropy.fluid_properties.low_level_interface module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../source/api/barotropy.pysolver_view.html">barotropy.pysolver_view package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.pysolver_view.nonlinear_system.html">barotropy.pysolver_view.nonlinear_system module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.pysolver_view.nonlinear_system_problems.html">barotropy.pysolver_view.nonlinear_system_problems module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.pysolver_view.numerical_differentiation.html">barotropy.pysolver_view.numerical_differentiation module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.pysolver_view.optimization.html">barotropy.pysolver_view.optimization module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.pysolver_view.optimization_problems.html">barotropy.pysolver_view.optimization_problems module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.pysolver_view.optimization_wrappers.html">barotropy.pysolver_view.optimization_wrappers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.pysolver_view.pysolver_utilities.html">barotropy.pysolver_view.pysolver_utilities module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../source/api/barotropy.fluent_automation.html">barotropy.fluent_automation package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.fluent_automation.fluent_automation.html">barotropy.fluent_automation.fluent_automation module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html">barotropy.fluent_automation.fluent_plot_nozzle_data module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.fluent_automation.stream_residuals.html">barotropy.fluent_automation.stream_residuals module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../source/api/barotropy.fluent_automation.stream_transcript.html">barotropy.fluent_automation.stream_transcript module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../source/api/barotropy.barotropic_model.html">barotropy.barotropic_model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../source/api/barotropy.isentropic_nozzle.html">barotropy.isentropic_nozzle module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../source/api/barotropy.sCO2_utilities.html">barotropy.sCO2_utilities module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../source/api/barotropy.math.html">barotropy.math module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../source/api/barotropy.plot_options.html">barotropy.plot_options module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../source/api/barotropy.utilities.html">barotropy.utilities module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for barotropy.fluid_properties.low_level_interface</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">CoolProp.CoolProp</span> <span class="k">as</span> <span class="nn">CP</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">math</span> <span class="k">as</span> <span class="n">math</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">pysolver_view</span> <span class="k">as</span> <span class="n">psv</span>
+
+
+<span class="c1"># ------------------------------------------------------------------------------------ #</span>
+<span class="c1"># Equilibrum property calculations through CoolProp</span>
+<span class="c1"># ------------------------------------------------------------------------------------ #</span>
+
+
+<div class="viewcode-block" id="compute_properties_1phase">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluid_properties.low_level_interface.html#barotropy.fluid_properties.low_level_interface.compute_properties_1phase">[docs]</a>
+<span class="k">def</span> <span class="nf">compute_properties_1phase</span><span class="p">(</span>
+    <span class="n">abstract_state</span><span class="p">,</span>
+    <span class="n">generalize_quality</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">compute_subcooling</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">compute_superheating</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get single-phase properties from CoolProp low level interface</span>
+
+<span class="sd">    Direct call to coolprop</span>
+
+<span class="sd">    TODO To be completed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Fluid properties available from CoolProp</span>
+    <span class="n">props</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">AS</span> <span class="o">=</span> <span class="n">abstract_state</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;T&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">p</span><span class="p">()</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;rhomass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">rhomass</span><span class="p">()</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;umass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">umass</span><span class="p">()</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;hmass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">hmass</span><span class="p">()</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;smass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">smass</span><span class="p">()</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;gibbsmass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">gibbsmass</span><span class="p">()</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;cvmass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">cvmass</span><span class="p">()</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;cpmass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">cpmass</span><span class="p">()</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;gamma&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;cpmass&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;cvmass&quot;</span><span class="p">]</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;compressibility_factor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">compressibility_factor</span><span class="p">()</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;speed_sound&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">speed_sound</span><span class="p">()</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;isentropic_bulk_modulus&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;rhomass&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;speed_sound&quot;</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;isentropic_compressibility&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;isentropic_bulk_modulus&quot;</span><span class="p">]</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;isothermal_bulk_modulus&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">AS</span><span class="o">.</span><span class="n">isothermal_compressibility</span><span class="p">()</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;isothermal_compressibility&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">isothermal_compressibility</span><span class="p">()</span>
+    <span class="n">isobaric_expansion_coefficient</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">isobaric_expansion_coefficient</span><span class="p">()</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;isobaric_expansion_coefficient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">isobaric_expansion_coefficient</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;viscosity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">viscosity</span><span class="p">()</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;conductivity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">conductivity</span><span class="p">()</span>
+
+    <span class="c1"># Generalized quality outside the two-phase region</span>
+    <span class="k">if</span> <span class="n">generalize_quality</span><span class="p">:</span>
+        <span class="n">quality</span> <span class="o">=</span> <span class="n">calculate_generalized_quality</span><span class="p">(</span><span class="n">AS</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">quality</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;Q&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">quality</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;quality_mass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;quality_volume&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="c1"># Calculate departure from saturation properties</span>
+    <span class="k">if</span> <span class="n">compute_subcooling</span><span class="p">:</span>
+        <span class="n">props</span><span class="p">[</span><span class="s2">&quot;subcooling&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_subcooling</span><span class="p">(</span><span class="n">AS</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">compute_superheating</span><span class="p">:</span>
+        <span class="n">props</span><span class="p">[</span><span class="s2">&quot;superheating&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_superheating</span><span class="p">(</span><span class="n">AS</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">props</span></div>
+
+
+
+<div class="viewcode-block" id="compute_properties_2phase">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluid_properties.low_level_interface.html#barotropy.fluid_properties.low_level_interface.compute_properties_2phase">[docs]</a>
+<span class="k">def</span> <span class="nf">compute_properties_2phase</span><span class="p">(</span>
+    <span class="n">abstract_state</span><span class="p">,</span>
+    <span class="n">compute_subcooling</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">compute_superheating</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get two-phase properties from mixing rules and single-phase CoolProp properties</span>
+
+<span class="sd">    Homogeneous equilibrium model</span>
+
+<span class="sd">    State formulas for T=T, p=p, mfrac/vfrac(rho), h-s-g-u-cp-cv, mu-k, a</span>
+<span class="sd">    TODO To be completed</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Instantiate new AbstractState to compute saturation properties without changing the state of the class</span>
+    <span class="n">AS</span> <span class="o">=</span> <span class="n">abstract_state</span>
+    <span class="n">cloned_AS</span> <span class="o">=</span> <span class="n">CP</span><span class="o">.</span><span class="n">AbstractState</span><span class="p">(</span><span class="n">AS</span><span class="o">.</span><span class="n">backend_name</span><span class="p">(),</span> <span class="n">AS</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
+
+    <span class="c1"># Basic properties of the two-phase mixture</span>
+    <span class="n">T_mix</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
+    <span class="n">p_mix</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">p</span><span class="p">()</span>
+    <span class="n">rho_mix</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">rhomass</span><span class="p">()</span>
+    <span class="n">u_mix</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">umass</span><span class="p">()</span>
+    <span class="n">h_mix</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">hmass</span><span class="p">()</span>
+    <span class="n">s_mix</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">smass</span><span class="p">()</span>
+    <span class="n">gibbs_mix</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">gibbsmass</span><span class="p">()</span>
+
+    <span class="c1"># Saturated liquid properties</span>
+    <span class="n">cloned_AS</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">CP</span><span class="o">.</span><span class="n">QT_INPUTS</span><span class="p">,</span> <span class="mf">0.00</span><span class="p">,</span> <span class="n">T_mix</span><span class="p">)</span>
+    <span class="n">rho_L</span> <span class="o">=</span> <span class="n">cloned_AS</span><span class="o">.</span><span class="n">rhomass</span><span class="p">()</span>
+    <span class="n">cp_L</span> <span class="o">=</span> <span class="n">cloned_AS</span><span class="o">.</span><span class="n">cpmass</span><span class="p">()</span>
+    <span class="n">cv_L</span> <span class="o">=</span> <span class="n">cloned_AS</span><span class="o">.</span><span class="n">cvmass</span><span class="p">()</span>
+    <span class="n">k_L</span> <span class="o">=</span> <span class="n">cloned_AS</span><span class="o">.</span><span class="n">conductivity</span><span class="p">()</span>
+    <span class="n">mu_L</span> <span class="o">=</span> <span class="n">cloned_AS</span><span class="o">.</span><span class="n">viscosity</span><span class="p">()</span>
+    <span class="n">a_L</span> <span class="o">=</span> <span class="n">cloned_AS</span><span class="o">.</span><span class="n">speed_sound</span><span class="p">()</span>
+    <span class="n">dsdp_L</span> <span class="o">=</span> <span class="n">cloned_AS</span><span class="o">.</span><span class="n">first_saturation_deriv</span><span class="p">(</span><span class="n">CP</span><span class="o">.</span><span class="n">iSmass</span><span class="p">,</span> <span class="n">CP</span><span class="o">.</span><span class="n">iP</span><span class="p">)</span>
+
+    <span class="c1"># Saturated vapor properties</span>
+    <span class="n">cloned_AS</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">CP</span><span class="o">.</span><span class="n">QT_INPUTS</span><span class="p">,</span> <span class="mf">1.00</span><span class="p">,</span> <span class="n">T_mix</span><span class="p">)</span>
+    <span class="n">rho_V</span> <span class="o">=</span> <span class="n">cloned_AS</span><span class="o">.</span><span class="n">rhomass</span><span class="p">()</span>
+    <span class="n">cp_V</span> <span class="o">=</span> <span class="n">cloned_AS</span><span class="o">.</span><span class="n">cpmass</span><span class="p">()</span>
+    <span class="n">cv_V</span> <span class="o">=</span> <span class="n">cloned_AS</span><span class="o">.</span><span class="n">cvmass</span><span class="p">()</span>
+    <span class="n">k_V</span> <span class="o">=</span> <span class="n">cloned_AS</span><span class="o">.</span><span class="n">conductivity</span><span class="p">()</span>
+    <span class="n">mu_V</span> <span class="o">=</span> <span class="n">cloned_AS</span><span class="o">.</span><span class="n">viscosity</span><span class="p">()</span>
+    <span class="n">a_V</span> <span class="o">=</span> <span class="n">cloned_AS</span><span class="o">.</span><span class="n">speed_sound</span><span class="p">()</span>
+    <span class="n">dsdp_V</span> <span class="o">=</span> <span class="n">cloned_AS</span><span class="o">.</span><span class="n">first_saturation_deriv</span><span class="p">(</span><span class="n">CP</span><span class="o">.</span><span class="n">iSmass</span><span class="p">,</span> <span class="n">CP</span><span class="o">.</span><span class="n">iP</span><span class="p">)</span>
+
+    <span class="c1"># Volume fractions of vapor and liquid</span>
+    <span class="n">vfrac_V</span> <span class="o">=</span> <span class="p">(</span><span class="n">rho_mix</span> <span class="o">-</span> <span class="n">rho_L</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">rho_V</span> <span class="o">-</span> <span class="n">rho_L</span><span class="p">)</span>
+    <span class="n">vfrac_L</span> <span class="o">=</span> <span class="mf">1.00</span> <span class="o">-</span> <span class="n">vfrac_V</span>
+
+    <span class="c1"># Mass fractions of vapor and liquid</span>
+    <span class="n">mfrac_V</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">rho_mix</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">rho_L</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">rho_V</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">rho_L</span><span class="p">)</span>
+    <span class="n">mfrac_L</span> <span class="o">=</span> <span class="mf">1.00</span> <span class="o">-</span> <span class="n">mfrac_V</span>
+
+    <span class="c1"># Heat capacities of the two-phase mixture</span>
+    <span class="n">cp_mix</span> <span class="o">=</span> <span class="n">mfrac_L</span> <span class="o">*</span> <span class="n">cp_L</span> <span class="o">+</span> <span class="n">mfrac_V</span> <span class="o">*</span> <span class="n">cp_V</span>
+    <span class="n">cv_mix</span> <span class="o">=</span> <span class="n">mfrac_L</span> <span class="o">*</span> <span class="n">cv_L</span> <span class="o">+</span> <span class="n">mfrac_V</span> <span class="o">*</span> <span class="n">cv_V</span>
+
+    <span class="c1"># Transport properties of the two-phase mixture</span>
+    <span class="n">k_mix</span> <span class="o">=</span> <span class="n">vfrac_L</span> <span class="o">*</span> <span class="n">k_L</span> <span class="o">+</span> <span class="n">vfrac_V</span> <span class="o">*</span> <span class="n">k_V</span>
+    <span class="n">mu_mix</span> <span class="o">=</span> <span class="n">vfrac_L</span> <span class="o">*</span> <span class="n">mu_L</span> <span class="o">+</span> <span class="n">vfrac_V</span> <span class="o">*</span> <span class="n">mu_V</span>
+
+    <span class="c1"># Compressibility factor of the two-phase mixture</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">molar_mass</span><span class="p">()</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">gas_constant</span><span class="p">()</span>
+    <span class="n">Z_mix</span> <span class="o">=</span> <span class="n">p_mix</span> <span class="o">/</span> <span class="p">(</span><span class="n">rho_mix</span> <span class="o">*</span> <span class="p">(</span><span class="n">R</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span> <span class="o">*</span> <span class="n">T_mix</span><span class="p">)</span>
+
+    <span class="c1"># Speed of sound of the two-phase mixture</span>
+    <span class="n">B1</span> <span class="o">=</span> <span class="n">vfrac_L</span> <span class="o">/</span> <span class="p">(</span><span class="n">rho_L</span> <span class="o">*</span> <span class="n">a_L</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">vfrac_V</span> <span class="o">/</span> <span class="p">(</span><span class="n">rho_V</span> <span class="o">*</span> <span class="n">a_V</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">B2</span> <span class="o">=</span> <span class="n">vfrac_L</span> <span class="o">*</span> <span class="n">rho_L</span> <span class="o">/</span> <span class="n">cp_L</span> <span class="o">*</span> <span class="n">dsdp_L</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">vfrac_V</span> <span class="o">*</span> <span class="n">rho_V</span> <span class="o">/</span> <span class="n">cp_V</span> <span class="o">*</span> <span class="n">dsdp_V</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">compressibility_HEM</span> <span class="o">=</span> <span class="n">B1</span> <span class="o">+</span> <span class="n">T_mix</span> <span class="o">*</span> <span class="n">B2</span>
+    <span class="k">if</span> <span class="n">mfrac_V</span> <span class="o">&lt;</span> <span class="mf">1e-6</span><span class="p">:</span>  <span class="c1"># Avoid discontinuity when Q_v=0</span>
+        <span class="n">a_HEM</span> <span class="o">=</span> <span class="n">a_L</span>
+    <span class="k">elif</span> <span class="n">mfrac_V</span> <span class="o">&gt;</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="mf">1e-6</span><span class="p">:</span>  <span class="c1"># Avoid discontinuity when Q_v=1</span>
+        <span class="n">a_HEM</span> <span class="o">=</span> <span class="n">a_V</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">a_HEM</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">rho_mix</span> <span class="o">/</span> <span class="n">compressibility_HEM</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+
+    <span class="c1"># Store properties in dictionary</span>
+    <span class="n">props</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;T&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">T_mix</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_mix</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;rhomass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rho_mix</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;umass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">u_mix</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;hmass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">h_mix</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;smass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">s_mix</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;gibbsmass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gibbs_mix</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;cvmass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cv_mix</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;cpmass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cp_mix</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;gamma&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;cpmass&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;cvmass&quot;</span><span class="p">]</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;compressibility_factor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Z_mix</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;speed_sound&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">a_HEM</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;isentropic_bulk_modulus&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rho_mix</span> <span class="o">*</span> <span class="n">a_HEM</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;isentropic_compressibility&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">rho_mix</span> <span class="o">*</span> <span class="n">a_HEM</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;isothermal_bulk_modulus&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;isothermal_compressibility&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;isobaric_expansion_coefficient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;viscosity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mu_mix</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;conductivity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">k_mix</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;Q&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mfrac_V</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;quality_mass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mfrac_V</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;quality_volume&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vfrac_V</span>
+
+    <span class="c1"># Calculate departure from saturation properties</span>
+    <span class="k">if</span> <span class="n">compute_subcooling</span><span class="p">:</span>
+        <span class="n">props</span><span class="p">[</span><span class="s2">&quot;subcooling&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_subcooling</span><span class="p">(</span><span class="n">AS</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">compute_superheating</span><span class="p">:</span>
+        <span class="n">props</span><span class="p">[</span><span class="s2">&quot;superheating&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_superheating</span><span class="p">(</span><span class="n">AS</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">props</span></div>
+
+
+
+<div class="viewcode-block" id="calculate_generalized_quality">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluid_properties.low_level_interface.html#barotropy.fluid_properties.low_level_interface.calculate_generalized_quality">[docs]</a>
+<span class="k">def</span> <span class="nf">calculate_generalized_quality</span><span class="p">(</span><span class="n">abstract_state</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the generalized quality of a fluid, extending the quality calculation beyond the two-phase region if necessary.</span>
+
+<span class="sd">    Below the critical temperature, the quality is calculated from the specific volume of the saturated liquid and vapor states.</span>
+<span class="sd">    Above the critical temperature, an artificial two-phase region is defined around the critical density line to allow for a finite-width quality computation.</span>
+
+<span class="sd">    The quality, :math:`Q`, is given by:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        Q = \frac{v - v(T, Q=0)}{v(T, Q=1) - v(T, Q=0)}</span>
+
+<span class="sd">    where :math:`v=1/\rho` is the specific volume and :math:`T` is the temperature.</span>
+
+<span class="sd">    Additionally, this function applies smoothing limiters to ensure the quality is bounded between -1 and 2.</span>
+<span class="sd">    These limiters prevent the quality value from taking arbitrarily large values, enhancing stability and robustness of downstream calculation.</span>
+<span class="sd">    The limiters use the `logsumexp` method for smooth transitions, with a specified alpha value controlling the smoothness.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    abstract_state : CoolProp.AbstractState</span>
+<span class="sd">        CoolProp abstract state of the fluid.</span>
+
+<span class="sd">    alpha : float</span>
+<span class="sd">        Smoothing factor of the quality-calculation limiters.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The calculated quality of the fluid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Instantiate new abstract state to compute saturation properties without changing the state of the class</span>
+    <span class="n">state_bis</span> <span class="o">=</span> <span class="n">CP</span><span class="o">.</span><span class="n">AbstractState</span><span class="p">(</span><span class="n">abstract_state</span><span class="o">.</span><span class="n">backend_name</span><span class="p">(),</span> <span class="n">abstract_state</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
+
+    <span class="c1"># Extend quality calculation beyond the two-phase region</span>
+    <span class="c1"># Checking if subcritical using temperature works better than with pressure</span>
+    <span class="k">if</span> <span class="n">abstract_state</span><span class="o">.</span><span class="n">T</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">abstract_state</span><span class="o">.</span><span class="n">T_critical</span><span class="p">():</span>
+        <span class="c1"># Saturated liquid</span>
+        <span class="n">state_bis</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">CP</span><span class="o">.</span><span class="n">QT_INPUTS</span><span class="p">,</span> <span class="mf">0.00</span><span class="p">,</span> <span class="n">abstract_state</span><span class="o">.</span><span class="n">T</span><span class="p">())</span>
+        <span class="n">rho_liq</span> <span class="o">=</span> <span class="n">state_bis</span><span class="o">.</span><span class="n">rhomass</span><span class="p">()</span>
+
+        <span class="c1"># Saturated vapor</span>
+        <span class="n">state_bis</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">CP</span><span class="o">.</span><span class="n">QT_INPUTS</span><span class="p">,</span> <span class="mf">1.00</span><span class="p">,</span> <span class="n">abstract_state</span><span class="o">.</span><span class="n">T</span><span class="p">())</span>
+        <span class="n">rho_vap</span> <span class="o">=</span> <span class="n">state_bis</span><span class="o">.</span><span class="n">rhomass</span><span class="p">()</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># For states at or above the critical temperature, the concept of saturation states is not applicable</span>
+        <span class="c1"># Instead, an artificial two-phase region is created around the pseudo-critical density line (line of critical density)</span>
+        <span class="c1"># The width of the artificial two-phase region is assumed to increase linearly with temperature</span>
+
+        <span class="c1"># Rename properties</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="n">abstract_state</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
+        <span class="n">T_crit</span> <span class="o">=</span> <span class="n">abstract_state</span><span class="o">.</span><span class="n">T_critical</span><span class="p">()</span>
+        <span class="n">rho_crit</span> <span class="o">=</span> <span class="n">abstract_state</span><span class="o">.</span><span class="n">rhomass_critical</span><span class="p">()</span>
+
+        <span class="c1"># Define pseudocritical region</span>
+        <span class="n">T_hat</span> <span class="o">=</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">T_crit</span>
+        <span class="n">rho_hat_liq</span> <span class="o">=</span> <span class="mf">1.1</span> <span class="o">*</span> <span class="n">rho_crit</span>
+        <span class="n">rho_hat_vap</span> <span class="o">=</span> <span class="mf">0.9</span> <span class="o">*</span> <span class="n">rho_crit</span>
+        <span class="n">rho_liq</span> <span class="o">=</span> <span class="n">rho_crit</span> <span class="o">+</span> <span class="p">(</span><span class="n">rho_hat_liq</span> <span class="o">-</span> <span class="n">rho_crit</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">T</span> <span class="o">-</span> <span class="n">T_crit</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">T_hat</span> <span class="o">-</span> <span class="n">T_crit</span><span class="p">)</span>
+        <span class="n">rho_vap</span> <span class="o">=</span> <span class="n">rho_crit</span> <span class="o">+</span> <span class="p">(</span><span class="n">rho_hat_vap</span> <span class="o">-</span> <span class="n">rho_crit</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">T</span> <span class="o">-</span> <span class="n">T_crit</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">T_hat</span> <span class="o">-</span> <span class="n">T_crit</span><span class="p">)</span>
+
+    <span class="c1"># Compute quality according to definition</span>
+    <span class="n">rho</span> <span class="o">=</span> <span class="n">abstract_state</span><span class="o">.</span><span class="n">rhomass</span><span class="p">()</span>
+    <span class="n">quality</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">rho</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">rho_liq</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">rho_vap</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">rho_liq</span> <span class="o">+</span> <span class="mf">1e-6</span><span class="p">)</span>
+
+    <span class="c1"># Apply smoothing limiters so that the quality is bounded between [-1, 2]</span>
+    <span class="c1"># The margin is defined as delta_Q=1 to the left of Q=0 and to the right of Q=1</span>
+    <span class="n">quality</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">smooth_minimum</span><span class="p">(</span><span class="n">quality</span><span class="p">,</span> <span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;logsumexp&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+    <span class="n">quality</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">smooth_maximum</span><span class="p">(</span><span class="n">quality</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;logsumexp&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">quality</span></div>
+
+
+
+<div class="viewcode-block" id="calculate_superheating">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluid_properties.low_level_interface.html#barotropy.fluid_properties.low_level_interface.calculate_superheating">[docs]</a>
+<span class="k">def</span> <span class="nf">calculate_superheating</span><span class="p">(</span><span class="n">abstract_state</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the degree of superheating for a given CoolProp abstract state.</span>
+
+<span class="sd">    This function computes the superheating of a fluid using the CoolProp library&#39;s</span>
+<span class="sd">    abstract state class. It handles both subcritical and supercritical conditions</span>
+<span class="sd">    to provide a measure of superheating for any thermodynamic state. This results in</span>
+<span class="sd">    a continuous variation of superheating in the two-phase region, which is necessary</span>
+<span class="sd">    to achieve in reliable convergence of systems of equations and optimization problems</span>
+<span class="sd">    involving the degree of superheating.</span>
+
+<span class="sd">    Calculation cases:</span>
+<span class="sd">        - Physically meaningful superheating for subcritical states in the vapor region:</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">          \Delta T = T - T(p, Q=1) \quad \text{for} \quad h &gt; h(p, Q=1)</span>
+
+<span class="sd">        - Artificial superheating for subcritical states in the liquid and two-phase regions:</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">          \Delta T = \frac{h - h(p, Q=1)}{c_p(p, Q=1)}</span>
+
+<span class="sd">        - Artificial superheating for supercritical states defined using the critical density line:</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">          \Delta T = T - T(p, \rho_{\text{crit}})</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    abstract_state : CoolProp.AbstractState</span>
+<span class="sd">        The abstract state of the fluid for which the superheating is to be calculated.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The degree of superheating in Kelvin.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import CoolProp as CP</span>
+<span class="sd">    &gt;&gt;&gt; abstract_state = CP.AbstractState(&quot;HEOS&quot;, &quot;water&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; abstract_state.update(CP.PT_INPUTS, 101325, 120 + 273.15)</span>
+<span class="sd">    &gt;&gt;&gt; superheating = calculate_superheating(abstract_state)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;Superheating is {superheating:+0.3f} K&quot;)</span>
+<span class="sd">    Superheating is +20.026 K</span>
+
+<span class="sd">    &gt;&gt;&gt; abstract_state = CP.AbstractState(&quot;HEOS&quot;, &quot;water&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; abstract_state.update(CP.PQ_INPUTS, 101325, 0.95)</span>
+<span class="sd">    &gt;&gt;&gt; superheating = calculate_superheating(abstract_state)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;Superheating is {superheating:+0.3f} K&quot;)</span>
+<span class="sd">    Superheating is -54.244 K</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Instantiate new abstract state to compute saturation properties without changing the state of the class</span>
+    <span class="n">AS</span> <span class="o">=</span> <span class="n">abstract_state</span>
+    <span class="n">sat_state</span> <span class="o">=</span> <span class="n">CP</span><span class="o">.</span><span class="n">AbstractState</span><span class="p">(</span><span class="n">AS</span><span class="o">.</span><span class="n">backend_name</span><span class="p">(),</span> <span class="n">AS</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
+
+    <span class="c1"># Compute triple pressure</span>
+    <span class="n">sat_state</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">CP</span><span class="o">.</span><span class="n">QT_INPUTS</span><span class="p">,</span> <span class="mf">1.00</span><span class="p">,</span> <span class="n">AS</span><span class="o">.</span><span class="n">Ttriple</span><span class="p">())</span>
+    <span class="n">p_triple</span> <span class="o">=</span> <span class="n">sat_state</span><span class="o">.</span><span class="n">p</span><span class="p">()</span>
+
+    <span class="c1"># Check if the pressure is below the critical pressure of the fluid</span>
+    <span class="k">if</span> <span class="n">AS</span><span class="o">.</span><span class="n">p</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">AS</span><span class="o">.</span><span class="n">p_critical</span><span class="p">():</span>
+
+        <span class="c1"># Compute triple pressure (needed to avoid error at low pressure)</span>
+        <span class="n">sat_state</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">CP</span><span class="o">.</span><span class="n">QT_INPUTS</span><span class="p">,</span> <span class="mf">1.00</span><span class="p">,</span> <span class="n">AS</span><span class="o">.</span><span class="n">Ttriple</span><span class="p">())</span>
+        <span class="n">p_triple</span> <span class="o">=</span> <span class="n">sat_state</span><span class="o">.</span><span class="n">p</span><span class="p">()</span>
+
+        <span class="c1"># Set the saturation state of the fluid at the given pressure</span>
+        <span class="n">sat_state</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">CP</span><span class="o">.</span><span class="n">PQ_INPUTS</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">p_triple</span><span class="p">,</span> <span class="n">AS</span><span class="o">.</span><span class="n">p</span><span class="p">()),</span> <span class="mf">1.00</span><span class="p">)</span>
+
+        <span class="c1"># Check if the fluid is in the two-phase or liquid regions</span>
+        <span class="k">if</span> <span class="n">AS</span><span class="o">.</span><span class="n">hmass</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">sat_state</span><span class="o">.</span><span class="n">hmass</span><span class="p">():</span>
+            <span class="c1"># Below the vapor saturation enthalpy, define superheating as the normalized difference in enthalpy</span>
+            <span class="c1"># The normalization is done using the specific heat capacity at saturation (cp)</span>
+            <span class="c1"># This provides a continuous measure of superheating, even in the two-phase region</span>
+            <span class="n">superheating</span> <span class="o">=</span> <span class="p">(</span><span class="n">AS</span><span class="o">.</span><span class="n">hmass</span><span class="p">()</span> <span class="o">-</span> <span class="n">sat_state</span><span class="o">.</span><span class="n">hmass</span><span class="p">())</span> <span class="o">/</span> <span class="n">sat_state</span><span class="o">.</span><span class="n">cpmass</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Outside the two-phase region, superheating is the difference in temperature</span>
+            <span class="c1"># from the saturation temperature at the same pressure</span>
+            <span class="n">superheating</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">T</span><span class="p">()</span> <span class="o">-</span> <span class="n">sat_state</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># For states at or above the critical pressure, the concept of saturation temperature is not applicable</span>
+        <span class="c1"># Instead, use a &#39;pseudo-critical&#39; state for comparison, where the density is set to the critical density</span>
+        <span class="c1"># but the pressure is the same as the state of interest</span>
+        <span class="n">rho_crit</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">rhomass_critical</span><span class="p">()</span>
+        <span class="n">sat_state</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">CP</span><span class="o">.</span><span class="n">DmassP_INPUTS</span><span class="p">,</span> <span class="n">rho_crit</span><span class="p">,</span> <span class="n">AS</span><span class="o">.</span><span class="n">p</span><span class="p">())</span>
+
+        <span class="c1"># Define superheating as the difference in enthalpy from this &#39;pseudo-critical&#39; state</span>
+        <span class="c1"># This approach extends the definition of superheating to conditions above the critical pressure</span>
+        <span class="n">superheating</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">T</span><span class="p">()</span> <span class="o">-</span> <span class="n">sat_state</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">superheating</span></div>
+
+
+
+<div class="viewcode-block" id="calculate_subcooling">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluid_properties.low_level_interface.html#barotropy.fluid_properties.low_level_interface.calculate_subcooling">[docs]</a>
+<span class="k">def</span> <span class="nf">calculate_subcooling</span><span class="p">(</span><span class="n">abstract_state</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the degree of subcooling for a given CoolProp abstract state.</span>
+
+<span class="sd">    This function computes the subcooling of a fluid using the CoolProp library&#39;s</span>
+<span class="sd">    abstract state class. It handles both subcritical and supercritical conditions</span>
+<span class="sd">    to provide a measure of subcooling for any thermodynamic state. This results in</span>
+<span class="sd">    a continuous variation of subcooling in the two-phase region, which is necessary</span>
+<span class="sd">    to achieve reliable convergence of systems of equations and optimization problems</span>
+<span class="sd">    involving the degree of subcooling.</span>
+
+<span class="sd">    Calculation cases:</span>
+<span class="sd">        - Physically meaningful subcooling for subcritical states in the liquid region:</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">          \Delta T = T(p, Q=0) - T \quad \text{for} \quad h &lt; h(p, Q=0)</span>
+
+<span class="sd">        - Artificial subcooling for subcritical states in the vapor and two-phase regions:</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">          \Delta T = \frac{h(p, Q=0) - h}{c_p(p, Q=0)}</span>
+
+<span class="sd">        - Artificial subcooling for supercritical states defined using the critical density line:</span>
+
+<span class="sd">        .. math::</span>
+
+<span class="sd">          \Delta T = T(p, \rho_{\text{crit}}) - T</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    abstract_state : CoolProp.AbstractState</span>
+<span class="sd">        The abstract state of the fluid for which the subcooling is to be calculated.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The degree of subcooling in Kelvin.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import CoolProp as CP</span>
+<span class="sd">    &gt;&gt;&gt; abstract_state = CP.AbstractState(&quot;HEOS&quot;, &quot;water&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; abstract_state.update(CP.PT_INPUTS, 101325, 25+273.15)</span>
+<span class="sd">    &gt;&gt;&gt; subcooling = bpy.calculate_subcooling(abstract_state)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;Subcooling is {subcooling:+0.3f} K&quot;)</span>
+<span class="sd">    Subcooling is +74.974 K</span>
+
+<span class="sd">    &gt;&gt;&gt; abstract_state = CP.AbstractState(&quot;HEOS&quot;, &quot;water&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; abstract_state.update(CP.PQ_INPUTS, 101325, 0.05)</span>
+<span class="sd">    &gt;&gt;&gt; subcooling = bpy.calculate_subcooling(abstract_state)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;Subcooling is {subcooling:+0.3f} K&quot;)</span>
+<span class="sd">    Subcooling is -26.763 K</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Instantiate new abstract state to compute saturation properties without changing the state of the class</span>
+    <span class="n">AS</span> <span class="o">=</span> <span class="n">abstract_state</span>
+    <span class="n">sat_state</span> <span class="o">=</span> <span class="n">CP</span><span class="o">.</span><span class="n">AbstractState</span><span class="p">(</span><span class="n">AS</span><span class="o">.</span><span class="n">backend_name</span><span class="p">(),</span> <span class="n">AS</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
+
+    <span class="c1"># Check if the pressure is below the critical pressure of the fluid</span>
+    <span class="k">if</span> <span class="n">AS</span><span class="o">.</span><span class="n">p</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">AS</span><span class="o">.</span><span class="n">p_critical</span><span class="p">():</span>
+
+        <span class="c1"># Compute triple pressure (needed to avoid error at low pressure)</span>
+        <span class="n">sat_state</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">CP</span><span class="o">.</span><span class="n">QT_INPUTS</span><span class="p">,</span> <span class="mf">0.00</span><span class="p">,</span> <span class="n">AS</span><span class="o">.</span><span class="n">Ttriple</span><span class="p">())</span>
+        <span class="n">p_triple</span> <span class="o">=</span> <span class="n">sat_state</span><span class="o">.</span><span class="n">p</span><span class="p">()</span>
+
+        <span class="c1"># Set the saturation state of the fluid at the given pressure</span>
+        <span class="n">sat_state</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">CP</span><span class="o">.</span><span class="n">PQ_INPUTS</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">p_triple</span><span class="p">,</span> <span class="n">AS</span><span class="o">.</span><span class="n">p</span><span class="p">()),</span> <span class="mf">0.00</span><span class="p">)</span>
+
+        <span class="c1"># Check if the fluid is in the two-phase or vapor regions</span>
+        <span class="k">if</span> <span class="n">AS</span><span class="o">.</span><span class="n">hmass</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">sat_state</span><span class="o">.</span><span class="n">hmass</span><span class="p">():</span>
+            <span class="c1"># Above the liquid saturation enthalpy, define superheating as the normalized difference in enthalpy</span>
+            <span class="c1"># The normalization is done using the specific heat capacity at saturation (cp)</span>
+            <span class="c1"># This provides a continuous measure of superheating, even in the two-phase region</span>
+            <span class="n">subcooling</span> <span class="o">=</span> <span class="p">(</span><span class="n">sat_state</span><span class="o">.</span><span class="n">hmass</span><span class="p">()</span> <span class="o">-</span> <span class="n">AS</span><span class="o">.</span><span class="n">hmass</span><span class="p">())</span> <span class="o">/</span> <span class="n">sat_state</span><span class="o">.</span><span class="n">cpmass</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Outside the two-phase region, superheating is the difference in temperature</span>
+            <span class="c1"># from the saturation temperature at the same pressure</span>
+            <span class="n">subcooling</span> <span class="o">=</span> <span class="n">sat_state</span><span class="o">.</span><span class="n">T</span><span class="p">()</span> <span class="o">-</span> <span class="n">AS</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># For states at or above the critical pressure, the concept of saturation temperature is not applicable</span>
+        <span class="c1"># Instead, use a &#39;pseudo-critical&#39; state for comparison, where the density is set to the critical density</span>
+        <span class="c1"># but the pressure is the same as the state of interest</span>
+        <span class="n">rho_crit</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">rhomass_critical</span><span class="p">()</span>
+        <span class="n">sat_state</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">CP</span><span class="o">.</span><span class="n">DmassP_INPUTS</span><span class="p">,</span> <span class="n">rho_crit</span><span class="p">,</span> <span class="n">AS</span><span class="o">.</span><span class="n">p</span><span class="p">())</span>
+
+        <span class="c1"># Define superheating as the difference in enthalpy from this &#39;pseudo-critical&#39; state</span>
+        <span class="c1"># This approach extends the definition of superheating to conditions above the critical pressure</span>
+        <span class="n">subcooling</span> <span class="o">=</span> <span class="n">sat_state</span><span class="o">.</span><span class="n">T</span><span class="p">()</span> <span class="o">-</span> <span class="n">AS</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">subcooling</span></div>
+
+
+
+<span class="c1"># ------------------------------------------------------------------------------------ #</span>
+<span class="c1"># Metastable property calculations using Helmholtz equations of state</span>
+<span class="c1"># ------------------------------------------------------------------------------------ #</span>
+<div class="viewcode-block" id="compute_properties_metastable">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluid_properties.low_level_interface.html#barotropy.fluid_properties.low_level_interface.compute_properties_metastable">[docs]</a>
+<span class="k">def</span> <span class="nf">compute_properties_metastable</span><span class="p">(</span>
+    <span class="n">abstract_state</span><span class="p">,</span>
+    <span class="n">prop_1</span><span class="p">,</span>
+    <span class="n">prop_1_value</span><span class="p">,</span>
+    <span class="n">prop_2</span><span class="p">,</span>
+    <span class="n">prop_2_value</span><span class="p">,</span>
+    <span class="n">rho_guess</span><span class="p">,</span>
+    <span class="n">T_guess</span><span class="p">,</span>
+    <span class="n">solver_algorithm</span><span class="o">=</span><span class="s2">&quot;hybr&quot;</span><span class="p">,</span>
+    <span class="n">tolerance</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
+    <span class="n">print_convergence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Determine the thermodynamic state for the given fluid property pair by iterating on the </span>
+<span class="sd">    density-temperature native inputs of the Helmholtz energy equations of state.</span>
+
+<span class="sd">    This function uses a non-linear root finder to determine the solution of the nonlinear system given by:</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        R_1(\rho,\, T) = y_1 - y_1(\rho,\, T) = 0 \\</span>
+<span class="sd">        R_2(\rho,\, T) = y_2 - y_2(\rho,\, T) = 0</span>
+
+<span class="sd">    where :math:`(y_1,\, y_2)` is the given thermodynamic property pair (e.g., enthalpy and pressure),</span>
+<span class="sd">    while density and temperature :math:`(\rho,\, T)` are the independent variables that the solver </span>
+<span class="sd">    iterates until the residual of the problem is driven to zero. The calculations :math:`y_1(\rho,\, T)` and</span>
+<span class="sd">    :math:`y_1(\rho,\, T)` are performed by evaluating the Helmholtz energy equation of state.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :func:`compute_properties_metastable_rhoT` : Evaluation of Helmholtz energy equation of state.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    prop_1 : str</span>
+<span class="sd">        The the type of the first thermodynamic property.</span>
+<span class="sd">    prop_1_value : float</span>
+<span class="sd">        The the numerical value of the first thermodynamic property.</span>
+<span class="sd">    prop_2 : str</span>
+<span class="sd">        The the type of the second thermodynamic property.</span>
+<span class="sd">    prop_2_value : float</span>
+<span class="sd">        The the numerical value of the second thermodynamic property.</span>
+<span class="sd">    rho_guess : float</span>
+<span class="sd">        Initial guess for density</span>
+<span class="sd">    T_guess : float</span>
+<span class="sd">        Initial guess for temperature</span>
+<span class="sd">    method : str, optional</span>
+<span class="sd">        Method to be used for solving the nonlinear system. Available solvers are:</span>
+
+<span class="sd">        - :code:`hybr`:  Uses MINPACK&#39;s &#39;hybrd&#39; method, which is is a modification of Powell&#39;s hybrid method (default).</span>
+<span class="sd">        - :code:`lm`: The Levenberg-Marquardt method, which blends the steepest descent and the Gauss-Newton methods.</span>
+
+<span class="sd">    tolerance : float, optional</span>
+<span class="sd">        Tolerance for the solver termination. Defaults to 1e-6.</span>
+<span class="sd">    print_convergence : bool, optional</span>
+<span class="sd">        If True, displays the convergence progress. Defaults to False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict       </span>
+<span class="sd">        Thermodynamic properties corresponding to the given input pair.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Define problem (find root of temperature-entropy residual)</span>
+    <span class="n">AS</span> <span class="o">=</span> <span class="n">abstract_state</span>
+    <span class="n">problem</span> <span class="o">=</span> <span class="n">_HelmholtzFlashCalculation</span><span class="p">(</span><span class="n">prop_1</span><span class="p">,</span> <span class="n">prop_1_value</span><span class="p">,</span> <span class="n">prop_2</span><span class="p">,</span> <span class="n">prop_2_value</span><span class="p">,</span> <span class="n">AS</span><span class="p">)</span>
+
+    <span class="c1"># Define root-finding solver object</span>
+    <span class="n">solver</span> <span class="o">=</span> <span class="n">psv</span><span class="o">.</span><span class="n">NonlinearSystemSolver</span><span class="p">(</span>
+        <span class="n">problem</span><span class="p">,</span>
+        <span class="n">method</span><span class="o">=</span><span class="n">solver_algorithm</span><span class="p">,</span>
+        <span class="n">tolerance</span><span class="o">=</span><span class="n">tolerance</span><span class="p">,</span>
+        <span class="n">max_iterations</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">print_convergence</span><span class="o">=</span><span class="n">print_convergence</span><span class="p">,</span>
+        <span class="n">update_on</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Define initial guess and solve the problem</span>
+    <span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">rho_guess</span><span class="p">,</span> <span class="n">T_guess</span><span class="p">])</span>
+    <span class="n">rho</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+    <span class="n">props</span> <span class="o">=</span> <span class="n">compute_properties_metastable_rhoT</span><span class="p">(</span><span class="n">rho</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">AS</span><span class="p">)</span>
+
+    <span class="c1"># Check if solver converged</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">solver</span><span class="o">.</span><span class="n">success</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Metastable property calculation did not converge.</span><span class="se">\n</span><span class="si">{</span><span class="n">solver</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">props</span></div>
+
+
+
+<div class="viewcode-block" id="compute_properties_metastable_rhoT">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluid_properties.low_level_interface.html#barotropy.fluid_properties.low_level_interface.compute_properties_metastable_rhoT">[docs]</a>
+<span class="k">def</span> <span class="nf">compute_properties_metastable_rhoT</span><span class="p">(</span><span class="n">rho</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">abstract_state</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the thermodynamic properties of a fluid using temperature-density calls to the Helmholtz energy equation of state (HEOS).</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rho : float</span>
+<span class="sd">        Density of the fluid (kg/m³).</span>
+<span class="sd">    T : float</span>
+<span class="sd">        Temperature of the fluid (K).</span>
+<span class="sd">    abstract_state : CoolProp.AbstractState</span>
+<span class="sd">        The abstract state of the fluid for which the properties are to be calculated.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Thermodynamic properties computed at the given density and temperature.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The Helmholtz energy equation of state (HEOS) expresses the Helmholtz energy as an explicit function </span>
+<span class="sd">    of temperature and density:</span>
+<span class="sd">    </span>
+<span class="sd">    .. math::</span>
+<span class="sd">        \Phi = \Phi(\rho, T)</span>
+<span class="sd">    </span>
+<span class="sd">    In dimensionless form, the Helmholtz energy is given by:</span>
+<span class="sd">    </span>
+<span class="sd">    .. math::</span>
+<span class="sd">        \phi(\delta, \tau) = \frac{\Phi(\delta, \tau)}{R T}</span>
+<span class="sd">    </span>
+<span class="sd">    where:</span>
+<span class="sd">    </span>
+<span class="sd">    - :math:`\phi` is the dimensionless Helmholtz energy</span>
+<span class="sd">    - :math:`R` is the gas constant of the fluid</span>
+<span class="sd">    - :math:`\delta = \rho / \rho_c` is the reduced density</span>
+<span class="sd">    - :math:`\tau = T_c / T` is the inverse of the reduced temperature</span>
+<span class="sd">    </span>
+<span class="sd">    Thermodynamic properties can be derived from the Helmholtz energy and its partial derivatives. </span>
+<span class="sd">    The following table summarizes the expressions for various properties:</span>
+<span class="sd">    </span>
+<span class="sd">    .. list-table:: Helmholtz energy thermodynamic relations</span>
+<span class="sd">        :widths: 30 70</span>
+<span class="sd">        :header-rows: 1</span>
+
+<span class="sd">        * - Property name</span>
+<span class="sd">          - Mathematical relation</span>
+<span class="sd">        * - Pressure</span>
+<span class="sd">          - .. math:: Z = \frac{p}{\rho R T} = \delta \cdot \phi_{\delta}</span>
+<span class="sd">        * - Entropy</span>
+<span class="sd">          - .. math:: \frac{s}{R} = \tau \cdot \phi_{\tau} - \phi</span>
+<span class="sd">        * - Internal energy</span>
+<span class="sd">          - .. math:: \frac{u}{R T} = \tau \cdot \phi_{\tau}</span>
+<span class="sd">        * - Enthalpy</span>
+<span class="sd">          - .. math:: \frac{h}{R T} = \tau \cdot \phi_{\tau} + \delta \cdot \phi_{\delta}</span>
+<span class="sd">        * - Isochoric heat capacity</span>
+<span class="sd">          - .. math:: \frac{c_v}{R} = -\tau^2 \cdot \phi_{\tau \tau}</span>
+<span class="sd">        * - Isobaric heat capacity</span>
+<span class="sd">          - .. math:: \frac{c_p}{R} = -\tau^2 \cdot \phi_{\tau \tau} + \frac{(\delta \cdot \phi_{\delta} - \tau \cdot \delta \cdot \phi_{\tau \delta})^2}{2 \cdot \delta \cdot \phi_{\delta} + \delta^2 \cdot \phi_{\delta \delta}}</span>
+<span class="sd">        * - Isobaric expansivity</span>
+<span class="sd">          - .. math:: \alpha \cdot T = \frac{\delta \cdot \phi_{\delta} - \tau \cdot \delta \cdot \phi_{\tau \delta}}{2 \cdot \delta \cdot \phi_{\delta} + \delta^2 \cdot \phi_{\delta \delta}}</span>
+<span class="sd">        * - Isothermal compressibility</span>
+<span class="sd">          - .. math:: \rho R T \beta = \left(2 \cdot \delta \cdot \phi_{\delta} + \delta^2 \cdot \phi_{\delta \delta} \right)^{-1}</span>
+<span class="sd">        * - Isothermal bulk modulus</span>
+<span class="sd">          - .. math:: \frac{K_T}{\rho R T} = 2 \cdot \delta \cdot \phi_{\delta} + \delta^2 \cdot \phi_{\delta \delta}</span>
+<span class="sd">        * - Isentropic bulk modulus</span>
+<span class="sd">          - .. math:: \frac{K_s}{\rho R T} = 2 \cdot \delta \cdot \phi_{\delta} + \delta^2 \ \cdot \phi_{\delta \delta} - \frac{(\delta \cdot \phi_{\delta} - \tau \cdot \delta \cdot \phi_{\tau \delta})^2}{\tau^2 \cdot \phi_{\tau \tau}}</span>
+<span class="sd">        * - Joule-Thompson coefficient</span>
+<span class="sd">          - .. math:: \rho R \mu_{\mathrm{JT}} = - \frac{\delta \cdot \phi_{\delta} + \tau \cdot \delta \cdot \phi_{\tau \delta} + \delta^2 \cdot \phi_{\delta \delta}}{(\delta \cdot \phi_{\delta} - \tau \cdot \delta \cdot \phi_{\tau \delta})^2 - \tau^2 \cdot \phi_{\tau \tau} \cdot (2 \cdot \delta \cdot \phi_{\delta} + \delta^2 \cdot \phi_{\delta \delta})}</span>
+<span class="sd">          </span>
+<span class="sd">    Where the following abbreviations are used:</span>
+<span class="sd">    </span>
+<span class="sd">    - :math:`\phi_{\delta} = \left(\frac{\partial \phi}{\partial \delta}\right)_{\tau}`</span>
+<span class="sd">    - :math:`\phi_{\tau} = \left(\frac{\partial \phi}{\partial \tau}\right)_{\delta}`</span>
+<span class="sd">    - :math:`\phi_{\delta \delta} = \left(\frac{\partial^2 \phi}{\partial \delta^2}\right)_{\tau, \tau}`</span>
+<span class="sd">    - :math:`\phi_{\tau \tau} = \left(\frac{\partial^2 \phi}{\partial \tau^2}\right)_{\delta, \delta}`</span>
+<span class="sd">    - :math:`\phi_{\tau \delta} = \left(\frac{\partial^2 \phi}{\partial \tau \delta}\right)_{\delta, \tau}`</span>
+<span class="sd">    </span>
+<span class="sd">    This function can be used to estimate metastable properties using the equation of state beyond the saturation lines.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Update thermodynamic state</span>
+    <span class="n">AS</span> <span class="o">=</span> <span class="n">abstract_state</span>
+    <span class="n">AS</span> <span class="o">=</span> <span class="n">CP</span><span class="o">.</span><span class="n">AbstractState</span><span class="p">(</span><span class="n">AS</span><span class="o">.</span><span class="n">backend_name</span><span class="p">(),</span> <span class="n">AS</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
+    <span class="n">AS</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">CP</span><span class="o">.</span><span class="n">DmassT_INPUTS</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+
+    <span class="c1"># Get fluid constant properties</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">gas_constant</span><span class="p">()</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">molar_mass</span><span class="p">()</span>
+    <span class="n">T_crit</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">T_critical</span><span class="p">()</span>
+    <span class="n">rho_crit</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">rhomass_critical</span><span class="p">()</span>
+
+    <span class="c1"># Compute reduced variables</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">T_crit</span> <span class="o">/</span> <span class="n">T</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">rho</span> <span class="o">/</span> <span class="n">rho_crit</span>
+
+    <span class="c1"># Compute from the Helmholtz energy derivatives</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">alpha0</span><span class="p">()</span> <span class="o">+</span> <span class="n">AS</span><span class="o">.</span><span class="n">alphar</span><span class="p">()</span>
+    <span class="n">dalpha_dTau</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">dalpha0_dTau</span><span class="p">()</span> <span class="o">+</span> <span class="n">AS</span><span class="o">.</span><span class="n">dalphar_dTau</span><span class="p">()</span>
+    <span class="n">dalpha_dDelta</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">dalpha0_dDelta</span><span class="p">()</span> <span class="o">+</span> <span class="n">AS</span><span class="o">.</span><span class="n">dalphar_dDelta</span><span class="p">()</span>
+    <span class="n">d2alpha_dTau2</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">d2alpha0_dTau2</span><span class="p">()</span> <span class="o">+</span> <span class="n">AS</span><span class="o">.</span><span class="n">d2alphar_dTau2</span><span class="p">()</span>
+    <span class="n">d2alpha_dDelta2</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">d2alpha0_dDelta2</span><span class="p">()</span> <span class="o">+</span> <span class="n">AS</span><span class="o">.</span><span class="n">d2alphar_dDelta2</span><span class="p">()</span>
+    <span class="n">d2alpha_dDelta_dTau</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">d2alpha0_dDelta_dTau</span><span class="p">()</span> <span class="o">+</span> <span class="n">AS</span><span class="o">.</span><span class="n">d2alphar_dDelta_dTau</span><span class="p">()</span>
+
+    <span class="c1"># Compute thermodynamic properties from Helmholtz energy EOS</span>
+    <span class="n">props</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;T&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">T</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">R</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span> <span class="o">*</span> <span class="n">rho</span> <span class="o">*</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">dalpha_dDelta</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;rhomass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rho</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;umass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">R</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span> <span class="o">*</span> <span class="p">(</span><span class="n">tau</span> <span class="o">*</span> <span class="n">dalpha_dTau</span><span class="p">)</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;hmass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">R</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span> <span class="o">*</span> <span class="p">(</span><span class="n">tau</span> <span class="o">*</span> <span class="n">dalpha_dTau</span> <span class="o">+</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">dalpha_dDelta</span><span class="p">)</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;smass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">R</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">tau</span> <span class="o">*</span> <span class="n">dalpha_dTau</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">)</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;gibbsmass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">R</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span> <span class="o">*</span> <span class="n">T</span> <span class="o">*</span> <span class="p">(</span><span class="n">alpha</span> <span class="o">+</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">dalpha_dDelta</span><span class="p">)</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;cvmass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">R</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">tau</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">d2alpha_dTau2</span><span class="p">)</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;cpmass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">R</span> <span class="o">/</span> <span class="n">M</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span>
+        <span class="o">-</span><span class="p">(</span><span class="n">tau</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">d2alpha_dTau2</span>
+        <span class="o">+</span> <span class="p">(</span><span class="n">delta</span> <span class="o">*</span> <span class="n">dalpha_dDelta</span> <span class="o">-</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">tau</span> <span class="o">*</span> <span class="n">d2alpha_dDelta_dTau</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">dalpha_dDelta</span> <span class="o">+</span> <span class="n">delta</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">d2alpha_dDelta2</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;gamma&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;cpmass&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;cvmass&quot;</span><span class="p">]</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;compressibility_factor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">dalpha_dDelta</span>
+    <span class="n">a_square</span> <span class="o">=</span> <span class="p">(</span><span class="n">R</span> <span class="o">/</span> <span class="n">M</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span>
+        <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">dalpha_dDelta</span> <span class="o">+</span> <span class="n">delta</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">d2alpha_dDelta2</span><span class="p">)</span>
+        <span class="o">-</span> <span class="p">(</span><span class="n">delta</span> <span class="o">*</span> <span class="n">dalpha_dDelta</span> <span class="o">-</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">tau</span> <span class="o">*</span> <span class="n">d2alpha_dDelta_dTau</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="o">/</span> <span class="p">(</span><span class="n">tau</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">d2alpha_dTau2</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;speed_sound&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a_square</span><span class="p">)</span> <span class="k">if</span> <span class="n">a_square</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;isentropic_bulk_modulus&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">rho</span> <span class="o">*</span> <span class="n">R</span> <span class="o">/</span> <span class="n">M</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span>
+        <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">dalpha_dDelta</span> <span class="o">+</span> <span class="n">delta</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">d2alpha_dDelta2</span><span class="p">)</span>
+        <span class="o">-</span> <span class="p">(</span><span class="n">delta</span> <span class="o">*</span> <span class="n">dalpha_dDelta</span> <span class="o">-</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">tau</span> <span class="o">*</span> <span class="n">d2alpha_dDelta_dTau</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="o">/</span> <span class="p">(</span><span class="n">tau</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">d2alpha_dTau2</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;isentropic_compressibility&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;isentropic_bulk_modulus&quot;</span><span class="p">]</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;isothermal_bulk_modulus&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">R</span> <span class="o">/</span> <span class="n">M</span> <span class="o">*</span> <span class="n">T</span> <span class="o">*</span> <span class="n">rho</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">dalpha_dDelta</span> <span class="o">+</span> <span class="n">delta</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">d2alpha_dDelta2</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;isothermal_compressibility&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span>
+        <span class="n">R</span> <span class="o">/</span> <span class="n">M</span> <span class="o">*</span> <span class="n">T</span> <span class="o">*</span> <span class="n">rho</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">dalpha_dDelta</span> <span class="o">+</span> <span class="n">delta</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">d2alpha_dDelta2</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;isobaric_expansion_coefficient&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">T</span><span class="p">)</span>
+        <span class="o">*</span> <span class="p">(</span><span class="n">delta</span> <span class="o">*</span> <span class="n">dalpha_dDelta</span> <span class="o">-</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">tau</span> <span class="o">*</span> <span class="n">d2alpha_dDelta_dTau</span><span class="p">)</span>
+        <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">dalpha_dDelta</span> <span class="o">+</span> <span class="n">delta</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">d2alpha_dDelta2</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;viscosity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">viscosity</span><span class="p">()</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;conductivity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">conductivity</span><span class="p">()</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;Q&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;quality_mass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">props</span><span class="p">[</span><span class="s2">&quot;quality_volume&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="k">return</span> <span class="n">props</span></div>
+
+
+
+<span class="k">class</span> <span class="nc">_HelmholtzFlashCalculation</span><span class="p">(</span><span class="n">psv</span><span class="o">.</span><span class="n">NonlinearSystemProblem</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Auxiliary class for property evaluations using Helmholtz energy EoS&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prop_1</span><span class="p">,</span> <span class="n">prop_1_value</span><span class="p">,</span> <span class="n">prop_2</span><span class="p">,</span> <span class="n">prop_2_value</span><span class="p">,</span> <span class="n">AS</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prop_1</span> <span class="o">=</span> <span class="n">prop_1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prop_2</span> <span class="o">=</span> <span class="n">prop_2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prop_1_value</span> <span class="o">=</span> <span class="n">prop_1_value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prop_2_value</span> <span class="o">=</span> <span class="n">prop_2_value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">AS</span> <span class="o">=</span> <span class="n">AS</span>
+
+    <span class="k">def</span> <span class="nf">residual</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the residuals for the given density and temperature.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : list</span>
+<span class="sd">            List containing the values for density and temperature.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        np.ndarray</span>
+<span class="sd">            Array containing residuals (difference) for the two properties.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Ensure x can be indexed and contains exactly two elements</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s2">&quot;__getitem__&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Input x=</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2"> must be a list, tuple or numpy array containing exactly two elements: density and temperature.&quot;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">rho</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">compute_properties_metastable_rhoT</span><span class="p">(</span><span class="n">rho</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">AS</span><span class="p">)</span>
+        <span class="n">res_1</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">prop_1</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">prop_1_value</span>
+        <span class="n">res_2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">state</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">prop_2</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">prop_2_value</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">res_1</span><span class="p">,</span> <span class="n">res_2</span><span class="p">])</span>
+
+
+<span class="c1"># ------------------------------------------------------------------------------------ #</span>
+<span class="c1"># Spinodal point calculations</span>
+<span class="c1"># ------------------------------------------------------------------------------------ #</span>
+
+
+<div class="viewcode-block" id="compute_spinodal_point">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluid_properties.low_level_interface.html#barotropy.fluid_properties.low_level_interface.compute_spinodal_point">[docs]</a>
+<span class="k">def</span> <span class="nf">compute_spinodal_point</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">abstract_state</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="s2">&quot;liquid&quot;</span><span class="p">,</span> <span class="n">N_trial</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the vapor or liquid spinodal point of a fluid at a given temperature.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    T : float</span>
+<span class="sd">        Temperature of the fluid (K).</span>
+<span class="sd">    abstract_state : CoolProp.AbstractState</span>
+<span class="sd">        The abstract state of the fluid for which the spinodal point is to be calculated.</span>
+<span class="sd">    branch : str, optional</span>
+<span class="sd">        Branch of the spinodal line used to determine the density initial guess.</span>
+<span class="sd">        Options: &#39;liquid&#39; or &#39;vapor&#39;. Default is &#39;liquid&#39;.</span>
+<span class="sd">    N_trial : int, optional</span>
+<span class="sd">        Number of trial points to generate the density initial guess. Default is 50.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Thermodynamic properties at the spinodal point.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If the input temperature is higher than the critical temperature or lower than</span>
+<span class="sd">        the triple temperature.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    ------</span>
+<span class="sd">    When a single-phase fluid undergoes a thermodynamic process and enters the two-phase region it </span>
+<span class="sd">    can exist in a single-phase state that is different from the equilibrium two-phase state. </span>
+<span class="sd">    Such states are know as metastable states and they are only possible in the thermodynamic </span>
+<span class="sd">    region between the saturation lines and the spinodal lines. If the thermodynamic process</span>
+<span class="sd">    continues and crosses the spinodal lines metastable states become unstable and the transition</span>
+<span class="sd">    to two-distinct phase occurs rapidly. Therefore, the spinodal line represents the locus of points</span>
+<span class="sd">    that separates the region where a mixture is thermodynamically unstable and prone to phase separation</span>
+<span class="sd">    from the region where metastable states are physically possible.</span>
+
+<span class="sd">    In mathematical terms, the spinodal line is defined as the loci of thermodynamic states in which the isothermal bulk modulus of the fluid is zero:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        </span>
+<span class="sd">        K_T = \rho \left( \frac{\partial p}{\partial \rho} \right)_T = 0</span>
+<span class="sd">    </span>
+<span class="sd">    More precisely, a vapor spinodal point is the first local maximum of a isotherm line in a pressure-density diagram as the density increases.</span>
+<span class="sd">    Conversely, a liquid spinodal point is the first local minimum of a isotherm line in a pressure-density diagram as the density decreases. </span>
+<span class="sd">    The spinodal lines and phase envelope of carbon dioxide according to the HEOS developed by :cite:`span_new_1996` are illustrated in the figure below    </span>
+
+<span class="sd">    .. image:: /_static/spinodal_points_CO2.svg</span>
+<span class="sd">        :alt: Pressure-density diagram and spinodal points for carbon dioxide.</span>
+<span class="sd">    </span>
+<span class="sd">        </span>
+<span class="sd">    Some equations of state are not well-posed and do not satisfy the condition :math:`K_T=0` within the two-phase region.</span>
+<span class="sd">    This is exemplified by the nitrogen HEOS developed by :cite:`span_reference_2000`.</span>
+
+<span class="sd">    .. image:: /_static/spinodal_points_nitrogen.svg</span>
+<span class="sd">        :alt: Pressure-density diagram and &quot;pseudo&quot; spinodal points for carbon dioxide.</span>
+
+<span class="sd">    As seen in the figure, this HEOS is not well-posed because there are isotherms that do not have a local minimum/maximum corresponding to a state with zero isothermal bulk modulus.</span>
+<span class="sd">    In such cases, this function returns the inflection point of the isotherms (corresponding to the point closest to zero bulk modulus) as the spinodal point.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Instantiate new abstract state to compute saturation properties without changing the state of the class</span>
+    <span class="n">AS</span> <span class="o">=</span> <span class="n">abstract_state</span>
+    <span class="n">AS</span> <span class="o">=</span> <span class="n">CP</span><span class="o">.</span><span class="n">AbstractState</span><span class="p">(</span><span class="n">AS</span><span class="o">.</span><span class="n">backend_name</span><span class="p">(),</span> <span class="n">AS</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
+
+    <span class="c1"># Check that the inlet temperature is lower than the critical temperature</span>
+    <span class="n">T_critical</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">T_critical</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">T</span> <span class="o">&gt;=</span> <span class="n">T_critical</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;T=</span><span class="si">{</span><span class="n">T</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">K must be less than T_critical=</span><span class="si">{</span><span class="n">AS</span><span class="o">.</span><span class="n">T_critical</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">K&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Check that the inlet temperature is greater than the triple temperature</span>
+    <span class="n">T_triple</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">Ttriple</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">T</span> <span class="o">&lt;</span> <span class="n">T_triple</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;T=</span><span class="si">{</span><span class="n">T</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">K must be greater than T_triple=</span><span class="si">{</span><span class="n">AS</span><span class="o">.</span><span class="n">T_triple</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">K&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Create spinodal point optimization problem</span>
+    <span class="n">problem</span> <span class="o">=</span> <span class="n">_SpinodalPointProblem</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">abstract_state</span><span class="p">,</span> <span class="n">branch</span><span class="p">)</span>
+
+    <span class="c1"># Create solver object</span>
+    <span class="n">solver</span> <span class="o">=</span> <span class="n">psv</span><span class="o">.</span><span class="n">OptimizationSolver</span><span class="p">(</span>
+        <span class="n">problem</span><span class="o">=</span><span class="n">problem</span><span class="p">,</span>
+        <span class="n">library</span><span class="o">=</span><span class="s2">&quot;scipy&quot;</span><span class="p">,</span>  <span class="c1"># &quot;l-bfgs-b&quot;</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;slsqp&quot;</span><span class="p">,</span>
+        <span class="n">tolerance</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
+        <span class="n">print_convergence</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Generate initial guess and solve the problem</span>
+    <span class="n">rho_guess</span> <span class="o">=</span> <span class="n">problem</span><span class="o">.</span><span class="n">generate_density_guess</span><span class="p">(</span><span class="n">N_trial</span><span class="p">)</span>
+    <span class="n">rho_opt</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">rho_guess</span><span class="p">)</span>
+    <span class="n">props</span> <span class="o">=</span> <span class="n">compute_properties_metastable_rhoT</span><span class="p">(</span><span class="n">rho_opt</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">abstract_state</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">props</span></div>
+
+
+
+<span class="k">class</span> <span class="nc">_SpinodalPointProblem</span><span class="p">(</span><span class="n">psv</span><span class="o">.</span><span class="n">OptimizationProblem</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Auxiliary class for the determination of the liquid and vapor spinodal points&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">abstract_state</span><span class="p">,</span> <span class="n">branch</span><span class="p">):</span>
+
+        <span class="c1"># Declare class attributes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="n">T</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">branch</span> <span class="o">=</span> <span class="n">branch</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">abstract_state</span> <span class="o">=</span> <span class="n">abstract_state</span>
+
+        <span class="c1"># Compute saturation liquid density (used to determine initial guess)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">abstract_state</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">CP</span><span class="o">.</span><span class="n">QT_INPUTS</span><span class="p">,</span> <span class="mf">0.00</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rho_liq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">abstract_state</span><span class="o">.</span><span class="n">rhomass</span><span class="p">()</span>
+
+        <span class="c1"># Calculate saturation vapor density (used to determine initial guess)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">abstract_state</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">CP</span><span class="o">.</span><span class="n">QT_INPUTS</span><span class="p">,</span> <span class="mf">1.00</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rho_vap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">abstract_state</span><span class="o">.</span><span class="n">rhomass</span><span class="p">()</span>
+
+        <span class="c1"># Caclulate the critical density (used to determine initial guess)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rho_crit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">abstract_state</span><span class="o">.</span><span class="n">rhomass_critical</span><span class="p">()</span>
+
+
+    <span class="k">def</span> <span class="nf">generate_density_guess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate a density initial guess that is close to the first local minima of the absolute value of the bulk modulus&quot;&quot;&quot;</span>
+
+        <span class="c1"># Generate candidate densities between saturation and the critical value</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">branch</span> <span class="o">==</span> <span class="s2">&quot;liquid&quot;</span><span class="p">:</span>
+            <span class="n">rho_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rho_liq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho_crit</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">branch</span> <span class="o">==</span> <span class="s2">&quot;vapor&quot;</span><span class="p">:</span>
+            <span class="n">rho_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rho_vap</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho_crit</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Invalid value for parameter branch=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">branch</span><span class="si">}</span><span class="s2">. Options: &#39;liquid&#39; or &#39;vapor&#39;&quot;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="c1"># Evaluate residual vector at trial densities</span>
+        <span class="n">residual</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">fitness</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span> <span class="k">for</span> <span class="n">rho</span> <span class="ow">in</span> <span class="n">rho_array</span><span class="p">])</span>
+
+        <span class="c1"># Find the first local minima in the residual vector</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">residual</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">residual</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">residual</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">rho_guess</span> <span class="o">=</span> <span class="n">rho_array</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho_guess</span>
+
+
+    <span class="k">def</span> <span class="nf">fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rho</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the objective function of the optimization problem: the absolute value of the isothermal bulk modulus.</span>
+<span class="sd">        </span>
+<span class="sd">        This function uses the absolute value of residual to solve an optimization problem</span>
+<span class="sd">        rather than a non-linear equation having the bulk modulus as residual. This approach</span>
+<span class="sd">        is adopted because some fluids (e.g., nitrogen) have ill-posed EoS that not have a well-defined</span>
+<span class="sd">        spinodal points where the isothermal bulk modulus is zero.</span>
+
+<span class="sd">        The value of the bulk modulus returned is divided by the fluid pressure to enhance</span>
+<span class="sd">        the scaling of the problem and improve convergence reliability.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">props</span> <span class="o">=</span> <span class="n">compute_properties_metastable_rhoT</span><span class="p">(</span><span class="n">rho</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">abstract_state</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">props</span><span class="p">[</span><span class="s2">&quot;isothermal_bulk_modulus&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">])</span>
+
+
+    <span class="k">def</span> <span class="nf">get_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the bounds of the optimization problem.</span>
+
+<span class="sd">        The bounds use the previosly computed density guess that is beyond the</span>
+<span class="sd">        first local minima of the fitness function, thereby ensuring that the</span>
+<span class="sd">        spinodal point is within the bounds of the optimization problem.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">branch</span> <span class="o">==</span> <span class="s2">&quot;liquid&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">rho_guess</span><span class="p">,),</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rho_liq</span><span class="p">,)]</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">branch</span> <span class="o">==</span> <span class="s2">&quot;vapor&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">rho_vap</span><span class="p">,),</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rho_guess</span><span class="p">,)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid value for branch=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">branch</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">get_nec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+
+    <span class="k">def</span> <span class="nf">get_nic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">0</span>
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, Sustainable Thermal Power DTU.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
