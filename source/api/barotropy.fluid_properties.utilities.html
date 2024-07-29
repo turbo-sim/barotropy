@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>barotropy.barotropic_model module &#8212; barotropy v0.0.2 documentation</title>
+    <title>barotropy.fluid_properties.utilities module &#8212; barotropy v0.0.2 documentation</title>
   
   
   
@@ -49,11 +49,11 @@
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'source/api/barotropy.barotropic_model';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'source/api/barotropy.fluid_properties.utilities';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="barotropy.isentropic_nozzle module" href="barotropy.isentropic_nozzle.html" />
-    <link rel="prev" title="barotropy.fluent_automation.stream_transcript module" href="barotropy.fluent_automation.stream_transcript.html" />
+    <link rel="next" title="barotropy.pysolver_view package" href="barotropy.pysolver_view.html" />
+    <link rel="prev" title="barotropy.fluid_properties.low_level module" href="barotropy.fluid_properties.low_level.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -168,10 +168,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../barotropic_model.html">Barotropic modeling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="barotropy.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 has-children"><a class="reference internal" href="barotropy.fluid_properties.html">barotropy.fluid_properties package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="barotropy.fluid_properties.html">barotropy.fluid_properties package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="barotropy.fluid_properties.high_level.html">barotropy.fluid_properties.high_level module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="barotropy.fluid_properties.low_level.html">barotropy.fluid_properties.low_level module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="barotropy.fluid_properties.utilities.html">barotropy.fluid_properties.utilities module</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">barotropy.fluid_properties.utilities module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="barotropy.pysolver_view.html">barotropy.pysolver_view package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -191,7 +191,7 @@
 <li class="toctree-l3"><a class="reference internal" href="barotropy.fluent_automation.stream_transcript.html">barotropy.fluent_automation.stream_transcript module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">barotropy.barotropic_model module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="barotropy.barotropic_model.html">barotropy.barotropic_model module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="barotropy.isentropic_nozzle.html">barotropy.isentropic_nozzle module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="barotropy.sCO2_utilities.html">barotropy.sCO2_utilities module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="barotropy.math.html">barotropy.math module</a></li>
@@ -253,7 +253,7 @@
       
       
       
-      <li><a href="../../_sources/source/api/barotropy.barotropic_model.rst" target="_blank"
+      <li><a href="../../_sources/source/api/barotropy.fluid_properties.utilities.rst" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -337,7 +337,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>barotropy.barotropic_model module</h1>
+    <h1>barotropy.fluid_properties.utilities module</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -347,10 +347,9 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.barotropic_model_one_fluid"><code class="docutils literal notranslate"><span class="pre">barotropic_model_one_fluid()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.calculate_adiabatic_process"><code class="docutils literal notranslate"><span class="pre">calculate_adiabatic_process()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.polytropic_process_one_fluid"><code class="docutils literal notranslate"><span class="pre">polytropic_process_one_fluid()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.postprocess_ode"><code class="docutils literal notranslate"><span class="pre">postprocess_ode()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluid_properties.utilities.is_float"><code class="docutils literal notranslate"><span class="pre">is_float()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluid_properties.utilities.states_to_dict"><code class="docutils literal notranslate"><span class="pre">states_to_dict()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluid_properties.utilities.states_to_dict_2d"><code class="docutils literal notranslate"><span class="pre">states_to_dict_2d()</span></code></a></li>
 </ul>
             </nav>
         </div>
@@ -362,50 +361,50 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="module-barotropy.barotropic_model">
-<span id="barotropy-barotropic-model-module"></span><h1>barotropy.barotropic_model module<a class="headerlink" href="#module-barotropy.barotropic_model" title="Link to this heading">#</a></h1>
+  <section id="module-barotropy.fluid_properties.utilities">
+<span id="barotropy-fluid-properties-utilities-module"></span><h1>barotropy.fluid_properties.utilities module<a class="headerlink" href="#module-barotropy.fluid_properties.utilities" title="Link to this heading">#</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="barotropy.barotropic_model.barotropic_model_one_fluid">
-<span class="sig-prename descclassname"><span class="pre">barotropy.barotropic_model.</span></span><span class="sig-name descname"><span class="pre">barotropic_model_one_fluid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fluid_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_in</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_in</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">efficiency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiphase_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'blended'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calculation_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'polytropic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#barotropic_model_one_fluid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.barotropic_model_one_fluid" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="barotropy.barotropic_model.calculate_adiabatic_process">
-<span class="sig-prename descclassname"><span class="pre">barotropy.barotropic_model.</span></span><span class="sig-name descname"><span class="pre">calculate_adiabatic_process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fluid_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">efficiency</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#calculate_adiabatic_process"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.calculate_adiabatic_process" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="barotropy.barotropic_model.polytropic_process_one_fluid">
-<span class="sig-prename descclassname"><span class="pre">barotropy.barotropic_model.</span></span><span class="sig-name descname"><span class="pre">polytropic_process_one_fluid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fluid_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">efficiency</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiphase_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'blended'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_onset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_transition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#polytropic_process_one_fluid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.polytropic_process_one_fluid" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="barotropy.barotropic_model.postprocess_ode">
-<span class="sig-prename descclassname"><span class="pre">barotropy.barotropic_model.</span></span><span class="sig-name descname"><span class="pre">postprocess_ode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ode_handle</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#postprocess_ode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.postprocess_ode" title="Link to this definition">#</a></dt>
-<dd><p>Post-processes the output of an ordinary differential equation (ODE) solver.</p>
-<p>This function takes the time points and corresponding ODE solution matrix,
-and for each time point, it calls a user-defined ODE handling function to
-process the state of the ODE system. It collects the results into a
-dictionary where each key corresponds to a state variable and the values
-are numpy arrays of that state variable at each integration step</p>
+<dt class="sig sig-object py" id="barotropy.fluid_properties.utilities.is_float">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluid_properties.utilities.</span></span><span class="sig-name descname"><span class="pre">is_float</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../_modules/barotropy/fluid_properties/utilities.html#is_float"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluid_properties.utilities.is_float" title="Link to this definition">#</a></dt>
+<dd><p>Check if the given element can be converted to a float.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>t</strong><span class="classifier">array_like</span></dt><dd><p>Integration points at which the ODE was solved, as a 1D numpy array.</p>
-</dd>
-<dt><strong>y</strong><span class="classifier">array_like</span></dt><dd><p>The solution of the ODE system, as a 2D numpy array with shape (n,m) where
-n is the number of points and m is the number of state variables.</p>
-</dd>
-<dt><strong>ode_handle</strong><span class="classifier">callable</span></dt><dd><p>A function that takes in a integration point and state vector and returns a tuple,
-where the first element is ignored (can be None) and the second element
-is a dictionary representing the processed state of the system.</p>
+<dt><strong>element</strong><span class="classifier">any</span></dt><dd><p>The element to be checked.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>ode_out</strong><span class="classifier">dict</span></dt><dd><p>A dictionary where each key corresponds to a state variable and each value
-is a numpy array containing the values of that state variable at each integration step.</p>
+<dt>bool</dt><dd><p>True if the element can be converted to a float, False otherwise.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluid_properties.utilities.states_to_dict">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluid_properties.utilities.</span></span><span class="sig-name descname"><span class="pre">states_to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">states</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluid_properties/utilities.html#states_to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluid_properties.utilities.states_to_dict" title="Link to this definition">#</a></dt>
+<dd><p>Convert a list of state objects into a dictionary.
+Each key is a field name of the state objects, and each value is a NumPy array of all the values for that field.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluid_properties.utilities.states_to_dict_2d">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluid_properties.utilities.</span></span><span class="sig-name descname"><span class="pre">states_to_dict_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">states</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluid_properties/utilities.html#states_to_dict_2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluid_properties.utilities.states_to_dict_2d" title="Link to this definition">#</a></dt>
+<dd><p>Convert a 2D list (grid) of state objects into a dictionary.
+Each key is a field name of the state objects, and each value is a 2D NumPy array of all the values for that field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>states_grid</strong><span class="classifier">list of list of objects</span></dt><dd><p>A 2D grid where each element is a state object with the same keys.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>dict</dt><dd><p>A dictionary where keys are field names and values are 2D arrays of field values.</p>
 </dd>
 </dl>
 </dd>
@@ -426,20 +425,20 @@ is a numpy array containing the values of that state variable at each integratio
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="barotropy.fluent_automation.stream_transcript.html"
+       href="barotropy.fluid_properties.low_level.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">barotropy.fluent_automation.stream_transcript module</p>
+        <p class="prev-next-title">barotropy.fluid_properties.low_level module</p>
       </div>
     </a>
     <a class="right-next"
-       href="barotropy.isentropic_nozzle.html"
+       href="barotropy.pysolver_view.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">barotropy.isentropic_nozzle module</p>
+        <p class="prev-next-title">barotropy.pysolver_view package</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -459,10 +458,9 @@ is a numpy array containing the values of that state variable at each integratio
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.barotropic_model_one_fluid"><code class="docutils literal notranslate"><span class="pre">barotropic_model_one_fluid()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.calculate_adiabatic_process"><code class="docutils literal notranslate"><span class="pre">calculate_adiabatic_process()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.polytropic_process_one_fluid"><code class="docutils literal notranslate"><span class="pre">polytropic_process_one_fluid()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.postprocess_ode"><code class="docutils literal notranslate"><span class="pre">postprocess_ode()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluid_properties.utilities.is_float"><code class="docutils literal notranslate"><span class="pre">is_float()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluid_properties.utilities.states_to_dict"><code class="docutils literal notranslate"><span class="pre">states_to_dict()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluid_properties.utilities.states_to_dict_2d"><code class="docutils literal notranslate"><span class="pre">states_to_dict_2d()</span></code></a></li>
 </ul>
   </nav></div>
 

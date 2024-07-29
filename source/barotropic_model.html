@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Barotropic Model Theory &#8212; barotropy v0.0.1 documentation</title>
+    <title>Barotropic modeling &#8212; barotropy v0.0.2 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=93538557"></script>
+    <script src="../_static/documentation_options.js?v=84270531"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>let toggleHintShow = 'Click to show';</script>
@@ -53,7 +53,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Bibliography" href="bibliography.html" />
-    <link rel="prev" title="Tutorial: Two-component systems" href="tutorials/two_component_systems.html" />
+    <link rel="prev" title="Two-component systems" href="tutorials/two_component_systems.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -141,7 +141,7 @@
   
   
   
-    <p class="title logo__title">barotropy v0.0.1 documentation</p>
+    <p class="title logo__title">barotropy v0.0.2 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -161,44 +161,42 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="tutorials.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/one_component_systems.html">Tutorial: One-component systems</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/two_component_systems.html">Tutorial: Two-component systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/one_component_systems.html">One-component systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/two_component_systems.html">Two-component systems</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Barotropic Model Theory</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Barotropic modeling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="api/modules.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="api/barotropy.html">barotropy</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="api/barotropy.fluid_properties.html">barotropy.fluid_properties package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/barotropy.fluid_properties.core.html">barotropy.fluid_properties.core module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/barotropy.fluid_properties.low_level_interface.html">barotropy.fluid_properties.low_level_interface module</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/barotropy.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/barotropy.fluid_properties.html">barotropy.fluid_properties package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/barotropy.fluid_properties.high_level.html">barotropy.fluid_properties.high_level module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/barotropy.fluid_properties.low_level.html">barotropy.fluid_properties.low_level module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/barotropy.fluid_properties.utilities.html">barotropy.fluid_properties.utilities module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="api/barotropy.pysolver_view.html">barotropy.pysolver_view package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/barotropy.pysolver_view.nonlinear_system.html">barotropy.pysolver_view.nonlinear_system module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/barotropy.pysolver_view.nonlinear_system_problems.html">barotropy.pysolver_view.nonlinear_system_problems module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/barotropy.pysolver_view.numerical_differentiation.html">barotropy.pysolver_view.numerical_differentiation module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/barotropy.pysolver_view.optimization.html">barotropy.pysolver_view.optimization module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/barotropy.pysolver_view.optimization_problems.html">barotropy.pysolver_view.optimization_problems module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/barotropy.pysolver_view.optimization_wrappers.html">barotropy.pysolver_view.optimization_wrappers module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/barotropy.pysolver_view.pysolver_utilities.html">barotropy.pysolver_view.pysolver_utilities module</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/barotropy.pysolver_view.html">barotropy.pysolver_view package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/barotropy.pysolver_view.nonlinear_system.html">barotropy.pysolver_view.nonlinear_system module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/barotropy.pysolver_view.nonlinear_system_problems.html">barotropy.pysolver_view.nonlinear_system_problems module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/barotropy.pysolver_view.numerical_differentiation.html">barotropy.pysolver_view.numerical_differentiation module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/barotropy.pysolver_view.optimization.html">barotropy.pysolver_view.optimization module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/barotropy.pysolver_view.optimization_problems.html">barotropy.pysolver_view.optimization_problems module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/barotropy.pysolver_view.optimization_wrappers.html">barotropy.pysolver_view.optimization_wrappers module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/barotropy.pysolver_view.pysolver_utilities.html">barotropy.pysolver_view.pysolver_utilities module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="api/barotropy.fluent_automation.html">barotropy.fluent_automation package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/barotropy.fluent_automation.fluent_automation.html">barotropy.fluent_automation.fluent_automation module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/barotropy.fluent_automation.fluent_plot_nozzle_data.html">barotropy.fluent_automation.fluent_plot_nozzle_data module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/barotropy.fluent_automation.stream_residuals.html">barotropy.fluent_automation.stream_residuals module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/barotropy.fluent_automation.stream_transcript.html">barotropy.fluent_automation.stream_transcript module</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/barotropy.fluent_automation.html">barotropy.fluent_automation package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/barotropy.fluent_automation.fluent_automation.html">barotropy.fluent_automation.fluent_automation module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/barotropy.fluent_automation.fluent_plot_nozzle_data.html">barotropy.fluent_automation.fluent_plot_nozzle_data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/barotropy.fluent_automation.stream_residuals.html">barotropy.fluent_automation.stream_residuals module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/barotropy.fluent_automation.stream_transcript.html">barotropy.fluent_automation.stream_transcript module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3"><a class="reference internal" href="api/barotropy.barotropic_model.html">barotropy.barotropic_model module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/barotropy.isentropic_nozzle.html">barotropy.isentropic_nozzle module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/barotropy.sCO2_utilities.html">barotropy.sCO2_utilities module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/barotropy.math.html">barotropy.math module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/barotropy.plot_options.html">barotropy.plot_options module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/barotropy.utilities.html">barotropy.utilities module</a></li>
-</ul>
-</details></li>
+<li class="toctree-l2"><a class="reference internal" href="api/barotropy.barotropic_model.html">barotropy.barotropic_model module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/barotropy.isentropic_nozzle.html">barotropy.isentropic_nozzle module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/barotropy.sCO2_utilities.html">barotropy.sCO2_utilities module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/barotropy.math.html">barotropy.math module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/barotropy.plot_options.html">barotropy.plot_options module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/barotropy.utilities.html">barotropy.utilities module</a></li>
 </ul>
 </details></li>
 </ul>
@@ -339,7 +337,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Barotropic Model Theory</h1>
+    <h1>Barotropic modeling</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -366,8 +364,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="barotropic-model-theory">
-<span id="barotropic-model"></span><h1>Barotropic Model Theory<a class="headerlink" href="#barotropic-model-theory" title="Link to this heading">#</a></h1>
+  <section id="barotropic-modeling">
+<span id="barotropic-model"></span><h1>Barotropic modeling<a class="headerlink" href="#barotropic-modeling" title="Link to this heading">#</a></h1>
 <p>Explanation of the barotropic model</p>
 <p><span id="id1">[<a class="reference internal" href="bibliography.html#id34" title="Alessandro Romei and Giacomo Persico. Computational fluid-dynamic modelling of two-phase compressible flows of carbon dioxide in supercritical conditions. Applied Thermal Engineering, 190:116816, 2021. doi:10.1016/j.applthermaleng.2021.116816.">Romei and Persico, 2021</a>]</span></p>
 <p>One-component vs two-component</p>
@@ -408,7 +406,7 @@ document.write(`
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Tutorial: Two-component systems</p>
+        <p class="prev-next-title">Two-component systems</p>
       </div>
     </a>
     <a class="right-next"
@@ -456,7 +454,7 @@ document.write(`
   <div class="footer-item">
     
 <p class="component-author">
-By Roberto Agromayor
+By Roberto Agromayor, Simone Parisi, Amit Kumar, Fredrik Haglind
 </p>
 
   </div>
@@ -466,7 +464,7 @@ By Roberto Agromayor
 
   <p class="copyright">
     
-      © Copyright 2023, Sustainable Thermal Power DTU.
+      © Copyright 2024, Sustainable Thermal Power DTU.
       <br/>
     
   </p>

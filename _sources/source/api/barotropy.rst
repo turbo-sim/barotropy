@@ -1,4 +1,4 @@
-barotropy
+API Reference
 =================
 
 Subpackages
@@ -24,10 +24,3 @@ Submodules
    barotropy.plot_options
    barotropy.utilities
 
-Module contents
----------------
-
-.. automodule:: barotropy
-   :members:
-   :undoc-members:
-   :show-inheritance:
