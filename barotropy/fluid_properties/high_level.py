@@ -8,13 +8,7 @@ import CoolProp.CoolProp as CP
 from . import low_level as props
 from . import utilities as utils
 
-from ..pysolver_view import (
-    NonlinearSystemSolver,
-    NonlinearSystemProblem,
-    OptimizationProblem,
-    OptimizationSolver,
-)
-
+from .. import pysolver_view as psv
 
 MEANLINE_PROPERTIES = [
     "p",
@@ -155,9 +149,6 @@ class Fluid:
         name,
         backend="HEOS",
         exceptions=True,
-        generalize_quality=True,
-        compute_superheating=True,
-        compute_subcooling=True,
         # initialize_critical=True,
         # initialize_triple=True,
     ):
@@ -167,11 +158,6 @@ class Fluid:
         self.exceptions = exceptions
         self.converged_flag = False
         self._properties = {}
-
-        # Define calculations peformend
-        self.generalize_quality = generalize_quality
-        self.compute_subcooling = compute_subcooling
-        self.compute_superheating = compute_superheating
 
         # Initialize variables
         self.sat_liq = None
@@ -217,14 +203,17 @@ class Fluid:
         """Calculate the properties at the triple point (vapor state)"""
         return self.get_state(QT_INPUTS, 1.00, self._AS.Ttriple())
 
+    @utils._handle_computation_exceptions
     def get_state(
         self,
         input_type,
         prop_1,
         prop_2,
+        generalize_quality=False,
+        supersaturation=False,
     ):
-        """
-        Set the thermodynamic state of the fluid based on input properties.
+        r"""
+        Set the thermodynamic state of the fluid using the CoolProp low level interface.
 
         This method updates the thermodynamic state of the fluid in the CoolProp ``abstractstate`` object
         using the given input properties. It then calculates either single-phase or two-phase
@@ -233,14 +222,11 @@ class Fluid:
         If the calculation of properties fails, `converged_flag` is set to False, indicating an issue with
         the property calculation. Otherwise, it's set to True.
 
-        Aliases of the properties are also added to the ``Fluid.properties`` dictionary for convenience.
-
         Parameters
         ----------
         input_type : int
             The variable pair used to define the thermodynamic state. This should be one of the
             predefined input pairs in CoolProp, such as ``PT_INPUTS`` for pressure and temperature.
-            For all available input pairs, refer to :ref:`this list <module-input-pairs-table>`.
         prop_1 : float
             The first property value corresponding to the input type.
         prop_2 : float
@@ -248,9 +234,8 @@ class Fluid:
 
         Returns
         -------
-        dict
-            A dictionary of computed properties for the current state of the fluid. This includes both the
-            raw properties from CoolProp and any additional alias properties.
+        barotropy.State
+            A State object containing the fluid properties
 
         Raises
         ------
@@ -260,147 +245,164 @@ class Fluid:
 
 
         """
-        try:
-            # Update Coolprop thermodynamic state
-            self._AS.update(input_type, prop_1, prop_2)
-
-            # Retrieve single-phase properties
-            if self._AS.phase() != CP.iphase_twophase:
-                self._properties = props.compute_properties_1phase(
-                    self._AS,
-                    self.generalize_quality,
-                    self.compute_subcooling,
-                    self.compute_superheating,
-                )
-            else:
-                self._properties = props.compute_properties_2phase(
-                    self._AS,
-                    self.compute_subcooling,
-                    self.compute_superheating,
-                )
-
-            # No errors computing the properies
-            self.converged_flag = True
-
-        # Something went wrong while computing the properties
-        except Exception as e:
-            self.converged_flag = False
-            if self.exceptions:
-                raise e
-
-        # Return inmutable object
+        self._properties = props.compute_properties_coolprop(
+            self._AS,
+            input_type,
+            prop_1,
+            prop_2,
+            generalize_quality=generalize_quality,
+            supersaturation=supersaturation,
+        )
         return FluidState(self._properties, self.name)
 
+    @utils._handle_computation_exceptions
+    def get_state_equilibrium(
+        self,
+        prop_1,
+        prop_1_value,
+        prop_2,
+        prop_2_value,
+        rhoT_guess=None,
+        supersaturation=True,
+        generalize_quality=True,
+        solver_algorithm="hybr",
+        solver_tolerance=1e-6,
+        solver_max_iterations=100,
+        print_convergence=False,
+    ):
+        r"""
+        Calculate fluid properties according to thermodynamic equilibrium.
+
+        .. note::
+
+            For a detailed description of input arguments and calculation methods, see the
+            documentation of the function :ref:`compute_properties <compute_properties>`.
+
+        """
+        self._properties = props.compute_properties(
+            self._AS,
+            prop_1=prop_1,
+            prop_1_value=prop_1_value,
+            prop_2=prop_2,
+            prop_2_value=prop_2_value,
+            calculation_type="equilibrium",
+            rhoT_guess_equilibrium=rhoT_guess,
+            supersaturation=supersaturation,
+            generalize_quality=generalize_quality,
+            solver_algorithm=solver_algorithm,
+            solver_tolerance=solver_tolerance,
+            solver_max_iterations=solver_max_iterations,
+            print_convergence=print_convergence,
+        )
+        return FluidState(self._properties, self.name)
+
+    @utils._handle_computation_exceptions
     def get_state_metastable(
         self,
         prop_1,
         prop_1_value,
         prop_2,
         prop_2_value,
-        rho_guess=None,
-        T_guess=None,
+        rhoT_guess=None,
+        supersaturation=True,
+        generalize_quality=True,
         solver_algorithm="hybr",
+        solver_tolerance=1e-6,
+        solver_max_iterations=100,
         print_convergence=False,
     ):
         r"""
-        Calculate the thermodynamic state based the Helmholtz HEOS (suitable to compute metastable states)
-        
-        Parameters
-        ----------
-        prop_1 : str
-            The type of the first thermodynamic property (e.g., 'rho', 'T').
-        prop_1_value : float
-            The numerical value of the first thermodynamic property.
-        prop_2 : str
-            The type of the second thermodynamic property.
-        prop_2_value : float
-            The numerical value of the second thermodynamic property.
-        rho_guess : float, optional
-            Initial guess for density.
-        T_guess : float, optional
-            Initial guess for temperature.
-        solver_algorithm : str, optional
-            Method to be used for solving the nonlinear system. Defaults to 'hybr'.
-        print_convergence : bool, optional
-            If True, displays the convergence progress. Defaults to False.
-        
-        Returns
-        -------
-        dict
-            Thermodynamic properties corresponding to the given input pair.
-        
-        Raises
-        ------
-        ValueError
-            If the input property types are not density and temperature, and a valid initial guess is not provided.
+        Calculate fluid properties assuming phase metastability
+
+        .. note::
+
+            For a detailed description of input arguments and calculation methods, see the
+            documentation of the function :ref:`compute_properties <compute_properties>`.
+
         """
-                
+        if prop_1 == "rho" and prop_2 == "T":
+            self._properties = props.compute_properties_metastable_rhoT(
+                abstract_state=self._AS,
+                rho=prop_1_value,
+                T=prop_2_value,
+                generalize_quality=generalize_quality,
+                supersaturation=supersaturation,
+            )
+        elif prop_1 == "T" and prop_2 == "rho":
+            self._properties = props.compute_properties_metastable_rhoT(
+                abstract_state=self._AS,
+                rho=prop_2_value,
+                T=prop_1_value,
+                generalize_quality=generalize_quality,
+                supersaturation=supersaturation,
+            )
+        else:
+            self._properties = props.compute_properties(
+                self._AS,
+                prop_1=prop_1,
+                prop_1_value=prop_1_value,
+                prop_2=prop_2,
+                prop_2_value=prop_2_value,
+                calculation_type="metastable",
+                rhoT_guess_metastable=rhoT_guess,
+                supersaturation=supersaturation,
+                generalize_quality=generalize_quality,
+                solver_algorithm=solver_algorithm,
+                solver_tolerance=solver_tolerance,
+                solver_max_iterations=solver_max_iterations,
+                print_convergence=print_convergence,
+            )
+        return FluidState(self._properties, self.name)
 
-        # TODO: Add check to see if we are inside thespinodal and return two phase properties if yes
+    @utils._handle_computation_exceptions
+    def get_state_blending(
+        self,
+        prop_1,
+        prop_1_value,
+        prop_2,
+        prop_2_value,
+        rhoT_guess_equilibrium,
+        rhoT_guess_metastable,
+        blending_variable,
+        blending_onset,
+        blending_width,
+        initial_phase,
+        supersaturation=True,
+        generalize_quality=True,
+        solver_algorithm="hybr",
+        solver_tolerance=1e-6,
+        solver_max_iterations=100,
+        print_convergence=False,
+    ):
+        r"""
+        Calculate fluid properties by blending equilibrium and metastable properties
 
-        # Check if state is outside spinodla line
-        outside_spinodal = True
+        .. note::
 
-        # Ensure prop_1_value and prop_2_value are scalar numbers
-        if not utils.is_float(prop_1_value) or not utils.is_float(prop_2_value):
-            raise ValueError(f"Both prop_1_value and prop_2_value must be scalar numbers. Received: prop_1_value={prop_1_value}, prop_2_value={prop_2_value}")
-        
-        try:
+            For a detailed description of input arguments and calculation methods, see the
+            documentation of the function :ref:`compute_properties <compute_properties>`.
 
-            # Directly call the HEOS if the arguments are density-temperature
-            if prop_1 == "rho" and prop_2 == "T":
-                self._properties = props.compute_properties_metastable_rhoT(
-                    self._AS, prop_1_value, prop_2_value
-                )
-
-            # Directly call the HEOS if the arguments are temperature-density
-            elif prop_1 == "T" and prop_2 == "rho":
-                self._properties = props.compute_properties_metastable_rhoT(
-                    self._AS, prop_2_value, prop_1_value
-                )
-
-            # Use the solver for other input pairs
-            else:
-
-                # Validate initial guesses for rho and T if prop_1 and prop_2 are not 'rho' and 'T'
-                if rho_guess is None or T_guess is None or not utils.is_float(rho_guess) or not utils.is_float(T_guess):
-                    raise ValueError(f"If the input property types are not density and temperature, a valid initial guess must be provided for density and temperature. Received: rho_guess={rho_guess}, T_guess={T_guess}.")
-                
-                # Solve system of equations to determine the state
-                self._properties = props.compute_properties_metastable(
-                    self._AS,
-                    prop_1,
-                    prop_1_value,
-                    prop_2,
-                    prop_2_value,
-                    rho_guess,
-                    T_guess,
-                    solver_algorithm=solver_algorithm,
-                    print_convergence=print_convergence,
-                )
-
-        except Exception as e:
-            raise RuntimeError(f"Failed to compute metastable properties: {str(e)}")
-
-
-
-
-
-        #         # if T_guess is None:
-
-        #     # else:
-        #     #     self._properties = self.compute_properties_2phase()
-
-        #     # No errors computing the properies
-        #     self.converged_flag = True
-
-        # # Something went wrong while computing the properties
-        # except Exception as e:
-        #     self.converged_flag = False
-        #     if self.exceptions:
-        #         raise e
-
-        # Return inmutable object
+        """
+        self._properties = props.compute_properties(
+            self._AS,
+            prop_1=prop_1,
+            prop_1_value=prop_1_value,
+            prop_2=prop_2,
+            prop_2_value=prop_2_value,
+            calculation_type="blending",
+            rhoT_guess_equilibrium=rhoT_guess_equilibrium,
+            rhoT_guess_metastable=rhoT_guess_metastable,
+            blending_variable=blending_variable,
+            blending_onset=blending_onset,
+            blending_width=blending_width,
+            initial_phase=initial_phase,
+            supersaturation=supersaturation,
+            generalize_quality=generalize_quality,
+            solver_algorithm=solver_algorithm,
+            solver_tolerance=solver_tolerance,
+            solver_max_iterations=solver_max_iterations,
+            print_convergence=print_convergence,
+        )
         return FluidState(self._properties, self.name)
 
     def get_property(self, propname):
@@ -428,8 +430,8 @@ class Fluid:
 
     def plot_phase_diagram(
         self,
-        x_variable="s",
-        y_variable="T",
+        x_prop="s",
+        y_prop="T",
         axes=None,
         N=100,
         plot_saturation_line=True,
@@ -439,12 +441,13 @@ class Fluid:
         plot_spinodal_line=False,
         spinodal_line_color=0.5 * np.array([1, 1, 1]),
         spinodal_line_width=1.25,
+        spinodal_line_method="bfgs",  # Alternative is slsqp
+        spinodal_line_use_previous=False,  # True is not as robust
         plot_quality_isolines=False,
         plot_pseudocritical_line=False,
         quality_levels=np.linspace(0.1, 1.0, 10),
         quality_labels=False,
         show_in_legend=False,
-        # **kwargs,
     ):
         if axes is None:
             axes = plt.gca()
@@ -452,9 +455,9 @@ class Fluid:
         # Saturation line
         if plot_saturation_line:
             if self.sat_liq is None or self.sat_vap is None:
-                self.sat_liq, self.sat_vap = utils.compute_saturation_line(self, N)
-            x = self.sat_liq[x_variable] + self.sat_vap[x_variable]
-            y = self.sat_liq[y_variable] + self.sat_vap[y_variable]
+                self.sat_liq, self.sat_vap = compute_saturation_line(self, N)
+            x = list(reversed(self.sat_liq[x_prop])) + self.sat_vap[x_prop]
+            y = list(reversed(self.sat_liq[y_prop])) + self.sat_vap[y_prop]
             label = self._get_label("Saturation line", show_in_legend)
             params = {"label": label, "color": "black"}
             self._graphic_saturation_line = self._plot_or_update_line(
@@ -470,9 +473,15 @@ class Fluid:
         # Spinodal line
         if plot_spinodal_line:
             if self.spdl_liq is None or self.spdl_vap is None:
-                self.spdl_liq, self.spdl_vap = utils.compute_spinodal_line(self, N)
-            x = self.spdl_liq[x_variable] + self.spdl_vap[x_variable]
-            y = self.spdl_liq[y_variable] + self.spdl_vap[y_variable]
+                self.spdl_liq, self.spdl_vap = compute_spinodal_line(
+                    self,
+                    N=N,
+                    method=spinodal_line_method,
+                    use_previous_as_initial_guess=spinodal_line_use_previous,
+                    supersaturation=False,
+                )
+            x = list(reversed(self.spdl_liq[x_prop])) + self.spdl_vap[x_prop]
+            y = list(reversed(self.spdl_liq[y_prop])) + self.spdl_vap[y_prop]
             label = self._get_label("Spinodal line", show_in_legend)
             params = {
                 "label": label,
@@ -492,9 +501,9 @@ class Fluid:
         # Plot pseudocritical line
         if plot_pseudocritical_line:
             if self.pseudo_critical_line is None:
-                self.pseudo_critical_line = utils.compute_pseudocritical_line(self)
-            x = self.pseudo_critical_line[x_variable]
-            y = self.pseudo_critical_line[y_variable]
+                self.pseudo_critical_line = compute_pseudocritical_line(self)
+            x = self.pseudo_critical_line[x_prop]
+            y = self.pseudo_critical_line[y_prop]
             label = self._get_label("Pseudocritical line", show_in_legend)
             params = {
                 "label": label,
@@ -515,9 +524,9 @@ class Fluid:
         # Plot quality isolines
         if plot_quality_isolines:
             if self.q_mesh is None:
-                self.q_mesh = utils.compute_quality_grid(self, N, quality_levels)
-            x = self.q_mesh[x_variable]
-            y = self.q_mesh[y_variable]
+                self.q_mesh = compute_quality_grid(self, N, quality_levels)
+            x = self.q_mesh[x_prop]
+            y = self.q_mesh[y_prop]
             _, m = np.shape(x)
             z = np.tile(quality_levels, (m, 1)).T
             params = {"colors": "black", "linestyles": ":", "linewidths": 0.75}
@@ -549,8 +558,8 @@ class Fluid:
             "markerfacecolor": "w",
         }
         if plot_critical_point:
-            x = self.critical_point[x_variable]
-            y = self.critical_point[y_variable]
+            x = self.critical_point[x_prop]
+            y = self.critical_point[y_prop]
             label = self._get_label("Critical point", show_in_legend)
             self._graphic_critical_point = self._plot_or_update_line(
                 axes,
@@ -565,8 +574,8 @@ class Fluid:
 
         # Plot liquid triple point
         if plot_triple_point_liquid:
-            x = self.triple_point_liquid[x_variable]
-            y = self.triple_point_liquid[y_variable]
+            x = self.triple_point_liquid[x_prop]
+            y = self.triple_point_liquid[y_prop]
             label = self._get_label("Triple point liquid", show_in_legend)
             self._graphic_triple_point_liquid = self._plot_or_update_line(
                 axes,
@@ -581,8 +590,8 @@ class Fluid:
 
         # Plot vapor triple point
         if plot_triple_point_vapor:
-            x = self.triple_point_vapor[x_variable]
-            y = self.triple_point_vapor[y_variable]
+            x = self.triple_point_vapor[x_prop]
+            y = self.triple_point_vapor[y_prop]
             label = self._get_label("Triple point vapor", show_in_legend)
             self._graphic_triple_point_vapor = self._plot_or_update_line(
                 axes,
@@ -759,72 +768,155 @@ class FluidState:
 # ------------------------------------------------------------------------------------ #
 
 
-def compute_saturation_line(fluid, N_points=100):
-    # Initialize objects to store properties
-    prop_names = fluid._properties.keys()
-    saturation_liq = {name: [] for name in prop_names}
-    saturation_vap = {name: [] for name in prop_names}
+def compute_saturation_line(fluid, N=100):
+    """
+    Compute the saturation line for a given fluid.
 
+    Parameters
+    ----------
+    fluid : object
+        The fluid object containing thermodynamic properties and methods.
+    N : int, optional
+        Number of points to compute along the saturation line. Default is 100.
+
+    Returns
+    -------
+    saturation_liq : dict of lists
+        Dictionary containing the liquid saturation properties.
+    saturation_vap : dict of lists
+        Dictionary containing the vapor saturation properties.
+    """
     # Define temperature array with refinement close to the critical point
     R = 1 - fluid.triple_point_liquid.T / fluid.critical_point.T
-    t1 = np.logspace(np.log10(1 - 0.9999), np.log10(R / 10), int(np.ceil(N_points / 2)))
-    t2 = np.logspace(np.log10(R / 10), np.log10(R), int(np.floor(N_points / 2)))
+    t1 = np.logspace(np.log10(1 - 0.9999), np.log10(R / 10), int(np.ceil(N / 2)))
+    t2 = np.linspace(R / 10, R, int(np.floor(N / 2)))
     T_sat = (1 - np.concatenate([t1, t2])) * fluid.critical_point.T
 
-    # Loop over temperatures and property names
+    # Initialize dictionaries for storing properties
+    saturation_liq = {}
+    saturation_vap = {}
+
+    # Loop over temperatures for liquid and vapor states
     for T in T_sat:
         state_liquid = fluid.get_state(CP.QT_INPUTS, 0.00, T)
         state_vapor = fluid.get_state(CP.QT_INPUTS, 1.00, T)
-        for name in prop_names:
+        for name in state_liquid.keys():
+            if name not in saturation_liq:
+                saturation_liq[name] = [fluid.critical_point[name]]  
             saturation_liq[name].append(state_liquid[name])
+
+        for name in state_vapor.keys():
+            if name not in saturation_vap:
+                saturation_vap[name] = [fluid.critical_point[name]] 
             saturation_vap[name].append(state_vapor[name])
 
-    # Add critical point as part of the spinodal line
-    for name in prop_names:
-        saturation_liq[name] = [fluid.critical_point[name]] + saturation_liq[name]
-        saturation_vap[name] = [fluid.critical_point[name]] + saturation_vap[name]
-
-    # Re-format for easy concatenation
-    for name in prop_names:
-        saturation_liq[name] = list(reversed(saturation_liq[name]))
+    # # Reverse the liquid properties for easy concatenation
+    # for name in saturation_liq.keys():
+    #     saturation_liq[name] = list(reversed(saturation_liq[name]))
 
     return saturation_liq, saturation_vap
 
 
-def compute_spinodal_line(fluid, N=25):
-    # Initialize objects to store properties
-    prop_names = fluid._properties.keys()
-    spinodal_liq = {name: [] for name in prop_names}
-    spinodal_vap = {name: [] for name in prop_names}
+def compute_spinodal_line(
+    fluid,
+    N=50,
+    method="bfgs",
+    use_previous_as_initial_guess=False,
+    supersaturation=False,
+):
+    """
+    Compute the spinodal line for a given fluid.
+
+    Parameters
+    ----------
+    fluid : object
+        The fluid object containing thermodynamic properties and methods.
+    N : int, optional
+        Number of points to compute along the spinodal line. Default is 50.
+    method : str, optional
+        The optimization method to solve the spinodal point problem ('bfgs' or 'slsqp'). Default is 'bfgs'.
+    use_previous_as_initial_guess : bool, optional
+        Whether to use the previous point as the initial guess for the next point. Default is False.
+    supersaturation : bool, optional
+        Whether to compute supersaturation properties. Default is False.
+
+    Returns
+    -------
+    spinodal_liq : dict of lists
+        Dictionary containing the liquid spinodal properties.
+    spinodal_vap : dict of lists
+        Dictionary containing the vapor spinodal properties.
+    """
 
     # Temperature array with refinement close to the critical point
-    ratio = 1 - 1.1 * fluid.triple_point_liquid.T / fluid.critical_point.T
-    t1 = np.logspace(np.log10(1 - 0.999), np.log10(ratio / 10), int(np.ceil(N / 2)))
+    alpha = 0.00
+    T_max = fluid.critical_point.T - 0.5
+    T_min = alpha * T_max + (1 - alpha) * fluid.triple_point_liquid.T
+    ratio = 1 - T_min / T_max
+    t1 = np.logspace(np.log10(1 - 0.9999), np.log10(ratio / 10), int(np.ceil(N / 2)))
     t2 = np.logspace(np.log10(ratio / 10), np.log10(ratio), int(np.floor(N / 2)))
-    T_spinodal = (1 - np.concatenate([t1, t2])) * fluid.critical_point.T
+    T_spinodal = (1 - np.concatenate([t1, t2])) * T_max
 
-    # Initial properties for the first temperature point
-    props_liq = props.compute_spinodal_point(T_spinodal[0], fluid._AS, "liquid")
-    props_vap = props.compute_spinodal_point(T_spinodal[0], fluid._AS, "vapor")
+    # Get limits of entropy to prevent points where EoS breaks down
+    s_min, s_max = fluid.triple_point_liquid["s"], fluid.triple_point_vapor["s"]
 
-    # Loop over temperatures and property names
+    # Initialize dictionaries for storing properties
+    spinodal_liq = {}
+    spinodal_vap = {}
+
+    # Compute liquid branch until calculations break down
+    props_liq = compute_spinodal_point(
+        T_spinodal[0],
+        fluid,
+        "liquid",
+        method=method,
+        supersaturation=supersaturation,
+    )
     for T in T_spinodal:
-        props_liq = props.compute_spinodal_point(T, fluid._AS, "liquid")
-        props_vap = props.compute_spinodal_point(T, fluid._AS, "vapor")
-        # props_liq = functions.compute_spinodal_point(T, fluid._AS, 'liquid', rho_guess=props_liq["rho"])
-        # props_vap = functions.compute_spinodal_point(T, fluid._AS, 'vapor', rho_guess=props_vap["rho"])
-        for name in prop_names:
-            spinodal_liq[name].append(props_liq[name])
-            spinodal_vap[name].append(props_vap[name])
+        rho = props_liq["rho"] if use_previous_as_initial_guess else None
+        props_liq = compute_spinodal_point(
+            T,
+            fluid,
+            "liquid",
+            rho_guess=rho,
+            method=method,
+            supersaturation=supersaturation,
+        )
 
-    # Add critical point as part of the spinodal line
-    for name in prop_names:
-        spinodal_liq[name] = [fluid.critical_point[name]] + spinodal_liq[name]
-        spinodal_vap[name] = [fluid.critical_point[name]] + spinodal_vap[name]
+        if s_min < props_liq["s"] < s_max:
+            for name in props_liq.keys():
+                if name not in spinodal_liq:  # Initialize list if new property
+                    spinodal_liq[name] = []
+                spinodal_liq[name].append(props_liq.get(name, np.nan))
+        else:
+            break
 
-    # Re-format for easy concatenation
-    for name in prop_names:
-        spinodal_liq[name] = list(reversed(spinodal_liq[name]))
+    # Compute vapor branch until calculations break down
+    props_vap = compute_spinodal_point(
+        T_spinodal[0], fluid, "vapor", method=method, supersaturation=supersaturation
+    )
+    for T in T_spinodal:
+        rho = props_vap["rho"] if use_previous_as_initial_guess else None
+        props_vap = compute_spinodal_point(
+            T,
+            fluid,
+            "vapor",
+            rho_guess=rho,
+            method=method,
+            supersaturation=supersaturation,
+        )
+
+        if s_min < props_vap["s"] < s_max:  # If not satisfied the HEOS is blowing up
+            for name in props_vap.keys():
+                if name not in spinodal_vap:  # Initialize list if new property
+                    spinodal_vap[name] = []
+                spinodal_vap[name].append(props_vap.get(name, np.nan))
+        else:
+            break
+
+    # # Reverse the liquid properties for easy concatenation
+    # for name in spinodal_liq.keys():
+    #     spinodal_liq[name] = list(reversed(spinodal_liq[name]))
 
     return spinodal_liq, spinodal_vap
 
@@ -865,8 +957,7 @@ def compute_quality_grid(fluid, num_points, quality_levels):
             row.append(fluid.get_state(CP.QT_INPUTS, q, T))
         quality_grid.append(row)
 
-    return states_to_dict_2d(quality_grid)
-
+    return utils.states_to_dict_2d(quality_grid)
 
 
 def compute_property_grid(
@@ -874,6 +965,8 @@ def compute_property_grid(
     input_pair,
     range_1,
     range_2,
+    generalize_quality=False,
+    supersaturation=False,
 ):
     """
     Compute fluid properties over a specified range and store them in a dictionary.
@@ -905,7 +998,7 @@ def compute_property_grid(
     grid1, grid2 = np.meshgrid(range_1, range_2)
 
     # Initialize dictionary to store properties and pre-allocate storage
-    properties_dict = {key: np.zeros_like(grid1) for key in fluid._properties}
+    properties_dict = {}
 
     # Compute properties at each point
     for i in range(len(range_2)):
@@ -915,10 +1008,14 @@ def compute_property_grid(
                 input_pair,
                 grid1[i, j],
                 grid2[i, j],
+                generalize_quality=generalize_quality,
+                supersaturation=supersaturation,
             )
 
-            # Store the properties
+            # Store the properties (initialize as empty array if new key)
             for key in state:
+                if key not in properties_dict.keys():
+                    properties_dict[key] = np.zeros_like(grid1)
                 properties_dict[key][i, j] = state[key]
 
     return properties_dict
@@ -935,7 +1032,7 @@ def compute_property_grid_rhoT(
     for T in T_array:
         row = []
         for rho in rho_array:
-            row.append(props.compute_properties_metastable_rhoT(rho, T, fluid._AS))
+            row.append(props.compute_properties_metastable_rhoT(fluid._AS, rho, T))
         states_meta.append(row)
 
     # Convert nested list of dictionaries into dictionary of 2D arrays
@@ -947,43 +1044,391 @@ def compute_property_grid_rhoT(
 # TODO  Implement class to calculate intersection with saturation line?
 
 
+# ------------------------------------------------------------------------------------ #
+# Spinodal point calculations
+# ------------------------------------------------------------------------------------ #
+
+from scipy.optimize import root_scalar
 
 
+def compute_spinodal_point_general(
+    prop_type,
+    prop_value,
+    fluid,
+    branch,
+    rho_guess=None,
+    N_trial=100,
+    method="bfgs",
+    tolerance=1e-6,
+    print_convergence=False,
+    supersaturation=False,
+):
+    """
+    General function to compute the spinodal point for a given property name and value.
 
-def get_state_Qs(fluid, Q, s):
-    # Define the residual equation
-    def get_residual(p):
-        state = fluid.get_state(PSmass_INPUTS, p, s, generalize_quality=True)
-        residual = Q - state.Q
-        return residual
+    This function uses the underlying `compute_spinodal_point` function and iterates
+    on temperature until the specified property at the spinodal point matches the given value.
 
-    # Solve the scalar equation
-    p_triple = 1.0 * fluid.triple_point_liquid.p
-    p_critical = 1.25 * fluid.critical_point.p
-    bounds = [p_triple, p_critical]
-    sol = scipy.optimize.root_scalar(get_residual, bracket=bounds, method="brentq")
+    Parameters
+    ----------
+    prop_type : str
+        The type of property to match (e.g., 'rho', 'p').
+    prop_value : float
+        The value of the property to match at the spinodal point.
+    fluid : object
+        The fluid object containing thermodynamic properties and methods.
+    branch : str
+        The branch of the spinodal line. Options: 'liquid' or 'vapor'.
+    rho_guess : float, optional
+        Initial guess for the density. If provided, this value will be used directly.
+        If not provided, the density initial guess will be generated based on a number of trial points.
+    N_trial : int, optional
+        Number of trial points to generate the density initial guess. Default is 100.
+    method : str, optional
+        The optimization method to solve the problem ('bfgs' or 'slsqp'). Default is 'bfgs'.
+    tolerance : float, optional
+        Tolerance for the solver termination. Defaults to 1e-6.
+    print_convergence : bool, optional
+        If True, displays the convergence progress. Defaults to False.
 
-    # Check if the solver has converged
-    if not sol.converged:
-        raise ValueError("The root-finding algorithm did not converge!")
+    Returns
+    -------
+    barotropy.State
+        A State object containing the fluid properties
 
-    # Compute the outlet state
-    state = fluid.get_state(PSmass_INPUTS, sol.root, s, generalize_quality=True)
+    Raises
+    ------
+    ValueError
+        If the scalar root to determine the spinodal point fails to converge.
+
+    Notes
+    -----
+    This function uses a root-finding algorithm to iterate on temperature until the
+    property specified by `prop_type` at the spinodal point matches `prop_value`.
+    The `compute_spinodal_point` function is called iteratively to evaluate the spinodal
+    properties at different temperatures.
+
+    Examples
+    --------
+    >>> state = compute_spinodal_point_general(
+    ...     prop_type='density',
+    ...     prop_value=500,
+    ...     T_guess=300,
+    ...     fluid=my_fluid,
+    ...     branch='liquid',
+    ...     rho_guess=10,
+    ...     N_trial=150,
+    ...     method='slsqp',
+    ...     tolerance=1e-7,
+    ...     print_convergence=True,
+    ... )
+    """
+
+    # Define residual to be driven to zero
+    def residual(T):
+        props = compute_spinodal_point(
+            T,
+            fluid,
+            branch,
+            rho_guess=rho_guess,
+            N_trial=N_trial,
+            method=method,
+            tolerance=tolerance,
+            print_convergence=print_convergence,
+            supersaturation=supersaturation,
+        )
+        return props[prop_type] - prop_value
+
+    # Try to compute spinodal point
+    try:
+        bracket = [fluid.triple_point_vapor.T + 0.1, fluid.critical_point.T - 0.1]
+        result = root_scalar(residual, method="toms748", bracket=bracket)
+    except ValueError as e:
+        raise ValueError(
+            f"Failed to find a spinodal point for {prop_type}={prop_value:.2e}.\n"
+            f"This might be because there is no spinodal point for the given fluid property value.\n"
+            f"Check the value of {prop_type} to ensure there is a matching spinodal point."
+        ) from e
+    if not result.converged:
+        raise ValueError("Scalar root to determine spinodal point failed")
+
+    # Manually check the residual at the solution
+    final_residual = residual(result.root)
+    if abs(final_residual) > 1e-6:
+        raise ValueError(
+            f"The solution converged but the residual {final_residual:.2e} is not within the tolerance.\n"
+            f"Check the value of {prop_type}={prop_value:.2e} and branch={branch} to ensure there is a matching spinodal point."
+        )
+
+    # Compute state for the computed solution
+    state = compute_spinodal_point(
+        result.root,
+        fluid,
+        branch,
+        rho_guess=rho_guess,
+        N_trial=N_trial,
+        method=method,
+        tolerance=tolerance,
+        print_convergence=print_convergence,
+        supersaturation=supersaturation,
+    )
 
     return state
 
 
-def get_isentropic_saturation_state(fluid, s_in):
-    # Calculate saturation sate
-    if s_in < fluid.critical_point.s:
-        state_sat = get_state_Qs(fluid, Q=0.00, s=s_in)
+def compute_spinodal_point(
+    temperature,
+    fluid,
+    branch,
+    rho_guess=None,
+    N_trial=100,
+    method="bfgs",
+    tolerance=1e-6,
+    supersaturation=False,
+    print_convergence=False,
+):
+    r"""
+    Compute the vapor or liquid spinodal point of a fluid at a given temperature.
+
+    Parameters
+    ----------
+    temperature : float
+        Temperature of the fluid (K).
+    fluid : barotropy.Fluid
+        The fluid for which the spinodal point is to be calculated.
+    branch : str
+        Branch of the spinodal line used to determine the density initial guess.
+        Options: 'liquid' or 'vapor'.
+    rho_guess : float, optional
+        Initial guess for the density. If provided, this value will be used directly.
+        If not provided, the density initial guess will be generated based on a number of trial points.
+    N_trial : int, optional
+        Number of trial points to generate the density initial guess. Default is 50.
+    method : str, optional
+        The optimization method to solve the problem ('bfgs' or 'slsqp').
+    tolerance : float, optional
+        Tolerance for the solver termination. Defaults to 1e-6.
+    print_convergence : bool, optional
+        If True, displays the convergence progress. Defaults to False.
+
+    Returns
+    -------
+    barotropy.State
+        A State object containing the fluid properties
+
+    Raises
+    ------
+    ValueError
+        If the input temperature is higher than the critical temperature or lower than
+        the triple temperature.
+
+    Notes
+    -----
+    When a single-phase fluid undergoes a thermodynamic process and enters the two-phase region it
+    can exist in a single-phase state that is different from the equilibrium two-phase state.
+    Such states are know as metastable states and they are only possible in the thermodynamic
+    region between the saturation lines and the spinodal lines. If the thermodynamic process
+    continues and crosses the spinodal lines metastable states become unstable and the transition
+    to two-distinct phase occurs rapidly. Therefore, the spinodal line represents the locus of points
+    that separates the region where a mixture is thermodynamically unstable and prone to phase separation
+    from the region where metastable states are physically possible.
+
+    In mathematical terms, the spinodal line is defined as the loci of thermodynamic states in which the isothermal bulk modulus of the fluid is zero:
+
+    .. math::
+
+        K_T = \rho \left( \frac{\partial p}{\partial \rho} \right)_T = 0
+
+    More precisely, a vapor spinodal point is the first local maximum of a isotherm line in a pressure-density diagram as the density increases.
+    Conversely, a liquid spinodal point is the first local minimum of a isotherm line in a pressure-density diagram as the density decreases.
+    The spinodal lines and phase envelope of carbon dioxide according to the HEOS developed by :cite:`span_new_1996` are illustrated in the figure below
+
+    .. image:: /_static/spinodal_points_CO2.svg
+        :alt: Pressure-density diagram and spinodal points for carbon dioxide.
+
+
+    Some equations of state are not well-posed and do not satisfy the condition :math:`K_T=0` within the two-phase region.
+    This is exemplified by the nitrogen HEOS developed by :cite:`span_reference_2000`.
+
+    .. image:: /_static/spinodal_points_nitrogen.svg
+        :alt: Pressure-density diagram and "pseudo" spinodal points for carbon dioxide.
+
+    As seen in the figure, this HEOS is not well-posed because there are isotherms that do not have a local minimum/maximum corresponding to a state with zero isothermal bulk modulus.
+    In such cases, this function returns the inflection point of the isotherms (corresponding to the point closest to zero bulk modulus) as the spinodal point.
+
+    """
+
+    # Instantiate new abstract state to compute saturation properties without changing the state of the class
+
+    # Check that the inlet temperature is lower than the critical temperature
+    T_critical = fluid.critical_point.T
+    if temperature >= T_critical:
+        msg = f"T={temperature:.3f}K must be less than T_critical={T_critical:.3f}K"
+        raise ValueError(msg)
+
+    # Check that the inlet temperature is greater than the triple temperature
+    T_triple = fluid.triple_point_vapor.T
+    if temperature < T_triple:
+        msg = f"T={temperature:.3f}K must be greater than T_triple={T_triple:.3f}K"
+        raise ValueError(msg)
+
+    # Create spinodal point optimization problem
+    problem = _SpinodalPointProblem(temperature, fluid, branch, supersaturation)
+
+    # Check solver method
+    if method == "slsqp":
+        pass
+    elif method == "bfgs":
+        problem.get_bounds = lambda: None
     else:
-        state_sat = get_state_Qs(fluid, Q=1.00, s=s_in)
+        raise ValueError(
+            f"Solver method {method} is not valid. Valid options are 'slsqp' and 'bfgs'"
+        )
 
-    return state_sat
+    # Create solver object
+    solver = psv.OptimizationSolver(
+        problem=problem,
+        library="scipy",
+        method=method,  # "l-bfgs-b", "slsqp" "bfgs"
+        tolerance=tolerance,
+        print_convergence=print_convergence,
+    )
+
+    # Generate initial guess if not provided
+    if rho_guess is None:
+        rho_guess = problem.generate_density_guess(N_trial)
+
+    # Solve the problem using the provided or generated initial guess
+    rho_opt = solver.solve(rho_guess).item()
+    state = fluid.get_state_metastable(
+        "rho",
+        rho_opt,
+        "T",
+        temperature,
+        supersaturation=supersaturation,
+    )
+
+    # I tried different combinations of solvers and initial guesses
+    # SLSQP is very fast, but also very aggresive and can lead to unpredictable results
+    # BFGS is reliable when the initial guess is good
+    # Achieving a good initial guess is possible by:
+    #  1. Using previous point in the spinodal line and having high resolution on the spinodal line
+    #  2. Generating an initial guess for each point with the initial guess strategy
+    # Option 2. seems the most reliable, and even if the computational cost can be a bit hight
+    # it seems to be the most effective way to get accurate spinodal lines.
+
+    return state
 
 
+class _SpinodalPointProblem(psv.OptimizationProblem):
+    """Auxiliary class for the determination of the liquid and vapor spinodal points"""
 
+    def __init__(self, temperature, fluid, branch, supersaturation):
+
+        # Declare class attributes
+        self.T = temperature
+        self.branch = branch
+        self.fluid = fluid
+        self.supersaturation = supersaturation
+
+        # Compute saturation liquid density (used to determine initial guess)
+        state_vap = self.fluid.get_state(CP.QT_INPUTS, 0.00, self.T)
+        self.rho_liq = state_vap.rho
+
+        # Calculate saturation vapor density (used to determine initial guess)
+        state_liq = self.fluid.get_state(CP.QT_INPUTS, 1.00, self.T)
+        self.rho_vap = state_liq.rho
+
+    def generate_density_guess(self, N):
+        """Generate a density initial guess that is close to the first local minima of the absolute value of the bulk modulus"""
+
+        # Generate candidate densities between saturation and the critical value
+        if self.branch == "liquid":
+            rho_array = np.linspace(self.rho_liq, self.rho_vap, N)
+        elif self.branch == "vapor":
+            rho_array = np.linspace(self.rho_vap, self.rho_liq, N)
+        else:
+            msg = f"Invalid value for parameter branch={self.branch}. Options: 'liquid' or 'vapor'"
+            raise ValueError(msg)
+
+        # Evaluate residual vector at trial densities
+        residual = np.abs([self.fitness(rho) for rho in rho_array])
+
+        # Return the first local minima in the residual vector
+        for i in range(1, N - 1):
+            if residual[i - 1] > residual[i] < residual[i + 1]:
+                self.rho_guess = rho_array[i + 1]
+                return self.rho_guess
+
+    def fitness(self, rho):
+        """
+        Compute the objective function of the optimization problem: the absolute value of the isothermal bulk modulus.
+
+        This function uses the absolute value of residual to solve an optimization problem
+        rather than a non-linear equation having the bulk modulus as residual. This approach
+        is adopted because some fluids (e.g., nitrogen) have ill-posed EoS that not have a well-defined
+        spinodal points where the isothermal bulk modulus is zero.
+
+        Not a good idea to scale the bulk modulus by pressure because it can take negative values or zero when evaluated with the HEOS.
+        """
+        state = self.fluid.get_state_metastable("rho", rho, "T", self.T, supersaturation=self.supersaturation)
+        return np.atleast_1d(np.abs(state["isothermal_bulk_modulus"])) / 1e6
+
+    def get_bounds(self):
+        """Compute the bounds of the optimization problem."""
+        return [(self.rho_vap,), (self.rho_liq,)]
+        # rho_limit = self.rho_guess
+        # # rho_limit = self.rho_crit
+        # if self.branch == "liquid":
+        #     return [(rho_limit,), (self.rho_liq,)]
+        # elif self.branch == "vapor":
+        #     return [(self.rho_vap,), (rho_limit,)]
+        # else:
+        #     raise ValueError(f"Invalid value for branch={self.branch}")
+
+    def get_nec(self):
+        return 0
+
+    def get_nic(self):
+        return 0
+
+
+# ------------------------------------------------------------------------------------ #
+# Other calculations
+# ------------------------------------------------------------------------------------ #
+
+
+# def get_state_Qs(fluid, Q, s):
+#     # Define the residual equation
+#     def get_residual(p):
+#         state = fluid.get_state(PSmass_INPUTS, p, s, generalize_quality=True)
+#         residual = Q - state.Q
+#         return residual
+
+#     # Solve the scalar equation
+#     p_triple = 1.0 * fluid.triple_point_liquid.p
+#     p_critical = 1.25 * fluid.critical_point.p
+#     bounds = [p_triple, p_critical]
+#     sol = scipy.optimize.root_scalar(get_residual, bracket=bounds, method="brentq")
+
+#     # Check if the solver has converged
+#     if not sol.converged:
+#         raise ValueError("The root-finding algorithm did not converge!")
+
+#     # Compute the outlet state
+#     state = fluid.get_state(PSmass_INPUTS, sol.root, s, generalize_quality=True)
+
+#     return state
+
+
+# def get_isentropic_saturation_state(fluid, s_in):
+#     # Calculate saturation sate
+#     if s_in < fluid.critical_point.s:
+#         state_sat = get_state_Qs(fluid, Q=0.00, s=s_in)
+#     else:
+#         state_sat = get_state_Qs(fluid, Q=1.00, s=s_in)
+
+#     return state_sat
 
 
 # # ------------------------------------------------------------------------------------ #
@@ -1109,7 +1554,3 @@ def get_isentropic_saturation_state(fluid, s_in):
 
 #     def get_n_ineq(self):
 #         return self.get_number_of_constraints(self.c_ineq)
-    
-
-
-
