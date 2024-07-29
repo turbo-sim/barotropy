@@ -13,13 +13,7 @@ if not os.path.exists(fig_dir):
     os.makedirs(fig_dir)
 
 # Create fluid
-fluid = bpy.Fluid(
-    name="CO2",
-    exceptions=True,
-    generalize_quality=True,
-    compute_subcooling=True,
-    compute_superheating=True,
-)
+fluid = bpy.Fluid(name="CO2", exceptions=True)
 
 # Create figure
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
@@ -39,7 +33,9 @@ s_array = np.linspace(s1 + delta_s / 8, s2 + delta_s / 16, 100)
 
 # Subcritical cases
 p_array = np.asarray([0.6, 0.7, 0.8, 0.9, 0.99]) * fluid.critical_point.p
-states = bpy.compute_property_grid(fluid, bpy.PSmass_INPUTS, p_array, s_array)
+states = bpy.compute_property_grid(
+    fluid, bpy.PSmass_INPUTS, p_array, s_array, supersaturation=True
+)
 colormap = cm.magma(np.linspace(0.1, 0.7, len(p_array)))
 for i in range(states[prop_x].shape[-1]):
     ax1.plot(
@@ -59,7 +55,10 @@ for i in range(states[prop_x].shape[-1]):
 
 # Supercritical cases
 p_array = np.asarray([1.01, 1.1, 1.2, 1.3, 1.4]) * fluid.critical_point.p
-states = bpy.compute_property_grid(fluid, bpy.PSmass_INPUTS, p_array, s_array)
+states = bpy.compute_property_grid(
+    fluid, bpy.PSmass_INPUTS, p_array, s_array, supersaturation=True
+)
+
 colormap = cm.magma(np.linspace(0.7, 0.1, len(p_array)))
 for i in range(states[prop_x].shape[-1]):
     ax1.plot(
