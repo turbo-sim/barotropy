@@ -153,11 +153,13 @@ def scale_graphics_x(fig, scale, mode="multiply"):
         # Scaling patches (like rectangles)
         for patch in ax.patches:
             if mode == "multiply":
-                patch.set_width(patch.get_width() * scale)
-                patch.set_x(patch.get_x() * scale)
+                xy = patch.get_xy()
+                xy[:, 0] = xy[:, 0] * scale
+                patch.set_xy(xy)
             elif mode == "add":
-                patch.set_width(patch.get_width() + scale)
-                patch.set_x(patch.get_x() + scale)
+                xy = patch.get_xy()
+                xy[:, 0] = xy[:, 0] + scale
+                patch.set_xy(xy)
 
         # Scaling contour plots
         for collection in ax.collections:
@@ -183,11 +185,19 @@ def scale_graphics_y(fig, scale, mode="multiply"):
         # Scaling patches (like rectangles)
         for patch in ax.patches:
             if mode == "multiply":
-                patch.set_height(patch.get_height() * scale)
-                patch.set_y(patch.get_y() * scale)
+                xy = patch.get_xy()
+                xy[:, 1] = xy[:, 1] * scale
+                patch.set_xy(xy)
             elif mode == "add":
-                patch.set_height(patch.get_height() + scale)
-                patch.set_y(patch.get_y() + scale)
+                xy = patch.get_xy()
+                xy[:, 1] = xy[:, 1] + scale
+                patch.set_xy(xy)
+            # if mode == "multiply":
+            #     patch.set_height(patch.get_height() * scale)
+            #     patch.set_y(patch.get_y() * scale)
+            # elif mode == "add":
+            #     patch.set_height(patch.get_height() + scale)
+            #     patch.set_y(patch.get_y() + scale)
 
         # Scaling contour plots
         for collection in ax.collections:
@@ -228,7 +238,7 @@ def create_sample_plot():
     plt.show()
 
 
-def savefig_in_formats(fig, path_without_extension, formats=[".png", ".svg", ".pdf"]):
+def savefig_in_formats(fig, path_without_extension, formats=[".png", ".svg", ".eps"]):
     """
     Save a given matplotlib figure in multiple file formats.
 
@@ -240,7 +250,7 @@ def savefig_in_formats(fig, path_without_extension, formats=[".png", ".svg", ".p
         The full path to save the figure excluding the file extension.
     formats : list of str, optional
         A list of string file extensions to specify which formats the figure should be saved in.
-        Default is ['.png', '.svg', '.pdf'].
+        Default is ['.png', '.svg', '.eps'].
 
     Examples
     --------

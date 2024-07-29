@@ -1,6 +1,24 @@
 
 import numpy as np
 
+from functools import wraps
+
+
+def _handle_computation_exceptions(func):
+    @wraps(func)
+    def wrapper(self, *args, **kwargs):
+        try:
+            # Perform the computation
+            result = func(self, *args, **kwargs)
+            self.converged_flag = True
+            return result
+        except Exception as e:
+            self.converged_flag = False
+            if self.exceptions:
+                raise RuntimeError(f"Failed to compute properties: {str(e)}")
+            return None
+    return wrapper
+
 
 def is_float(element: any) -> bool:
     """

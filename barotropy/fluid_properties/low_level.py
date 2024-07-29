@@ -2,9 +2,9 @@ import scipy
 import numpy as np
 import CoolProp.CoolProp as CP
 
+from . import utilities as utils
 from .. import math as math
 from .. import pysolver_view as psv
-
 
 
 # Define property aliases
@@ -24,24 +24,16 @@ PROPERTY_ALIAS = {
 }
 
 
-
 # ------------------------------------------------------------------------------------ #
-# Equilibrum property calculations through CoolProp
+# Equilibrium property calculations in the single-phase region
 # ------------------------------------------------------------------------------------ #
-
 
 def compute_properties_1phase(
     abstract_state,
     generalize_quality=False,
-    compute_subcooling=False,
-    compute_superheating=False,
+    supersaturation=False,
 ):
-    """Get single-phase properties from CoolProp low level interface
-
-    Direct call to coolprop
-
-    TODO To be completed
-    """
+    """Extract single-phase properties from CoolProp abstract state"""
 
     # Fluid properties available from CoolProp
     props = {}
@@ -69,19 +61,18 @@ def compute_properties_1phase(
 
     # Generalized quality outside the two-phase region
     if generalize_quality:
-        quality = calculate_generalized_quality(AS)
+        props["Q"] = calculate_generalized_quality(AS)
+        props["quality_mass"] = props["Q"]
+        props["quality_volume"] = np.nan
     else:
-        quality = np.nan
-
-    props["Q"] = quality
-    props["quality_mass"] = np.nan
-    props["quality_volume"] = np.nan
+        props["Q"] = np.nan
+        props["quality_mass"] = np.nan
+        props["quality_volume"] = np.nan
 
     # Calculate departure from saturation properties
-    if compute_subcooling:
+    if supersaturation:
+        calculate_supersaturation(AS, props)
         props["subcooling"] = calculate_subcooling(AS)
-
-    if compute_superheating:
         props["superheating"] = calculate_superheating(AS)
 
     # Add properties as aliases
@@ -91,17 +82,18 @@ def compute_properties_1phase(
     return props
 
 
-def compute_properties_2phase(
-    abstract_state,
-    compute_subcooling=True,
-    compute_superheating=True,
-):
-    """Get two-phase properties from mixing rules and single-phase CoolProp properties
+# ------------------------------------------------------------------------------------ #
+# Equilibrium property calculations in the two-phase region
+# ------------------------------------------------------------------------------------ #
+
+def compute_properties_2phase(abstract_state, supersaturation=False):
+    """Compute two-phase fluid properties from CoolProp abstract state
+
+    Get two-phase properties from mixing rules and single-phase CoolProp properties
 
     Homogeneous equilibrium model
 
     State formulas for T=T, p=p, mfrac/vfrac(rho), h-s-g-u-cp-cv, mu-k, a
-    TODO To be completed
 
     """
 
@@ -195,12 +187,10 @@ def compute_properties_2phase(
     props["quality_mass"] = mfrac_V
     props["quality_volume"] = vfrac_V
 
-    # Calculate departure from saturation properties
-    if compute_subcooling:
+    if supersaturation:
         props["subcooling"] = calculate_subcooling(AS)
-
-    if compute_superheating:
         props["superheating"] = calculate_superheating(AS)
+        calculate_supersaturation(AS, props)
 
     # Add properties as aliases
     for key, value in PROPERTY_ALIAS.items():
@@ -208,6 +198,656 @@ def compute_properties_2phase(
 
     return props
 
+
+# ------------------------------------------------------------------------------------ #
+# Metastable property calculations using Helmholtz equations of state
+# ------------------------------------------------------------------------------------ #
+
+def compute_properties_metastable_rhoT(
+    abstract_state, rho, T, supersaturation=False, generalize_quality=False
+):
+    r"""
+    Compute the thermodynamic properties of a fluid using temperature-density calls to the Helmholtz energy equation of state (HEOS).
+
+    Parameters
+    ----------
+    abstract_state : CoolProp.AbstractState
+        The abstract state of the fluid for which the properties are to be calculated.
+    rho : float
+        Density of the fluid (kg/m³).
+    T : float
+        Temperature of the fluid (K).
+    supersaturation : bool, optional
+        Whether to evaluate supersaturation properties. Default is False.
+
+    Returns
+    -------
+    dict
+        Thermodynamic properties computed at the given density and temperature.
+
+    Notes
+    -----
+    The Helmholtz energy equation of state (HEOS) expresses the Helmholtz energy as an explicit function
+    of temperature and density:
+
+    .. math::
+        \Phi = \Phi(\rho, T)
+
+    In dimensionless form, the Helmholtz energy is given by:
+
+    .. math::
+        \phi(\delta, \tau) = \frac{\Phi(\delta, \tau)}{R T}
+
+    where:
+
+    - :math:`\phi` is the dimensionless Helmholtz energy
+    - :math:`R` is the gas constant of the fluid
+    - :math:`\delta = \rho / \rho_c` is the reduced density
+    - :math:`\tau = T_c / T` is the inverse of the reduced temperature
+
+    Thermodynamic properties can be derived from the Helmholtz energy and its partial derivatives.
+    The following table summarizes the expressions for various properties:
+
+    .. list-table:: Helmholtz energy thermodynamic relations
+        :widths: 30 70
+        :header-rows: 1
+
+        * - Property name
+          - Mathematical relation
+        * - Pressure
+          - .. math:: Z = \frac{p}{\rho R T} = \delta \cdot \phi_{\delta}
+        * - Entropy
+          - .. math:: \frac{s}{R} = \tau \cdot \phi_{\tau} - \phi
+        * - Internal energy
+          - .. math:: \frac{u}{R T} = \tau \cdot \phi_{\tau}
+        * - Enthalpy
+          - .. math:: \frac{h}{R T} = \tau \cdot \phi_{\tau} + \delta \cdot \phi_{\delta}
+        * - Isochoric heat capacity
+          - .. math:: \frac{c_v}{R} = -\tau^2 \cdot \phi_{\tau \tau}
+        * - Isobaric heat capacity
+          - .. math:: \frac{c_p}{R} = -\tau^2 \cdot \phi_{\tau \tau} + \frac{(\delta \cdot \phi_{\delta} - \tau \cdot \delta \cdot \phi_{\tau \delta})^2}{2 \cdot \delta \cdot \phi_{\delta} + \delta^2 \cdot \phi_{\delta \delta}}
+        * - Isobaric expansivity
+          - .. math:: \alpha \cdot T = \frac{\delta \cdot \phi_{\delta} - \tau \cdot \delta \cdot \phi_{\tau \delta}}{2 \cdot \delta \cdot \phi_{\delta} + \delta^2 \cdot \phi_{\delta \delta}}
+        * - Isothermal compressibility
+          - .. math:: \rho R T \beta = \left(2 \cdot \delta \cdot \phi_{\delta} + \delta^2 \cdot \phi_{\delta \delta} \right)^{-1}
+        * - Isothermal bulk modulus
+          - .. math:: \frac{K_T}{\rho R T} = 2 \cdot \delta \cdot \phi_{\delta} + \delta^2 \cdot \phi_{\delta \delta}
+        * - Isentropic bulk modulus
+          - .. math:: \frac{K_s}{\rho R T} = 2 \cdot \delta \cdot \phi_{\delta} + \delta^2 \ \cdot \phi_{\delta \delta} - \frac{(\delta \cdot \phi_{\delta} - \tau \cdot \delta \cdot \phi_{\tau \delta})^2}{\tau^2 \cdot \phi_{\tau \tau}}
+        * - Joule-Thompson coefficient
+          - .. math:: \rho R \mu_{\mathrm{JT}} = - \frac{\delta \cdot \phi_{\delta} + \tau \cdot \delta \cdot \phi_{\tau \delta} + \delta^2 \cdot \phi_{\delta \delta}}{(\delta \cdot \phi_{\delta} - \tau \cdot \delta \cdot \phi_{\tau \delta})^2 - \tau^2 \cdot \phi_{\tau \tau} \cdot (2 \cdot \delta \cdot \phi_{\delta} + \delta^2 \cdot \phi_{\delta \delta})}
+
+    Where the following abbreviations are used:
+
+    - :math:`\phi_{\delta} = \left(\frac{\partial \phi}{\partial \delta}\right)_{\tau}`
+    - :math:`\phi_{\tau} = \left(\frac{\partial \phi}{\partial \tau}\right)_{\delta}`
+    - :math:`\phi_{\delta \delta} = \left(\frac{\partial^2 \phi}{\partial \delta^2}\right)_{\tau, \tau}`
+    - :math:`\phi_{\tau \tau} = \left(\frac{\partial^2 \phi}{\partial \tau^2}\right)_{\delta, \delta}`
+    - :math:`\phi_{\tau \delta} = \left(\frac{\partial^2 \phi}{\partial \tau \delta}\right)_{\delta, \tau}`
+
+    This function can be used to estimate metastable properties using the equation of state beyond the saturation lines.
+    """
+
+    # Update thermodynamic state
+    AS = abstract_state
+    AS = CP.AbstractState(AS.backend_name(), AS.name())
+    AS.update(CP.DmassT_INPUTS, rho, T)
+
+    # Get fluid constant properties
+    R = AS.gas_constant()
+    M = AS.molar_mass()
+    T_crit = AS.T_critical()
+    rho_crit = AS.rhomass_critical()
+
+    # Compute reduced variables
+    tau = T_crit / T
+    delta = rho / rho_crit
+
+    # Compute from the Helmholtz energy derivatives
+    alpha = AS.alpha0() + AS.alphar()
+    dalpha_dTau = AS.dalpha0_dTau() + AS.dalphar_dTau()
+    dalpha_dDelta = AS.dalpha0_dDelta() + AS.dalphar_dDelta()
+    d2alpha_dTau2 = AS.d2alpha0_dTau2() + AS.d2alphar_dTau2()
+    d2alpha_dDelta2 = AS.d2alpha0_dDelta2() + AS.d2alphar_dDelta2()
+    d2alpha_dDelta_dTau = AS.d2alpha0_dDelta_dTau() + AS.d2alphar_dDelta_dTau()
+
+    # Compute thermodynamic properties from Helmholtz energy EOS
+    props = {}
+    props["T"] = T
+    props["p"] = (R / M) * T * rho * delta * dalpha_dDelta
+    props["rhomass"] = rho
+    props["umass"] = (R / M) * T * (tau * dalpha_dTau)
+    props["hmass"] = (R / M) * T * (tau * dalpha_dTau + delta * dalpha_dDelta)
+    props["smass"] = (R / M) * (tau * dalpha_dTau - alpha)
+    props["gibbsmass"] = (R / M) * T * (alpha + delta * dalpha_dDelta)
+    props["cvmass"] = (R / M) * (-(tau**2) * d2alpha_dTau2)
+    props["cpmass"] = (R / M) * (
+        -(tau**2) * d2alpha_dTau2
+        + (delta * dalpha_dDelta - delta * tau * d2alpha_dDelta_dTau) ** 2
+        / (2 * delta * dalpha_dDelta + delta**2 * d2alpha_dDelta2 + 1e-12)
+    )
+    props["gamma"] = props["cpmass"] / props["cvmass"]
+    props["compressibility_factor"] = delta * dalpha_dDelta
+    a_square = (R / M * T) * (
+        (2 * delta * dalpha_dDelta + delta**2 * d2alpha_dDelta2)
+        - (delta * dalpha_dDelta - delta * tau * d2alpha_dDelta_dTau) ** 2
+        / (tau**2 * d2alpha_dTau2)
+    )
+    props["speed_sound"] = np.sqrt(a_square) if a_square > 0 else np.nan
+    props["isentropic_bulk_modulus"] = (rho * R / M * T) * (
+        (2 * delta * dalpha_dDelta + delta**2 * d2alpha_dDelta2)
+        - (delta * dalpha_dDelta - delta * tau * d2alpha_dDelta_dTau) ** 2
+        / (tau**2 * d2alpha_dTau2)
+    )
+    props["isentropic_compressibility"] = 1 / props["isentropic_bulk_modulus"]
+    props["isothermal_bulk_modulus"] = (
+        R / M * T * rho * (2 * delta * dalpha_dDelta + delta**2 * d2alpha_dDelta2)
+    )
+    props["isothermal_compressibility"] = 1 / (
+        R
+        / M
+        * T
+        * rho
+        * (2 * delta * dalpha_dDelta + delta**2 * d2alpha_dDelta2 + 1e-12)
+    )
+    props["isobaric_expansion_coefficient"] = (
+        (1 / T)
+        * (delta * dalpha_dDelta - delta * tau * d2alpha_dDelta_dTau)
+        / (2 * delta * dalpha_dDelta + delta**2 * d2alpha_dDelta2 + 1e-12)
+    )
+    props["viscosity"] = AS.viscosity()
+    props["conductivity"] = AS.conductivity()
+
+    if supersaturation:
+        calculate_supersaturation(AS, props)
+
+    # Generalized quality outside the two-phase region
+    if generalize_quality:
+        props["Q"] = calculate_generalized_quality(AS)
+        props["quality_mass"] = props["Q"]
+        props["quality_volume"] = np.nan
+    else:
+        props["Q"] = np.nan
+        props["quality_mass"] = np.nan
+        props["quality_volume"] = np.nan
+
+    # Add properties as aliases
+    for key, value in PROPERTY_ALIAS.items():
+        props[key] = props[value]
+
+    return props
+
+
+# ------------------------------------------------------------------------------------ #
+# Flash calculations using CoolProp solver
+# ------------------------------------------------------------------------------------ #
+
+def compute_properties_coolprop(
+    abstract_state,
+    input_type,
+    prop_1,
+    prop_2,
+    generalize_quality=False,
+    supersaturation=False,
+):
+    r"""
+    Set the thermodynamic state of the fluid based on input properties.
+
+    This method updates the thermodynamic state of the fluid in the CoolProp ``abstractstate`` object
+    using the given input properties. It then calculates either single-phase or two-phase
+    properties based on the current phase of the fluid.
+
+    If the calculation of properties fails, `converged_flag` is set to False, indicating an issue with
+    the property calculation. Otherwise, it's set to True.
+
+    Aliases of the properties are also added to the ``Fluid.properties`` dictionary for convenience.
+
+    Parameters
+    ----------
+    input_type : int
+        The variable pair used to define the thermodynamic state. This should be one of the
+        predefined input pairs in CoolProp, such as ``PT_INPUTS`` for pressure and temperature.
+
+        The valid options for the argument 'input_type' are summarized below.
+
+                 .. list-table::
+                        :widths: 50 30
+                        :header-rows: 1
+
+                        * - Input pair name
+                          - Input pair mapping
+                        * - QT_INPUTS
+                          - 1
+                        * - PQ_INPUTS
+                          - 2
+                        * - QSmolar_INPUTS
+                          - 3
+                        * - QSmass_INPUTS
+                          - 4
+                        * - HmolarQ_INPUTS
+                          - 5
+                        * - HmassQ_INPUTS
+                          - 6
+                        * - DmolarQ_INPUTS
+                          - 7
+                        * - DmassQ_INPUTS
+                          - 8
+                        * - PT_INPUTS
+                          - 9
+                        * - DmassT_INPUTS
+                          - 10
+                        * - DmolarT_INPUTS
+                          - 11
+                        * - HmolarT_INPUTS
+                          - 12
+                        * - HmassT_INPUTS
+                          - 13
+                        * - SmolarT_INPUTS
+                          - 14
+                        * - SmassT_INPUTS
+                          - 15
+                        * - TUmolar_INPUTS
+                          - 16
+                        * - TUmass_INPUTS
+                          - 17
+                        * - DmassP_INPUTS
+                          - 18
+                        * - DmolarP_INPUTS
+                          - 19
+                        * - HmassP_INPUTS
+                          - 20
+                        * - HmolarP_INPUTS
+                          - 21
+                        * - PSmass_INPUTS
+                          - 22
+                        * - PSmolar_INPUTS
+                          - 23
+                        * - PUmass_INPUTS
+                          - 24
+                        * - PUmolar_INPUTS
+                          - 25
+                        * - HmassSmass_INPUTS
+                          - 26
+                        * - HmolarSmolar_INPUTS
+                          - 27
+                        * - SmassUmass_INPUTS
+                          - 28
+                        * - SmolarUmolar_INPUTS
+                          - 29
+                        * - DmassHmass_INPUTS
+                          - 30
+                        * - DmolarHmolar_INPUTS
+                          - 31
+                        * - DmassSmass_INPUTS
+                          - 32
+                        * - DmolarSmolar_INPUTS
+                          - 33
+                        * - DmassUmass_INPUTS
+                          - 34
+                        * - DmolarUmolar_INPUTS
+                          - 35
+
+    prop_1 : float
+        The first property value corresponding to the input type.
+    prop_2 : float
+        The second property value corresponding to the input type.
+
+
+    Returns
+    -------
+    dict
+        A dictionary object containing the fluid properties
+
+    """
+
+    # Update Coolprop thermodynamic state
+    abstract_state.update(input_type, prop_1, prop_2)
+
+    # Retrieve single-phase properties
+    if abstract_state.phase() != CP.iphase_twophase:
+        properties = compute_properties_1phase(
+            abstract_state,
+            generalize_quality=generalize_quality,
+            supersaturation=supersaturation,
+        )
+    else:
+        properties = compute_properties_2phase(
+            abstract_state,
+            supersaturation=supersaturation,
+        )
+
+    # Properties
+    return properties
+
+
+# ------------------------------------------------------------------------------------ #
+# Flash calculations using custom solver
+# ------------------------------------------------------------------------------------ #
+
+def compute_properties(
+    abstract_state,
+    prop_1,
+    prop_1_value,
+    prop_2,
+    prop_2_value,
+    calculation_type,
+    rhoT_guess_metastable=None,
+    rhoT_guess_equilibrium=None,
+    supersaturation=False,
+    generalize_quality=False,
+    blending_variable=None,
+    blending_onset=None,
+    blending_width=None,
+    initial_phase=None,
+    solver_algorithm="hybr",
+    solver_tolerance=1e-6,
+    solver_max_iterations=100,
+    print_convergence=False,
+):
+    r"""
+    .. _compute_properties:
+
+    Determine the thermodynamic state for the given fluid property pair by iterating on the 
+    density-temperature native inputs,
+
+    This function uses a non-linear root finder to determine the solution of the nonlinear system given by:
+
+    .. math::
+
+        R_1(\rho,\, T) = y_1 - y_1(\rho,\, T) = 0 \\
+        R_2(\rho,\, T) = y_2 - y_2(\rho,\, T) = 0
+
+    where :math:`(y_1,\, y_2)` is the given thermodynamic property pair (e.g., enthalpy and pressure),
+    while density and temperature :math:`(\rho,\, T)` are the independent variables that the solver 
+    iterates until the residual of the problem is driven to zero.
+     
+      
+    
+    TODO    The calculations :math:`y_1(\rho,\, T)` and
+    :math:`y_1(\rho,\, T)` are performed by [dependns on input]
+    
+    equilibrium calculations (coolprop)
+    evaluating the Helmholtz energy equation of state.
+    blending of both
+
+
+    Parameters
+    ----------
+    prop_1 : str
+        The the type of the first thermodynamic property.
+    prop_1_value : float
+        The the numerical value of the first thermodynamic property.
+    prop_2 : str
+        The the type of the second thermodynamic property.
+    prop_2_value : float
+        The the numerical value of the second thermodynamic property.
+    rho_guess : float
+        Initial guess for density
+    T_guess : float
+        Initial guess for temperature
+    calculation_type : str
+        The type of calculation to perform. Valid options are 'equilibrium', 'metastable', and 'blending'.
+    supersaturation : bool, optional
+        If True, calculates supersaturation variables. Defaults to False.
+    generalize_quality : bool, optional
+        If True, generalizes quality outside two-phase region. Defaults to False.
+    blending_variable : str, optional
+        The variable used for blending properties. Required if `calculation_type` is 'blending'.
+    blending_onset : float, optional
+        The onset value for blending. Required if `calculation_type` is 'blending'.
+    blending_width : float, optional
+        The width value for blending. Required if `calculation_type` is 'blending'.
+    solver_algorithm : str, optional
+        Method to be used for solving the nonlinear system. Defaults to 'hybr'.
+    solver_tolerance : float, optional
+        Tolerance for the solver termination. Defaults to 1e-6.
+    solver_max_iterations : integer, optional
+        Maximum number of iterations of the solver. Defaults to 100.
+    print_convergence : bool, optional
+        If True, displays the convergence progress. Defaults to False.
+
+    Returns
+    -------
+    dict       
+        Thermodynamic properties corresponding to the given input pair.
+    """
+
+    # Perform calculations according to specified type
+    if calculation_type == "equilibrium":
+        rho_guess, T_guess = np.asarray(rhoT_guess_equilibrium)
+        return _perform_flash_calculation(
+            abstract_state=abstract_state,
+            prop_1=prop_1,
+            prop_1_value=prop_1_value,
+            prop_2=prop_2,
+            prop_2_value=prop_2_value,
+            rho_guess=rho_guess,
+            T_guess=T_guess,
+            calculation_type="equilibrium",
+            supersaturation=supersaturation,
+            generalize_quality=generalize_quality,
+            solver_algorithm=solver_algorithm,
+            solver_tolerance=solver_tolerance,
+            solver_max_iterations=solver_max_iterations,
+            print_convergence=print_convergence,
+        )
+
+    elif calculation_type == "metastable":
+        rho_guess, T_guess = np.asarray(rhoT_guess_metastable)
+        return _perform_flash_calculation(
+            abstract_state=abstract_state,
+            prop_1=prop_1,
+            prop_1_value=prop_1_value,
+            prop_2=prop_2,
+            prop_2_value=prop_2_value,
+            rho_guess=rho_guess,
+            T_guess=T_guess,
+            calculation_type="metastable",
+            supersaturation=supersaturation,
+            generalize_quality=generalize_quality,
+            solver_algorithm=solver_algorithm,
+            solver_tolerance=solver_tolerance,
+            solver_max_iterations=solver_max_iterations,
+            print_convergence=print_convergence,
+        )
+
+    elif calculation_type == "blending":
+
+        if (blending_variable is None or blending_onset is None or blending_width is None):
+            raise ValueError("Blending requires blending_variable, blending_onset, and blending_width.")
+
+        # Equilibrium state
+        rho_guess, T_guess = np.asarray(rhoT_guess_equilibrium)
+        props_equilibrium =  _perform_flash_calculation(
+            abstract_state=abstract_state,
+            prop_1=prop_1,
+            prop_1_value=prop_1_value,
+            prop_2=prop_2,
+            prop_2_value=prop_2_value,
+            rho_guess=rho_guess,
+            T_guess=T_guess,
+            calculation_type="equilibrium",
+            supersaturation=supersaturation,
+            generalize_quality=generalize_quality,
+            solver_algorithm=solver_algorithm,
+            solver_tolerance=solver_tolerance,
+            solver_max_iterations=solver_max_iterations,
+            print_convergence=print_convergence,
+        )
+        
+        # If x < 0, only equilibrium properties are relevant
+        if initial_phase == "liquid":
+            x = 1 - (props_equilibrium[blending_variable] - blending_onset) / blending_width
+        elif initial_phase == "vapor":
+            x = 1 + (props_equilibrium[blending_variable] - blending_onset) / blending_width
+        else:
+            msg = f"Invalid value for initial_phase={initial_phase}. Valid values are: 'vapor' or 'liquid'"
+            raise ValueError(msg)
+        
+        # Skip matastable properties if inside the equilibrium range
+        if x < 0:
+            return props_equilibrium
+        
+        # Metastable properties
+        rho_guess, T_guess = np.asarray(rhoT_guess_metastable)
+        props_metastable = _perform_flash_calculation(
+            abstract_state=abstract_state,
+            prop_1=prop_1,
+            prop_1_value=prop_1_value,
+            prop_2=prop_2,
+            prop_2_value=prop_2_value,
+            rho_guess=rho_guess,
+            T_guess=T_guess,
+            calculation_type="metastable",
+            supersaturation=supersaturation,
+            generalize_quality=generalize_quality,
+            solver_algorithm=solver_algorithm,
+            solver_tolerance=solver_tolerance,
+            solver_max_iterations=solver_max_iterations,
+            print_convergence=print_convergence,
+        )
+
+        # Blend properties
+        sigma = math.sigmoid_smoothstep(x)
+        blended_props = {}
+        for key in props_equilibrium.keys():
+            prop_equilibrium = props_equilibrium.get(key, np.nan)
+            prop_metastable = props_metastable.get(key, np.nan)
+            blended_props[key] = prop_equilibrium * (1 - sigma) + prop_metastable * sigma
+        return blended_props
+
+
+    raise ValueError(f"Unknown calculation type: {calculation_type}")
+
+
+# Helper functions
+def _perform_flash_calculation(
+    abstract_state,
+    prop_1,
+    prop_1_value,
+    prop_2,
+    prop_2_value,
+    rho_guess,
+    T_guess,
+    calculation_type,
+    supersaturation,
+    generalize_quality,
+    solver_algorithm,
+    solver_tolerance,
+    solver_max_iterations,
+    print_convergence,
+):
+    
+    # Ensure prop_1_value and prop_2_value are scalar numbers
+    if not utils.is_float(prop_1_value) or not utils.is_float(prop_2_value):
+        msg = f"Both prop_1_value and prop_2_value must be scalar numbers. Received: prop_1_value={prop_1_value}, prop_2_value={prop_2_value}"
+        raise ValueError(msg)
+
+    # Validate initial guesses for rho and T
+    if not utils.is_float(rho_guess) or not utils.is_float(T_guess):
+        msg = f"A valid initial guess must be provided for density and temperature. Received: rho_guess={rho_guess}, T_guess={T_guess}."
+        raise ValueError(msg)
+
+    # Define problem (find root of temperature-density residual)
+    if calculation_type == "equilibrium":
+        function_handle = lambda rho, T: compute_properties_coolprop(
+            abstract_state=abstract_state,
+            input_type=CP.DmassT_INPUTS,
+            prop_1=rho,
+            prop_2=T,
+            generalize_quality=generalize_quality,
+            supersaturation=supersaturation
+        )
+    elif calculation_type == "metastable":
+        function_handle = lambda rho, T: compute_properties_metastable_rhoT(
+            abstract_state=abstract_state,
+            rho=rho,
+            T=T,
+            supersaturation=supersaturation
+        )
+    else:
+        msg = f"Invalid calculation type '{calculation_type}'. Valid options are: 'equilibrium' and 'metastable'"
+        raise ValueError(msg)
+
+    # Define the problem (find root of temperature-density residual)
+    problem = _FlashCalculationResidual(
+        prop_1=prop_1,
+        prop_1_value=prop_1_value,
+        prop_2=prop_2,
+        prop_2_value=prop_2_value,
+        function_handle=function_handle
+    )
+
+    # Define root-finding solver object
+    solver = psv.NonlinearSystemSolver(
+        problem,
+        method=solver_algorithm,
+        tolerance=solver_tolerance,
+        max_iterations=solver_max_iterations,
+        print_convergence=print_convergence,
+        update_on="function",
+    )
+
+    # Define initial guess and solve the problem
+    x0 = np.asarray([rho_guess, T_guess])
+    rho, T = solver.solve(x0)
+
+    # Check if solver converged
+    if not solver.success:
+        msg = f"Property calculation did not converge.\n{solver.message}"
+        raise ValueError(msg)
+
+    return problem.compute_properties(rho, T)
+
+
+class _FlashCalculationResidual(psv.NonlinearSystemProblem):
+    """Class to compute the residual of property calculations"""
+
+    def __init__(
+        self,
+        prop_1,
+        prop_1_value,
+        prop_2,
+        prop_2_value,
+        function_handle
+    ):
+        self.prop_1 = prop_1
+        self.prop_2 = prop_2
+        self.prop_1_value = prop_1_value
+        self.prop_2_value = prop_2_value
+        self.compute_properties = function_handle
+
+    def residual(self, x):
+        # Ensure x can be indexed and contains exactly two elements
+        if not hasattr(x, "__getitem__") or len(x) != 2:
+            msg = f"Input x={x} must be a list, tuple or numpy array containing exactly two elements: density and temperature."
+            raise ValueError(msg)
+
+        # Compute properties
+        rho, T = x
+        props = self.compute_properties(rho, T)
+
+        # Compute residual
+        res_1 = 1 - props[self.prop_1] / self.prop_1_value
+        res_2 = 1 - props[self.prop_2] / self.prop_2_value
+        return np.asarray([res_1, res_2])
+
+
+# def _blend_properties(props_equilibrium, props_metastable, blending_variable, blending_onset, blending_width):
+#     """Compute properties between equilibrium and metastable states as a smooth blending"""
+#     x = 1 + (props_equilibrium[blending_variable] - blending_onset) / blending_width
+#     sigma = math.sigmoid_smoothstep(x)
+#     blended_props = {}
+#     for key in props_equilibrium.keys():
+#         prop_equilibrium = props_equilibrium.get(key, np.nan)
+#         prop_metastable = props_metastable.get(key, np.nan)
+#         blended_props[key] = prop_equilibrium * (1 - sigma) + prop_metastable * sigma
+    # return blended_props
+
+
+# ------------------------------------------------------------------------------------ #
+# Additional property calculations
+# ------------------------------------------------------------------------------------ #
 
 def calculate_generalized_quality(abstract_state, alpha=10):
     r"""
@@ -281,7 +921,7 @@ def calculate_generalized_quality(abstract_state, alpha=10):
     quality = math.smooth_minimum(quality, +2, method="logsumexp", alpha=alpha)
     quality = math.smooth_maximum(quality, -1, method="logsumexp", alpha=alpha)
 
-    return quality
+    return quality.item()
 
 
 def calculate_superheating(abstract_state):
@@ -475,494 +1115,67 @@ def calculate_subcooling(abstract_state):
     return subcooling
 
 
-# ------------------------------------------------------------------------------------ #
-# Metastable property calculations using Helmholtz equations of state
-# ------------------------------------------------------------------------------------ #
-def compute_properties_metastable(
-    abstract_state,
-    prop_1,
-    prop_1_value,
-    prop_2,
-    prop_2_value,
-    rho_guess,
-    T_guess,
-    solver_algorithm="hybr",
-    tolerance=1e-6,
-    print_convergence=False,
-):
+def calculate_supersaturation(abstract_state, props):
     r"""
-    Determine the thermodynamic state for the given fluid property pair by iterating on the 
-    density-temperature native inputs of the Helmholtz energy equations of state.
+    Evaluate degree of supersaturation and supersaturation ratio.
 
-    This function uses a non-linear root finder to determine the solution of the nonlinear system given by:
+    The supersaturation degree is defined as the actual temperature minus the saturation temperature at the corresponding pressure:
 
     .. math::
+        \Delta T = T - T_{\text{sat}}(p)
 
-        R_1(\rho,\, T) = y_1 - y_1(\rho,\, T) = 0 \\
-        R_2(\rho,\, T) = y_2 - y_2(\rho,\, T) = 0
+    The supersaturation ratio is defined as the actual pressure divided by the saturation pressure at the corresponding temperature:
 
-    where :math:`(y_1,\, y_2)` is the given thermodynamic property pair (e.g., enthalpy and pressure),
-    while density and temperature :math:`(\rho,\, T)` are the independent variables that the solver 
-    iterates until the residual of the problem is driven to zero. The calculations :math:`y_1(\rho,\, T)` and
-    :math:`y_1(\rho,\, T)` are performed by evaluating the Helmholtz energy equation of state.
+    .. math::
+        S = \frac{p}{p_{\text{sat}}(T)}
 
-    See Also
-    --------
-    :func:`compute_properties_metastable_rhoT` : Evaluation of Helmholtz energy equation of state.
+    The metastable liquid and metastable vapor regions are illustrated in the pressure-temperature diagram.
+    In the metastable liquid region, :math:`\Delta T > 0` and :math:`S < 1`, indicating that the liquid temperature
+    is higher than the equilibrium temperature and will tend to evaporate. Conversely, in the metastable vapor region,
+    :math:`\Delta T < 0` and :math:`S > 1`, indicating that the vapor temperature is lower than the equilibrium temperature
+    and will tend to condense.
 
-    Parameters
-    ----------
-    prop_1 : str
-        The the type of the first thermodynamic property.
-    prop_1_value : float
-        The the numerical value of the first thermodynamic property.
-    prop_2 : str
-        The the type of the second thermodynamic property.
-    prop_2_value : float
-        The the numerical value of the second thermodynamic property.
-    rho_guess : float
-        Initial guess for density
-    T_guess : float
-        Initial guess for temperature
-    method : str, optional
-        Method to be used for solving the nonlinear system. Available solvers are:
-
-        - :code:`hybr`:  Uses MINPACK's 'hybrd' method, which is is a modification of Powell's hybrid method (default).
-        - :code:`lm`: The Levenberg-Marquardt method, which blends the steepest descent and the Gauss-Newton methods.
-
-    tolerance : float, optional
-        Tolerance for the solver termination. Defaults to 1e-6.
-    print_convergence : bool, optional
-        If True, displays the convergence progress. Defaults to False.
-
-    Returns
-    -------
-    dict       
-        Thermodynamic properties corresponding to the given input pair.
-    """
-
-    # Define problem (find root of temperature-entropy residual)
-    AS = abstract_state
-    problem = _HelmholtzFlashCalculation(prop_1, prop_1_value, prop_2, prop_2_value, AS)
-
-    # Define root-finding solver object
-    solver = psv.NonlinearSystemSolver(
-        problem,
-        method=solver_algorithm,
-        tolerance=tolerance,
-        max_iterations=100,
-        print_convergence=print_convergence,
-        update_on="function",
-    )
-
-    # Define initial guess and solve the problem
-    x0 = np.asarray([rho_guess, T_guess])
-    rho, T = solver.solve(x0)
-    props = compute_properties_metastable_rhoT(AS, rho, T)
-
-    # Check if solver converged
-    if not solver.success:
-        raise ValueError(
-            f"Metastable property calculation did not converge.\n{solver.message}"
-        )
-
-    return props
+    .. image:: /_static/metastable_regions_CO2.svg
+        :alt: Pressure-density diagram and spinodal points for carbon dioxide.
 
 
-def compute_properties_metastable_rhoT(abstract_state, rho, T):
-    r"""
-    Compute the thermodynamic properties of a fluid using temperature-density calls to the Helmholtz energy equation of state (HEOS).
+    .. note::
+
+        Supersaturation properties are only computed for subcritical pressures and temperatures.
+        If the fluid is in the supercritical region, the function will return NaN for the supersaturation properties.
+
 
     Parameters
     ----------
     abstract_state : CoolProp.AbstractState
         The abstract state of the fluid for which the properties are to be calculated.
-    rho : float
-        Density of the fluid (kg/m³).
-    T : float
-        Temperature of the fluid (K).
+    props : dict
+        Dictionary to store the computed properties.
 
     Returns
     -------
     dict
-        Thermodynamic properties computed at the given density and temperature.
-
-    Notes
-    -----
-    The Helmholtz energy equation of state (HEOS) expresses the Helmholtz energy as an explicit function
-    of temperature and density:
-
-    .. math::
-        \Phi = \Phi(\rho, T)
-
-    In dimensionless form, the Helmholtz energy is given by:
-
-    .. math::
-        \phi(\delta, \tau) = \frac{\Phi(\delta, \tau)}{R T}
-
-    where:
-
-    - :math:`\phi` is the dimensionless Helmholtz energy
-    - :math:`R` is the gas constant of the fluid
-    - :math:`\delta = \rho / \rho_c` is the reduced density
-    - :math:`\tau = T_c / T` is the inverse of the reduced temperature
-
-    Thermodynamic properties can be derived from the Helmholtz energy and its partial derivatives.
-    The following table summarizes the expressions for various properties:
-
-    .. list-table:: Helmholtz energy thermodynamic relations
-        :widths: 30 70
-        :header-rows: 1
-
-        * - Property name
-          - Mathematical relation
-        * - Pressure
-          - .. math:: Z = \frac{p}{\rho R T} = \delta \cdot \phi_{\delta}
-        * - Entropy
-          - .. math:: \frac{s}{R} = \tau \cdot \phi_{\tau} - \phi
-        * - Internal energy
-          - .. math:: \frac{u}{R T} = \tau \cdot \phi_{\tau}
-        * - Enthalpy
-          - .. math:: \frac{h}{R T} = \tau \cdot \phi_{\tau} + \delta \cdot \phi_{\delta}
-        * - Isochoric heat capacity
-          - .. math:: \frac{c_v}{R} = -\tau^2 \cdot \phi_{\tau \tau}
-        * - Isobaric heat capacity
-          - .. math:: \frac{c_p}{R} = -\tau^2 \cdot \phi_{\tau \tau} + \frac{(\delta \cdot \phi_{\delta} - \tau \cdot \delta \cdot \phi_{\tau \delta})^2}{2 \cdot \delta \cdot \phi_{\delta} + \delta^2 \cdot \phi_{\delta \delta}}
-        * - Isobaric expansivity
-          - .. math:: \alpha \cdot T = \frac{\delta \cdot \phi_{\delta} - \tau \cdot \delta \cdot \phi_{\tau \delta}}{2 \cdot \delta \cdot \phi_{\delta} + \delta^2 \cdot \phi_{\delta \delta}}
-        * - Isothermal compressibility
-          - .. math:: \rho R T \beta = \left(2 \cdot \delta \cdot \phi_{\delta} + \delta^2 \cdot \phi_{\delta \delta} \right)^{-1}
-        * - Isothermal bulk modulus
-          - .. math:: \frac{K_T}{\rho R T} = 2 \cdot \delta \cdot \phi_{\delta} + \delta^2 \cdot \phi_{\delta \delta}
-        * - Isentropic bulk modulus
-          - .. math:: \frac{K_s}{\rho R T} = 2 \cdot \delta \cdot \phi_{\delta} + \delta^2 \ \cdot \phi_{\delta \delta} - \frac{(\delta \cdot \phi_{\delta} - \tau \cdot \delta \cdot \phi_{\tau \delta})^2}{\tau^2 \cdot \phi_{\tau \tau}}
-        * - Joule-Thompson coefficient
-          - .. math:: \rho R \mu_{\mathrm{JT}} = - \frac{\delta \cdot \phi_{\delta} + \tau \cdot \delta \cdot \phi_{\tau \delta} + \delta^2 \cdot \phi_{\delta \delta}}{(\delta \cdot \phi_{\delta} - \tau \cdot \delta \cdot \phi_{\tau \delta})^2 - \tau^2 \cdot \phi_{\tau \tau} \cdot (2 \cdot \delta \cdot \phi_{\delta} + \delta^2 \cdot \phi_{\delta \delta})}
-
-    Where the following abbreviations are used:
-
-    - :math:`\phi_{\delta} = \left(\frac{\partial \phi}{\partial \delta}\right)_{\tau}`
-    - :math:`\phi_{\tau} = \left(\frac{\partial \phi}{\partial \tau}\right)_{\delta}`
-    - :math:`\phi_{\delta \delta} = \left(\frac{\partial^2 \phi}{\partial \delta^2}\right)_{\tau, \tau}`
-    - :math:`\phi_{\tau \tau} = \left(\frac{\partial^2 \phi}{\partial \tau^2}\right)_{\delta, \delta}`
-    - :math:`\phi_{\tau \delta} = \left(\frac{\partial^2 \phi}{\partial \tau \delta}\right)_{\delta, \tau}`
-
-    This function can be used to estimate metastable properties using the equation of state beyond the saturation lines.
-    """
-
-    # Update thermodynamic state
-    AS = abstract_state
-    AS = CP.AbstractState(AS.backend_name(), AS.name())
-    AS.update(CP.DmassT_INPUTS, rho, T)
-
-    # Get fluid constant properties
-    R = AS.gas_constant()
-    M = AS.molar_mass()
-    T_crit = AS.T_critical()
-    rho_crit = AS.rhomass_critical()
-
-    # Compute reduced variables
-    tau = T_crit / T
-    delta = rho / rho_crit
-
-    # Compute from the Helmholtz energy derivatives
-    alpha = AS.alpha0() + AS.alphar()
-    dalpha_dTau = AS.dalpha0_dTau() + AS.dalphar_dTau()
-    dalpha_dDelta = AS.dalpha0_dDelta() + AS.dalphar_dDelta()
-    d2alpha_dTau2 = AS.d2alpha0_dTau2() + AS.d2alphar_dTau2()
-    d2alpha_dDelta2 = AS.d2alpha0_dDelta2() + AS.d2alphar_dDelta2()
-    d2alpha_dDelta_dTau = AS.d2alpha0_dDelta_dTau() + AS.d2alphar_dDelta_dTau()
-
-    # Compute thermodynamic properties from Helmholtz energy EOS
-    props = {}
-    props["T"] = T
-    props["p"] = (R / M) * T * rho * delta * dalpha_dDelta
-    props["rhomass"] = rho
-    props["umass"] = (R / M) * T * (tau * dalpha_dTau)
-    props["hmass"] = (R / M) * T * (tau * dalpha_dTau + delta * dalpha_dDelta)
-    props["smass"] = (R / M) * (tau * dalpha_dTau - alpha)
-    props["gibbsmass"] = (R / M) * T * (alpha + delta * dalpha_dDelta)
-    props["cvmass"] = (R / M) * (-(tau**2) * d2alpha_dTau2)
-    props["cpmass"] = (R / M) * (
-        -(tau**2) * d2alpha_dTau2
-        + (delta * dalpha_dDelta - delta * tau * d2alpha_dDelta_dTau) ** 2
-        / (2 * delta * dalpha_dDelta + delta**2 * d2alpha_dDelta2)
-    )
-    props["gamma"] = props["cpmass"] / props["cvmass"]
-    props["compressibility_factor"] = delta * dalpha_dDelta
-    a_square = (R / M * T) * (
-        (2 * delta * dalpha_dDelta + delta**2 * d2alpha_dDelta2)
-        - (delta * dalpha_dDelta - delta * tau * d2alpha_dDelta_dTau) ** 2
-        / (tau**2 * d2alpha_dTau2)
-    )
-    props["speed_sound"] = np.sqrt(a_square) if a_square > 0 else np.nan
-    props["isentropic_bulk_modulus"] = (rho * R / M * T) * (
-        (2 * delta * dalpha_dDelta + delta**2 * d2alpha_dDelta2)
-        - (delta * dalpha_dDelta - delta * tau * d2alpha_dDelta_dTau) ** 2
-        / (tau**2 * d2alpha_dTau2)
-    )
-    props["isentropic_compressibility"] = 1 / props["isentropic_bulk_modulus"]
-    props["isothermal_bulk_modulus"] = (
-        R / M * T * rho * (2 * delta * dalpha_dDelta + delta**2 * d2alpha_dDelta2)
-    )
-    props["isothermal_compressibility"] = 1 / (
-        R / M * T * rho * (2 * delta * dalpha_dDelta + delta**2 * d2alpha_dDelta2)
-    )
-    props["isobaric_expansion_coefficient"] = (
-        (1 / T)
-        * (delta * dalpha_dDelta - delta * tau * d2alpha_dDelta_dTau)
-        / (2 * delta * dalpha_dDelta + delta**2 * d2alpha_dDelta2)
-    )
-    props["viscosity"] = AS.viscosity()
-    props["conductivity"] = AS.conductivity()
-    props["Q"] = np.nan
-    props["quality_mass"] = np.nan
-    props["quality_volume"] = np.nan
-
-    # Add properties as aliases
-    for key, value in PROPERTY_ALIAS.items():
-        props[key] = props[value]
-
-    return props
-
-
-class _HelmholtzFlashCalculation(psv.NonlinearSystemProblem):
-    """Auxiliary class for property evaluations using Helmholtz energy EoS"""
-
-    def __init__(self, prop_1, prop_1_value, prop_2, prop_2_value, AS):
-        self.prop_1 = prop_1
-        self.prop_2 = prop_2
-        self.prop_1_value = prop_1_value
-        self.prop_2_value = prop_2_value
-        self.AS = AS
-
-    def residual(self, x):
-        """
-        Compute the residuals for the given density and temperature.
-
-        Parameters
-        ----------
-        x : list
-            List containing the values for density and temperature.
-
-        Returns
-        -------
-        np.ndarray
-            Array containing residuals (difference) for the two properties.
-        """
-        # Ensure x can be indexed and contains exactly two elements
-        if not hasattr(x, "__getitem__") or len(x) != 2:
-            msg = f"Input x={x} must be a list, tuple or numpy array containing exactly two elements: density and temperature."
-            raise ValueError(msg)
-        rho, T = x
-        state = compute_properties_metastable_rhoT(self.AS, rho, T)
-        res_1 = 1 - state[self.prop_1] / self.prop_1_value
-        res_2 = 1 - state[self.prop_2] / self.prop_2_value
-        return np.asarray([res_1, res_2])
-
-
-# ------------------------------------------------------------------------------------ #
-# Spinodal point calculations
-# ------------------------------------------------------------------------------------ #
-
-
-def compute_spinodal_point(
-    T,
-    abstract_state,
-    branch,
-    rho_guess=None,
-    N_trial=50,
-    tolerance=1e-6,
-    print_convergence=False,
-):
-    r"""
-    Compute the vapor or liquid spinodal point of a fluid at a given temperature.
-
-    Parameters
-    ----------
-    T : float
-        Temperature of the fluid (K).
-    abstract_state : CoolProp.AbstractState
-        The abstract state of the fluid for which the spinodal point is to be calculated.
-    branch : str
-        Branch of the spinodal line used to determine the density initial guess.
-        Options: 'liquid' or 'vapor'.
-    rho_guess : float, optional
-        Initial guess for the density. If provided, this value will be used directly.
-        If not provided, the density initial guess will be generated based on a number of trial points.
-    N_trial : int, optional
-        Number of trial points to generate the density initial guess. Default is 50.
-    tolerance : float, optional
-        Tolerance for the solver termination. Defaults to 1e-6.
-    print_convergence : bool, optional
-        If True, displays the convergence progress. Defaults to False.
-
-    Returns
-    -------
-    dict
-        Thermodynamic properties at the spinodal point.
-
-    Raises
-    ------
-    ValueError
-        If the input temperature is higher than the critical temperature or lower than
-        the triple temperature.
-
-    Notes
-    ------
-    When a single-phase fluid undergoes a thermodynamic process and enters the two-phase region it
-    can exist in a single-phase state that is different from the equilibrium two-phase state.
-    Such states are know as metastable states and they are only possible in the thermodynamic
-    region between the saturation lines and the spinodal lines. If the thermodynamic process
-    continues and crosses the spinodal lines metastable states become unstable and the transition
-    to two-distinct phase occurs rapidly. Therefore, the spinodal line represents the locus of points
-    that separates the region where a mixture is thermodynamically unstable and prone to phase separation
-    from the region where metastable states are physically possible.
-
-    In mathematical terms, the spinodal line is defined as the loci of thermodynamic states in which the isothermal bulk modulus of the fluid is zero:
-
-    .. math::
-
-        K_T = \rho \left( \frac{\partial p}{\partial \rho} \right)_T = 0
-
-    More precisely, a vapor spinodal point is the first local maximum of a isotherm line in a pressure-density diagram as the density increases.
-    Conversely, a liquid spinodal point is the first local minimum of a isotherm line in a pressure-density diagram as the density decreases.
-    The spinodal lines and phase envelope of carbon dioxide according to the HEOS developed by :cite:`span_new_1996` are illustrated in the figure below
-
-    .. image:: /_static/spinodal_points_CO2.svg
-        :alt: Pressure-density diagram and spinodal points for carbon dioxide.
-
-
-    Some equations of state are not well-posed and do not satisfy the condition :math:`K_T=0` within the two-phase region.
-    This is exemplified by the nitrogen HEOS developed by :cite:`span_reference_2000`.
-
-    .. image:: /_static/spinodal_points_nitrogen.svg
-        :alt: Pressure-density diagram and "pseudo" spinodal points for carbon dioxide.
-
-    As seen in the figure, this HEOS is not well-posed because there are isotherms that do not have a local minimum/maximum corresponding to a state with zero isothermal bulk modulus.
-    In such cases, this function returns the inflection point of the isotherms (corresponding to the point closest to zero bulk modulus) as the spinodal point.
+        Thermodynamic properties including supersaturation properties
 
     """
+    # Compute triple pressure
+    AS = CP.AbstractState(abstract_state.backend_name(), abstract_state.name())
+    AS.update(CP.QT_INPUTS, 1.00, AS.Ttriple())
+    p_triple = AS.p()
 
-    # Instantiate new abstract state to compute saturation properties without changing the state of the class
-    AS = abstract_state
-    AS = CP.AbstractState(AS.backend_name(), AS.name())
+    # Compute supersaturation for subcritical states
+    if AS.Ttriple() < props["T"] < AS.T_critical():
+        AS.update(CP.QT_INPUTS, 0.00, props["T"])
+        props["p_saturation"] = AS.p()
+        props["supersaturation_ratio"] = props["p"] / AS.p()
+    else:
+        props["p_saturation"] = np.nan
+        props["supersaturation_ratio"] = np.nan
 
-    # Check that the inlet temperature is lower than the critical temperature
-    T_critical = AS.T_critical()
-    if T >= T_critical:
-        msg = f"T={T:.3f}K must be less than T_critical={AS.T_critical:.3f}K"
-        raise ValueError(msg)
-
-    # Check that the inlet temperature is greater than the triple temperature
-    T_triple = AS.Ttriple()
-    if T < T_triple:
-        msg = f"T={T:.3f}K must be greater than T_triple={T_triple:.3f}K"
-        raise ValueError(msg)
-
-    # Create spinodal point optimization problem
-    problem = _SpinodalPointProblem(T, abstract_state, branch)
-
-    # Create solver object
-    solver = psv.OptimizationSolver(
-        problem=problem,
-        library="scipy",  
-        method="bfgs", # "l-bfgs-b", "slsqp" "bfgs"
-        tolerance=tolerance,
-        print_convergence=print_convergence,
-    )
-
-    # Generate initial guess if not provided
-    if rho_guess is None:
-        rho_guess = problem.generate_density_guess(N_trial)
-
-    # Solve the problem using the provided or generated initial guess
-    rho_opt = solver.solve(rho_guess).item()
-    props = compute_properties_metastable_rhoT(AS, rho_opt, T)
-
-    # I tried different combinations of solvers and initial guesses
-    # SLSQP is very fast, but also very aggresive and can lead to unpredictable results
-    # BFGS is reliable when the initial guess is good
-    # Achieving a good initial guess is possible by:
-    #  1. Using previous point in the spinodal line and having high resolution on the spinodal line
-    #  2. Generating an initial guess for each point with the initial guess strategy
-    # Option 2. seems the most reliable, and even if the computational cost can be a bit hight
-    # it seems to be the most effective way to get accurate spinodal lines.
-
-    return props
-
-
-class _SpinodalPointProblem(psv.OptimizationProblem):
-    """Auxiliary class for the determination of the liquid and vapor spinodal points"""
-
-    def __init__(self, T, abstract_state, branch):
-
-        # Declare class attributes
-        self.T = T
-        self.branch = branch
-        self.abstract_state = abstract_state
-
-        # Compute saturation liquid density (used to determine initial guess)
-        self.abstract_state.update(CP.QT_INPUTS, 0.00, self.T)
-        self.rho_liq = self.abstract_state.rhomass()
-
-        # Calculate saturation vapor density (used to determine initial guess)
-        self.abstract_state.update(CP.QT_INPUTS, 1.00, self.T)
-        self.rho_vap = self.abstract_state.rhomass()
-
-        # Caclulate the critical density (used to determine initial guess)
-        self.rho_crit = self.abstract_state.rhomass_critical()
-
-    def generate_density_guess(self, N):
-        """Generate a density initial guess that is close to the first local minima of the absolute value of the bulk modulus"""
-
-        # Generate candidate densities between saturation and the critical value
-        if self.branch == "liquid":
-            rho_array = np.linspace(self.rho_liq, self.rho_crit, N)
-        elif self.branch == "vapor":
-            rho_array = np.linspace(self.rho_vap, self.rho_crit, N)
-        else:
-            msg = f"Invalid value for parameter branch={self.branch}. Options: 'liquid' or 'vapor'"
-            raise ValueError(msg)
-
-        # Evaluate residual vector at trial densities
-        residual = np.abs([self.fitness(rho) for rho in rho_array])
-
-        # Return the first local minima in the residual vector
-        for i in range(1, N - 1):
-            if residual[i - 1] > residual[i] < residual[i + 1]:
-                self.rho_guess = rho_array[i + 1]
-                return self.rho_guess
-
-    def fitness(self, rho):
-        """
-        Compute the objective function of the optimization problem: the absolute value of the isothermal bulk modulus.
-
-        This function uses the absolute value of residual to solve an optimization problem
-        rather than a non-linear equation having the bulk modulus as residual. This approach
-        is adopted because some fluids (e.g., nitrogen) have ill-posed EoS that not have a well-defined
-        spinodal points where the isothermal bulk modulus is zero.
-
-        Not a good idea to scale the bulk modulus by pressure because it can take negative values or zero when evaluated with the HEOS.
-        """
-        props = compute_properties_metastable_rhoT(self.abstract_state, rho, self.T)
-        return np.atleast_1d(np.abs(props["isothermal_bulk_modulus"]))
-
-    def get_bounds(self):
-        """Compute the bounds of the optimization problem."""
-        # if self.branch == "liquid":
-        #     return [(self.rho_crit,), (self.rho_liq,)]
-        # elif self.branch == "vapor":
-        #     return [(self.rho_vap,), (self.rho_crit,)]
-        # else:
-        #     raise ValueError(f"Invalid value for branch={self.branch}")
-        return None
-    
-    def get_nec(self):
-        return 0
-
-    def get_nic(self):
-        return 0
-
-
-
+    if p_triple < props["p"] < AS.p_critical():
+        AS.update(CP.PQ_INPUTS, props["p"], 0.00)
+        props["T_saturation"] = AS.T()
+        props["supersaturation_degree"] = props["T"] - AS.T()
+    else:
+        props["T_saturation"] = np.nan
+        props["supersaturation_degree"] = np.nan
