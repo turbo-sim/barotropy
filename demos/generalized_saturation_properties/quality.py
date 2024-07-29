@@ -15,10 +15,7 @@ if not os.path.exists(fig_dir):
 # Create fluid
 fluid = bpy.Fluid(
     name="CO2",
-    exceptions=True,
-    generalize_quality=True,
-    compute_subcooling=True,
-    compute_superheating=True,
+    exceptions=True
 )
 
 
@@ -44,7 +41,7 @@ s_array = np.linspace(s1 + delta_s / 8, s2 + delta_s / 16, 100)
 
 # Subcritical cases
 p_array = np.asarray([0.5, 0.6, 0.7, 0.8, 0.9, 0.99]) * fluid.critical_point.p
-states = bpy.compute_property_grid(fluid, bpy.PSmass_INPUTS, p_array, s_array)
+states = bpy.compute_property_grid(fluid, bpy.PSmass_INPUTS, p_array, s_array, generalize_quality=True)
 colormap = cm.magma(np.linspace(0.1, 0.7, len(p_array)))
 for i in range(states[prop_x].shape[-1]):
     ax1.plot(
@@ -62,7 +59,7 @@ for i in range(states[prop_x].shape[-1]):
 
 # Supercritical cases
 p_array = np.asarray([1.01, 1.2, 1.4, 1.6, 1.8, 2.0]) * fluid.critical_point.p
-states = bpy.compute_property_grid(fluid, bpy.PSmass_INPUTS, p_array, s_array)
+states = bpy.compute_property_grid(fluid, bpy.PSmass_INPUTS, p_array, s_array, generalize_quality=True)
 colormap = cm.magma(np.linspace(0.7, 0.1, len(p_array)))
 for i in range(states[prop_x].shape[-1]):
     ax1.plot(
@@ -130,7 +127,7 @@ s_array = np.linspace(s1 + delta_s / 8, s2 + delta_s / 16, 100)
 # Subcritical cases
 T_array = np.asarray([0.75, 0.8, 0.85, 0.9, 0.95, 0.99]) * fluid.critical_point.T
 colormap = cm.magma(np.linspace(0.1, 0.7, len(T_array)))
-states = bpy.compute_property_grid(fluid, bpy.SmassT_INPUTS, s_array, T_array)
+states = bpy.compute_property_grid(fluid, bpy.SmassT_INPUTS, s_array, T_array, generalize_quality=True)
 for i in range(states[prop_x].shape[0]):
     ax1.plot(
         states[prop_x][i, :],
@@ -148,7 +145,7 @@ for i in range(states[prop_x].shape[0]):
 # Supercritical cases
 T_array = np.asarray([1.01, 1.1, 1.2, 1.3, 1.4, 1.5]) * fluid.critical_point.T
 colormap = cm.magma(np.linspace(0.7, 0.1, len(p_array)))
-states = bpy.compute_property_grid(fluid, bpy.SmassT_INPUTS, s_array, T_array)
+states = bpy.compute_property_grid(fluid, bpy.SmassT_INPUTS, s_array, T_array, generalize_quality=True)
 for i in range(states[prop_x].shape[0]):
     ax1.plot(
         states[prop_x][i, :],
@@ -201,7 +198,7 @@ T_array = np.linspace(0.75, 1.5, 101) * fluid.critical_point.T
 # Liquid-like cases
 s_array = np.asarray([0.7, 0.8, 0.9, 0.99]) * fluid.critical_point.s
 colormap = cm.magma(np.linspace(0.1, 0.7, len(s_array)))
-states = bpy.compute_property_grid(fluid, bpy.SmassT_INPUTS, s_array, T_array)
+states = bpy.compute_property_grid(fluid, bpy.SmassT_INPUTS, s_array, T_array, generalize_quality=True)
 for i in range(states[prop_x].shape[1]):
     ax1.plot(
         states[prop_x][:, i],
@@ -219,7 +216,7 @@ for i in range(states[prop_x].shape[1]):
 # Gas-like cases
 s_array = np.asarray([1.01, 1.1, 1.2, 1.3]) * fluid.critical_point.s
 colormap = cm.magma(np.linspace(0.7, 0.1, len(s_array)))
-states = bpy.compute_property_grid(fluid, bpy.SmassT_INPUTS, s_array, T_array)
+states = bpy.compute_property_grid(fluid, bpy.SmassT_INPUTS, s_array, T_array, generalize_quality=True)
 for i in range(states[prop_x].shape[1]):
     ax1.plot(
         states[prop_x][:, i],

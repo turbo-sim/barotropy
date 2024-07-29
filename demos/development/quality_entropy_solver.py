@@ -28,7 +28,7 @@ ax = fluid.plot_phase_diagram("s", "T", plot_quality_isolines=True)
 # Iterate over the arrays of pressures and qualities
 for p, Q in zip(pressures, qualities):
     # Set state based on current pressure and quality
-    state_1 = fluid.set_state(props.PQ_INPUTS, p, Q)
+    state_1 = fluid.get_state(props.PQ_INPUTS, p, Q)
     state_2 = props.set_state_Qs(fluid, Q, state_1.s)
     
     # Plot state
