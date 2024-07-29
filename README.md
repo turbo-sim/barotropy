@@ -1,5 +1,12 @@
 # Barotropic Model 
 
+
+
+
+TODO: add detailed documentation about the blending computations in the low level interface
+
+
+
 [Documentation hosted here](https://turbo-sim.github.io/barotropy/)
 
 ## Description

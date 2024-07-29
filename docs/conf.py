@@ -6,8 +6,8 @@ sys.path.insert(0, os.path.abspath(".."))
 
 # Define project metadata
 project = "barotropy"
-copyright = "2023, Sustainable Thermal Power DTU"
-author = "Roberto Agromayor"
+copyright = "2024, Sustainable Thermal Power DTU"
+author = "Roberto Agromayor, Simone Parisi, Amit Kumar, Fredrik Haglind"
 release = "v0.0.2"
 
 # Define extensions
@@ -36,6 +36,7 @@ bibtex_reference_style = "author_year"
 # Exclude unnecessary files
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 exclude_patterns.extend(["source/PySolverView.rst"])
+exclude_patterns.extend(["source/api/modules.rst"])
 
 
 # Define theme
