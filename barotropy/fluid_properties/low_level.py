@@ -11,6 +11,7 @@ from .. import pysolver_view as psv
 PROPERTY_ALIAS = {
     "P": "p",
     "rho": "rhomass",
+    "density": "rhomass",
     "d": "rhomass",
     "u": "umass",
     "h": "hmass",
@@ -21,12 +22,22 @@ PROPERTY_ALIAS = {
     "Z": "compressibility_factor",
     "mu": "viscosity",
     "k": "conductivity",
+    "vapor_quality": "quality_mass",
+    "void_fraction": "quality_volume",
 }
 
+# Define valid phase change types and their aliases
+PHASE_CHANGE_ALIASES = {
+    "condensation": "condensation",
+    "evaporation": "evaporation",
+    "flashing": "evaporation",
+    "cavitation": "evaporation",
+}
 
 # ------------------------------------------------------------------------------------ #
 # Equilibrium property calculations in the single-phase region
 # ------------------------------------------------------------------------------------ #
+
 
 def compute_properties_1phase(
     abstract_state,
@@ -63,7 +74,7 @@ def compute_properties_1phase(
     if generalize_quality:
         props["Q"] = calculate_generalized_quality(AS)
         props["quality_mass"] = props["Q"]
-        props["quality_volume"] = np.nan
+        props["quality_volume"] = 1.00 if props["Q"] >= 1 else 0.00
     else:
         props["Q"] = np.nan
         props["quality_mass"] = np.nan
@@ -85,6 +96,7 @@ def compute_properties_1phase(
 # ------------------------------------------------------------------------------------ #
 # Equilibrium property calculations in the two-phase region
 # ------------------------------------------------------------------------------------ #
+
 
 def compute_properties_2phase(abstract_state, supersaturation=False):
     """Compute two-phase fluid properties from CoolProp abstract state
@@ -200,8 +212,9 @@ def compute_properties_2phase(abstract_state, supersaturation=False):
 
 
 # ------------------------------------------------------------------------------------ #
-# Metastable property calculations using Helmholtz equations of state
+# Property calculations using Helmholtz equations of state
 # ------------------------------------------------------------------------------------ #
+
 
 def compute_properties_metastable_rhoT(
     abstract_state, rho, T, supersaturation=False, generalize_quality=False
@@ -379,8 +392,9 @@ def compute_properties_metastable_rhoT(
 
 
 # ------------------------------------------------------------------------------------ #
-# Flash calculations using CoolProp solver
+# Property calculations using CoolProp solver
 # ------------------------------------------------------------------------------------ #
+
 
 def compute_properties_coolprop(
     abstract_state,
@@ -521,8 +535,9 @@ def compute_properties_coolprop(
 
 
 # ------------------------------------------------------------------------------------ #
-# Flash calculations using custom solver
+# Property calculations using custom solver
 # ------------------------------------------------------------------------------------ #
+
 
 def compute_properties(
     abstract_state,
@@ -533,12 +548,12 @@ def compute_properties(
     calculation_type,
     rhoT_guess_metastable=None,
     rhoT_guess_equilibrium=None,
-    supersaturation=False,
-    generalize_quality=False,
+    phase_change=None,
     blending_variable=None,
     blending_onset=None,
     blending_width=None,
-    initial_phase=None,
+    supersaturation=False,
+    generalize_quality=False,
     solver_algorithm="hybr",
     solver_tolerance=1e-6,
     solver_max_iterations=100,
@@ -653,12 +668,24 @@ def compute_properties(
 
     elif calculation_type == "blending":
 
-        if (blending_variable is None or blending_onset is None or blending_width is None):
-            raise ValueError("Blending requires blending_variable, blending_onset, and blending_width.")
+        if (
+            phase_change is None
+            or blending_variable is None
+            or blending_onset is None
+            or blending_width is None
+        ):
+            msg = (
+                f"The following variables must be specified when calculation_type='{calculation_type}':\n"
+                f"   1. phase_change: {phase_change}\n"
+                f"   2. blending_variable: {blending_variable}\n"
+                f"   3. blending_onset: {blending_onset}\n"
+                f"   4. blending_width: {blending_width}\n"
+            )
+            raise ValueError(msg)
 
         # Equilibrium state
         rho_guess, T_guess = np.asarray(rhoT_guess_equilibrium)
-        props_equilibrium =  _perform_flash_calculation(
+        props_eq = _perform_flash_calculation(
             abstract_state=abstract_state,
             prop_1=prop_1,
             prop_1_value=prop_1_value,
@@ -674,23 +701,10 @@ def compute_properties(
             solver_max_iterations=solver_max_iterations,
             print_convergence=print_convergence,
         )
-        
-        # If x < 0, only equilibrium properties are relevant
-        if initial_phase == "liquid":
-            x = 1 - (props_equilibrium[blending_variable] - blending_onset) / blending_width
-        elif initial_phase == "vapor":
-            x = 1 + (props_equilibrium[blending_variable] - blending_onset) / blending_width
-        else:
-            msg = f"Invalid value for initial_phase={initial_phase}. Valid values are: 'vapor' or 'liquid'"
-            raise ValueError(msg)
-        
-        # Skip matastable properties if inside the equilibrium range
-        if x < 0:
-            return props_equilibrium
-        
+
         # Metastable properties
         rho_guess, T_guess = np.asarray(rhoT_guess_metastable)
-        props_metastable = _perform_flash_calculation(
+        props_meta = _perform_flash_calculation(
             abstract_state=abstract_state,
             prop_1=prop_1,
             prop_1_value=prop_1_value,
@@ -700,22 +714,25 @@ def compute_properties(
             T_guess=T_guess,
             calculation_type="metastable",
             supersaturation=supersaturation,
-            generalize_quality=generalize_quality,
+            generalize_quality=False,
             solver_algorithm=solver_algorithm,
             solver_tolerance=solver_tolerance,
             solver_max_iterations=solver_max_iterations,
             print_convergence=print_convergence,
         )
+        props_meta["Q"] = 1.00 if phase_change == "condensation" else 0.00
 
         # Blend properties
-        sigma = math.sigmoid_smoothstep(x)
-        blended_props = {}
-        for key in props_equilibrium.keys():
-            prop_equilibrium = props_equilibrium.get(key, np.nan)
-            prop_metastable = props_metastable.get(key, np.nan)
-            blended_props[key] = prop_equilibrium * (1 - sigma) + prop_metastable * sigma
-        return blended_props
+        props_blended = blend_properties(
+            phase_change=phase_change,
+            props_equilibrium=props_eq,
+            props_metastable=props_meta,
+            blending_variable=blending_variable,
+            blending_onset=blending_onset,
+            blending_width=blending_width,
+        )
 
+        return props_blended, props_eq, props_meta
 
     raise ValueError(f"Unknown calculation type: {calculation_type}")
 
@@ -737,7 +754,7 @@ def _perform_flash_calculation(
     solver_max_iterations,
     print_convergence,
 ):
-    
+
     # Ensure prop_1_value and prop_2_value are scalar numbers
     if not utils.is_float(prop_1_value) or not utils.is_float(prop_2_value):
         msg = f"Both prop_1_value and prop_2_value must be scalar numbers. Received: prop_1_value={prop_1_value}, prop_2_value={prop_2_value}"
@@ -756,14 +773,15 @@ def _perform_flash_calculation(
             prop_1=rho,
             prop_2=T,
             generalize_quality=generalize_quality,
-            supersaturation=supersaturation
+            supersaturation=supersaturation,
         )
     elif calculation_type == "metastable":
         function_handle = lambda rho, T: compute_properties_metastable_rhoT(
             abstract_state=abstract_state,
             rho=rho,
             T=T,
-            supersaturation=supersaturation
+            generalize_quality=generalize_quality,
+            supersaturation=supersaturation,
         )
     else:
         msg = f"Invalid calculation type '{calculation_type}'. Valid options are: 'equilibrium' and 'metastable'"
@@ -775,7 +793,7 @@ def _perform_flash_calculation(
         prop_1_value=prop_1_value,
         prop_2=prop_2,
         prop_2_value=prop_2_value,
-        function_handle=function_handle
+        function_handle=function_handle,
     )
 
     # Define root-finding solver object
@@ -794,7 +812,7 @@ def _perform_flash_calculation(
 
     # Check if solver converged
     if not solver.success:
-        msg = f"Property calculation did not converge.\n{solver.message}"
+        msg = f"Property calculation did not converge for calculation_type={calculation_type}.\n{solver.message}"
         raise ValueError(msg)
 
     return problem.compute_properties(rho, T)
@@ -803,14 +821,7 @@ def _perform_flash_calculation(
 class _FlashCalculationResidual(psv.NonlinearSystemProblem):
     """Class to compute the residual of property calculations"""
 
-    def __init__(
-        self,
-        prop_1,
-        prop_1_value,
-        prop_2,
-        prop_2_value,
-        function_handle
-    ):
+    def __init__(self, prop_1, prop_1_value, prop_2, prop_2_value, function_handle):
         self.prop_1 = prop_1
         self.prop_2 = prop_2
         self.prop_1_value = prop_1_value
@@ -833,21 +844,76 @@ class _FlashCalculationResidual(psv.NonlinearSystemProblem):
         return np.asarray([res_1, res_2])
 
 
-# def _blend_properties(props_equilibrium, props_metastable, blending_variable, blending_onset, blending_width):
-#     """Compute properties between equilibrium and metastable states as a smooth blending"""
-#     x = 1 + (props_equilibrium[blending_variable] - blending_onset) / blending_width
-#     sigma = math.sigmoid_smoothstep(x)
-#     blended_props = {}
-#     for key in props_equilibrium.keys():
-#         prop_equilibrium = props_equilibrium.get(key, np.nan)
-#         prop_metastable = props_metastable.get(key, np.nan)
-#         blended_props[key] = prop_equilibrium * (1 - sigma) + prop_metastable * sigma
-    # return blended_props
+def blend_properties(
+    phase_change,
+    props_equilibrium,
+    props_metastable,
+    blending_variable,
+    blending_onset,
+    blending_width,
+):
+    """
+    Calculate blending between equilibrum and metastable fluid properties
+
+    Parameters
+    ----------
+    phase_change : str
+        The type of phase change (e.g., 'condensation', 'evaporation', 'flashing', 'cavitation'). Cavitation, flashing, and evaporation do the same calculations, they are aliases added for convenience.
+    props_equilibrium : dict
+        The equilibrium properties.
+    props_metastable : dict
+        The metastable properties.
+    blending_variable : str
+        The variable used for blending.
+    blending_onset : float
+        The onset value for blending.
+    blending_width : float
+        The width value for blending.
+
+    Returns
+    -------
+    dict
+        Blended thermodynamic properties.
+    """
+
+    # Map aliases to their respective phase change
+    normalized_phase_change = PHASE_CHANGE_ALIASES.get(phase_change)
+
+    # Validate the normalized phase change
+    if normalized_phase_change is None:
+        msg = (
+            f"Invalid value for phase_change='{phase_change}'. "
+            f"Valid values are: {', '.join(PHASE_CHANGE_ALIASES.keys())}."
+        )
+        raise ValueError(msg)
+
+    # Calculate the value of "x" based on the normalized phase change
+    if normalized_phase_change == "condensation":
+        x = 1 + (props_equilibrium[blending_variable] - blending_onset) / blending_width
+    elif normalized_phase_change == "evaporation":
+        x = 1 - (props_equilibrium[blending_variable] - blending_onset) / blending_width
+
+    # Calculate the blending factor sigma
+    sigma = math.sigmoid_smootherstep(x)
+
+    # Blend properties
+    props_blended = {}
+    for key in props_equilibrium.keys():
+        prop_equilibrium = props_equilibrium.get(key, np.nan)
+        prop_metastable = props_metastable.get(key, np.nan)
+        props_blended[key] = prop_equilibrium * (1 - sigma) + prop_metastable * sigma
+
+    # Add additional properties
+    props_blended["x"] = x
+    props_blended["sigma"] = sigma
+
+    return props_blended
 
 
 # ------------------------------------------------------------------------------------ #
 # Additional property calculations
 # ------------------------------------------------------------------------------------ #
+
 
 def calculate_generalized_quality(abstract_state, alpha=10):
     r"""
