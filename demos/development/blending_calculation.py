@@ -13,130 +13,99 @@ if not os.path.exists(fig_dir):
     os.makedirs(fig_dir)
 
 
-# State calculation using coolprop
-fluid = bpy.Fluid(name="CO2", backend="HEOS")
-
+# Define fluid
+fluid = bpy.Fluid(name="water", backend="HEOS")
 
 # Create figure
-fig, ax = plt.subplots(figsize=(6.0, 5.0))
-ax.set_xlabel("Entropy (J/kg/K)")
-ax.set_ylabel("Temperature (K)")
-prop_x = "s"
-prop_y = "T"
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(18.0, 5.0), gridspec_kw={"wspace": 0.25})
+ax1.set_xlabel("Entropy (J/kg/K)")
+ax1.set_ylabel("Temperature (K)")
+ax2.set_xlabel("Pressure (Pa)")
+ax2.set_ylabel("Density (kg/m$^3$)")
+ax3.set_xlabel("Pressure (Pa)")
+ax3.set_ylabel("Vapor quality (-)")
+prop_x1, prop_y1 = "s","T"
+prop_x2, prop_y2 = "p", "rho"
+prop_x3, prop_y3 = "p", "Q"
 
-
-fig1, ax1 = plt.subplots(figsize=(6.0, 5.0))
-ax1.set_xlabel("Pressure")
-ax1.set_ylabel("Density")
-prop_x2 = "p"
-prop_y2 = "rho"
 
 # Plot phase diagram
 fluid.plot_phase_diagram(
-    prop_x,
-    prop_y,
-    axes=ax,
+    prop_x1,
+    prop_y1,
+    axes=ax1,
     plot_critical_point=True,
-    plot_quality_isolines=False,
+    plot_quality_isolines=True,
     plot_pseudocritical_line=False,
-    # plot_spinodal_line=True
+    # plot_spinodal_line=True,
 )
 
-
-# Compute subcooled inlet state
-p_in, dT_subcooling = 60e5, 5
-
-
-
+# Define inlet state
+p_in, dT_subcooling = 60e5, 2
+# p_in, dT_subcooling = 60e5, -2
 props_in = bpy.compute_properties_coolprop(fluid._AS, bpy.PQ_INPUTS, p_in, 0)
 props_in = bpy.compute_properties_coolprop(
-    fluid._AS, bpy.PT_INPUTS, p_in, props_in["T"] - dT_subcooling
+    fluid.abstract_state,
+    bpy.PT_INPUTS,
+    p_in,
+    props_in["T"] - dT_subcooling,
 )
 
+# Define phase change process
+if props_in["s"] > fluid.critical_point.s:
+    phase_change = "condensation"
+    Q_onset = 0.99
+    Q_width = 0.01
+else:
+    phase_change = "evaporation"
+    Q_onset = 0.01
+    Q_width = 0.01
 
-s_in = props_in["s"]
+# Define initial guess
+rhoT_guess_metastable = [props_in["rho"], props_in["T"]]
+rhoT_guess_equilibrium = [props_in["rho"], props_in["T"]]
 
-p = np.linspace(p_in, p_in/2, 50)
+# Loop over different exit pressures
+p = np.linspace(p_in, p_in / 1.3, 50)
 for i, p_out in enumerate(p):
 
-
-    props_out = bpy.compute_properties_coolprop(fluid._AS, bpy.PSmass_INPUTS, p_out, s_in)
-
-
-    print(i, p_out)
-
-
-
-    rho_guess1=props_in["rho"]
-    T_guess1=props_in["T"]
-
-    rhoT_guess_metastable = [rho_guess1, T_guess1]
-    
-    
-    rho_guess=props_out["rho"]
-    T_guess=props_out["T"]
-    rhoT_guess_equilibrium = [rho_guess, T_guess]
-    
-    
-    props_out = bpy.compute_properties(
+    # Compute properties
+    props_blend, props_eq, props_meta = bpy.compute_properties(
         fluid._AS,
         prop_1="p",
         prop_1_value=p_out,
         prop_2="s",
-        prop_2_value=s_in,
-        rhoT_guess_equilibrium=rhoT_guess_equilibrium,
-        calculation_type="equilibrium",
-        print_convergence=False,
-    )
-
-
-    props_meta = bpy.compute_properties(
-        fluid._AS,
-        prop_1="p",
-        prop_1_value=p_out,
-        prop_2="s",
-        prop_2_value=s_in,
-        rhoT_guess_metastable=rhoT_guess_metastable,
-        calculation_type="metastable",
-        print_convergence=True,
-    )
-
-
-    props_blend = bpy.compute_properties(
-        fluid._AS,
-        prop_1="p",
-        prop_1_value=p_out,
-        prop_2="s",
-        prop_2_value=s_in,
+        prop_2_value=props_in["s"],
         rhoT_guess_equilibrium=rhoT_guess_equilibrium,
         rhoT_guess_metastable=rhoT_guess_metastable,
         calculation_type="blending",
+        phase_change=phase_change,
         blending_variable="Q",
-        blending_onset=0.00,
-        blending_width=0.15,
-        initial_phase="liquid",
+        blending_onset=Q_onset,
+        blending_width=Q_width,
         generalize_quality=True,
         supersaturation=True,
         print_convergence=False,
+        solver_algorithm="lm",
     )
 
+    # Update initial guess
+    rhoT_guess_metastable = [props_meta["rho"], props_meta["T"]]
+    rhoT_guess_equilibrium = [props_eq["rho"], props_eq["T"]]
 
-    ax.plot(props_in[prop_x], props_in[prop_y], marker="o", label="in")
-    ax.plot(props_out[prop_x], props_out[prop_y], marker="o", label="eq")
-    # ax.plot(props_meta[prop_x], props_meta[prop_y], marker="o", label="meta")
-    ax.plot(props_blend[prop_x], props_blend[prop_y], marker="+", label="blend")
+    # Make plots
+    ax1.plot(props_eq[prop_x1], props_eq[prop_y1], marker="o", color=colors[0])
+    ax1.plot(props_meta[prop_x1], props_meta[prop_y1], marker="o", color=colors[1])
+    ax1.plot(props_blend[prop_x1], props_blend[prop_y1], marker="o", color=colors[3])
+
+    ax2.plot(props_eq[prop_x2], props_eq[prop_y2], marker="o", color=colors[0])
+    ax2.plot(props_meta[prop_x2], props_meta[prop_y2], marker="o", color=colors[1])
+    ax2.plot(props_blend[prop_x2], props_blend[prop_y2], marker="o", color=colors[3])
+    
+    ax3.plot(props_eq[prop_x3], props_eq[prop_y3], marker="o", color=colors[0])
+    ax3.plot(props_meta[prop_x3], props_meta[prop_y3], marker="o", color=colors[1])
+    ax3.plot(props_blend[prop_x3], props_blend[prop_y3], marker="o", color=colors[3])
 
 
-    # ax.legend(loc="upper left")
-
-    print(props_out["Q"])
-
-    ax1.plot(props_in[prop_x2], props_in[prop_y2], marker="o", color="red")
-    ax1.plot(props_out[prop_x2], props_out[prop_y2], marker="o", color="blue")
-    ax1.plot(props_meta[prop_x2], props_meta[prop_y2], marker="o", color="green")
-    ax1.plot(props_blend[prop_x2], props_blend[prop_y2], marker="+", color="black")
-
-
-
-
+# Show figure
 plt.show()
