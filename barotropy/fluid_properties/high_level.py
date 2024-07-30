@@ -155,6 +155,7 @@ class Fluid:
         self.name = name
         self.backend = backend
         self._AS = CP.AbstractState(backend, name)
+        self.abstract_state = self._AS
         self.exceptions = exceptions
         self.converged_flag = False
         self._properties = {}
@@ -383,7 +384,7 @@ class Fluid:
             documentation of the function :ref:`compute_properties <compute_properties>`.
 
         """
-        self._properties = props.compute_properties(
+        blended, equilibrium, metastable = props.compute_properties(
             self._AS,
             prop_1=prop_1,
             prop_1_value=prop_1_value,
@@ -395,7 +396,7 @@ class Fluid:
             blending_variable=blending_variable,
             blending_onset=blending_onset,
             blending_width=blending_width,
-            initial_phase=initial_phase,
+            phase_change=initial_phase,
             supersaturation=supersaturation,
             generalize_quality=generalize_quality,
             solver_algorithm=solver_algorithm,
@@ -403,7 +404,12 @@ class Fluid:
             solver_max_iterations=solver_max_iterations,
             print_convergence=print_convergence,
         )
-        return FluidState(self._properties, self.name)
+
+        return (
+            FluidState(blended, self.name),
+            FluidState(equilibrium, self.name),
+            FluidState(metastable, self.name),
+        )
 
     def get_property(self, propname):
         """Get the value of a single property"""
@@ -802,12 +808,12 @@ def compute_saturation_line(fluid, N=100):
         state_vapor = fluid.get_state(CP.QT_INPUTS, 1.00, T)
         for name in state_liquid.keys():
             if name not in saturation_liq:
-                saturation_liq[name] = [fluid.critical_point[name]]  
+                saturation_liq[name] = [fluid.critical_point[name]]
             saturation_liq[name].append(state_liquid[name])
 
         for name in state_vapor.keys():
             if name not in saturation_vap:
-                saturation_vap[name] = [fluid.critical_point[name]] 
+                saturation_vap[name] = [fluid.critical_point[name]]
             saturation_vap[name].append(state_vapor[name])
 
     # # Reverse the liquid properties for easy concatenation
@@ -1371,7 +1377,9 @@ class _SpinodalPointProblem(psv.OptimizationProblem):
 
         Not a good idea to scale the bulk modulus by pressure because it can take negative values or zero when evaluated with the HEOS.
         """
-        state = self.fluid.get_state_metastable("rho", rho, "T", self.T, supersaturation=self.supersaturation)
+        state = self.fluid.get_state_metastable(
+            "rho", rho, "T", self.T, supersaturation=self.supersaturation
+        )
         return np.atleast_1d(np.abs(state["isothermal_bulk_modulus"])) / 1e6
 
     def get_bounds(self):
