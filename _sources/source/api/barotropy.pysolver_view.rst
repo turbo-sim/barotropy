@@ -1,4 +1,4 @@
-barotropy.pysolver\_view package
+PySolverView
 ================================
 
 .. automodule:: barotropy.pysolver_view
@@ -10,7 +10,7 @@ Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 1
 
    barotropy.pysolver_view.nonlinear_system
    barotropy.pysolver_view.nonlinear_system_problems
