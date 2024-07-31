@@ -7,7 +7,9 @@ from numpy.polynomial import Polynomial
 from scipy.integrate import solve_ivp
 from scipy.integrate._ivp.ivp import METHODS as ODE_METHODS
 
+
 from . import graphics
+from . import utilities as utils
 from . import pysolver_view as psv
 from . import fluid_properties as props
 
@@ -551,56 +553,10 @@ def barotropic_model_one_fluid(
         raise Exception(ode_sol.message)
 
     # Postprocess solution
-    states = postprocess_ode(ode_sol.t, ode_sol.y, odefun)
+    states = utils.postprocess_ode(ode_sol.t, ode_sol.y, odefun)
 
     return states, ode_sol
 
-
-def postprocess_ode(t, y, ode_handle):
-    """
-    Post-processes the output of an ordinary differential equation (ODE) solver.
-
-    This function takes the time points and corresponding ODE solution matrix,
-    and for each time point, it calls a user-defined ODE handling function to
-    process the state of the ODE system. It collects the results into a
-    dictionary where each key corresponds to a state variable and the values
-    are numpy arrays of that state variable at each integration step
-
-    Parameters
-    ----------
-    t : array_like
-        Integration points at which the ODE was solved, as a 1D numpy array.
-    y : array_like
-        The solution of the ODE system, as a 2D numpy array with shape (n,m) where
-        n is the number of points and m is the number of state variables.
-    ode_handle : callable
-        A function that takes in a integration point and state vector and returns a tuple,
-        where the first element is ignored (can be None) and the second element
-        is a dictionary representing the processed state of the system.
-
-    Returns
-    -------
-    ode_out : dict
-        A dictionary where each key corresponds to a state variable and each value
-        is a numpy array containing the values of that state variable at each integration step.
-    """
-    # Initialize ode_out as a dictionary
-    ode_out = {}
-    for t_i, y_i in zip(t, y.T):
-        _, out = ode_handle(t_i, y_i)
-
-        for key, value in out.items():
-            # Initialize with an empty list
-            if key not in ode_out:
-                ode_out[key] = []
-            # Append the value to list of current key
-            ode_out[key].append(value)
-
-    # Convert lists to numpy arrays
-    for key in ode_out:
-        ode_out[key] = np.array(ode_out[key])
-
-    return ode_out
 
 
 def _ensure_data_available(method):

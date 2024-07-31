@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-from . import fluid_properties as props
+from .fluid_properties import fluid_interface as props
 
 from typing import Dict, Tuple
 
