@@ -62,64 +62,64 @@ for i, (idx, row) in enumerate(case_table.iterrows()):
     model.fit_polynomials()
     model.export_expressions_fluent(output_dir=dir_out)
     model.export_expressions_cfx(output_dir=dir_out)
-    # for var in model.poly_fitter.variables:
-    #     model.poly_fitter.plot_polynomial_and_error(var=var, savefig=True, showfig=False)
+    for var in model.poly_fitter.variables:
+        model.poly_fitter.plot_polynomial_and_error(var=var, savefig=True, showfig=False)
 
-#     # Create figure for plotting
-#     if i == 0:
-#         # Plot phase diagram
-#         fluid = bpy.Fluid(name=fluid_name, backend="HEOS", exceptions=True)
-#         fig, (ax_1, ax_2) = plt.subplots(
-#             1, 2, figsize=(12.0, 5.0), gridspec_kw={"wspace": 0.25}
-#         )
-#         ax_1.set_xlabel("Entropy (J/kg/K)")
-#         ax_1.set_ylabel("Temperature (K)")
-#         # s_min, s_max = 1.3, 1.7
-#         # T_min, T_max = 25, 35
-#         # ax.set_xlim([s_min, s_max])
-#         # ax.set_ylim([T_min, T_max])
-#         ax_1 = fluid.plot_phase_diagram(
-#             var_x,
-#             var_y,
-#             axes=ax_1,
-#             plot_critical_point=True,
-#             plot_saturation_line=True,
-#             plot_spinodal_line=True,
-#             plot_quality_isolines=True,
-#             N=50,
-#         )
+    # Create figure for plotting
+    if i == 0:
+        # Plot phase diagram
+        fluid = bpy.Fluid(name=fluid_name, backend="HEOS", exceptions=True)
+        fig, (ax_1, ax_2) = plt.subplots(
+            1, 2, figsize=(12.0, 5.0), gridspec_kw={"wspace": 0.25}
+        )
+        ax_1.set_xlabel("Entropy (J/kg/K)")
+        ax_1.set_ylabel("Temperature (K)")
+        # s_min, s_max = 1.3, 1.7
+        # T_min, T_max = 25, 35
+        # ax.set_xlim([s_min, s_max])
+        # ax.set_ylim([T_min, T_max])
+        ax_1 = fluid.plot_phase_diagram(
+            var_x,
+            var_y,
+            axes=ax_1,
+            plot_critical_point=True,
+            plot_saturation_line=True,
+            plot_spinodal_line=True,
+            plot_quality_isolines=True,
+            N=50,
+        )
 
-#     ax_1.plot(
-#         model.states[var_x],
-#         model.states[var_y],
-#         # linewidth=1.0,
-#         # marker="o",
-#         # markersize=3,
-#         color=color,
-#         linewidth=1.25,
-#         label=rf"$q_\text{{onset}}={row['q_onset']:0.2f}$, {row['calculation_type']}",
-#     )
+    ax_1.plot(
+        model.states[var_x],
+        model.states[var_y],
+        # linewidth=1.0,
+        # marker="o",
+        # markersize=3,
+        color=color,
+        linewidth=1.25,
+        label=rf"$q_\text{{onset}}={row['q_onset']:0.2f}$, {row['calculation_type']}",
+    )
 
-#     ax_2.plot(
-#         model.states["p"],
-#         model.states["rho"],
-#         # linewidth=1.0,
-#         marker="o",
-#         markersize=3,
-#         color=color,
-#         label=rf"$q_\text{{onset}}={row['q_onset']:0.2f}$, {row['calculation_type']}",
-#     )
+    ax_2.plot(
+        model.states["p"],
+        model.states["rho"],
+        # linewidth=1.0,
+        marker="o",
+        markersize=3,
+        color=color,
+        label=rf"$q_\text{{onset}}={row['q_onset']:0.2f}$, {row['calculation_type']}",
+    )
 
-# # Add legend
-# ax_1.legend(loc="lower right")
-# ax_2.legend(loc="lower right")
-# # bpy.scale_graphics_x(fig, +1e-3, mode="multiply")
-# # bpy.scale_graphics_y(fig, -273.15, mode="add")
+# Add legend
+ax_1.legend(loc="lower right")
+ax_2.legend(loc="lower right")
+# bpy.scale_graphics_x(fig, +1e-3, mode="multiply")
+# bpy.scale_graphics_y(fig, -273.15, mode="add")
 
-# # Save figures
-# if save_figures:
-#     file_path = os.path.join(DIR_OUT, f"barotropic_model_{var_x}_{var_y}_diagram")
-#     bpy.savefig_in_formats(fig, file_path)
+# Save figures
+if save_figures:
+    file_path = os.path.join(DIR_OUT, f"barotropic_model_{var_x}_{var_y}_diagram")
+    bpy.savefig_in_formats(fig, file_path)
 
-# # Show figure
-# plt.show()
+# Show figure
+plt.show()
