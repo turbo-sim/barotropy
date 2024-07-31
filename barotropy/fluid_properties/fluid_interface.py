@@ -5,8 +5,8 @@ import CoolProp.CoolProp as CP
 
 from functools import wraps
 
-from . import low_level as props
-from .. import utilities as utils
+from . import core_calculations as props
+# from .. import utilities as utils
 from .. import pysolver_view as psv
 
 MEANLINE_PROPERTIES = [
@@ -105,7 +105,6 @@ def _generate_coolprop_input_table():
     inputs_table += "   :header-rows: 1\n\n"
     inputs_table += "   * - Input pair name\n"
     inputs_table += "     - Input pair mapping\n"
-    from .high_level import INPUT_PAIRS
     for name, value in INPUT_PAIRS:
         inputs_table += f"   * - {name}\n"
         inputs_table += f"     - {value}\n"
