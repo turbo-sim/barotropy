@@ -1,7 +1,7 @@
-Low level
+Core calculations
 =============================================
 
-.. automodule:: barotropy.fluid_properties.low_level
+.. automodule:: barotropy.fluid_properties.core_calculations
    :members:
    :undoc-members:
    :show-inheritance:
