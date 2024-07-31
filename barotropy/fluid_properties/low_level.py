@@ -1,9 +1,8 @@
-import scipy
 import numpy as np
 import CoolProp.CoolProp as CP
 
-from . import utilities as utils
 from .. import math as math
+from .. import utilities as utils
 from .. import pysolver_view as psv
 
 

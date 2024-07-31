@@ -31,7 +31,7 @@ def is_float(element: any) -> bool:
         float(element)
         return True
     except ValueError:
-        return False
+        return False    
 
 def is_numeric(value):
     """
