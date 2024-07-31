@@ -22,25 +22,6 @@ For detailed information and examples, visit the [documentation page](https://tu
 
 
 
-## Getting started
-
-Install ``barotropy`` using ``pip`` within the activated virtual environment:
-
-``` bash
-pip install barotropy
-```
-
-
-Verify the installation by running the following command in your terminal:
-
-``` python
-python -c "import barotropy; barotropy.print_package_info()"
-
-```
-
-Check the [documentation page](https://turbo-sim.github.io/barotropy/) and and the [tutorials](https://turbo-sim.github.io/barotropy/source/tutorials.html) get started with the code!
- 
-
 ## License
 The code in this repository is licensed under the terms of the MIT license. See the [license file](LICENSE.md) for more information.
 
