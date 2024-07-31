@@ -12,5 +12,5 @@ Submodules
 .. toctree::
    :maxdepth: 1
 
-   barotropy.fluid_properties.high_level
-   barotropy.fluid_properties.low_level
+   barotropy.fluid_properties.fluid_interface
+   barotropy.fluid_properties.core_calculations

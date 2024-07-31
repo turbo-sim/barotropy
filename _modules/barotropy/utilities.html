@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>barotropy.utilities &#8212; barotropy v0.0.2 documentation</title>
+    <title>barotropy.utilities &#8212; barotropy v0.0.3 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=84270531"></script>
+    <script src="../../_static/documentation_options.js?v=3fdb872c"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>let toggleHintShow = 'Click to show';</script>
@@ -140,7 +140,7 @@
   
   
   
-    <p class="title logo__title">barotropy v0.0.2 documentation</p>
+    <p class="title logo__title">barotropy v0.0.3 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -172,8 +172,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.graphics.html">Graphic functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.utilities.html">Utility functions</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../source/api/barotropy.fluid_properties.html">Fluid properties</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.fluid_properties.high_level.html">High level</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.fluid_properties.low_level.html">Low level</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.fluid_properties.fluid_interface.html">Fluid interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.fluid_properties.core_calculations.html">Core calculations</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../source/api/barotropy.pysolver_view.html">PySolverView</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -1128,6 +1128,57 @@ document.write(`
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Method: </span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Attribute: </span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+
+
+<div class="viewcode-block" id="postprocess_ode">
+<a class="viewcode-back" href="../../source/api/barotropy.utilities.html#barotropy.utilities.postprocess_ode">[docs]</a>
+<span class="k">def</span> <span class="nf">postprocess_ode</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ode_handle</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Post-processes the output of an ordinary differential equation (ODE) solver.</span>
+
+<span class="sd">    This function takes the time points and corresponding ODE solution matrix,</span>
+<span class="sd">    and for each time point, it calls a user-defined ODE handling function to</span>
+<span class="sd">    process the state of the ODE system. It collects the results into a</span>
+<span class="sd">    dictionary where each key corresponds to a state variable and the values</span>
+<span class="sd">    are numpy arrays of that state variable at each integration step</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    t : array_like</span>
+<span class="sd">        Integration points at which the ODE was solved, as a 1D numpy array.</span>
+<span class="sd">    y : array_like</span>
+<span class="sd">        The solution of the ODE system, as a 2D numpy array with shape (n,m) where</span>
+<span class="sd">        n is the number of points and m is the number of state variables.</span>
+<span class="sd">    ode_handle : callable</span>
+<span class="sd">        A function that takes in a integration point and state vector and returns a tuple,</span>
+<span class="sd">        where the first element is ignored (can be None) and the second element</span>
+<span class="sd">        is a dictionary representing the processed state of the system.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ode_out : dict</span>
+<span class="sd">        A dictionary where each key corresponds to a state variable and each value</span>
+<span class="sd">        is a numpy array containing the values of that state variable at each integration step.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Initialize ode_out as a dictionary</span>
+    <span class="n">ode_out</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">t_i</span><span class="p">,</span> <span class="n">y_i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">):</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">ode_handle</span><span class="p">(</span><span class="n">t_i</span><span class="p">,</span> <span class="n">y_i</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">out</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># Initialize with an empty list</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ode_out</span><span class="p">:</span>
+                <span class="n">ode_out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="c1"># Append the value to list of current key</span>
+            <span class="n">ode_out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="c1"># Convert lists to numpy arrays</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">ode_out</span><span class="p">:</span>
+        <span class="n">ode_out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ode_out</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">ode_out</span></div>
 
 </pre></div>
 

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Barotropic model &#8212; barotropy v0.0.2 documentation</title>
+    <title>Barotropic model &#8212; barotropy v0.0.3 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=84270531"></script>
+    <script src="../../_static/documentation_options.js?v=3fdb872c"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>let toggleHintShow = 'Click to show';</script>
@@ -142,7 +142,7 @@
   
   
   
-    <p class="title logo__title">barotropy v0.0.2 documentation</p>
+    <p class="title logo__title">barotropy v0.0.3 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -174,8 +174,8 @@
 <li class="toctree-l2"><a class="reference internal" href="barotropy.graphics.html">Graphic functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="barotropy.utilities.html">Utility functions</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="barotropy.fluid_properties.html">Fluid properties</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="barotropy.fluid_properties.high_level.html">High level</a></li>
-<li class="toctree-l3"><a class="reference internal" href="barotropy.fluid_properties.low_level.html">Low level</a></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.fluid_properties.fluid_interface.html">Fluid interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.fluid_properties.core_calculations.html">Core calculations</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="barotropy.pysolver_view.html">PySolverView</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -368,7 +368,6 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.barotropic_model_one_fluid"><code class="docutils literal notranslate"><span class="pre">barotropic_model_one_fluid()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.postprocess_ode"><code class="docutils literal notranslate"><span class="pre">postprocess_ode()</span></code></a></li>
 </ul>
             </nav>
         </div>
@@ -1018,39 +1017,6 @@ Default is <code class="docutils literal notranslate"><span class="pre">LSODA</s
 </div>
 </dd></dl>
 
-<dl class="py function">
-<dt class="sig sig-object py" id="barotropy.barotropic_model.postprocess_ode">
-<span class="sig-prename descclassname"><span class="pre">barotropy.barotropic_model.</span></span><span class="sig-name descname"><span class="pre">postprocess_ode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ode_handle</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#postprocess_ode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.postprocess_ode" title="Link to this definition">#</a></dt>
-<dd><p>Post-processes the output of an ordinary differential equation (ODE) solver.</p>
-<p>This function takes the time points and corresponding ODE solution matrix,
-and for each time point, it calls a user-defined ODE handling function to
-process the state of the ODE system. It collects the results into a
-dictionary where each key corresponds to a state variable and the values
-are numpy arrays of that state variable at each integration step</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>t</strong><span class="classifier">array_like</span></dt><dd><p>Integration points at which the ODE was solved, as a 1D numpy array.</p>
-</dd>
-<dt><strong>y</strong><span class="classifier">array_like</span></dt><dd><p>The solution of the ODE system, as a 2D numpy array with shape (n,m) where
-n is the number of points and m is the number of state variables.</p>
-</dd>
-<dt><strong>ode_handle</strong><span class="classifier">callable</span></dt><dd><p>A function that takes in a integration point and state vector and returns a tuple,
-where the first element is ignored (can be None) and the second element
-is a dictionary representing the processed state of the system.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>ode_out</strong><span class="classifier">dict</span></dt><dd><p>A dictionary where each key corresponds to a state variable and each value
-is a numpy array containing the values of that state variable at each integration step.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
 </section>
 
 
@@ -1121,7 +1087,6 @@ is a numpy array containing the values of that state variable at each integratio
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.barotropic_model_one_fluid"><code class="docutils literal notranslate"><span class="pre">barotropic_model_one_fluid()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.postprocess_ode"><code class="docutils literal notranslate"><span class="pre">postprocess_ode()</span></code></a></li>
 </ul>
   </nav></div>
 
