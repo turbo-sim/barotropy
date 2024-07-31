@@ -37,22 +37,62 @@ class BarotropicModelOneComponent:
         The efficiency of the polytropic process, dimensionless.
     calculation_type : str, optional
         The type of calculation to perform. Options include:
-        - 'equilibrium': Computes equilibrium properties only.
-        - 'metastable': Computes metastable properties only.
-        - 'blending': Computes both equilibrium and metastable properties, blends them, and returns the blended properties.
+
+        - ``equilibrium``: Computes equilibrium properties only.
+        - ``metastable``: Computes metastable properties only.
+        - ``blending``: Computes both equilibrium and metastable properties, blends them, and returns the blended properties.
+
         Default is None, which will raise an error.
     blending_onset : float, optional
-        The onset of blending in the process, typically a value between 0 and 1. Required if `calculation_type` is 'blending'.
+        The onset of blending in the process, typically a value between 0 and 1. Required when `calculation_type` is ``blending``.
     blending_width : float, optional
-        The width of the blending region, typically a value between 0 and 1. Required if `calculation_type` is 'blending'.
+        The width of the blending region, typically a value between 0 and 1. Required when `calculation_type` is ``blending``.
     ODE_solver : str, optional
-        The solver to use for the ODE integration. Valid options include:
-        - 'RK23', 'RK45', 'DOP853', 'Radau', 'BDF', 'LSODA'.
-        Default is 'LSODA'. Recommended solvers are 'BDF', 'LSODA', or 'Radau' for stiff problems or 'RK45' for non-stiff problems with smooth blending.
+        The solver to use for the ODE integration. Valid options:
+
+        .. list-table::
+            :widths: 20 50
+            :header-rows: 1
+
+            * - Solver name
+              - Description
+            * - ``RK23``
+              - Explicit Runge-Kutta method of order 3(2)
+            * - ``RK45``
+              - Explicit Runge-Kutta method of order 5(4)
+            * - ``DOP853``
+              - Explicit Runge-Kutta method of order 8
+            * - ``Radau``
+              - Implicit Runge-Kutta method of the Radau IIA family of order 5
+            * - ``BDF``
+              - Implicit multi-step variable-order (1 to 5) method based on a backward differentiation formula for the derivative approximation
+            * - ``LSODA``
+              - Adams/BDF method with automatic stiffness detection and switching
+
+        See `Scipy solver_ivp() <https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html>`_  for more info.
+        Default is ``LSODA``.
+        
+        Recommended solvers: ``BDF``, ``LSODA``, or ``Radau`` for stiff problems or ``RK45`` for non-stiff problems with smooth blending.
+
     ODE_tolerance : float, optional
         The relative and absolute tolerance for the ODE solver. Default is 1e-8.
     HEOS_solver : str, optional
-        The solver algorithm for the metastable state calculations. Default is 'hybr'.
+        The solver algorithm used to compute the metastable states. Valid options:
+
+        .. list-table::
+            :widths: 20 50
+            :header-rows: 1
+
+            * - Solver name
+              - Description
+            * - ``hybr``
+              -  Powell's hybrid trust-region algorithm
+            * - ``lm``
+              - Levenberg–Marquardt algorithm
+
+        See `Scipy root() <https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.root.html>`_ for more info. Default is ``hybr``.
+        
+        Recommended solvers: Both ``hybr`` and ``lm`` work well for the tested cases.
     HEOS_tolerance : float, optional
         The tolerance for the HEOS solver. Default is 1e-6.
     HEOS_max_iter : int, optional
@@ -60,26 +100,19 @@ class BarotropicModelOneComponent:
     HEOS_print_convergence : bool, optional
         If True, prints convergence information for the HEOS solver. Default is False.
     polynomial_degree : int
-        Degree of the polynomials to fit.
+        Degree of the polynomials to fit. Default is 8.
+
+        .. note::
+
+            When `calculation_type` is ``blending`` the degree of the polynomial in the blending region is set to 4 to achieve sufficient accuracy while preventing numerical round-off errors associated with single-precision arithmetic in CFD solvers.
+
     polynomial_format : str, optional
-        Type of polynomial representation ('horner' or 'standard'). Default is 'horner'.
+        Type of polynomial representation (``horner`` or ``standard``). Default is 'horner'.
     polynomial_variables : list of str
         A list of variable names to fit polynomials to, such as 'density', 'viscosity',
         'speed_sound', 'void_fraction', 'vapor_quality'.
     output_dir : str
         The directory where output will be saved.
-
-    For more detailed descriptions of the input parameters and functionality refer to the see-also box.
-
-
-    See Also
-    --------
-    barotropic_model_one_fluid : 
-        Function used to compute the fluid properties.
-    PolynomialFitter : 
-        Class used for generating fitting polynomials representing the fluid properties.
-    ExpressionExporter : 
-        Class for exporting polynomial expressions for use in CFD software.
 
     """
 
@@ -99,7 +132,7 @@ class BarotropicModelOneComponent:
         HEOS_tolerance: float = 1e-6,
         HEOS_max_iter: int = 100,
         HEOS_print_convergence: bool = False,
-        polynomial_degree: int = 6,
+        polynomial_degree: int = 8,
         polynomial_format: str = "horner",
         polynomial_variables: list = [
             "density",
@@ -141,6 +174,11 @@ class BarotropicModelOneComponent:
     def compute_properties(self):
         """
         Solves the ODE for the barotropic process and stores the states.
+
+        See Also
+        --------
+        barotropic_model_one_fluid : 
+            Function used to compute the fluid properties.
         """
         # Manually pass all parameters to the ODE solver function
         self.states, self.ode_solution = barotropic_model_one_fluid(
@@ -163,6 +201,11 @@ class BarotropicModelOneComponent:
     def fit_polynomials(self):
         """
         Fits polynomials to the states using the PolynomialFitter class.
+        
+        See Also
+        --------
+        PolynomialFitter : 
+            Class used for generating fitting polynomials.
         """
 
         if not self.states and not self.ode_solution:
@@ -194,6 +237,10 @@ class BarotropicModelOneComponent:
         output_dir : str, optional
             The directory where the expressions will be saved. It uses a default directory if not provided.
 
+        See Also
+        --------
+        ExpressionExporter : 
+            Class for exporting polynomial expressions for use in CFD software.
         """
         if not self.exporter:
             msg = "ExpressionExporter not initialized. Please call the method 'fit_polynomials()' first."
@@ -210,6 +257,11 @@ class BarotropicModelOneComponent:
         ----------
         output_dir : str, optional
             The directory where the expressions will be saved. It uses a default directory if not provided.
+
+        See Also
+        --------
+        ExpressionExporter : 
+            Class for exporting polynomial expressions for use in CFD software.
         """
         if not self.exporter:
             msg = "ExpressionExporter not initialized. Please call the method 'fit_polynomials()' first."
@@ -272,22 +324,62 @@ def barotropic_model_one_fluid(
         The efficiency of the polytropic process, dimensionless.
     calculation_type : str, optional
         The type of calculation to perform. Options include:
-        - 'equilibrium': Computes equilibrium properties only.
-        - 'metastable': Computes metastable properties only.
-        - 'blending': Computes both equilibrium and metastable properties, blends them, and returns the blended properties.
+
+        - ``equilibrium``: Computes equilibrium properties only.
+        - ``metastable``: Computes metastable properties only.
+        - ``blending``: Computes both equilibrium and metastable properties, blends them, and returns the blended properties.
+
         Default is None, which will raise an error.
     blending_onset : float, optional
-        The onset of blending in the process, typically a value between 0 and 1. Required if `calculation_type` is 'blending'.
+        The onset of blending in the process, typically a value between 0 and 1. Required when `calculation_type` is ``blending``.
     blending_width : float, optional
-        The width of the blending region, typically a value between 0 and 1. Required if `calculation_type` is 'blending'.
+        The width of the blending region, typically a value between 0 and 1. Required when `calculation_type` is ``blending``.
     ODE_solver : str, optional
-        The solver to use for the ODE integration. Valid options include:
-        - 'RK23', 'RK45', 'DOP853', 'Radau', 'BDF', 'LSODA'.
-        Default is 'LSODA'. Recommended solvers are 'BDF', 'LSODA', or 'Radau' for stiff problems or 'RK45' for non-stiff problems with smooth blending.
+        The solver to use for the ODE integration. Valid options:
+
+        .. list-table::
+            :widths: 20 50
+            :header-rows: 1
+
+            * - Solver name
+              - Description
+            * - ``RK23``
+              - Explicit Runge-Kutta method of order 3(2)
+            * - ``RK45``
+              - Explicit Runge-Kutta method of order 5(4)
+            * - ``DOP853``
+              - Explicit Runge-Kutta method of order 8
+            * - ``Radau``
+              - Implicit Runge-Kutta method of the Radau IIA family of order 5
+            * - ``BDF``
+              - Implicit multi-step variable-order (1 to 5) method based on a backward differentiation formula for the derivative approximation
+            * - ``LSODA``
+              - Adams/BDF method with automatic stiffness detection and switching
+
+        See `Scipy solver_ivp() <https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html>`_  for more info.
+        Default is ``LSODA``.
+        
+        Recommended solvers: ``BDF``, ``LSODA``, or ``Radau`` for stiff problems or ``RK45`` for non-stiff problems with smooth blending.
+
     ODE_tolerance : float, optional
         The relative and absolute tolerance for the ODE solver. Default is 1e-8.
     HEOS_solver : str, optional
-        The solver algorithm for the metastable state calculations. Default is 'hybr'.
+        The solver algorithm used to compute the metastable states. Valid options:
+
+        .. list-table::
+            :widths: 20 50
+            :header-rows: 1
+
+            * - Solver name
+              - Description
+            * - ``hybr``
+              -  Powell's hybrid trust-region algorithm
+            * - ``lm``
+              - Levenberg–Marquardt algorithm
+
+        See `Scipy root() <https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.root.html>`_ for more info. Default is ``hybr``.
+        
+        Recommended solvers: Both ``hybr`` and ``lm`` work well for the tested cases.
     HEOS_tolerance : float, optional
         The tolerance for the HEOS solver. Default is 1e-6.
     HEOS_max_iter : int, optional
@@ -531,18 +623,18 @@ class PolynomialFitter:
     """
     Fits polynomials to the thermodynamic properties of a fluid across various states.
 
-    Parameters
-    ----------
-    states : dict
-        A dictionary containing the thermodynamic states of the fluid, including pressure and
-        other relevant properties. It should have at least a "p" key representing pressure values.
-    variables : list of str
+    polynomial_degree : int
+        Degree of the polynomials to fit. Default is 8.
+
+        .. note::
+
+            When `calculation_type` is ``blending`` the degree of the polynomial in the blending region is set to 4 to achieve sufficient accuracy while preventing numerical round-off errors associated with single-precision arithmetic in CFD solvers.
+
+    polynomial_format : str, optional
+        Type of polynomial representation (``horner`` or ``standard``). Default is 'horner'.
+    polynomial_variables : list of str
         A list of variable names to fit polynomials to, such as 'density', 'viscosity',
         'speed_sound', 'void_fraction', 'vapor_quality'.
-    degree : int
-        Degree of the polynomials to fit.
-    calculation_type : str
-        The type of calculation that was used to generate the states. Valid types include "equilibrium" and "blending".
     output_dir : str
         The directory where output will be saved.
 

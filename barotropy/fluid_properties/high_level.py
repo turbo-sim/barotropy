@@ -1,13 +1,12 @@
-import copy
-import scipy
 import numpy as np
 
 import matplotlib.pyplot as plt
 import CoolProp.CoolProp as CP
 
-from . import low_level as props
-from . import utilities as utils
+from functools import wraps
 
+from . import low_level as props
+from .. import utilities as utils
 from .. import pysolver_view as psv
 
 MEANLINE_PROPERTIES = [
@@ -83,6 +82,35 @@ PHASE_INDEX = {attr: getattr(CP, attr) for attr in dir(CP) if attr.startswith("i
 INPUT_PAIRS = {attr: getattr(CP, attr) for attr in dir(CP) if attr.endswith("_INPUTS")}
 INPUT_PAIRS = sorted(INPUT_PAIRS.items(), key=lambda x: x[1])
 
+def _handle_computation_exceptions(func):
+    @wraps(func)
+    def wrapper(self, *args, **kwargs):
+        try:
+            # Perform the computation
+            result = func(self, *args, **kwargs)
+            self.converged_flag = True
+            return result
+        except Exception as e:
+            self.converged_flag = False
+            if self.exceptions:
+                raise RuntimeError(f"Failed to compute properties: {str(e)}")
+            return None
+    return wrapper
+
+    
+def _generate_coolprop_input_table():
+    """Create table of input pairs as string to be copy-pasted in Sphinx documentation"""
+    inputs_table = ".. list-table:: CoolProp input mappings\n"
+    inputs_table += "   :widths: 50 30\n"
+    inputs_table += "   :header-rows: 1\n\n"
+    inputs_table += "   * - Input pair name\n"
+    inputs_table += "     - Input pair mapping\n"
+    from .high_level import INPUT_PAIRS
+    for name, value in INPUT_PAIRS:
+        inputs_table += f"   * - {name}\n"
+        inputs_table += f"     - {value}\n"
+
+    return inputs_table
 
 class Fluid:
     """
@@ -204,7 +232,7 @@ class Fluid:
         """Calculate the properties at the triple point (vapor state)"""
         return self.get_state(QT_INPUTS, 1.00, self._AS.Ttriple())
 
-    @utils._handle_computation_exceptions
+    @_handle_computation_exceptions
     def get_state(
         self,
         input_type,
@@ -256,7 +284,7 @@ class Fluid:
         )
         return FluidState(self._properties, self.name)
 
-    @utils._handle_computation_exceptions
+    @_handle_computation_exceptions
     def get_state_equilibrium(
         self,
         prop_1,
@@ -297,7 +325,7 @@ class Fluid:
         )
         return FluidState(self._properties, self.name)
 
-    @utils._handle_computation_exceptions
+    @_handle_computation_exceptions
     def get_state_metastable(
         self,
         prop_1,
@@ -355,7 +383,7 @@ class Fluid:
             )
         return FluidState(self._properties, self.name)
 
-    @utils._handle_computation_exceptions
+    @_handle_computation_exceptions
     def get_state_blending(
         self,
         prop_1,
@@ -769,6 +797,55 @@ class FluidState:
         return self._properties.get(key, default)
 
 
+def states_to_dict(states):
+    """
+    Convert a list of state objects into a dictionary.
+
+    Each key is a field name of the state objects, and each value is a Numpy array of all the values for that field.
+    
+    Parameters
+    ----------
+    states_grid : list of FluidState
+        A 1D grid where each element is a state object with the same keys.
+
+    Returns
+    -------
+    dict
+        A dictionary where keys are field names and values are 1D arrays of field values.
+    """
+    state_dict = {}
+    for field in states[0].keys():
+        state_dict[field] = np.array([getattr(state, field) for state in states])
+    return state_dict
+
+
+def states_to_dict_2d(states):
+    """
+    Convert a 2D list (grid) of state objects into a dictionary.
+
+    Each key is a field name of the state objects, and each value is a 2D Numpy array of all the values for that field.
+
+    Parameters
+    ----------
+    states_grid : list of lists of FluidState
+        A 2D grid where each element is a state object with the same keys.
+
+    Returns
+    -------
+    dict
+        A dictionary where keys are field names and values are 2D arrays of field values.
+    """
+    state_dict_2d = {}
+    for i, row in enumerate(states):
+        for j, state in enumerate(row):
+            for field in state.keys():
+                if field not in state_dict_2d:
+                    m, n = len(states), len(row)
+                    state_dict_2d[field] = np.empty((m, n), dtype=object)
+                state_dict_2d[field][i, j] = state[field]
+
+    return state_dict_2d
+
 # ------------------------------------------------------------------------------------ #
 # ------------------------------------------------------------------------------------ #
 # ------------------------------------------------------------------------------------ #
@@ -963,7 +1040,7 @@ def compute_quality_grid(fluid, num_points, quality_levels):
             row.append(fluid.get_state(CP.QT_INPUTS, q, T))
         quality_grid.append(row)
 
-    return utils.states_to_dict_2d(quality_grid)
+    return states_to_dict_2d(quality_grid)
 
 
 def compute_property_grid(
@@ -1042,7 +1119,7 @@ def compute_property_grid_rhoT(
         states_meta.append(row)
 
     # Convert nested list of dictionaries into dictionary of 2D arrays
-    states_meta = utils.states_to_dict_2d(states_meta)
+    states_meta = states_to_dict_2d(states_meta)
 
     return states_meta
 
@@ -1399,6 +1476,10 @@ class _SpinodalPointProblem(psv.OptimizationProblem):
 
     def get_nic(self):
         return 0
+
+
+
+
 
 
 # ------------------------------------------------------------------------------------ #
