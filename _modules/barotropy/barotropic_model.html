@@ -164,16 +164,19 @@
 <li class="toctree-l2"><a class="reference internal" href="../../source/tutorials/two_component_systems.html">Two-component systems</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="../../source/barotropic_model.html">Barotropic modeling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/barotropic_model.html">Barotropic model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../source/bibliography.html">Bibliography</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../source/api/barotropy.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../source/api/barotropy.fluid_properties.html">barotropy.fluid_properties package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.fluid_properties.high_level.html">barotropy.fluid_properties.high_level module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.fluid_properties.low_level.html">barotropy.fluid_properties.low_level module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.fluid_properties.utilities.html">barotropy.fluid_properties.utilities module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.barotropic_model.html">Barotropic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.math.html">Math functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.graphics.html">Graphic functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.utilities.html">Utility functions</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../source/api/barotropy.fluid_properties.html">Fluid properties</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.fluid_properties.high_level.html">High level</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.fluid_properties.low_level.html">Low level</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../source/api/barotropy.pysolver_view.html">barotropy.pysolver_view package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../source/api/barotropy.pysolver_view.html">PySolverView</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.pysolver_view.nonlinear_system.html">barotropy.pysolver_view.nonlinear_system module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.pysolver_view.nonlinear_system_problems.html">barotropy.pysolver_view.nonlinear_system_problems module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.pysolver_view.numerical_differentiation.html">barotropy.pysolver_view.numerical_differentiation module</a></li>
@@ -183,17 +186,13 @@
 <li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.pysolver_view.pysolver_utilities.html">barotropy.pysolver_view.pysolver_utilities module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../source/api/barotropy.fluent_automation.html">barotropy.fluent_automation package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../source/api/barotropy.fluent_automation.html">Fluent automation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.fluent_automation.fluent_automation.html">barotropy.fluent_automation.fluent_automation module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html">barotropy.fluent_automation.fluent_plot_nozzle_data module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.fluent_automation.stream_residuals.html">barotropy.fluent_automation.stream_residuals module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.fluent_automation.stream_transcript.html">barotropy.fluent_automation.stream_transcript module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.barotropic_model.html">barotropy.barotropic_model module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.math.html">barotropy.math module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.graphics.html">barotropy.graphics module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.utilities.html">barotropy.utilities module</a></li>
 </ul>
 </details></li>
 </ul>
@@ -340,22 +339,62 @@ document.write(`
 <span class="sd">        The efficiency of the polytropic process, dimensionless.</span>
 <span class="sd">    calculation_type : str, optional</span>
 <span class="sd">        The type of calculation to perform. Options include:</span>
-<span class="sd">        - &#39;equilibrium&#39;: Computes equilibrium properties only.</span>
-<span class="sd">        - &#39;metastable&#39;: Computes metastable properties only.</span>
-<span class="sd">        - &#39;blending&#39;: Computes both equilibrium and metastable properties, blends them, and returns the blended properties.</span>
+
+<span class="sd">        - ``equilibrium``: Computes equilibrium properties only.</span>
+<span class="sd">        - ``metastable``: Computes metastable properties only.</span>
+<span class="sd">        - ``blending``: Computes both equilibrium and metastable properties, blends them, and returns the blended properties.</span>
+
 <span class="sd">        Default is None, which will raise an error.</span>
 <span class="sd">    blending_onset : float, optional</span>
-<span class="sd">        The onset of blending in the process, typically a value between 0 and 1. Required if `calculation_type` is &#39;blending&#39;.</span>
+<span class="sd">        The onset of blending in the process, typically a value between 0 and 1. Required when `calculation_type` is ``blending``.</span>
 <span class="sd">    blending_width : float, optional</span>
-<span class="sd">        The width of the blending region, typically a value between 0 and 1. Required if `calculation_type` is &#39;blending&#39;.</span>
+<span class="sd">        The width of the blending region, typically a value between 0 and 1. Required when `calculation_type` is ``blending``.</span>
 <span class="sd">    ODE_solver : str, optional</span>
-<span class="sd">        The solver to use for the ODE integration. Valid options include:</span>
-<span class="sd">        - &#39;RK23&#39;, &#39;RK45&#39;, &#39;DOP853&#39;, &#39;Radau&#39;, &#39;BDF&#39;, &#39;LSODA&#39;.</span>
-<span class="sd">        Default is &#39;LSODA&#39;. Recommended solvers are &#39;BDF&#39;, &#39;LSODA&#39;, or &#39;Radau&#39; for stiff problems or &#39;RK45&#39; for non-stiff problems with smooth blending.</span>
+<span class="sd">        The solver to use for the ODE integration. Valid options:</span>
+
+<span class="sd">        .. list-table::</span>
+<span class="sd">            :widths: 20 50</span>
+<span class="sd">            :header-rows: 1</span>
+
+<span class="sd">            * - Solver name</span>
+<span class="sd">              - Description</span>
+<span class="sd">            * - ``RK23``</span>
+<span class="sd">              - Explicit Runge-Kutta method of order 3(2)</span>
+<span class="sd">            * - ``RK45``</span>
+<span class="sd">              - Explicit Runge-Kutta method of order 5(4)</span>
+<span class="sd">            * - ``DOP853``</span>
+<span class="sd">              - Explicit Runge-Kutta method of order 8</span>
+<span class="sd">            * - ``Radau``</span>
+<span class="sd">              - Implicit Runge-Kutta method of the Radau IIA family of order 5</span>
+<span class="sd">            * - ``BDF``</span>
+<span class="sd">              - Implicit multi-step variable-order (1 to 5) method based on a backward differentiation formula for the derivative approximation</span>
+<span class="sd">            * - ``LSODA``</span>
+<span class="sd">              - Adams/BDF method with automatic stiffness detection and switching</span>
+
+<span class="sd">        See `Scipy solver_ivp() &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html&gt;`_  for more info.</span>
+<span class="sd">        Default is ``LSODA``.</span>
+<span class="sd">        </span>
+<span class="sd">        Recommended solvers: ``BDF``, ``LSODA``, or ``Radau`` for stiff problems or ``RK45`` for non-stiff problems with smooth blending.</span>
+
 <span class="sd">    ODE_tolerance : float, optional</span>
 <span class="sd">        The relative and absolute tolerance for the ODE solver. Default is 1e-8.</span>
 <span class="sd">    HEOS_solver : str, optional</span>
-<span class="sd">        The solver algorithm for the metastable state calculations. Default is &#39;hybr&#39;.</span>
+<span class="sd">        The solver algorithm used to compute the metastable states. Valid options:</span>
+
+<span class="sd">        .. list-table::</span>
+<span class="sd">            :widths: 20 50</span>
+<span class="sd">            :header-rows: 1</span>
+
+<span class="sd">            * - Solver name</span>
+<span class="sd">              - Description</span>
+<span class="sd">            * - ``hybr``</span>
+<span class="sd">              -  Powell&#39;s hybrid trust-region algorithm</span>
+<span class="sd">            * - ``lm``</span>
+<span class="sd">              - Levenberg–Marquardt algorithm</span>
+
+<span class="sd">        See `Scipy root() &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.root.html&gt;`_ for more info. Default is ``hybr``.</span>
+<span class="sd">        </span>
+<span class="sd">        Recommended solvers: Both ``hybr`` and ``lm`` work well for the tested cases.</span>
 <span class="sd">    HEOS_tolerance : float, optional</span>
 <span class="sd">        The tolerance for the HEOS solver. Default is 1e-6.</span>
 <span class="sd">    HEOS_max_iter : int, optional</span>
@@ -363,26 +402,19 @@ document.write(`
 <span class="sd">    HEOS_print_convergence : bool, optional</span>
 <span class="sd">        If True, prints convergence information for the HEOS solver. Default is False.</span>
 <span class="sd">    polynomial_degree : int</span>
-<span class="sd">        Degree of the polynomials to fit.</span>
+<span class="sd">        Degree of the polynomials to fit. Default is 8.</span>
+
+<span class="sd">        .. note::</span>
+
+<span class="sd">            When `calculation_type` is ``blending`` the degree of the polynomial in the blending region is set to 4 to achieve sufficient accuracy while preventing numerical round-off errors associated with single-precision arithmetic in CFD solvers.</span>
+
 <span class="sd">    polynomial_format : str, optional</span>
-<span class="sd">        Type of polynomial representation (&#39;horner&#39; or &#39;standard&#39;). Default is &#39;horner&#39;.</span>
+<span class="sd">        Type of polynomial representation (``horner`` or ``standard``). Default is &#39;horner&#39;.</span>
 <span class="sd">    polynomial_variables : list of str</span>
 <span class="sd">        A list of variable names to fit polynomials to, such as &#39;density&#39;, &#39;viscosity&#39;,</span>
 <span class="sd">        &#39;speed_sound&#39;, &#39;void_fraction&#39;, &#39;vapor_quality&#39;.</span>
 <span class="sd">    output_dir : str</span>
 <span class="sd">        The directory where output will be saved.</span>
-
-<span class="sd">    For more detailed descriptions of the input parameters and functionality refer to the see-also box.</span>
-
-
-<span class="sd">    See Also</span>
-<span class="sd">    --------</span>
-<span class="sd">    barotropic_model_one_fluid : </span>
-<span class="sd">        Function used to compute the fluid properties.</span>
-<span class="sd">    PolynomialFitter : </span>
-<span class="sd">        Class used for generating fitting polynomials representing the fluid properties.</span>
-<span class="sd">    ExpressionExporter : </span>
-<span class="sd">        Class for exporting polynomial expressions for use in CFD software.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -402,7 +434,7 @@ document.write(`
         <span class="n">HEOS_tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="p">,</span>
         <span class="n">HEOS_max_iter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
         <span class="n">HEOS_print_convergence</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">polynomial_degree</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
+        <span class="n">polynomial_degree</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
         <span class="n">polynomial_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;horner&quot;</span><span class="p">,</span>
         <span class="n">polynomial_variables</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s2">&quot;density&quot;</span><span class="p">,</span>
@@ -446,6 +478,11 @@ document.write(`
     <span class="k">def</span> <span class="nf">compute_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Solves the ODE for the barotropic process and stores the states.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        barotropic_model_one_fluid : </span>
+<span class="sd">            Function used to compute the fluid properties.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Manually pass all parameters to the ODE solver function</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ode_solution</span> <span class="o">=</span> <span class="n">barotropic_model_one_fluid</span><span class="p">(</span>
@@ -471,6 +508,11 @@ document.write(`
     <span class="k">def</span> <span class="nf">fit_polynomials</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fits polynomials to the states using the PolynomialFitter class.</span>
+<span class="sd">        </span>
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        PolynomialFitter : </span>
+<span class="sd">            Class used for generating fitting polynomials.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">ode_solution</span><span class="p">:</span>
@@ -505,6 +547,10 @@ document.write(`
 <span class="sd">        output_dir : str, optional</span>
 <span class="sd">            The directory where the expressions will be saved. It uses a default directory if not provided.</span>
 
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        ExpressionExporter : </span>
+<span class="sd">            Class for exporting polynomial expressions for use in CFD software.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">exporter</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;ExpressionExporter not initialized. Please call the method &#39;fit_polynomials()&#39; first.&quot;</span>
@@ -524,6 +570,11 @@ document.write(`
 <span class="sd">        ----------</span>
 <span class="sd">        output_dir : str, optional</span>
 <span class="sd">            The directory where the expressions will be saved. It uses a default directory if not provided.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        ExpressionExporter : </span>
+<span class="sd">            Class for exporting polynomial expressions for use in CFD software.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">exporter</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;ExpressionExporter not initialized. Please call the method &#39;fit_polynomials()&#39; first.&quot;</span>
@@ -590,22 +641,62 @@ document.write(`
 <span class="sd">        The efficiency of the polytropic process, dimensionless.</span>
 <span class="sd">    calculation_type : str, optional</span>
 <span class="sd">        The type of calculation to perform. Options include:</span>
-<span class="sd">        - &#39;equilibrium&#39;: Computes equilibrium properties only.</span>
-<span class="sd">        - &#39;metastable&#39;: Computes metastable properties only.</span>
-<span class="sd">        - &#39;blending&#39;: Computes both equilibrium and metastable properties, blends them, and returns the blended properties.</span>
+
+<span class="sd">        - ``equilibrium``: Computes equilibrium properties only.</span>
+<span class="sd">        - ``metastable``: Computes metastable properties only.</span>
+<span class="sd">        - ``blending``: Computes both equilibrium and metastable properties, blends them, and returns the blended properties.</span>
+
 <span class="sd">        Default is None, which will raise an error.</span>
 <span class="sd">    blending_onset : float, optional</span>
-<span class="sd">        The onset of blending in the process, typically a value between 0 and 1. Required if `calculation_type` is &#39;blending&#39;.</span>
+<span class="sd">        The onset of blending in the process, typically a value between 0 and 1. Required when `calculation_type` is ``blending``.</span>
 <span class="sd">    blending_width : float, optional</span>
-<span class="sd">        The width of the blending region, typically a value between 0 and 1. Required if `calculation_type` is &#39;blending&#39;.</span>
+<span class="sd">        The width of the blending region, typically a value between 0 and 1. Required when `calculation_type` is ``blending``.</span>
 <span class="sd">    ODE_solver : str, optional</span>
-<span class="sd">        The solver to use for the ODE integration. Valid options include:</span>
-<span class="sd">        - &#39;RK23&#39;, &#39;RK45&#39;, &#39;DOP853&#39;, &#39;Radau&#39;, &#39;BDF&#39;, &#39;LSODA&#39;.</span>
-<span class="sd">        Default is &#39;LSODA&#39;. Recommended solvers are &#39;BDF&#39;, &#39;LSODA&#39;, or &#39;Radau&#39; for stiff problems or &#39;RK45&#39; for non-stiff problems with smooth blending.</span>
+<span class="sd">        The solver to use for the ODE integration. Valid options:</span>
+
+<span class="sd">        .. list-table::</span>
+<span class="sd">            :widths: 20 50</span>
+<span class="sd">            :header-rows: 1</span>
+
+<span class="sd">            * - Solver name</span>
+<span class="sd">              - Description</span>
+<span class="sd">            * - ``RK23``</span>
+<span class="sd">              - Explicit Runge-Kutta method of order 3(2)</span>
+<span class="sd">            * - ``RK45``</span>
+<span class="sd">              - Explicit Runge-Kutta method of order 5(4)</span>
+<span class="sd">            * - ``DOP853``</span>
+<span class="sd">              - Explicit Runge-Kutta method of order 8</span>
+<span class="sd">            * - ``Radau``</span>
+<span class="sd">              - Implicit Runge-Kutta method of the Radau IIA family of order 5</span>
+<span class="sd">            * - ``BDF``</span>
+<span class="sd">              - Implicit multi-step variable-order (1 to 5) method based on a backward differentiation formula for the derivative approximation</span>
+<span class="sd">            * - ``LSODA``</span>
+<span class="sd">              - Adams/BDF method with automatic stiffness detection and switching</span>
+
+<span class="sd">        See `Scipy solver_ivp() &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html&gt;`_  for more info.</span>
+<span class="sd">        Default is ``LSODA``.</span>
+<span class="sd">        </span>
+<span class="sd">        Recommended solvers: ``BDF``, ``LSODA``, or ``Radau`` for stiff problems or ``RK45`` for non-stiff problems with smooth blending.</span>
+
 <span class="sd">    ODE_tolerance : float, optional</span>
 <span class="sd">        The relative and absolute tolerance for the ODE solver. Default is 1e-8.</span>
 <span class="sd">    HEOS_solver : str, optional</span>
-<span class="sd">        The solver algorithm for the metastable state calculations. Default is &#39;hybr&#39;.</span>
+<span class="sd">        The solver algorithm used to compute the metastable states. Valid options:</span>
+
+<span class="sd">        .. list-table::</span>
+<span class="sd">            :widths: 20 50</span>
+<span class="sd">            :header-rows: 1</span>
+
+<span class="sd">            * - Solver name</span>
+<span class="sd">              - Description</span>
+<span class="sd">            * - ``hybr``</span>
+<span class="sd">              -  Powell&#39;s hybrid trust-region algorithm</span>
+<span class="sd">            * - ``lm``</span>
+<span class="sd">              - Levenberg–Marquardt algorithm</span>
+
+<span class="sd">        See `Scipy root() &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.root.html&gt;`_ for more info. Default is ``hybr``.</span>
+<span class="sd">        </span>
+<span class="sd">        Recommended solvers: Both ``hybr`` and ``lm`` work well for the tested cases.</span>
 <span class="sd">    HEOS_tolerance : float, optional</span>
 <span class="sd">        The tolerance for the HEOS solver. Default is 1e-6.</span>
 <span class="sd">    HEOS_max_iter : int, optional</span>
@@ -855,18 +946,18 @@ document.write(`
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fits polynomials to the thermodynamic properties of a fluid across various states.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    states : dict</span>
-<span class="sd">        A dictionary containing the thermodynamic states of the fluid, including pressure and</span>
-<span class="sd">        other relevant properties. It should have at least a &quot;p&quot; key representing pressure values.</span>
-<span class="sd">    variables : list of str</span>
+<span class="sd">    polynomial_degree : int</span>
+<span class="sd">        Degree of the polynomials to fit. Default is 8.</span>
+
+<span class="sd">        .. note::</span>
+
+<span class="sd">            When `calculation_type` is ``blending`` the degree of the polynomial in the blending region is set to 4 to achieve sufficient accuracy while preventing numerical round-off errors associated with single-precision arithmetic in CFD solvers.</span>
+
+<span class="sd">    polynomial_format : str, optional</span>
+<span class="sd">        Type of polynomial representation (``horner`` or ``standard``). Default is &#39;horner&#39;.</span>
+<span class="sd">    polynomial_variables : list of str</span>
 <span class="sd">        A list of variable names to fit polynomials to, such as &#39;density&#39;, &#39;viscosity&#39;,</span>
 <span class="sd">        &#39;speed_sound&#39;, &#39;void_fraction&#39;, &#39;vapor_quality&#39;.</span>
-<span class="sd">    degree : int</span>
-<span class="sd">        Degree of the polynomials to fit.</span>
-<span class="sd">    calculation_type : str</span>
-<span class="sd">        The type of calculation that was used to generate the states. Valid types include &quot;equilibrium&quot; and &quot;blending&quot;.</span>
 <span class="sd">    output_dir : str</span>
 <span class="sd">        The directory where output will be saved.</span>
 

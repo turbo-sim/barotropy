@@ -38,7 +38,6 @@ Use the panel to the left or the table of contents below to navigate the documen
    :maxdepth: 2
    :caption: Contents:
 
-
    source/installation
    source/tutorials
    source/barotropic_model

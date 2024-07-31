@@ -1,4 +1,4 @@
-barotropy.fluent\_automation package
+Fluent automation
 ====================================
 
 .. automodule:: barotropy.fluent_automation
