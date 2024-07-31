@@ -1,4 +1,4 @@
-# Barotropic Model 
+# Barotropy
 
 
 This repository contains functions for generating a barotropic model for fluid properties, a simplified mathematical representation that assumes fluid properties are only a function of pressure. This approach can be particularly useful in CFD modeling, as it offers a faster and more robust alternative to more complex fluid models. Barotropic models are particularly relevant for certain types of flows, such as two-phase flowsin turbomachinery. In such applications, the barotropic model is advantageous because it can approximate scenarios where the fluid follows a known thermodynamic process, such as an adiabatic process within a turbine or compressor.
