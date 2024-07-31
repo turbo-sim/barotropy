@@ -21,7 +21,7 @@ from .sCO2_utilities import *
 from .utilities import *
 
 # Package info
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 PACKAGE_NAME = "barotropy"
 URL_GITHUB = "https://github.com/turbo-sim/barotropy"
 URL_DOCS = "https://turbo-sim.github.io/barotropy/"
