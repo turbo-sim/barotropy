@@ -1,4 +1,4 @@
-barotropy.fluid\_properties.low\_level module
+Low level
 =============================================
 
 .. automodule:: barotropy.fluid_properties.low_level

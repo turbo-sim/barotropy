@@ -1,4 +1,4 @@
-barotropy.fluid\_properties package
+Fluid properties
 ===================================
 
 .. automodule:: barotropy.fluid_properties
@@ -10,8 +10,7 @@ Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 1
 
    barotropy.fluid_properties.high_level
    barotropy.fluid_properties.low_level
-   barotropy.fluid_properties.utilities

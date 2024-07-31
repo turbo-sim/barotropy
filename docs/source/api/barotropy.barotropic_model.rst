@@ -1,4 +1,4 @@
-barotropy.barotropic\_model module
+Barotropic model
 ==================================
 
 .. automodule:: barotropy.barotropic_model
