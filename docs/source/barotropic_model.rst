@@ -1,7 +1,7 @@
 .. _barotropic_model:
 
 
-Barotropic modeling
+Barotropic model
 ========================
 
 

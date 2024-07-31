@@ -1,4 +1,4 @@
-barotropy.graphics module
+Graphic functions
 =========================
 
 .. automodule:: barotropy.graphics

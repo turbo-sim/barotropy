@@ -1,4 +1,4 @@
-barotropy.math module
+Math functions
 =====================
 
 .. automodule:: barotropy.math
