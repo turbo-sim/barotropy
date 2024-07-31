@@ -63,3 +63,7 @@ settings.json    # VS Code settings file
 # Results folders
 **/output/
 **/results/
+
+
+# Fluent cleanup scripts
+.bat
