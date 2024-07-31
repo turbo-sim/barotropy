@@ -894,7 +894,7 @@ def blend_properties(
         x = 1 - (props_equilibrium[blending_variable] - blending_onset) / blending_width
 
     # Calculate the blending factor sigma
-    sigma = math.sigmoid_smootherstep(x)
+    sigma = math.sigmoid_smoothstep(x)
 
     # Blend properties
     props_blended = {}

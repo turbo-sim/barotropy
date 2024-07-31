@@ -18,9 +18,7 @@ Submodules
    :maxdepth: 4
 
    barotropy.barotropic_model
-   barotropy.isentropic_nozzle
-   barotropy.sCO2_utilities
    barotropy.math
-   barotropy.plot_options
+   barotropy.graphics
    barotropy.utilities
 

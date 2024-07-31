@@ -26,6 +26,10 @@ extensions = [
     "sphinx_design",
 ]
 
+# Avoid warnings when generating the summary table of class methods
+autosummary_generate = True
+numpydoc_class_members_toctree = False
+
 todo_include_todos = True
 
 # Add bibliography file
@@ -35,7 +39,7 @@ bibtex_reference_style = "author_year"
 
 # Exclude unnecessary files
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
-exclude_patterns.extend(["source/PySolverView.rst"])
+exclude_patterns.extend(["source/api/barotropy.isentropic_nozzle.rst", "source/api/barotropy.sCO2_utilities.rst"])
 exclude_patterns.extend(["source/api/modules.rst"])
 
 

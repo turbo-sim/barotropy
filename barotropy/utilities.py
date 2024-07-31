@@ -88,7 +88,7 @@ def wait_for_file(file_path, timeout=None, poll_interval=0.1):
         time.sleep(poll_interval)
 
 
-def savefig_in_formats(fig, path_without_extension, formats=['.png', '.svg']):
+def savefig_in_formats(fig, path_without_extension, formats=['.png', '.svg', ".eps"]):
     """
     Save a given matplotlib figure in multiple file formats.
 

@@ -16,7 +16,7 @@ from .barotropic_model import *
 
 # Import submodules
 from .math import *
-from .plot_options import *
+from .graphics import *
 from .sCO2_utilities import *
 from .utilities import *
 
