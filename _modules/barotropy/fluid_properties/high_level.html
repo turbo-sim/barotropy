@@ -191,10 +191,8 @@
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../source/api/barotropy.barotropic_model.html">barotropy.barotropic_model module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../source/api/barotropy.isentropic_nozzle.html">barotropy.isentropic_nozzle module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../source/api/barotropy.sCO2_utilities.html">barotropy.sCO2_utilities module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../source/api/barotropy.math.html">barotropy.math module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../source/api/barotropy.plot_options.html">barotropy.plot_options module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/barotropy.graphics.html">barotropy.graphics module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../source/api/barotropy.utilities.html">barotropy.utilities module</a></li>
 </ul>
 </details></li>
@@ -460,6 +458,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">backend</span> <span class="o">=</span> <span class="n">backend</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_AS</span> <span class="o">=</span> <span class="n">CP</span><span class="o">.</span><span class="n">AbstractState</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">abstract_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_AS</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">exceptions</span> <span class="o">=</span> <span class="n">exceptions</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">converged_flag</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_properties</span> <span class="o">=</span> <span class="p">{}</span>
@@ -699,7 +698,7 @@ document.write(`
 <span class="sd">            documentation of the function :ref:`compute_properties &lt;compute_properties&gt;`.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_properties</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">compute_properties</span><span class="p">(</span>
+        <span class="n">blended</span><span class="p">,</span> <span class="n">equilibrium</span><span class="p">,</span> <span class="n">metastable</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">compute_properties</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_AS</span><span class="p">,</span>
             <span class="n">prop_1</span><span class="o">=</span><span class="n">prop_1</span><span class="p">,</span>
             <span class="n">prop_1_value</span><span class="o">=</span><span class="n">prop_1_value</span><span class="p">,</span>
@@ -711,7 +710,7 @@ document.write(`
             <span class="n">blending_variable</span><span class="o">=</span><span class="n">blending_variable</span><span class="p">,</span>
             <span class="n">blending_onset</span><span class="o">=</span><span class="n">blending_onset</span><span class="p">,</span>
             <span class="n">blending_width</span><span class="o">=</span><span class="n">blending_width</span><span class="p">,</span>
-            <span class="n">initial_phase</span><span class="o">=</span><span class="n">initial_phase</span><span class="p">,</span>
+            <span class="n">phase_change</span><span class="o">=</span><span class="n">initial_phase</span><span class="p">,</span>
             <span class="n">supersaturation</span><span class="o">=</span><span class="n">supersaturation</span><span class="p">,</span>
             <span class="n">generalize_quality</span><span class="o">=</span><span class="n">generalize_quality</span><span class="p">,</span>
             <span class="n">solver_algorithm</span><span class="o">=</span><span class="n">solver_algorithm</span><span class="p">,</span>
@@ -719,7 +718,12 @@ document.write(`
             <span class="n">solver_max_iterations</span><span class="o">=</span><span class="n">solver_max_iterations</span><span class="p">,</span>
             <span class="n">print_convergence</span><span class="o">=</span><span class="n">print_convergence</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">FluidState</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_properties</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">FluidState</span><span class="p">(</span><span class="n">blended</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">),</span>
+            <span class="n">FluidState</span><span class="p">(</span><span class="n">equilibrium</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">),</span>
+            <span class="n">FluidState</span><span class="p">(</span><span class="n">metastable</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">),</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Fluid.get_property">
@@ -1149,12 +1153,12 @@ document.write(`
         <span class="n">state_vapor</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">CP</span><span class="o">.</span><span class="n">QT_INPUTS</span><span class="p">,</span> <span class="mf">1.00</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">state_liquid</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">saturation_liq</span><span class="p">:</span>
-                <span class="n">saturation_liq</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">fluid</span><span class="o">.</span><span class="n">critical_point</span><span class="p">[</span><span class="n">name</span><span class="p">]]</span>  
+                <span class="n">saturation_liq</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">fluid</span><span class="o">.</span><span class="n">critical_point</span><span class="p">[</span><span class="n">name</span><span class="p">]]</span>
             <span class="n">saturation_liq</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state_liquid</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
 
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">state_vapor</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">saturation_vap</span><span class="p">:</span>
-                <span class="n">saturation_vap</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">fluid</span><span class="o">.</span><span class="n">critical_point</span><span class="p">[</span><span class="n">name</span><span class="p">]]</span> 
+                <span class="n">saturation_vap</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">fluid</span><span class="o">.</span><span class="n">critical_point</span><span class="p">[</span><span class="n">name</span><span class="p">]]</span>
             <span class="n">saturation_vap</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state_vapor</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
 
     <span class="c1"># # Reverse the liquid properties for easy concatenation</span>
@@ -1740,7 +1744,9 @@ document.write(`
 
 <span class="sd">        Not a good idea to scale the bulk modulus by pressure because it can take negative values or zero when evaluated with the HEOS.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fluid</span><span class="o">.</span><span class="n">get_state_metastable</span><span class="p">(</span><span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">supersaturation</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">supersaturation</span><span class="p">)</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fluid</span><span class="o">.</span><span class="n">get_state_metastable</span><span class="p">(</span>
+            <span class="s2">&quot;rho&quot;</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">supersaturation</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">supersaturation</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s2">&quot;isothermal_bulk_modulus&quot;</span><span class="p">]))</span> <span class="o">/</span> <span class="mf">1e6</span>
 
     <span class="k">def</span> <span class="nf">get_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

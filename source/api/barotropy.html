@@ -193,10 +193,8 @@
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="barotropy.barotropic_model.html">barotropy.barotropic_model module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.isentropic_nozzle.html">barotropy.isentropic_nozzle module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.sCO2_utilities.html">barotropy.sCO2_utilities module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="barotropy.math.html">barotropy.math module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.plot_options.html">barotropy.plot_options module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="barotropy.graphics.html">barotropy.graphics module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="barotropy.utilities.html">barotropy.utilities module</a></li>
 </ul>
 </details></li>
@@ -383,6 +381,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="barotropy.fluid_properties.low_level.html">barotropy.fluid_properties.low_level module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.fluid_properties.low_level.html#barotropy.fluid_properties.low_level.blend_properties"><code class="docutils literal notranslate"><span class="pre">blend_properties()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="barotropy.fluid_properties.low_level.html#barotropy.fluid_properties.low_level.calculate_generalized_quality"><code class="docutils literal notranslate"><span class="pre">calculate_generalized_quality()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="barotropy.fluid_properties.low_level.html#barotropy.fluid_properties.low_level.calculate_subcooling"><code class="docutils literal notranslate"><span class="pre">calculate_subcooling()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="barotropy.fluid_properties.low_level.html#barotropy.fluid_properties.low_level.calculate_superheating"><code class="docutils literal notranslate"><span class="pre">calculate_superheating()</span></code></a></li>
@@ -508,27 +507,30 @@ document.write(`
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="barotropy.barotropic_model.html">barotropy.barotropic_model module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="barotropy.barotropic_model.html#barotropy.barotropic_model.BarotropicModelOneComponent"><code class="docutils literal notranslate"><span class="pre">BarotropicModelOneComponent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.barotropic_model.html#barotropy.barotropic_model.BarotropicModelOneComponent.compute_properties"><code class="docutils literal notranslate"><span class="pre">BarotropicModelOneComponent.compute_properties()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.barotropic_model.html#barotropy.barotropic_model.BarotropicModelOneComponent.export_expressions_cfx"><code class="docutils literal notranslate"><span class="pre">BarotropicModelOneComponent.export_expressions_cfx()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.barotropic_model.html#barotropy.barotropic_model.BarotropicModelOneComponent.export_expressions_fluent"><code class="docutils literal notranslate"><span class="pre">BarotropicModelOneComponent.export_expressions_fluent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.barotropic_model.html#barotropy.barotropic_model.BarotropicModelOneComponent.fit_polynomials"><code class="docutils literal notranslate"><span class="pre">BarotropicModelOneComponent.fit_polynomials()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="barotropy.barotropic_model.html#barotropy.barotropic_model.ExpressionExporter"><code class="docutils literal notranslate"><span class="pre">ExpressionExporter</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.barotropic_model.html#barotropy.barotropic_model.ExpressionExporter.export_expressions_cfx"><code class="docutils literal notranslate"><span class="pre">ExpressionExporter.export_expressions_cfx()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.barotropic_model.html#barotropy.barotropic_model.ExpressionExporter.export_expressions_fluent"><code class="docutils literal notranslate"><span class="pre">ExpressionExporter.export_expressions_fluent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.barotropic_model.html#barotropy.barotropic_model.ExpressionExporter.generate_expressions"><code class="docutils literal notranslate"><span class="pre">ExpressionExporter.generate_expressions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.barotropic_model.html#barotropy.barotropic_model.ExpressionExporter.if_expression"><code class="docutils literal notranslate"><span class="pre">ExpressionExporter.if_expression()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.barotropic_model.html#barotropy.barotropic_model.ExpressionExporter.polynomial_expression"><code class="docutils literal notranslate"><span class="pre">ExpressionExporter.polynomial_expression()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="barotropy.barotropic_model.html#barotropy.barotropic_model.PolynomialFitter"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.barotropic_model.html#barotropy.barotropic_model.PolynomialFitter.evaluate_polynomial"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter.evaluate_polynomial()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.barotropic_model.html#barotropy.barotropic_model.PolynomialFitter.fit_polynomials"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter.fit_polynomials()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.barotropic_model.html#barotropy.barotropic_model.PolynomialFitter.plot_polynomial"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter.plot_polynomial()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.barotropic_model.html#barotropy.barotropic_model.PolynomialFitter.plot_polynomial_and_error"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter.plot_polynomial_and_error()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="barotropy.barotropic_model.html#barotropy.barotropic_model.barotropic_model_one_fluid"><code class="docutils literal notranslate"><span class="pre">barotropic_model_one_fluid()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.barotropic_model.html#barotropy.barotropic_model.calculate_adiabatic_process"><code class="docutils literal notranslate"><span class="pre">calculate_adiabatic_process()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.barotropic_model.html#barotropy.barotropic_model.polytropic_process_one_fluid"><code class="docutils literal notranslate"><span class="pre">polytropic_process_one_fluid()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="barotropy.barotropic_model.html#barotropy.barotropic_model.postprocess_ode"><code class="docutils literal notranslate"><span class="pre">postprocess_ode()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="barotropy.isentropic_nozzle.html">barotropy.isentropic_nozzle module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.isentropic_nozzle.html#barotropy.isentropic_nozzle.compute_supersonic_exit"><code class="docutils literal notranslate"><span class="pre">compute_supersonic_exit()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.isentropic_nozzle.html#barotropy.isentropic_nozzle.get_isentropic_outlet_state"><code class="docutils literal notranslate"><span class="pre">get_isentropic_outlet_state()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.isentropic_nozzle.html#barotropy.isentropic_nozzle.get_isentropic_sonic_state"><code class="docutils literal notranslate"><span class="pre">get_isentropic_sonic_state()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="barotropy.sCO2_utilities.html">barotropy.sCO2_utilities module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.sCO2_utilities.html#barotropy.sCO2_utilities.calculate_scaling_variables"><code class="docutils literal notranslate"><span class="pre">calculate_scaling_variables()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.sCO2_utilities.html#barotropy.sCO2_utilities.compute_actual_from_equivalent"><code class="docutils literal notranslate"><span class="pre">compute_actual_from_equivalent()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.sCO2_utilities.html#barotropy.sCO2_utilities.compute_critical_state"><code class="docutils literal notranslate"><span class="pre">compute_critical_state()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.sCO2_utilities.html#barotropy.sCO2_utilities.compute_equivalent_from_actual"><code class="docutils literal notranslate"><span class="pre">compute_equivalent_from_actual()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.sCO2_utilities.html#barotropy.sCO2_utilities.compute_inlet_state"><code class="docutils literal notranslate"><span class="pre">compute_inlet_state()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.sCO2_utilities.html#barotropy.sCO2_utilities.compute_outlet_state_isentropic"><code class="docutils literal notranslate"><span class="pre">compute_outlet_state_isentropic()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.sCO2_utilities.html#barotropy.sCO2_utilities.plot_Ts_diagram"><code class="docutils literal notranslate"><span class="pre">plot_Ts_diagram()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.sCO2_utilities.html#barotropy.sCO2_utilities.plot_ps_diagram"><code class="docutils literal notranslate"><span class="pre">plot_ps_diagram()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="barotropy.math.html">barotropy.math module</a><ul>
@@ -551,15 +553,15 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="barotropy.math.html#barotropy.math.tand"><code class="docutils literal notranslate"><span class="pre">tand()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="barotropy.plot_options.html">barotropy.plot_options module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.plot_options.html#barotropy.plot_options.create_sample_plot"><code class="docutils literal notranslate"><span class="pre">create_sample_plot()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.plot_options.html#barotropy.plot_options.print_installed_fonts"><code class="docutils literal notranslate"><span class="pre">print_installed_fonts()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.plot_options.html#barotropy.plot_options.print_rc_parameters"><code class="docutils literal notranslate"><span class="pre">print_rc_parameters()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.plot_options.html#barotropy.plot_options.savefig_in_formats"><code class="docutils literal notranslate"><span class="pre">savefig_in_formats()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.plot_options.html#barotropy.plot_options.scale_graphics_x"><code class="docutils literal notranslate"><span class="pre">scale_graphics_x()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.plot_options.html#barotropy.plot_options.scale_graphics_y"><code class="docutils literal notranslate"><span class="pre">scale_graphics_y()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.plot_options.html#barotropy.plot_options.set_plot_options"><code class="docutils literal notranslate"><span class="pre">set_plot_options()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.plot_options.html#barotropy.plot_options.write_rc_parameters"><code class="docutils literal notranslate"><span class="pre">write_rc_parameters()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="barotropy.graphics.html">barotropy.graphics module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="barotropy.graphics.html#barotropy.graphics.create_gif"><code class="docutils literal notranslate"><span class="pre">create_gif()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="barotropy.graphics.html#barotropy.graphics.create_mp4"><code class="docutils literal notranslate"><span class="pre">create_mp4()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="barotropy.graphics.html#barotropy.graphics.print_installed_fonts"><code class="docutils literal notranslate"><span class="pre">print_installed_fonts()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="barotropy.graphics.html#barotropy.graphics.print_rc_parameters"><code class="docutils literal notranslate"><span class="pre">print_rc_parameters()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="barotropy.graphics.html#barotropy.graphics.savefig_in_formats"><code class="docutils literal notranslate"><span class="pre">savefig_in_formats()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="barotropy.graphics.html#barotropy.graphics.scale_graphics_x"><code class="docutils literal notranslate"><span class="pre">scale_graphics_x()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="barotropy.graphics.html#barotropy.graphics.scale_graphics_y"><code class="docutils literal notranslate"><span class="pre">scale_graphics_y()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="barotropy.graphics.html#barotropy.graphics.set_plot_options"><code class="docutils literal notranslate"><span class="pre">set_plot_options()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="barotropy.utilities.html">barotropy.utilities module</a><ul>
