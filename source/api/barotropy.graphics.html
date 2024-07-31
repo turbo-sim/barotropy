@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>barotropy.pysolver_view.pysolver_utilities module &#8212; barotropy v0.0.2 documentation</title>
+    <title>barotropy.graphics module &#8212; barotropy v0.0.2 documentation</title>
   
   
   
@@ -49,11 +49,11 @@
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'source/api/barotropy.pysolver_view.pysolver_utilities';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'source/api/barotropy.graphics';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="barotropy.fluent_automation package" href="barotropy.fluent_automation.html" />
-    <link rel="prev" title="barotropy.pysolver_view.optimization_wrappers module" href="barotropy.pysolver_view.optimization_wrappers.html" />
+    <link rel="next" title="barotropy.utilities module" href="barotropy.utilities.html" />
+    <link rel="prev" title="barotropy.math module" href="barotropy.math.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -174,14 +174,14 @@
 <li class="toctree-l3"><a class="reference internal" href="barotropy.fluid_properties.utilities.html">barotropy.fluid_properties.utilities module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="barotropy.pysolver_view.html">barotropy.pysolver_view package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="barotropy.pysolver_view.html">barotropy.pysolver_view package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="barotropy.pysolver_view.nonlinear_system.html">barotropy.pysolver_view.nonlinear_system module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="barotropy.pysolver_view.nonlinear_system_problems.html">barotropy.pysolver_view.nonlinear_system_problems module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="barotropy.pysolver_view.numerical_differentiation.html">barotropy.pysolver_view.numerical_differentiation module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="barotropy.pysolver_view.optimization.html">barotropy.pysolver_view.optimization module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="barotropy.pysolver_view.optimization_problems.html">barotropy.pysolver_view.optimization_problems module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="barotropy.pysolver_view.optimization_wrappers.html">barotropy.pysolver_view.optimization_wrappers module</a></li>
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">barotropy.pysolver_view.pysolver_utilities module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.pysolver_view.pysolver_utilities.html">barotropy.pysolver_view.pysolver_utilities module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="barotropy.fluent_automation.html">barotropy.fluent_automation package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -193,7 +193,7 @@
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="barotropy.barotropic_model.html">barotropy.barotropic_model module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="barotropy.math.html">barotropy.math module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.graphics.html">barotropy.graphics module</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">barotropy.graphics module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="barotropy.utilities.html">barotropy.utilities module</a></li>
 </ul>
 </details></li>
@@ -251,7 +251,7 @@
       
       
       
-      <li><a href="../../_sources/source/api/barotropy.pysolver_view.pysolver_utilities.rst" target="_blank"
+      <li><a href="../../_sources/source/api/barotropy.graphics.rst" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -335,7 +335,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>barotropy.pysolver_view.pysolver_utilities module</h1>
+    <h1>barotropy.graphics module</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -345,11 +345,14 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.pysolver_view.pysolver_utilities.create_logger"><code class="docutils literal notranslate"><span class="pre">create_logger()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.pysolver_view.pysolver_utilities.print_installed_fonts"><code class="docutils literal notranslate"><span class="pre">print_installed_fonts()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.pysolver_view.pysolver_utilities.print_rc_parameters"><code class="docutils literal notranslate"><span class="pre">print_rc_parameters()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.pysolver_view.pysolver_utilities.savefig_in_formats"><code class="docutils literal notranslate"><span class="pre">savefig_in_formats()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.pysolver_view.pysolver_utilities.set_plot_options"><code class="docutils literal notranslate"><span class="pre">set_plot_options()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.create_gif"><code class="docutils literal notranslate"><span class="pre">create_gif()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.create_mp4"><code class="docutils literal notranslate"><span class="pre">create_mp4()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.print_installed_fonts"><code class="docutils literal notranslate"><span class="pre">print_installed_fonts()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.print_rc_parameters"><code class="docutils literal notranslate"><span class="pre">print_rc_parameters()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.savefig_in_formats"><code class="docutils literal notranslate"><span class="pre">savefig_in_formats()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.scale_graphics_x"><code class="docutils literal notranslate"><span class="pre">scale_graphics_x()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.scale_graphics_y"><code class="docutils literal notranslate"><span class="pre">scale_graphics_y()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.set_plot_options"><code class="docutils literal notranslate"><span class="pre">set_plot_options()</span></code></a></li>
 </ul>
             </nav>
         </div>
@@ -361,59 +364,61 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="module-barotropy.pysolver_view.pysolver_utilities">
-<span id="barotropy-pysolver-view-pysolver-utilities-module"></span><h1>barotropy.pysolver_view.pysolver_utilities module<a class="headerlink" href="#module-barotropy.pysolver_view.pysolver_utilities" title="Link to this heading">#</a></h1>
+  <section id="module-barotropy.graphics">
+<span id="barotropy-graphics-module"></span><h1>barotropy.graphics module<a class="headerlink" href="#module-barotropy.graphics" title="Link to this heading">#</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="barotropy.pysolver_view.pysolver_utilities.create_logger">
-<span class="sig-prename descclassname"><span class="pre">barotropy.pysolver_view.pysolver_utilities.</span></span><span class="sig-name descname"><span class="pre">create_logger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_datetime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/pysolver_view/pysolver_utilities.html#create_logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.pysolver_view.pysolver_utilities.create_logger" title="Link to this definition">#</a></dt>
-<dd><p>Creates and configures a logging object for recording logs during program execution.</p>
+<dt class="sig sig-object py" id="barotropy.graphics.create_gif">
+<span class="sig-prename descclassname"><span class="pre">barotropy.graphics.</span></span><span class="sig-name descname"><span class="pre">create_gif</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/graphics.html#create_gif"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.graphics.create_gif" title="Link to this definition">#</a></dt>
+<dd><p>Create a GIF from a series of images.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>Name of the log file. Allows for differentiation when analyzing logs from different components or runs of a program.</p>
+<dt><strong>image_folder</strong><span class="classifier">str</span></dt><dd><p>The path to the folder containing the images.</p>
 </dd>
-<dt><strong>path</strong><span class="classifier">str, optional</span></dt><dd><p>Specifies the directory where the log files will be saved. By default, a directory named “logs”
-will be created in the current working directory (cwd).</p>
+<dt><strong>output_file</strong><span class="classifier">str</span></dt><dd><p>The path and filename of the output GIF.</p>
 </dd>
-<dt><strong>use_datetime</strong><span class="classifier">bool, optional</span></dt><dd><p>Determines whether the log filename should have a unique datetime identifier appended. Default is True.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>logger</strong><span class="classifier">object</span></dt><dd><p>Configured logger object.</p>
+<dt><strong>duration</strong><span class="classifier">float, optional</span></dt><dd><p>Duration of each frame in the GIF, by default 0.5 seconds.</p>
 </dd>
 </dl>
 </dd>
 </dl>
-<p class="rubric">Notes</p>
-<ul class="simple">
-<li><p>By default, the function sets the log level to <cite>INFO</cite>, which means the logger will handle
-messages of level <cite>INFO</cite> and above (like <cite>ERROR</cite>, <cite>WARNING</cite>, etc.). The log entries will contain
-the timestamp, log level, and the actual log message.</p></li>
-<li><p>When <cite>use_datetime=True</cite>, each log file will have a unique datetime identifier. This ensures
-traceability, avoids overwriting previous logs, allows chronological ordering of log files, and
-handles concurrency in multi-instance environments.</p></li>
-</ul>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="barotropy.pysolver_view.pysolver_utilities.print_installed_fonts">
-<span class="sig-prename descclassname"><span class="pre">barotropy.pysolver_view.pysolver_utilities.</span></span><span class="sig-name descname"><span class="pre">print_installed_fonts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/pysolver_view/pysolver_utilities.html#print_installed_fonts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.pysolver_view.pysolver_utilities.print_installed_fonts" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="barotropy.graphics.create_mp4">
+<span class="sig-prename descclassname"><span class="pre">barotropy.graphics.</span></span><span class="sig-name descname"><span class="pre">create_mp4</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/graphics.html#create_mp4"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.graphics.create_mp4" title="Link to this definition">#</a></dt>
+<dd><p>Create an MP4 video from a series of images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image_folder</strong><span class="classifier">str</span></dt><dd><p>The path to the folder containing the images.</p>
+</dd>
+<dt><strong>output_file</strong><span class="classifier">str</span></dt><dd><p>The path and filename of the output MP4 video.</p>
+</dd>
+<dt><strong>fps</strong><span class="classifier">int, optional</span></dt><dd><p>Frames per second in the output video, by default 10.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.graphics.print_installed_fonts">
+<span class="sig-prename descclassname"><span class="pre">barotropy.graphics.</span></span><span class="sig-name descname"><span class="pre">print_installed_fonts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/graphics.html#print_installed_fonts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.graphics.print_installed_fonts" title="Link to this definition">#</a></dt>
 <dd><p>Print the list of fonts installed on the system.</p>
 <p>This function identifies and prints all available fonts for use in Matplotlib.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="barotropy.pysolver_view.pysolver_utilities.print_rc_parameters">
-<span class="sig-prename descclassname"><span class="pre">barotropy.pysolver_view.pysolver_utilities.</span></span><span class="sig-name descname"><span class="pre">print_rc_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/pysolver_view/pysolver_utilities.html#print_rc_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.pysolver_view.pysolver_utilities.print_rc_parameters" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="barotropy.graphics.print_rc_parameters">
+<span class="sig-prename descclassname"><span class="pre">barotropy.graphics.</span></span><span class="sig-name descname"><span class="pre">print_rc_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/graphics.html#print_rc_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.graphics.print_rc_parameters" title="Link to this definition">#</a></dt>
 <dd><p>Print the current rcParams used by Matplotlib or write to file if provided.</p>
 <p>This function provides a quick overview of the active configuration parameters within Matplotlib.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="barotropy.pysolver_view.pysolver_utilities.savefig_in_formats">
-<span class="sig-prename descclassname"><span class="pre">barotropy.pysolver_view.pysolver_utilities.</span></span><span class="sig-name descname"><span class="pre">savefig_in_formats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_without_extension</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['.png',</span> <span class="pre">'.svg']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dpi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/pysolver_view/pysolver_utilities.html#savefig_in_formats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.pysolver_view.pysolver_utilities.savefig_in_formats" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="barotropy.graphics.savefig_in_formats">
+<span class="sig-prename descclassname"><span class="pre">barotropy.graphics.</span></span><span class="sig-name descname"><span class="pre">savefig_in_formats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_without_extension</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['.png',</span> <span class="pre">'.svg',</span> <span class="pre">'.eps']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dpi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/graphics.html#savefig_in_formats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.graphics.savefig_in_formats" title="Link to this definition">#</a></dt>
 <dd><p>Save a given Matplotlib figure in multiple file formats.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -443,8 +448,20 @@ Default is 500.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="barotropy.pysolver_view.pysolver_utilities.set_plot_options">
-<span class="sig-prename descclassname"><span class="pre">barotropy.pysolver_view.pysolver_utilities.</span></span><span class="sig-name descname"><span class="pre">set_plot_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fontsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">13</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">major_ticks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minor_ticks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">margin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'matlab'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linewidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.25</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/pysolver_view/pysolver_utilities.html#set_plot_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.pysolver_view.pysolver_utilities.set_plot_options" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="barotropy.graphics.scale_graphics_x">
+<span class="sig-prename descclassname"><span class="pre">barotropy.graphics.</span></span><span class="sig-name descname"><span class="pre">scale_graphics_x</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'multiply'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/graphics.html#scale_graphics_x"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.graphics.scale_graphics_x" title="Link to this definition">#</a></dt>
+<dd><p>Scale x-coordinates of graphics objects</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.graphics.scale_graphics_y">
+<span class="sig-prename descclassname"><span class="pre">barotropy.graphics.</span></span><span class="sig-name descname"><span class="pre">scale_graphics_y</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'multiply'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/graphics.html#scale_graphics_y"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.graphics.scale_graphics_y" title="Link to this definition">#</a></dt>
+<dd><p>Scale y-coordinates of graphics objects</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.graphics.set_plot_options">
+<span class="sig-prename descclassname"><span class="pre">barotropy.graphics.</span></span><span class="sig-name descname"><span class="pre">set_plot_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fontsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">14</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">major_ticks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minor_ticks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">margin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'matlab'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linewidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.25</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/graphics.html#set_plot_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.graphics.set_plot_options" title="Link to this definition">#</a></dt>
 <dd><p>Set options for creating publication-quality figures using Matplotlib.</p>
 <p>This function updates the internal Matplotlib settings to better align with standards for publication-quality figures.
 Features include improved font selections, tick marks, grid appearance, and color selections.</p>
@@ -482,20 +499,20 @@ Features include improved font selections, tick marks, grid appearance, and colo
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="barotropy.pysolver_view.optimization_wrappers.html"
+       href="barotropy.math.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">barotropy.pysolver_view.optimization_wrappers module</p>
+        <p class="prev-next-title">barotropy.math module</p>
       </div>
     </a>
     <a class="right-next"
-       href="barotropy.fluent_automation.html"
+       href="barotropy.utilities.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">barotropy.fluent_automation package</p>
+        <p class="prev-next-title">barotropy.utilities module</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -515,11 +532,14 @@ Features include improved font selections, tick marks, grid appearance, and colo
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.pysolver_view.pysolver_utilities.create_logger"><code class="docutils literal notranslate"><span class="pre">create_logger()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.pysolver_view.pysolver_utilities.print_installed_fonts"><code class="docutils literal notranslate"><span class="pre">print_installed_fonts()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.pysolver_view.pysolver_utilities.print_rc_parameters"><code class="docutils literal notranslate"><span class="pre">print_rc_parameters()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.pysolver_view.pysolver_utilities.savefig_in_formats"><code class="docutils literal notranslate"><span class="pre">savefig_in_formats()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.pysolver_view.pysolver_utilities.set_plot_options"><code class="docutils literal notranslate"><span class="pre">set_plot_options()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.create_gif"><code class="docutils literal notranslate"><span class="pre">create_gif()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.create_mp4"><code class="docutils literal notranslate"><span class="pre">create_mp4()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.print_installed_fonts"><code class="docutils literal notranslate"><span class="pre">print_installed_fonts()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.print_rc_parameters"><code class="docutils literal notranslate"><span class="pre">print_rc_parameters()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.savefig_in_formats"><code class="docutils literal notranslate"><span class="pre">savefig_in_formats()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.scale_graphics_x"><code class="docutils literal notranslate"><span class="pre">scale_graphics_x()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.scale_graphics_y"><code class="docutils literal notranslate"><span class="pre">scale_graphics_y()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.set_plot_options"><code class="docutils literal notranslate"><span class="pre">set_plot_options()</span></code></a></li>
 </ul>
   </nav></div>
 

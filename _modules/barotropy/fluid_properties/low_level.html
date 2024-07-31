@@ -191,10 +191,8 @@
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../source/api/barotropy.barotropic_model.html">barotropy.barotropic_model module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../source/api/barotropy.isentropic_nozzle.html">barotropy.isentropic_nozzle module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../source/api/barotropy.sCO2_utilities.html">barotropy.sCO2_utilities module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../source/api/barotropy.math.html">barotropy.math module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../source/api/barotropy.plot_options.html">barotropy.plot_options module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/barotropy.graphics.html">barotropy.graphics module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../source/api/barotropy.utilities.html">barotropy.utilities module</a></li>
 </ul>
 </details></li>
@@ -314,6 +312,7 @@ document.write(`
 <span class="n">PROPERTY_ALIAS</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;P&quot;</span><span class="p">:</span> <span class="s2">&quot;p&quot;</span><span class="p">,</span>
     <span class="s2">&quot;rho&quot;</span><span class="p">:</span> <span class="s2">&quot;rhomass&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="s2">&quot;rhomass&quot;</span><span class="p">,</span>
     <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="s2">&quot;rhomass&quot;</span><span class="p">,</span>
     <span class="s2">&quot;u&quot;</span><span class="p">:</span> <span class="s2">&quot;umass&quot;</span><span class="p">,</span>
     <span class="s2">&quot;h&quot;</span><span class="p">:</span> <span class="s2">&quot;hmass&quot;</span><span class="p">,</span>
@@ -324,12 +323,22 @@ document.write(`
     <span class="s2">&quot;Z&quot;</span><span class="p">:</span> <span class="s2">&quot;compressibility_factor&quot;</span><span class="p">,</span>
     <span class="s2">&quot;mu&quot;</span><span class="p">:</span> <span class="s2">&quot;viscosity&quot;</span><span class="p">,</span>
     <span class="s2">&quot;k&quot;</span><span class="p">:</span> <span class="s2">&quot;conductivity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;vapor_quality&quot;</span><span class="p">:</span> <span class="s2">&quot;quality_mass&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;void_fraction&quot;</span><span class="p">:</span> <span class="s2">&quot;quality_volume&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
+<span class="c1"># Define valid phase change types and their aliases</span>
+<span class="n">PHASE_CHANGE_ALIASES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;condensation&quot;</span><span class="p">:</span> <span class="s2">&quot;condensation&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;evaporation&quot;</span><span class="p">:</span> <span class="s2">&quot;evaporation&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;flashing&quot;</span><span class="p">:</span> <span class="s2">&quot;evaporation&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cavitation&quot;</span><span class="p">:</span> <span class="s2">&quot;evaporation&quot;</span><span class="p">,</span>
+<span class="p">}</span>
 
 <span class="c1"># ------------------------------------------------------------------------------------ #</span>
 <span class="c1"># Equilibrium property calculations in the single-phase region</span>
 <span class="c1"># ------------------------------------------------------------------------------------ #</span>
+
 
 <div class="viewcode-block" id="compute_properties_1phase">
 <a class="viewcode-back" href="../../../source/api/barotropy.fluid_properties.low_level.html#barotropy.fluid_properties.low_level.compute_properties_1phase">[docs]</a>
@@ -368,7 +377,7 @@ document.write(`
     <span class="k">if</span> <span class="n">generalize_quality</span><span class="p">:</span>
         <span class="n">props</span><span class="p">[</span><span class="s2">&quot;Q&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_generalized_quality</span><span class="p">(</span><span class="n">AS</span><span class="p">)</span>
         <span class="n">props</span><span class="p">[</span><span class="s2">&quot;quality_mass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;Q&quot;</span><span class="p">]</span>
-        <span class="n">props</span><span class="p">[</span><span class="s2">&quot;quality_volume&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="n">props</span><span class="p">[</span><span class="s2">&quot;quality_volume&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.00</span> <span class="k">if</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;Q&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="k">else</span> <span class="mf">0.00</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">props</span><span class="p">[</span><span class="s2">&quot;Q&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
         <span class="n">props</span><span class="p">[</span><span class="s2">&quot;quality_mass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
@@ -391,6 +400,7 @@ document.write(`
 <span class="c1"># ------------------------------------------------------------------------------------ #</span>
 <span class="c1"># Equilibrium property calculations in the two-phase region</span>
 <span class="c1"># ------------------------------------------------------------------------------------ #</span>
+
 
 <div class="viewcode-block" id="compute_properties_2phase">
 <a class="viewcode-back" href="../../../source/api/barotropy.fluid_properties.low_level.html#barotropy.fluid_properties.low_level.compute_properties_2phase">[docs]</a>
@@ -509,8 +519,9 @@ document.write(`
 
 
 <span class="c1"># ------------------------------------------------------------------------------------ #</span>
-<span class="c1"># Metastable property calculations using Helmholtz equations of state</span>
+<span class="c1"># Property calculations using Helmholtz equations of state</span>
 <span class="c1"># ------------------------------------------------------------------------------------ #</span>
+
 
 <div class="viewcode-block" id="compute_properties_metastable_rhoT">
 <a class="viewcode-back" href="../../../source/api/barotropy.fluid_properties.low_level.html#barotropy.fluid_properties.low_level.compute_properties_metastable_rhoT">[docs]</a>
@@ -691,8 +702,9 @@ document.write(`
 
 
 <span class="c1"># ------------------------------------------------------------------------------------ #</span>
-<span class="c1"># Flash calculations using CoolProp solver</span>
+<span class="c1"># Property calculations using CoolProp solver</span>
 <span class="c1"># ------------------------------------------------------------------------------------ #</span>
+
 
 <div class="viewcode-block" id="compute_properties_coolprop">
 <a class="viewcode-back" href="../../../source/api/barotropy.fluid_properties.low_level.html#barotropy.fluid_properties.low_level.compute_properties_coolprop">[docs]</a>
@@ -836,8 +848,9 @@ document.write(`
 
 
 <span class="c1"># ------------------------------------------------------------------------------------ #</span>
-<span class="c1"># Flash calculations using custom solver</span>
+<span class="c1"># Property calculations using custom solver</span>
 <span class="c1"># ------------------------------------------------------------------------------------ #</span>
+
 
 <div class="viewcode-block" id="compute_properties">
 <a class="viewcode-back" href="../../../source/api/barotropy.fluid_properties.low_level.html#barotropy.fluid_properties.low_level.compute_properties">[docs]</a>
@@ -850,12 +863,12 @@ document.write(`
     <span class="n">calculation_type</span><span class="p">,</span>
     <span class="n">rhoT_guess_metastable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">rhoT_guess_equilibrium</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">supersaturation</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">generalize_quality</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">phase_change</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">blending_variable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">blending_onset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">blending_width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">initial_phase</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">supersaturation</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">generalize_quality</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">solver_algorithm</span><span class="o">=</span><span class="s2">&quot;hybr&quot;</span><span class="p">,</span>
     <span class="n">solver_tolerance</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
     <span class="n">solver_max_iterations</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
@@ -970,12 +983,24 @@ document.write(`
 
     <span class="k">elif</span> <span class="n">calculation_type</span> <span class="o">==</span> <span class="s2">&quot;blending&quot;</span><span class="p">:</span>
 
-        <span class="k">if</span> <span class="p">(</span><span class="n">blending_variable</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">blending_onset</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">blending_width</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Blending requires blending_variable, blending_onset, and blending_width.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">phase_change</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="ow">or</span> <span class="n">blending_variable</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="ow">or</span> <span class="n">blending_onset</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="ow">or</span> <span class="n">blending_width</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="p">):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;The following variables must be specified when calculation_type=&#39;</span><span class="si">{</span><span class="n">calculation_type</span><span class="si">}</span><span class="s2">&#39;:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;   1. phase_change: </span><span class="si">{</span><span class="n">phase_change</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;   2. blending_variable: </span><span class="si">{</span><span class="n">blending_variable</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;   3. blending_onset: </span><span class="si">{</span><span class="n">blending_onset</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;   4. blending_width: </span><span class="si">{</span><span class="n">blending_width</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
         <span class="c1"># Equilibrium state</span>
         <span class="n">rho_guess</span><span class="p">,</span> <span class="n">T_guess</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rhoT_guess_equilibrium</span><span class="p">)</span>
-        <span class="n">props_equilibrium</span> <span class="o">=</span>  <span class="n">_perform_flash_calculation</span><span class="p">(</span>
+        <span class="n">props_eq</span> <span class="o">=</span> <span class="n">_perform_flash_calculation</span><span class="p">(</span>
             <span class="n">abstract_state</span><span class="o">=</span><span class="n">abstract_state</span><span class="p">,</span>
             <span class="n">prop_1</span><span class="o">=</span><span class="n">prop_1</span><span class="p">,</span>
             <span class="n">prop_1_value</span><span class="o">=</span><span class="n">prop_1_value</span><span class="p">,</span>
@@ -991,23 +1016,10 @@ document.write(`
             <span class="n">solver_max_iterations</span><span class="o">=</span><span class="n">solver_max_iterations</span><span class="p">,</span>
             <span class="n">print_convergence</span><span class="o">=</span><span class="n">print_convergence</span><span class="p">,</span>
         <span class="p">)</span>
-        
-        <span class="c1"># If x &lt; 0, only equilibrium properties are relevant</span>
-        <span class="k">if</span> <span class="n">initial_phase</span> <span class="o">==</span> <span class="s2">&quot;liquid&quot;</span><span class="p">:</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">props_equilibrium</span><span class="p">[</span><span class="n">blending_variable</span><span class="p">]</span> <span class="o">-</span> <span class="n">blending_onset</span><span class="p">)</span> <span class="o">/</span> <span class="n">blending_width</span>
-        <span class="k">elif</span> <span class="n">initial_phase</span> <span class="o">==</span> <span class="s2">&quot;vapor&quot;</span><span class="p">:</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">props_equilibrium</span><span class="p">[</span><span class="n">blending_variable</span><span class="p">]</span> <span class="o">-</span> <span class="n">blending_onset</span><span class="p">)</span> <span class="o">/</span> <span class="n">blending_width</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Invalid value for initial_phase=</span><span class="si">{</span><span class="n">initial_phase</span><span class="si">}</span><span class="s2">. Valid values are: &#39;vapor&#39; or &#39;liquid&#39;&quot;</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-        
-        <span class="c1"># Skip matastable properties if inside the equilibrium range</span>
-        <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">props_equilibrium</span>
-        
+
         <span class="c1"># Metastable properties</span>
         <span class="n">rho_guess</span><span class="p">,</span> <span class="n">T_guess</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rhoT_guess_metastable</span><span class="p">)</span>
-        <span class="n">props_metastable</span> <span class="o">=</span> <span class="n">_perform_flash_calculation</span><span class="p">(</span>
+        <span class="n">props_meta</span> <span class="o">=</span> <span class="n">_perform_flash_calculation</span><span class="p">(</span>
             <span class="n">abstract_state</span><span class="o">=</span><span class="n">abstract_state</span><span class="p">,</span>
             <span class="n">prop_1</span><span class="o">=</span><span class="n">prop_1</span><span class="p">,</span>
             <span class="n">prop_1_value</span><span class="o">=</span><span class="n">prop_1_value</span><span class="p">,</span>
@@ -1017,22 +1029,25 @@ document.write(`
             <span class="n">T_guess</span><span class="o">=</span><span class="n">T_guess</span><span class="p">,</span>
             <span class="n">calculation_type</span><span class="o">=</span><span class="s2">&quot;metastable&quot;</span><span class="p">,</span>
             <span class="n">supersaturation</span><span class="o">=</span><span class="n">supersaturation</span><span class="p">,</span>
-            <span class="n">generalize_quality</span><span class="o">=</span><span class="n">generalize_quality</span><span class="p">,</span>
+            <span class="n">generalize_quality</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">solver_algorithm</span><span class="o">=</span><span class="n">solver_algorithm</span><span class="p">,</span>
             <span class="n">solver_tolerance</span><span class="o">=</span><span class="n">solver_tolerance</span><span class="p">,</span>
             <span class="n">solver_max_iterations</span><span class="o">=</span><span class="n">solver_max_iterations</span><span class="p">,</span>
             <span class="n">print_convergence</span><span class="o">=</span><span class="n">print_convergence</span><span class="p">,</span>
         <span class="p">)</span>
+        <span class="n">props_meta</span><span class="p">[</span><span class="s2">&quot;Q&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.00</span> <span class="k">if</span> <span class="n">phase_change</span> <span class="o">==</span> <span class="s2">&quot;condensation&quot;</span> <span class="k">else</span> <span class="mf">0.00</span>
 
         <span class="c1"># Blend properties</span>
-        <span class="n">sigma</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sigmoid_smoothstep</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">blended_props</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">props_equilibrium</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">prop_equilibrium</span> <span class="o">=</span> <span class="n">props_equilibrium</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
-            <span class="n">prop_metastable</span> <span class="o">=</span> <span class="n">props_metastable</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
-            <span class="n">blended_props</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">prop_equilibrium</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">sigma</span><span class="p">)</span> <span class="o">+</span> <span class="n">prop_metastable</span> <span class="o">*</span> <span class="n">sigma</span>
-        <span class="k">return</span> <span class="n">blended_props</span>
+        <span class="n">props_blended</span> <span class="o">=</span> <span class="n">blend_properties</span><span class="p">(</span>
+            <span class="n">phase_change</span><span class="o">=</span><span class="n">phase_change</span><span class="p">,</span>
+            <span class="n">props_equilibrium</span><span class="o">=</span><span class="n">props_eq</span><span class="p">,</span>
+            <span class="n">props_metastable</span><span class="o">=</span><span class="n">props_meta</span><span class="p">,</span>
+            <span class="n">blending_variable</span><span class="o">=</span><span class="n">blending_variable</span><span class="p">,</span>
+            <span class="n">blending_onset</span><span class="o">=</span><span class="n">blending_onset</span><span class="p">,</span>
+            <span class="n">blending_width</span><span class="o">=</span><span class="n">blending_width</span><span class="p">,</span>
+        <span class="p">)</span>
 
+        <span class="k">return</span> <span class="n">props_blended</span><span class="p">,</span> <span class="n">props_eq</span><span class="p">,</span> <span class="n">props_meta</span>
 
     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown calculation type: </span><span class="si">{</span><span class="n">calculation_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
@@ -1055,7 +1070,7 @@ document.write(`
     <span class="n">solver_max_iterations</span><span class="p">,</span>
     <span class="n">print_convergence</span><span class="p">,</span>
 <span class="p">):</span>
-    
+
     <span class="c1"># Ensure prop_1_value and prop_2_value are scalar numbers</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">utils</span><span class="o">.</span><span class="n">is_float</span><span class="p">(</span><span class="n">prop_1_value</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">utils</span><span class="o">.</span><span class="n">is_float</span><span class="p">(</span><span class="n">prop_2_value</span><span class="p">):</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Both prop_1_value and prop_2_value must be scalar numbers. Received: prop_1_value=</span><span class="si">{</span><span class="n">prop_1_value</span><span class="si">}</span><span class="s2">, prop_2_value=</span><span class="si">{</span><span class="n">prop_2_value</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -1074,14 +1089,15 @@ document.write(`
             <span class="n">prop_1</span><span class="o">=</span><span class="n">rho</span><span class="p">,</span>
             <span class="n">prop_2</span><span class="o">=</span><span class="n">T</span><span class="p">,</span>
             <span class="n">generalize_quality</span><span class="o">=</span><span class="n">generalize_quality</span><span class="p">,</span>
-            <span class="n">supersaturation</span><span class="o">=</span><span class="n">supersaturation</span>
+            <span class="n">supersaturation</span><span class="o">=</span><span class="n">supersaturation</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">elif</span> <span class="n">calculation_type</span> <span class="o">==</span> <span class="s2">&quot;metastable&quot;</span><span class="p">:</span>
         <span class="n">function_handle</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">rho</span><span class="p">,</span> <span class="n">T</span><span class="p">:</span> <span class="n">compute_properties_metastable_rhoT</span><span class="p">(</span>
             <span class="n">abstract_state</span><span class="o">=</span><span class="n">abstract_state</span><span class="p">,</span>
             <span class="n">rho</span><span class="o">=</span><span class="n">rho</span><span class="p">,</span>
             <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span>
-            <span class="n">supersaturation</span><span class="o">=</span><span class="n">supersaturation</span>
+            <span class="n">generalize_quality</span><span class="o">=</span><span class="n">generalize_quality</span><span class="p">,</span>
+            <span class="n">supersaturation</span><span class="o">=</span><span class="n">supersaturation</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Invalid calculation type &#39;</span><span class="si">{</span><span class="n">calculation_type</span><span class="si">}</span><span class="s2">&#39;. Valid options are: &#39;equilibrium&#39; and &#39;metastable&#39;&quot;</span>
@@ -1093,7 +1109,7 @@ document.write(`
         <span class="n">prop_1_value</span><span class="o">=</span><span class="n">prop_1_value</span><span class="p">,</span>
         <span class="n">prop_2</span><span class="o">=</span><span class="n">prop_2</span><span class="p">,</span>
         <span class="n">prop_2_value</span><span class="o">=</span><span class="n">prop_2_value</span><span class="p">,</span>
-        <span class="n">function_handle</span><span class="o">=</span><span class="n">function_handle</span>
+        <span class="n">function_handle</span><span class="o">=</span><span class="n">function_handle</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="c1"># Define root-finding solver object</span>
@@ -1112,7 +1128,7 @@ document.write(`
 
     <span class="c1"># Check if solver converged</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">solver</span><span class="o">.</span><span class="n">success</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Property calculation did not converge.</span><span class="se">\n</span><span class="si">{</span><span class="n">solver</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Property calculation did not converge for calculation_type=</span><span class="si">{</span><span class="n">calculation_type</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="si">{</span><span class="n">solver</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">problem</span><span class="o">.</span><span class="n">compute_properties</span><span class="p">(</span><span class="n">rho</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
@@ -1121,14 +1137,7 @@ document.write(`
 <span class="k">class</span> <span class="nc">_FlashCalculationResidual</span><span class="p">(</span><span class="n">psv</span><span class="o">.</span><span class="n">NonlinearSystemProblem</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Class to compute the residual of property calculations&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">prop_1</span><span class="p">,</span>
-        <span class="n">prop_1_value</span><span class="p">,</span>
-        <span class="n">prop_2</span><span class="p">,</span>
-        <span class="n">prop_2_value</span><span class="p">,</span>
-        <span class="n">function_handle</span>
-    <span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prop_1</span><span class="p">,</span> <span class="n">prop_1_value</span><span class="p">,</span> <span class="n">prop_2</span><span class="p">,</span> <span class="n">prop_2_value</span><span class="p">,</span> <span class="n">function_handle</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prop_1</span> <span class="o">=</span> <span class="n">prop_1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prop_2</span> <span class="o">=</span> <span class="n">prop_2</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prop_1_value</span> <span class="o">=</span> <span class="n">prop_1_value</span>
@@ -1151,21 +1160,79 @@ document.write(`
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">res_1</span><span class="p">,</span> <span class="n">res_2</span><span class="p">])</span>
 
 
-<span class="c1"># def _blend_properties(props_equilibrium, props_metastable, blending_variable, blending_onset, blending_width):</span>
-<span class="c1">#     &quot;&quot;&quot;Compute properties between equilibrium and metastable states as a smooth blending&quot;&quot;&quot;</span>
-<span class="c1">#     x = 1 + (props_equilibrium[blending_variable] - blending_onset) / blending_width</span>
-<span class="c1">#     sigma = math.sigmoid_smoothstep(x)</span>
-<span class="c1">#     blended_props = {}</span>
-<span class="c1">#     for key in props_equilibrium.keys():</span>
-<span class="c1">#         prop_equilibrium = props_equilibrium.get(key, np.nan)</span>
-<span class="c1">#         prop_metastable = props_metastable.get(key, np.nan)</span>
-<span class="c1">#         blended_props[key] = prop_equilibrium * (1 - sigma) + prop_metastable * sigma</span>
-    <span class="c1"># return blended_props</span>
+<div class="viewcode-block" id="blend_properties">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluid_properties.low_level.html#barotropy.fluid_properties.low_level.blend_properties">[docs]</a>
+<span class="k">def</span> <span class="nf">blend_properties</span><span class="p">(</span>
+    <span class="n">phase_change</span><span class="p">,</span>
+    <span class="n">props_equilibrium</span><span class="p">,</span>
+    <span class="n">props_metastable</span><span class="p">,</span>
+    <span class="n">blending_variable</span><span class="p">,</span>
+    <span class="n">blending_onset</span><span class="p">,</span>
+    <span class="n">blending_width</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate blending between equilibrum and metastable fluid properties</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    phase_change : str</span>
+<span class="sd">        The type of phase change (e.g., &#39;condensation&#39;, &#39;evaporation&#39;, &#39;flashing&#39;, &#39;cavitation&#39;). Cavitation, flashing, and evaporation do the same calculations, they are aliases added for convenience.</span>
+<span class="sd">    props_equilibrium : dict</span>
+<span class="sd">        The equilibrium properties.</span>
+<span class="sd">    props_metastable : dict</span>
+<span class="sd">        The metastable properties.</span>
+<span class="sd">    blending_variable : str</span>
+<span class="sd">        The variable used for blending.</span>
+<span class="sd">    blending_onset : float</span>
+<span class="sd">        The onset value for blending.</span>
+<span class="sd">    blending_width : float</span>
+<span class="sd">        The width value for blending.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Blended thermodynamic properties.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Map aliases to their respective phase change</span>
+    <span class="n">normalized_phase_change</span> <span class="o">=</span> <span class="n">PHASE_CHANGE_ALIASES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">phase_change</span><span class="p">)</span>
+
+    <span class="c1"># Validate the normalized phase change</span>
+    <span class="k">if</span> <span class="n">normalized_phase_change</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Invalid value for phase_change=&#39;</span><span class="si">{</span><span class="n">phase_change</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Valid values are: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PHASE_CHANGE_ALIASES</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+    <span class="c1"># Calculate the value of &quot;x&quot; based on the normalized phase change</span>
+    <span class="k">if</span> <span class="n">normalized_phase_change</span> <span class="o">==</span> <span class="s2">&quot;condensation&quot;</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">props_equilibrium</span><span class="p">[</span><span class="n">blending_variable</span><span class="p">]</span> <span class="o">-</span> <span class="n">blending_onset</span><span class="p">)</span> <span class="o">/</span> <span class="n">blending_width</span>
+    <span class="k">elif</span> <span class="n">normalized_phase_change</span> <span class="o">==</span> <span class="s2">&quot;evaporation&quot;</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">props_equilibrium</span><span class="p">[</span><span class="n">blending_variable</span><span class="p">]</span> <span class="o">-</span> <span class="n">blending_onset</span><span class="p">)</span> <span class="o">/</span> <span class="n">blending_width</span>
+
+    <span class="c1"># Calculate the blending factor sigma</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sigmoid_smoothstep</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># Blend properties</span>
+    <span class="n">props_blended</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">props_equilibrium</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">prop_equilibrium</span> <span class="o">=</span> <span class="n">props_equilibrium</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+        <span class="n">prop_metastable</span> <span class="o">=</span> <span class="n">props_metastable</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+        <span class="n">props_blended</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">prop_equilibrium</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">sigma</span><span class="p">)</span> <span class="o">+</span> <span class="n">prop_metastable</span> <span class="o">*</span> <span class="n">sigma</span>
+
+    <span class="c1"># Add additional properties</span>
+    <span class="n">props_blended</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="n">props_blended</span><span class="p">[</span><span class="s2">&quot;sigma&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sigma</span>
+
+    <span class="k">return</span> <span class="n">props_blended</span></div>
+
 
 
 <span class="c1"># ------------------------------------------------------------------------------------ #</span>
 <span class="c1"># Additional property calculations</span>
 <span class="c1"># ------------------------------------------------------------------------------------ #</span>
+
 
 <div class="viewcode-block" id="calculate_generalized_quality">
 <a class="viewcode-back" href="../../../source/api/barotropy.fluid_properties.low_level.html#barotropy.fluid_properties.low_level.calculate_generalized_quality">[docs]</a>
