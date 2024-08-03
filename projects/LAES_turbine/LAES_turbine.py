@@ -19,7 +19,7 @@ if not os.path.isdir(DIR_OUT):
 # Load cases from Excel
 case_table = pd.read_excel("./simulation_cases.xlsx")
 case_indices = case_table["index"]
-# case_indices = [1, 2]
+case_indices = [1, 2]
 case_table = case_table[case_table["index"].isin(case_indices)]
 
 # Define plot settings
@@ -36,11 +36,12 @@ for i, (idx, row) in enumerate(case_table.iterrows()):
     print(row)
     print()
     color = "black" if i == 0 else colors[i - 1]
+    print(row["tag"])
     dir_out = os.path.join(DIR_OUT, row["tag"])
 
     # Create barotropic model object
     fluid_name = row["fluid_name"]
-    model = bpy.BarotropicModelOneComponent(
+    model = bpy.BarotropicModel(
         fluid_name=fluid_name,
         T_in=row["T0_in"],
         p_in=row["p0_in"],
@@ -72,8 +73,11 @@ for i, (idx, row) in enumerate(case_table.iterrows()):
         fig, (ax_1, ax_2) = plt.subplots(
             1, 2, figsize=(12.0, 5.0), gridspec_kw={"wspace": 0.25}
         )
-        ax_1.set_xlabel("Entropy (J/kg/K)")
+        fig.suptitle("Smooth barotropic model for expansion of nitrogen (LAES turbine case)", fontsize=14)
+        ax_1.set_xlabel("Entropy (J/kg/K)\n")
         ax_1.set_ylabel("Temperature (K)")
+        ax_2.set_xlabel("Pressure (Pa)\n")
+        ax_2.set_ylabel("Density (kg/m$^3$)")
         # s_min, s_max = 1.3, 1.7
         # T_min, T_max = 25, 35
         # ax.set_xlim([s_min, s_max])
@@ -115,6 +119,7 @@ ax_1.legend(loc="lower right")
 ax_2.legend(loc="lower right")
 # bpy.scale_graphics_x(fig, +1e-3, mode="multiply")
 # bpy.scale_graphics_y(fig, -273.15, mode="add")
+# fig.tight_layout(pad=1)
 
 # Save figures
 if save_figures:
