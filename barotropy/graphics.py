@@ -174,7 +174,9 @@ def print_rc_parameters(filename=None):
                 file.write(f"{key}: {value}\n")
 
 
-def savefig_in_formats(fig, path_without_extension, formats=[".png", ".svg", ".eps"], dpi=500):
+def savefig_in_formats(
+    fig, path_without_extension, formats=[".png", ".svg", ".eps"], dpi=500
+):
     """
     Save a given Matplotlib figure in multiple file formats.
 
@@ -336,3 +338,110 @@ def scale_graphics_y(fig, scale, mode="multiply"):
                     path.vertices[:, 1] *= scale
                 elif mode == "add":
                     path.vertices[:, 1] += scale
+
+
+
+
+def plot_xy_data(
+    data,
+    figs_axes,
+    settings,
+    figsize=(6.0, 5.0),
+    label=None,
+    color=None,
+):
+    """
+    Plots data and manages figure and axes creation.
+    
+    .. note::
+
+        This function creates new figures and axes only if they do not already exist, ensuring idempotent behavior over multiple calls.
+
+        
+    Parameters
+    ----------
+    data : dict
+        Dictionary containing multiple arrays with data to be plotted. Keys correspond
+        to variable names, and values are arrays of data points. All arrays should be of
+        the same size.
+    figs_axes : dict
+        Dictionary to store figures and axes. The key is a tuple of 
+        `(var_x, var_y)` and the value is a tuple of `(fig, ax)`.
+    settings : dict
+        Dictionary containing plot settings, including:
+        - `var_x` (str): Name of the x variable.
+        - `var_y` (str): Name of the y variable.
+        - `xlabel` (str): Label for the x-axis.
+        - `ylabel` (str): Label for the y-axis.
+        - `x_scale` (str): Scale for the x-axis (e.g., "linear", "log"). Default is "linear".
+        - `y_scale` (str): Scale for the y-axis (e.g., "linear", "log"). Default is "linear".
+        - `x_lim` (list or tuple): Limits for the x-axis (min, max). Set to None for auto-scaling.
+        - `y_lim` (list or tuple): Limits for the y-axis (min, max). Set to None for auto-scaling.
+    figsize : tuple, optional
+        Size of the figure, by default (6.0, 5.0).
+    label : str, optional
+        Label for the plot line, by default None. If None, no label is added.
+    color : str, optional
+        Color for the plot line, by default None. If None, the default color cycle is used.
+
+    Returns
+    -------
+    figs_axes : dict
+        Updated dictionary containing figures and axes.
+
+
+    Examples
+    --------
+    >>> figs_axes = {}
+    >>> plot_settings = {
+    ...     "var_x": "p",
+    ...     "var_y": "density",
+    ...     "xlabel": "Pressure (bar)",
+    ...     "ylabel": "Density (kg/m$^3$)",
+    ...     "x_scale": "linear",
+    ...     "y_scale": "log",
+    ...     "x_lim": [None, None],
+    ...     "y_lim": [1, 1000]
+    ... }
+    >>> data = {
+    ...     "p": [1, 2, 3, 4],
+    ...     "density": [10, 100, 1000, 10000],
+    ...     "T": [300, 310, 320, 330]
+    ... }
+    >>> figs_axes = plot_xy_data(data, figs_axes, plot_settings, label="Sample Data")
+    """
+    key = (settings["var_x"], settings["var_y"])
+    if key not in figs_axes:
+        # Create new figure and axes if they do not exist
+        fig, ax = plt.subplots(figsize=figsize)
+        ax.set_xlabel(settings.get("xlabel", ""))
+        ax.set_ylabel(settings.get("ylabel", ""))
+        ax.set_xscale(settings.get("x_scale", "linear"))
+        ax.set_yscale(settings.get("y_scale", "linear"))
+        x_lim = settings.get("x_lim")
+        if x_lim is not None:
+            ax.set_xlim(x_lim)
+        y_lim = settings.get("y_lim")
+        if y_lim is not None:
+            ax.set_ylim(y_lim)
+        figs_axes[key] = (fig, ax)
+    else:
+        # Use existing figure and axes
+        fig, ax = figs_axes[key]
+
+    # Extract x_data and y_data from the data dictionary
+    x_data = data[settings["var_x"]]
+    y_data = data[settings["var_y"]]
+
+    # Plot data
+    if color is not None:
+        ax.plot(x_data, y_data, label=label, color=color)
+    else:
+        ax.plot(x_data, y_data, label=label)
+
+    if label is not None:
+        ax.legend()
+
+    return figs_axes
+
+

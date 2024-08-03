@@ -2,53 +2,113 @@ import os
 import datetime
 import numpy as np
 import matplotlib.pyplot as plt
-from numpy.polynomial import Polynomial
 
+from functools import wraps
+from numpy.polynomial import Polynomial
 from scipy.integrate import solve_ivp
 from scipy.integrate._ivp.ivp import METHODS as ODE_METHODS
-
 
 from . import graphics
 from . import utilities as utils
 from . import pysolver_view as psv
 from . import fluid_properties as props
 
-
 COLORS_MATLAB = graphics.COLORS_MATLAB
 PROCESS_TYPES = ["polytropic", "adiabatic"]
-PROPERTY_CALCULATION_TYPES = ["blending", "equilibrium", "metastable"]
-
-from functools import wraps
+CALCULATION_TYPES = ["blending", "equilibrium", "metastable"]
 
 
-class BarotropicModelOneComponent:
+class BarotropicModel:
     """
     Coordinates the simulation and polynomial fitting for a barotropic process.
 
     Parameters
     ----------
-    fluid_name : str
-        The name of the fluid to be used in the simulation (e.g., 'Water').
+    fluid_name : str or list of str
+        The name(s) of the fluid(s) for the barotropic model.
+
+        - Specify a single string (e.g., 'co2') to use the single-component model.
+        - Specify a list of two strings (e.g., ['water', 'nitrogen']) to use the two-component model.
+
     T_in : float
         Inlet temperature of the fluid in Kelvin.
+
     p_in : float
         Inlet pressure of the fluid in Pascals.
+
     p_out : float
         Outlet pressure of the fluid in Pascals.
+
+
     efficiency : float
         The efficiency of the polytropic process, dimensionless.
+
+    mixture_ratio : float
+        Mass ratio of the first to the second fluid in the mixture.
+
+        .. note::
+            Applicable only to the two-component model.
+
     calculation_type : str, optional
-        The type of calculation to perform. Options include:
+        The type of fluid property calculation for the one-component model. Options include:
 
         - ``equilibrium``: Computes equilibrium properties only.
         - ``metastable``: Computes metastable properties only.
         - ``blending``: Computes both equilibrium and metastable properties, blends them, and returns the blended properties.
 
-        Default is None, which will raise an error.
+        .. note::
+            Applicable only to the one-component model.
+
     blending_onset : float, optional
         The onset of blending in the process, typically a value between 0 and 1. Required when `calculation_type` is ``blending``.
+
+        .. note::
+            Applicable only to the one-component model.
+
     blending_width : float, optional
         The width of the blending region, typically a value between 0 and 1. Required when `calculation_type` is ``blending``.
+
+        .. note::
+            Applicable only to the one-component model.
+
+    HEOS_solver : str, optional
+        The solver algorithm used to compute the metastable states. Valid options:
+
+        .. list-table::
+            :widths: 20 50
+            :header-rows: 1
+
+            * - Solver name
+              - Description
+            * - ``hybr``
+              -  Powell's hybrid trust-region algorithm
+            * - ``lm``
+              - Levenberg–Marquardt algorithm
+
+        See `Scipy root() <https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.root.html>`_ for more info.
+        Recommended solvers: Both ``hybr`` and ``lm`` work well for the tested cases.
+
+        .. note::
+            Applicable only to the one-component model.
+
+    HEOS_tolerance : float, optional
+        The tolerance for the HEOS solver.
+        
+        .. note::
+            Applicable only to the one-component model.
+
+    HEOS_max_iter : int, optional
+        The maximum number of iterations for the HEOS solver.
+
+        .. note::
+            Applicable only to the one-component model.
+
+    HEOS_print_convergence : bool, optional
+        If True, prints convergence information for the HEOS solver.
+
+        .. note::
+            Applicable only to the one-component model.
+
     ODE_solver : str, optional
         The solver to use for the ODE integration. Valid options:
 
@@ -72,47 +132,24 @@ class BarotropicModelOneComponent:
               - Adams/BDF method with automatic stiffness detection and switching
 
         See `Scipy solver_ivp() <https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html>`_  for more info.
-        Default is ``LSODA``.
-        
         Recommended solvers: ``BDF``, ``LSODA``, or ``Radau`` for stiff problems or ``RK45`` for non-stiff problems with smooth blending.
 
     ODE_tolerance : float, optional
-        The relative and absolute tolerance for the ODE solver. Default is 1e-8.
-    HEOS_solver : str, optional
-        The solver algorithm used to compute the metastable states. Valid options:
+        The relative and absolute tolerance for the ODE solver.
 
-        .. list-table::
-            :widths: 20 50
-            :header-rows: 1
-
-            * - Solver name
-              - Description
-            * - ``hybr``
-              -  Powell's hybrid trust-region algorithm
-            * - ``lm``
-              - Levenberg–Marquardt algorithm
-
-        See `Scipy root() <https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.root.html>`_ for more info. Default is ``hybr``.
-        
-        Recommended solvers: Both ``hybr`` and ``lm`` work well for the tested cases.
-    HEOS_tolerance : float, optional
-        The tolerance for the HEOS solver. Default is 1e-6.
-    HEOS_max_iter : int, optional
-        The maximum number of iterations for the HEOS solver. Default is 100.
-    HEOS_print_convergence : bool, optional
-        If True, prints convergence information for the HEOS solver. Default is False.
     polynomial_degree : int
-        Degree of the polynomials to fit. Default is 8.
+        Degree of the polynomials to fit.
 
         .. note::
 
             When `calculation_type` is ``blending`` the degree of the polynomial in the blending region is set to 4 to achieve sufficient accuracy while preventing numerical round-off errors associated with single-precision arithmetic in CFD solvers.
 
     polynomial_format : str, optional
-        Type of polynomial representation (``horner`` or ``standard``). Default is 'horner'.
+        Type of polynomial representation (``horner`` or ``standard``).
+        
     polynomial_variables : list of str
-        A list of variable names to fit polynomials to, such as 'density', 'viscosity',
-        'speed_sound', 'void_fraction', 'vapor_quality'.
+        A list of variable names to fit polynomials to, such as 'density', 'viscosity', 'speed_sound', 'void_fraction', 'vapor_quality'.
+
     output_dir : str
         The directory where output will be saved.
 
@@ -120,20 +157,21 @@ class BarotropicModelOneComponent:
 
     def __init__(
         self,
-        fluid_name: str,
+        fluid_name,
         T_in: float,
         p_in: float,
         p_out: float,
         efficiency: float = 1.00,
+        mixture_ratio: float = None,
         calculation_type: str = None,
         blending_onset: float = None,
         blending_width: float = None,
-        ODE_solver: str = "lsoda",
-        ODE_tolerance: float = 1e-8,
         HEOS_solver: str = "hybr",
         HEOS_tolerance: float = 1e-6,
         HEOS_max_iter: int = 100,
         HEOS_print_convergence: bool = False,
+        ODE_solver: str = "LSODA",
+        ODE_tolerance: float = 1e-8,
         polynomial_degree: int = 8,
         polynomial_format: str = "horner",
         polynomial_variables: list = [
@@ -146,6 +184,15 @@ class BarotropicModelOneComponent:
         output_dir: str = "barotropic_model",
     ):
 
+        # Validate inputs and find the correct model type
+        self.model_type = self._validate_inputs(
+            fluid_name,
+            mixture_ratio,
+            calculation_type,
+            blending_onset,
+            blending_width,
+        )
+
         # Rename mandatory arguments
         self.fluid_name = fluid_name
         self.T_in = T_in
@@ -153,6 +200,7 @@ class BarotropicModelOneComponent:
         self.p_out = p_out
 
         # Assign optional arguments with defaults
+        self.mixture_ratio = mixture_ratio
         self.efficiency = efficiency
         self.calculation_type = calculation_type
         self.blending_onset = blending_onset
@@ -173,40 +221,114 @@ class BarotropicModelOneComponent:
         self.ode_solution = None
         self.poly_fitter = None
 
+    def _validate_inputs(
+        self,
+        fluid_name,
+        mixture_ratio,
+        calculation_type,
+        blending_onset,
+        blending_width,
+    ):
+        # Validate inputs for one-component and two-component models
+        if isinstance(fluid_name, str):
+            # One-component model
+            if calculation_type not in CALCULATION_TYPES:
+                allowed_types = ", ".join(f"'{ptype}'" for ptype in CALCULATION_TYPES)
+                msg = (
+                    f"Invalid parameter calculation_type={calculation_type}. "
+                    f"It must be one of {allowed_types} for the one-component model."
+                )
+                raise ValueError(msg)
+            elif mixture_ratio is not None:
+                msg = f"Parameter mixture_ratio={mixture_ratio} must be None for the one-component model."
+                raise ValueError(msg)
+            else:
+                return "one-component"
+
+        elif (
+            isinstance(fluid_name, list)
+            and len(fluid_name) == 2
+            and all(isinstance(f, str) for f in fluid_name)
+        ):
+            # Two-component model
+            if mixture_ratio is None or mixture_ratio <= 0:
+                msg = f"Parameter mixture_ratio={mixture_ratio} must be a positive scalar for the two-component model."
+                raise ValueError(msg)
+            elif (
+                calculation_type is not None
+                or blending_onset is not None
+                or blending_width is not None
+            ):
+                msg = (
+                    "The following parameters must be None for the two-component model:\n"
+                    f"  - calculation_type: {calculation_type}\n"
+                    f"  - blending_onset: {blending_onset}\n"
+                    f"  - blending_width: {blending_width}\n"
+                )
+                raise ValueError(msg)
+            return "two-component"
+
+        else:
+            raise ValueError(
+                f"Input parameter 'fluid_name'={fluid_name} must be either:\n"
+                f"  1. A single string for the one-component barotropic model\n"
+                f"  2. A list of two strings for the two-component barotropic model."
+            )
+
     def compute_properties(self):
         """
-        Solves the ODE for the barotropic process and stores the states.
-
+        Solves the equations for the one-component or two-component barotropic model and stores the fluid properties.
+        The type of calculation performed is selected automatically depending on the number of fluid names defined when initializing the class.
+        
         See Also
         --------
-        barotropic_model_one_fluid : 
-            Function used to compute the fluid properties.
+        barotropic_model_one_component :
+            Calculation of fluid properties for the one-component model.
+        barotropic_model_two_component :
+            Calculation of fluid properties for the two-component model.
         """
         # Manually pass all parameters to the ODE solver function
-        self.states, self.ode_solution = barotropic_model_one_fluid(
-            fluid_name=self.fluid_name,
-            T_in=self.T_in,
-            p_in=self.p_in,
-            p_out=self.p_out,
-            efficiency=self.efficiency,
-            calculation_type=self.calculation_type,
-            blending_onset=self.blending_onset,
-            blending_width=self.blending_width,
-            ODE_solver=self.ODE_solver,
-            ODE_tolerance=self.ODE_tolerance,
-            HEOS_solver=self.HEOS_solver,
-            HEOS_tolerance=self.HEOS_tolerance,
-            HEOS_max_iter=self.HEOS_max_iter,
-            HEOS_print_convergence=self.HEOS_print_convergence,
-        )
+        if self.model_type == "one-component":
+            self.states, self.ode_solution = barotropic_model_one_component(
+                fluid_name=self.fluid_name,
+                T_in=self.T_in,
+                p_in=self.p_in,
+                p_out=self.p_out,
+                efficiency=self.efficiency,
+                calculation_type=self.calculation_type,
+                blending_onset=self.blending_onset,
+                blending_width=self.blending_width,
+                ODE_solver=self.ODE_solver,
+                ODE_tolerance=self.ODE_tolerance,
+                HEOS_solver=self.HEOS_solver,
+                HEOS_tolerance=self.HEOS_tolerance,
+                HEOS_max_iter=self.HEOS_max_iter,
+                HEOS_print_convergence=self.HEOS_print_convergence,
+            )
+        elif self.model_type == "two-component":
+            self.states, self.ode_solution = barotropic_model_two_component(
+                fluid_name_1=self.fluid_name[0],
+                fluid_name_2=self.fluid_name[1],
+                mixture_ratio=self.mixture_ratio,
+                T_in=self.T_in,
+                p_in=self.p_in,
+                p_out=self.p_out,
+                efficiency=self.efficiency,
+                ODE_solver=self.ODE_solver,
+                ODE_tolerance=self.ODE_tolerance,
+            )
+
+        else:
+            msg = f"Invalid value for model_type={self.model_type}. Something went wrong during input validation."
+            raise ValueError(msg)
 
     def fit_polynomials(self):
         """
         Fits polynomials to the states using the PolynomialFitter class.
-        
+
         See Also
         --------
-        PolynomialFitter : 
+        PolynomialFitter :
             Class used for generating fitting polynomials.
         """
 
@@ -241,7 +363,7 @@ class BarotropicModelOneComponent:
 
         See Also
         --------
-        ExpressionExporter : 
+        ExpressionExporter :
             Class for exporting polynomial expressions for use in CFD software.
         """
         if not self.exporter:
@@ -262,7 +384,7 @@ class BarotropicModelOneComponent:
 
         See Also
         --------
-        ExpressionExporter : 
+        ExpressionExporter :
             Class for exporting polynomial expressions for use in CFD software.
         """
         if not self.exporter:
@@ -273,7 +395,7 @@ class BarotropicModelOneComponent:
         self.exporter.export_expressions_cfx(output_dir=output_dir)
 
 
-def barotropic_model_one_fluid(
+def barotropic_model_one_component(
     fluid_name,
     T_in,
     p_in,
@@ -282,12 +404,12 @@ def barotropic_model_one_fluid(
     calculation_type=None,
     blending_onset=None,
     blending_width=None,
-    ODE_solver="lsoda",
-    ODE_tolerance=1e-8,
     HEOS_solver="hybr",
     HEOS_tolerance=1e-6,
     HEOS_max_iter=100,
     HEOS_print_convergence=False,
+    ODE_solver="lsoda",
+    ODE_tolerance=1e-8,
 ):
     r"""
     Simulates a polytropic process for a given fluid from an inlet state to a specified outlet pressure.
@@ -316,26 +438,57 @@ def barotropic_model_one_fluid(
     ----------
     fluid_name : str
         The name of the fluid to be used in the simulation (e.g., 'Water').
+
     T_in : float
         Inlet temperature of the fluid in Kelvin.
+
     p_in : float
         Inlet pressure of the fluid in Pascals.
+
     p_out : float
         Outlet pressure of the fluid in Pascals.
+
     efficiency : float
         The efficiency of the polytropic process, dimensionless.
-    calculation_type : str, optional
+
+    calculation_type : str
         The type of calculation to perform. Options include:
 
         - ``equilibrium``: Computes equilibrium properties only.
         - ``metastable``: Computes metastable properties only.
         - ``blending``: Computes both equilibrium and metastable properties, blends them, and returns the blended properties.
 
-        Default is None, which will raise an error.
     blending_onset : float, optional
         The onset of blending in the process, typically a value between 0 and 1. Required when `calculation_type` is ``blending``.
     blending_width : float, optional
         The width of the blending region, typically a value between 0 and 1. Required when `calculation_type` is ``blending``.
+
+    HEOS_solver : str, optional
+        The solver algorithm used to compute the metastable states. Valid options:
+
+        .. list-table::
+            :widths: 20 50
+            :header-rows: 1
+
+            * - Solver name
+              - Description
+            * - ``hybr``
+              -  Powell's hybrid trust-region algorithm
+            * - ``lm``
+              - Levenberg–Marquardt algorithm
+
+        See `Scipy root() <https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.root.html>`_ for more info.
+        Recommended solvers: Both ``hybr`` and ``lm`` work well for the tested cases.
+
+    HEOS_tolerance : float, optional
+        The tolerance for the HEOS solver.
+
+    HEOS_max_iter : int, optional
+        The maximum number of iterations for the HEOS solver.
+        
+    HEOS_print_convergence : bool, optional
+        If True, prints convergence information for the HEOS solver.
+
     ODE_solver : str, optional
         The solver to use for the ODE integration. Valid options:
 
@@ -359,64 +512,38 @@ def barotropic_model_one_fluid(
               - Adams/BDF method with automatic stiffness detection and switching
 
         See `Scipy solver_ivp() <https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html>`_  for more info.
-        Default is ``LSODA``.
-        
         Recommended solvers: ``BDF``, ``LSODA``, or ``Radau`` for stiff problems or ``RK45`` for non-stiff problems with smooth blending.
 
     ODE_tolerance : float, optional
-        The relative and absolute tolerance for the ODE solver. Default is 1e-8.
-    HEOS_solver : str, optional
-        The solver algorithm used to compute the metastable states. Valid options:
-
-        .. list-table::
-            :widths: 20 50
-            :header-rows: 1
-
-            * - Solver name
-              - Description
-            * - ``hybr``
-              -  Powell's hybrid trust-region algorithm
-            * - ``lm``
-              - Levenberg–Marquardt algorithm
-
-        See `Scipy root() <https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.root.html>`_ for more info. Default is ``hybr``.
-        
-        Recommended solvers: Both ``hybr`` and ``lm`` work well for the tested cases.
-    HEOS_tolerance : float, optional
-        The tolerance for the HEOS solver. Default is 1e-6.
-    HEOS_max_iter : int, optional
-        The maximum number of iterations for the HEOS solver. Default is 100.
-    HEOS_print_convergence : bool, optional
-        If True, prints convergence information for the HEOS solver. Default is False.
+        The relative and absolute tolerance for the ODE solver.
 
     Returns
     -------
-    states : list
-        A list of states (dictionaries) representing the properties of the fluid at each evaluation point.
+    states : dictionary of arrays
+        A dictionary of Numpy arrays representing the properties of the fluid at each evaluation point.
     solution : scipy.integrate.OdeResult
         The result of the ODE integration containing information about the solver process.
-
-    Examples
-    --------
-    >>> states, solution = barotropic_model_one_fluid(
-    ...     fluid_name='Water',
-    ...     T_in=300.0,
-    ...     p_in=101325.0,
-    ...     p_out=200000.0,
-    ...     efficiency=0.85,
-    ...     calculation_type='blending',
-    ...     blending_onset=0.1,
-    ...     blending_width=0.05,
-    ...     ODE_solver='LSODA',
-    ...     ODE_tolerance=1e-8,
-    ...     HEOS_solver='hybr',
-    ...     HEOS_tolerance=1e-6,
-    ...     HEOS_max_iter=100,
-    ...     HEOS_print_convergence=False,
-    ...     n_eval=100
-    ... )
     """
 
+    # Check if the provided HEOS solver is valid
+    valid_solvers_heos = psv.nonlinear_system.SOLVER_OPTIONS
+    if HEOS_solver not in valid_solvers_heos:
+        error_message = (
+            f"Invalid HEOS solver '{HEOS_solver}' provided. "
+            f"Valid solvers are: {', '.join(valid_solvers_heos)}. "
+        )
+        raise ValueError(error_message)
+
+    # Check if the provided ODE solver is valid
+    valid_solvers_ode = list(ODE_METHODS.keys())
+    if ODE_solver not in valid_solvers_ode:
+        error_message = (
+            f"Invalid ODE solver '{ODE_solver}' provided. "
+            f"Valid solver are: {', '.join(valid_solvers_ode)}. "
+            "Recommended solvers: 'BDF', 'LSODA' or 'Radau' stiff problems involving equilibrium property calculations or blending calculations with a narrow blending width. 'RK45' can be used for non-stiff problems with a wide blending width."
+        )
+        raise ValueError(error_message)
+    
     # Initialize fluid and compute inlet state
     fluid = props.Fluid(name=fluid_name, backend="HEOS", exceptions=True)
     state_in = fluid.get_state(
@@ -435,7 +562,7 @@ def barotropic_model_one_fluid(
     def odefun(t, y):
         nonlocal rhoT_guess_metastable  # Allows modification within the function scope
 
-        # Rename input variables
+        # Rename arguments
         p = t
         (h,) = y
 
@@ -474,6 +601,11 @@ def barotropic_model_one_fluid(
             return dhdp, state_meta
 
         elif calculation_type == "blending":
+
+            if not utils.is_float(blending_onset) or not utils.is_float(blending_width):
+                msg = f"The variables blending_onset={blending_onset} and blending_width={blending_width} must be floats when calculation_type='blending'."
+                raise ValueError(msg)
+
             # Compute equilibrium state using CoolProp solver
             state_eq = fluid.get_state(
                 input_type=props.HmassP_INPUTS,
@@ -518,33 +650,14 @@ def barotropic_model_one_fluid(
         else:
             raise ValueError(
                 f"Invalid calculation_type='{calculation_type}'. "
-                f"Valid options are: {', '.join(PROPERTY_CALCULATION_TYPES)}."
+                f"Valid options are: {', '.join(CALCULATION_TYPES)}."
             )
-
-    # Check if the provided ODE_solver is valid
-    valid_solvers_heos = psv.nonlinear_system.SOLVER_OPTIONS
-    if HEOS_solver not in valid_solvers_heos:
-        error_message = (
-            f"Invalid HEOS solver '{HEOS_solver}' provided. "
-            f"Valid solvers are: {', '.join(valid_solvers_heos)}. "
-        )
-        raise ValueError(error_message)
-
-    # Check if the provided ODE_solver is valid
-    valid_solvers_ode = list(ODE_METHODS.keys())
-    if ODE_solver not in valid_solvers_ode:
-        error_message = (
-            f"Invalid ODE solver '{ODE_solver}' provided. "
-            f"Valid solver are: {', '.join(valid_solvers_ode)}. "
-            "Recommended solvers: 'BDF', 'LSODA' or 'Radau' stiff problems involving equilibrium property calculations or blending calculations with a narrow blending width. 'RK45' can be used for non-stiff problems with a wide blending width."
-        )
-        raise ValueError(error_message)
 
     # Solve polytropic expansion differential equation
     ode_sol = solve_ivp(
-        lambda p, h: odefun(p, h)[0],  # Get only first output
-        [p_in, p_out],
-        [state_in.h],
+        fun=lambda p, h: odefun(p, h)[0],  # Get only first output
+        t_span=[p_in, p_out],
+        y0=[state_in.h],
         method=ODE_solver,
         rtol=ODE_tolerance,
         atol=ODE_tolerance,
@@ -557,6 +670,139 @@ def barotropic_model_one_fluid(
 
     return states, ode_sol
 
+
+def barotropic_model_two_component(
+    fluid_name_1,
+    fluid_name_2,
+    mixture_ratio,
+    T_in,
+    p_in,
+    p_out,
+    efficiency,
+    ODE_solver="lsoda",
+    ODE_tolerance=1e-8,
+):
+    """
+    Simulates a polytropic process for a mixture of two different fluids.
+
+    TODO: add model equations and explanation
+
+    Parameters
+    ----------
+    fluid_name_1 : str
+        The name of the first component of the mixture.
+    fluid_name_2 : str
+        The name of the second component of the mixture.
+    mixture_ratio : float
+        Mass ratio of the first to the second fluid in the mixture.
+    T_in : float
+        Inlet temperature of the mixture in Kelvin.
+    p_in : float
+        Inlet pressure of the mixture in Pascals.
+    p_out : float
+        Outlet pressure of the mixture in Pascals.
+    efficiency : float
+        The efficiency of the polytropic process, (between zero and one).
+    ODE_solver : str, optional
+        The solver to use for the ODE integration. Valid options:
+
+        .. list-table::
+            :widths: 20 50
+            :header-rows: 1
+
+            * - Solver name
+              - Description
+            * - ``RK23``
+              - Explicit Runge-Kutta method of order 3(2)
+            * - ``RK45``
+              - Explicit Runge-Kutta method of order 5(4)
+            * - ``DOP853``
+              - Explicit Runge-Kutta method of order 8
+            * - ``Radau``
+              - Implicit Runge-Kutta method of the Radau IIA family of order 5
+            * - ``BDF``
+              - Implicit multi-step variable-order (1 to 5) method based on a backward differentiation formula for the derivative approximation
+            * - ``LSODA``
+              - Adams/BDF method with automatic stiffness detection and switching
+
+        See `Scipy solver_ivp() <https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html>`_  for more info.
+        Recommended solvers: ``BDF``, ``LSODA``, or ``Radau`` for stiff problems or ``RK45`` for non-stiff problems with smooth blending.
+
+    ODE_tolerance : float, optional
+        The relative and absolute tolerance for the ODE solver.
+
+    Returns
+    -------
+    states : dictionary of arrays
+        A dictionary of Numpy arrays representing the properties of the fluid at each evaluation point.
+    solution : scipy.integrate.OdeResult
+        The result of the ODE integration containing information about the solver process.
+    """
+
+    # Check if the provided ODE_solver is valid
+    valid_solvers_ode = list(ODE_METHODS.keys())
+    if ODE_solver not in valid_solvers_ode:
+        error_message = (
+            f"Invalid ODE solver '{ODE_solver}' provided. "
+            f"Valid solver are: {', '.join(valid_solvers_ode)}."
+        )
+        raise ValueError(error_message)
+
+    # Calculate mass fractions of each component (constant values)
+    y_1 = mixture_ratio / (1 + mixture_ratio)
+    y_2 = 1 / (1 + mixture_ratio)
+
+    # Initialize fluid and compute inlet state
+    fluid_1 = props.Fluid(name=fluid_name_1, backend="HEOS", exceptions=True)
+    fluid_2 = props.Fluid(name=fluid_name_2, backend="HEOS", exceptions=True)
+
+    # Compute the inlet enthalpy of the mixture (ODE initial value)
+    props_in_1 = fluid_1.get_state(props.PT_INPUTS, p_in, T_in)
+    props_in_2 = fluid_2.get_state(props.PT_INPUTS, p_in, T_in)
+    h_in = y_1 * props_in_1.h + y_2 * props_in_2.h
+
+    # Define the ODE system
+    def odefun(t, y):
+
+        # Rename arguments
+        p = t
+        h, T = y
+
+        # Compute fluid states
+        state_1 = fluid_1.get_state(props.PT_INPUTS, p, T)
+        state_2 = fluid_2.get_state(props.PT_INPUTS, p, T)
+
+        # Compute mixture thermodynamic properties
+        props = props.calculate_mixture_properties(state_1, state_2, y_1, y_2)
+
+        # Add individual phases to the mixture properties
+        for key, value in state_1.items():
+            props[f"{key}_1"] = value
+        for key, value in state_2.items():
+            props[f"{key}_2"] = value
+
+        # Compute right-hand-side of the ODE
+        dhdp = efficiency / props["rho"]
+        dTdp = (dhdp - props["dhdp_T"]) / props["cp"]
+
+        return [dhdp, dTdp], props
+
+    # Solve polytropic expansion differential equation
+    ode_sol = solve_ivp(
+        fun=lambda p, h: odefun(p, h)[0],  # Get only first output
+        t_span=[p_in, p_out],
+        y0=[h_in, T_in],
+        method=ODE_solver,
+        rtol=ODE_tolerance,
+        atol=ODE_tolerance,
+    )
+    if not ode_sol.success:
+        raise Exception(ode_sol.message)
+
+    # Postprocess solution
+    states = utils.postprocess_ode(ode_sol.t, ode_sol.y, odefun)
+
+    return states, ode_sol
 
 
 def _ensure_data_available(method):
@@ -580,7 +826,7 @@ class PolynomialFitter:
     Fits polynomials to the thermodynamic properties of a fluid across various states.
 
     polynomial_degree : int
-        Degree of the polynomials to fit. Default is 8.
+        Degree of the polynomials to fit.
 
         .. note::
 
@@ -588,9 +834,10 @@ class PolynomialFitter:
 
     polynomial_format : str, optional
         Type of polynomial representation (``horner`` or ``standard``). Default is 'horner'.
+
     polynomial_variables : list of str
-        A list of variable names to fit polynomials to, such as 'density', 'viscosity',
-        'speed_sound', 'void_fraction', 'vapor_quality'.
+        A list of variable names to fit polynomials to, such as 'density', 'viscosity', 'speed_sound', 'void_fraction', 'vapor_quality'.
+
     output_dir : str
         The directory where output will be saved.
 
@@ -636,14 +883,27 @@ class PolynomialFitter:
         elif self.calculation_type == "blending":
             self._fit_blending()
         else:
-            raise ValueError("Unsupported calculation type")
+            self._fit_single_segment()
+
+    def _fit_single_segment(self):
+        """Fits a single polynomial segment when 'calculation_type' is not specified'"""
+        # Scale pressure by inlet pressure to improve polynomial conditioning
+        p_scaled = self.states["p"] / self.p_in
+
+        # Determine the polynomial limits
+        self.poly_breakpoints = [self.p_in_scaled, self.p_out_scaled]
+
+        # Fit polynomials to data
+        for var in self.variables:
+            y = np.array(self.states[var])
+            poly = Polynomial.fit(p_scaled, y, deg=self.degree).convert()
+            self.poly_handles[var] = [poly]
 
     def _fit_equilibrium(self):
         """
         Fits polynomials for calculation_type="equilibrium".
 
-        This method scales pressure, identifies the phase transition, and fits polynomials
-        for the specified variables based on single-phase and two-phase regions.
+        This method scales pressure, identifies the phase transition, and fits polynomials for the specified variables based on single-phase and two-phase regions.
         """
         # Scale pressure by inlet pressure to improve polynomial conditioning
         p_scaled = self.states["p"] / self.p_in
@@ -687,8 +947,7 @@ class PolynomialFitter:
         """
         Fits polynomials for calculation_type="blending".
 
-        This method identifies different regions based on the blending
-        parameter "x" and fits polynomials to ensure continuity across regions.
+        This method identifies different regions based on the blending parameter "x" and fits polynomials to ensure continuity across regions.
         """
 
         # Get the scaled pressure values
@@ -723,7 +982,7 @@ class PolynomialFitter:
             # TODO Hardcoded degree 4 to prevent numerical noise
             y_2 = np.array(self.states[var])[mask_region_2]
             p_2 = p[mask_region_2]
-            poly_2 = Polynomial.fit(p_2, y_2, deg=4).convert()  
+            poly_2 = Polynomial.fit(p_2, y_2, deg=4).convert()
 
             # Ensure continuity by adjusting the first coefficient
             y_1_end = poly_1(p_region_2_start)
@@ -840,7 +1099,9 @@ class PolynomialFitter:
         return var_values
 
     @_ensure_data_available
-    def plot_polynomial(self, var, p_eval=None, showfig=True, savefig=False, output_dir=None):
+    def plot_polynomial(
+        self, var, p_eval=None, showfig=True, savefig=False, output_dir=None
+    ):
         """
         Plots the polynomials for the specified variable. If the pressure values for plotting are not provided, a suitable range is generated internally.
 
@@ -848,15 +1109,18 @@ class PolynomialFitter:
         ----------
         var : str
             The variable for which to plot the polynomial.
+
         p_eval : array-like, optional
             The pressure values at which to plot the polynomial. If not provided, automatic values are generated.
+
         showfig : bool, optional
-            If True, displays the plot. Default is True.
+            If True, displays the plot.
+
         savefig : bool, optional
-            If True, saves the plot to a file. Default is False.
+            If True, saves the plot to a file.
+
         output_dir : str, optional
-            The directory where the plot will be saved if `savefig` is True.
-            If not specified, uses the default output directory of the class.
+            The directory where the plot will be saved if `savefig` is True. If not specified, uses the default output directory of the class.
 
         Returns
         -------
@@ -912,7 +1176,7 @@ class PolynomialFitter:
                 ax.plot(x_plus, y_plus, marker="o", color=COLORS_MATLAB[i])
 
         plt.tight_layout(pad=1)
-        
+
         if savefig:
             file_path = os.path.join(output_dir, f"barotropic_model_{var}")
             graphics.savefig_in_formats(fig, file_path)
@@ -923,7 +1187,9 @@ class PolynomialFitter:
         return fig
 
     @_ensure_data_available
-    def plot_polynomial_and_error(self, var, showfig=True, savefig=False, output_dir=None):
+    def plot_polynomial_and_error(
+        self, var, showfig=True, savefig=False, output_dir=None
+    ):
         r"""
         Plots the barotropic polynomials and original data points from the ODE solution to illustrate
         the quality of the fit. Additionally, plots the relative error between the polynomial and the data.
@@ -932,13 +1198,15 @@ class PolynomialFitter:
         ----------
         var : str
             The variable to plot (e.g., 'density', 'viscosity', etc.).
+
         showfig : bool, optional
-            If True, displays the plot. Default is True.
+            If True, displays the plot.
+
         savefig : bool, optional
-            If True, saves the plot to a file. Default is False.
+            If True, saves the plot to a file.
+
         output_dir : str, optional
-            The directory where the plot will be saved if `savefig` is True.
-            If not specified, uses the default output directory of the class.
+            The directory where the plot will be saved if `savefig` is True. If not specified, uses the default output directory of the class.
 
         Returns
         -------
@@ -963,7 +1231,7 @@ class PolynomialFitter:
         prop_states = self.states[var]
 
         # Compute the relative error
-        relative_error = 100 * np.abs(prop_poly - prop_states) / np.abs(prop_states)
+        relative_error = 100 * (prop_poly - prop_states) / np.abs(prop_states)
 
         # Plot the variable from polynomials and states in the upper subplot
         ax1.plot(
@@ -1004,7 +1272,7 @@ class PolynomialFitter:
 
         if not showfig:
             plt.close(fig)
-            
+
         return fig
 
 
@@ -1016,8 +1284,9 @@ class ExpressionExporter:
     ----------
     poly_fitter : PolynomialFitter
         An instance of PolynomialFitter containing the polynomial coefficients and breakpoints.
+
     poly_format : str, optional
-        Type of polynomial representation ('horner' or 'standard'). Default is 'horner'.
+        Type of polynomial representation ('horner' or 'standard').
     """
 
     def __init__(self, poly_fitter, poly_format="horner"):
@@ -1046,17 +1315,16 @@ class ExpressionExporter:
         # Define default output directory
         self.output_dir_default = poly_fitter.output_dir_default
 
-
     def export_expressions_fluent(self, output_dir=None):
-            """
-            Exports the barotropic model polynomials as expressions for use in Fluent CFD software.
+        """
+        Exports the barotropic model polynomials as expressions for use in Fluent CFD software.
 
-            Parameters
-            ----------
-            output_dir : str, optional
-                The directory where the expressions will be saved. It uses a default directory if not provided.
-            """
-            self._export_expressions(solver="fluent", output_dir=output_dir)
+        Parameters
+        ----------
+        output_dir : str, optional
+            The directory where the expressions will be saved. It uses a default directory if not provided.
+        """
+        self._export_expressions(solver="fluent", output_dir=output_dir)
 
     def export_expressions_cfx(self, output_dir=None):
         """
@@ -1068,7 +1336,6 @@ class ExpressionExporter:
             The directory where the expressions will be saved. It uses a default directory if not provided.
         """
         self._export_expressions(solver="cfx", output_dir=output_dir)
-
 
     def _export_expressions(self, solver, output_dir=None):
         """
@@ -1103,7 +1370,6 @@ class ExpressionExporter:
                     expressions = self.generate_expressions(var, unit)
                     file.write(f"barotropic_model_{var}\n")
                     file.write(f"{expressions}\n\n")
-
 
     def generate_expressions(self, var, unit):
         """
@@ -1155,56 +1421,53 @@ class ExpressionExporter:
         return expression
 
     def polynomial_expression(self, coefficients):
-            """
-            Generates a polynomial expression string.
+        """
+        Generates a polynomial expression string.
 
-            Parameters
-            ----------
-            coefficients : array-like
-                Coefficients of the polynomial.
+        Parameters
+        ----------
+        coefficients : array-like
+            Coefficients of the polynomial.
 
-            Returns
-            -------
-            str
-                The polynomial expression string.
-            """
-            p_scale = self.poly_fitter.p_in
-            if self.poly_format == "horner":
-                coefficients = list(reversed(coefficients))
-                polynomial_string = f"{coefficients[0]:{self.num_format}}"
-                for i in range(1, len(coefficients)):
-                    polynomial_string = f"{coefficients[i]:{self.num_format}} + ({self.syntax['pressure']} / {p_scale:{self.num_format}} [Pa]) *\n({polynomial_string})"
-            elif self.poly_format == "standard":
-                terms = []
-                for i in range(len(coefficients)):
-                    summand = f"{coefficients[i]:{self.num_format}} * ({self.syntax['pressure']} / {p_scale:{self.num_format}} [Pa])^{i}"
-                    if i < len(coefficients) - 1:
-                        summand += " +"  
-                    terms.append(summand)
-                polynomial_string = " \n".join(terms)
-            else:
-                raise ValueError("The polynomial format must be 'horner' or 'standard'")
-            return polynomial_string
+        Returns
+        -------
+        str
+            The polynomial expression string.
+        """
+        p_scale = self.poly_fitter.p_in
+        if self.poly_format == "horner":
+            coefficients = list(reversed(coefficients))
+            polynomial_string = f"{coefficients[0]:{self.num_format}}"
+            for i in range(1, len(coefficients)):
+                polynomial_string = f"{coefficients[i]:{self.num_format}} + ({self.syntax['pressure']} / {p_scale:{self.num_format}} [Pa]) *\n({polynomial_string})"
+        elif self.poly_format == "standard":
+            terms = []
+            for i in range(len(coefficients)):
+                summand = f"{coefficients[i]:{self.num_format}} * ({self.syntax['pressure']} / {p_scale:{self.num_format}} [Pa])^{i}"
+                if i < len(coefficients) - 1:
+                    summand += " +"
+                terms.append(summand)
+            polynomial_string = " \n".join(terms)
+        else:
+            raise ValueError("The polynomial format must be 'horner' or 'standard'")
+        return polynomial_string
 
     def if_expression(self, expression_1, expression_2, transition_pressure):
-            """
-            Generates an IF expression string for piecewise functions.
+        """
+        Generates an IF expression string for piecewise functions.
 
-            Parameters
-            ----------
-            expression_1 : str
-                The expression for the condition being true.
-            expression_2 : str
-                The expression for the condition being false.
-            transition_pressure : float
-                The transition pressure where the expressions change.
+        Parameters
+        ----------
+        expression_1 : str
+            The expression for the condition being true.
+        expression_2 : str
+            The expression for the condition being false.
+        transition_pressure : float
+            The transition pressure where the expressions change.
 
-            Returns
-            -------
-            str
-                The IF expression string.
-            """
-            return f"{self.syntax['if']}({self.syntax['pressure']} >= {transition_pressure:{self.num_format}} [Pa], \n{expression_1}, \n{expression_2})"
-
-
-
+        Returns
+        -------
+        str
+            The IF expression string.
+        """
+        return f"{self.syntax['if']}({self.syntax['pressure']} >= {transition_pressure:{self.num_format}} [Pa], \n{expression_1}, \n{expression_2})"
