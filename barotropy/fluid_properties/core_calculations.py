@@ -1244,3 +1244,107 @@ def calculate_supersaturation(abstract_state, props):
     else:
         props["T_saturation"] = np.nan
         props["supersaturation_degree"] = np.nan
+
+
+# ------------------------------------------------------------------------------------ #
+# Properties of a two-component mixture (e.g., water and nitrogen)
+# ------------------------------------------------------------------------------------ #
+
+def calculate_mixture_properties(props_1, props_2, y_1, y_2):
+    """
+    Calculate the thermodynamic properties of the mixture.
+
+    TODO: add model equations and explanation
+
+    Parameters
+    ----------
+    state_1 : dict
+        Thermodynamic properties of fluid 1.
+    state_2 : dict
+        Thermodynamic properties of fluid 2.
+    y_1 : float
+        Mass fraction of fluid 1.
+    y_2 : float
+        Mass fraction of fluid 2.
+
+    Returns
+    -------
+    mixture_properties : dict
+        A dictionary containing the mixture's properties.
+    """
+
+    # Validate mass fractions
+    if not utils.is_float(y_1) or not utils.is_float(y_2) or np.abs(y_1 + y_2 - 1) > 1e-12:
+        raise ValueError(f"The mass fractions must be floats and their sum must equal 1. Received y_1={y_1} and y_2={y_2}.")
+
+    # Mass-averaged properties
+    cv = y_1 * props_1['cvmass'] + y_2 * props_2['cvmass']
+    cp = y_1 * props_1['cpmass'] + y_2 * props_2['cpmass']
+    umass = y_1 * props_1['umass'] + y_2 * props_2['umass']
+    hmass = y_1 * props_1['hmass'] + y_2 * props_2['hmass']
+    smass = y_1 * props_1['smass'] + y_2 * props_2['smass']    
+    
+    # Enthalpy derivative for the two-component barotropic model
+    alphaP_1 = props_1['isobaric_expansion_coefficient']
+    alphaP_2 = props_2['isobaric_expansion_coefficient']
+    dhdp_T_1 = (1 - props_1['T'] * alphaP_1) / props_1['rho']
+    dhdp_T_2 = (1 - props_2['T'] * alphaP_2) / props_2['rho']
+    dhdp_T = y_1 * dhdp_T_1 + y_2 * dhdp_T_2
+
+    # Compute volume fractions and void fraction
+    rho = 1 / (y_1 / props_1['rho'] + y_2 / props_2['rho'])
+    vol_1 = y_1 * rho/props_1['rhomass']
+    vol_2 = y_2 * rho/props_2['rhomass']
+    quality_mass = y_1 if props_1['rho'] < props_2['rho'] else vol_2
+    quality_volume = vol_1 if props_1['rho'] < props_2['rho'] else vol_2
+    
+    # Isothermal compressibility
+    betaT_1 = props_1["isothermal_compressibility"]
+    betaT_2 = props_2["isothermal_compressibility"]
+    isothermal_compressibility = vol_1 * betaT_1 + vol_2 * betaT_2
+    isothermal_bulk_modulus = 1 / isothermal_compressibility
+
+    # Isentropic compressibility and speed of sound (Wood's formula)
+    betaS_1 = props_1["isentropic_compressibility"]
+    betaS_2 = props_2["isentropic_compressibility"]
+    isentropic_compressibility = vol_1 * betaS_1 + vol_2 * betaS_2
+    isentropic_bulk_modulus = 1 / isentropic_compressibility
+    speed_sound = np.sqrt(isentropic_bulk_modulus / rho)
+
+    # Transport properties as volume averages
+    conductivity = vol_1 * props_1['conductivity'] + vol_2 * props_2['conductivity']
+    viscosity = vol_1 * props_1['viscosity'] + vol_2 * props_2['viscosity']
+
+    # Group up mixture properties
+    props = {
+        "mass_frac_1": y_1,
+        "mass_frac_2": y_2,
+        "vol_frac_1": vol_1,
+        "vol_frac_2": vol_2,
+        "mixture_ratio": y_1 / y_2,
+        "quality_mass": quality_mass,
+        "quality_volume": quality_volume,
+        "p": props_1['p'],
+        "T": props_1['T'],
+        "rhomass": rho,
+        "hmass": hmass,
+        "umass": umass,
+        "smass": smass,
+        "cvmass": cv,
+        "cpmass": cp,
+        "isothermal_compressibility": isothermal_compressibility,
+        "isothermal_bulk_modulus": isothermal_bulk_modulus,
+        "isentropic_compressibility": isentropic_compressibility,
+        "isentropic_bulk_modulus": isentropic_bulk_modulus,
+        "speed_sound": speed_sound,
+        "conductivity": conductivity,
+        "viscosity": viscosity,
+        "viscosity_kinematic": viscosity / rho,
+        "dhdp_T": dhdp_T,
+    }
+
+    # Add properties as aliases (if property exists)
+    for key, value in PROPERTY_ALIAS.items():
+        props[key] = props.get(value, np.NaN)
+
+    return props
