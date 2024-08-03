@@ -41,7 +41,12 @@ bibtex_reference_style = "author_year"
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 exclude_patterns.extend(["source/api/barotropy.isentropic_nozzle.rst", "source/api/barotropy.sCO2_utilities.rst"])
 exclude_patterns.extend(["source/api/modules.rst"])
+exclude_patterns.extend(["source/api/barotropy.fluid_properties.fluid_properties.rst", "source/api/barotropy.fluid_properties.core_calculations.rst"])
 
+
+# html_theme_options = {
+#     "show_toc_level": 2,  # Level of indentation on side panel TOC
+# }
 
 # Define theme
 html_theme = "sphinx_book_theme"

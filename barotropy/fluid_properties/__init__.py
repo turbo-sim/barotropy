@@ -1,2 +1,2 @@
-from .fluid_interface import *
+from .fluid_properties import *
 from .core_calculations import *

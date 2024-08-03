@@ -369,14 +369,16 @@ def plot_xy_data(
         `(var_x, var_y)` and the value is a tuple of `(fig, ax)`.
     settings : dict
         Dictionary containing plot settings, including:
+
         - `var_x` (str): Name of the x variable.
         - `var_y` (str): Name of the y variable.
         - `xlabel` (str): Label for the x-axis.
         - `ylabel` (str): Label for the y-axis.
         - `x_scale` (str): Scale for the x-axis (e.g., "linear", "log"). Default is "linear".
         - `y_scale` (str): Scale for the y-axis (e.g., "linear", "log"). Default is "linear".
-        - `x_lim` (list or tuple): Limits for the x-axis (min, max). Set to None for auto-scaling.
-        - `y_lim` (list or tuple): Limits for the y-axis (min, max). Set to None for auto-scaling.
+        - `x_lim` (list or tuple): Limits for the x-axis (min, max).
+        - `y_lim` (list or tuple): Limits for the y-axis (min, max).
+
     figsize : tuple, optional
         Size of the figure, by default (6.0, 5.0).
     label : str, optional
