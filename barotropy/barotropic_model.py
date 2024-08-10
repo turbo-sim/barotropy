@@ -11,7 +11,7 @@ from scipy.integrate._ivp.ivp import METHODS as ODE_METHODS
 from . import graphics
 from . import utilities as utils
 from . import pysolver_view as psv
-from . import fluid_properties as props
+from . import properties as props
 
 COLORS_MATLAB = graphics.COLORS_MATLAB
 PROCESS_TYPES = ["polytropic", "adiabatic"]
@@ -275,7 +275,7 @@ class BarotropicModel:
                 f"  2. A list of two strings for the two-component barotropic model."
             )
 
-    def compute_properties(self):
+    def solve(self):
         """
         Solves the equations for the one-component or two-component barotropic model and stores the fluid properties.
         The type of calculation performed is selected automatically depending on the number of fluid names defined when initializing the class.
@@ -333,8 +333,9 @@ class BarotropicModel:
         """
 
         if not self.states and not self.ode_solution:
-            msg = "Fluid properties are not computed. Please call the method 'compute_properties()' first."
-            raise ValueError(msg)
+            self.solve()
+            # msg = "Fluid properties are not computed. Please call the 'solve()' method first."
+            # raise ValueError(msg)
 
         # Fit the polynomials
         self.poly_fitter = PolynomialFitter(
@@ -954,9 +955,14 @@ class PolynomialFitter:
         p = self.states["p"] / self.p_in
 
         # Define masks for different regions based on states["x"]
-        mask_region_1 = self.states["x"] > 1
-        mask_region_2 = (self.states["x"] >= 0) & (self.states["x"] <= 1)
+        # limit = 0.96
+        limit = 0.8
+        # limit = 1
+        mask_region_1 = self.states["x"] > limit
+        mask_region_2 = (self.states["x"] >= 0) & (self.states["x"] <= limit)
         mask_region_3 = self.states["x"] < 0
+
+        self.states["density"] = np.log(self.states["density"])
 
         # Determine breakpoints in terms of scaled pressure
         p_region_2_start = p[mask_region_2][0]
@@ -975,14 +981,16 @@ class PolynomialFitter:
             # Fit polynomial for Region 1 (x > 1)
             y_1 = np.array(self.states[var])[mask_region_1]
             p_1 = p[mask_region_1]
-            poly_1 = Polynomial.fit(p_1, y_1, deg=self.degree).convert()
+            poly_1 = Polynomial.fit(p_1, y_1, deg=1).convert()
             self.poly_handles[var].append(poly_1)
 
             # Fit polynomial for Region 2 (0 <= x <= 1)
             # TODO Hardcoded degree 4 to prevent numerical noise
+            weight = 1 + 10*np.array(self.states["x"])[mask_region_2]
+            weight = None
             y_2 = np.array(self.states[var])[mask_region_2]
             p_2 = p[mask_region_2]
-            poly_2 = Polynomial.fit(p_2, y_2, deg=4).convert()
+            poly_2 = Polynomial.fit(p_2, y_2, deg=5, w=weight).convert()
 
             # Ensure continuity by adjusting the first coefficient
             y_1_end = poly_1(p_region_2_start)
@@ -1310,7 +1318,7 @@ class ExpressionExporter:
         }
 
         # Format of the numbers in the exported expressions
-        self.num_format = "0.16e"
+        self.num_format = "0.4e"
 
         # Define default output directory
         self.output_dir_default = poly_fitter.output_dir_default

@@ -10,15 +10,18 @@ else:
     sys.excepthook = IPython.core.ultratb.ColorTB()
 
 # Import subpackages
+from .properties import *
 from .fluent_automation import *
-from .fluid_properties import *
-from .barotropic_model import *
 
 # Import submodules
+from .barotropic_model import *
 from .math import *
 from .graphics import *
-from .sCO2_utilities import *
 from .utilities import *
+
+# Other code (to be cleaned)
+from .sCO2_utilities import *
+from .isentropic_nozzle import *
 
 # Package info
 __version__ = "0.0.3"
