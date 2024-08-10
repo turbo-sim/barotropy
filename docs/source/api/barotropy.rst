@@ -10,7 +10,7 @@ Submodules
    :maxdepth: 1
 
    barotropy.barotropic_model
-   barotropy.fluid_properties
+   barotropy.properties
    barotropy.math
    barotropy.graphics
    barotropy.utilities
