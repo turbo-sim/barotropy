@@ -1,0 +1,53 @@
+FLUENT expressions for barotropic properties
+Creation datetime: 2024-08-05 21:06:15.947245
+
+barotropic_model_density
+IF(AbsolutePressure >= 6.9654e+05 [Pa], 
+6.5981e+00 + 1.1807e-02 * (AbsolutePressure / 6.9654e+05 [Pa] - 1.0000e+00), 
+IF(AbsolutePressure >= 1.1980e+05 [Pa], 
+IF(AbsolutePressure >= 3.8710e+05 [Pa], 
+IF(AbsolutePressure >= 4.2927e+05 [Pa], 
+6.5862e+00 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(1.1807e-02), 
+3.1652e+04 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(-2.6148e+05 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(8.6363e+05 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(-1.4256e+06 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(1.1763e+06 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(-3.8820e+05)))))), 
+1.1761e+00 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(2.7500e+01 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(-1.3703e+02 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(5.4774e+02 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(-1.4903e+03 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(2.7015e+03 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(-3.0899e+03 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(2.0065e+03 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(-5.5221e+02))))))))), 
+3.6703e+00 * exp((AbsolutePressure / 6.9654e+05 [Pa] - 0.17199299251017933) / 4.5775e-01))) * 1 [kg/m^3]
+
+barotropic_model_viscosity
+IF(AbsolutePressure >= 6.9654e+05 [Pa], 
+9.5518e-05 + 1.5516e-06 * (AbsolutePressure / 6.9654e+05 [Pa] - 1.0000e+00), 
+IF(AbsolutePressure >= 1.1980e+05 [Pa], 
+IF(AbsolutePressure >= 3.8710e+05 [Pa], 
+IF(AbsolutePressure >= 4.2927e+05 [Pa], 
+9.3966e-05 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(1.5516e-06), 
+-2.3254e-01 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(2.3522e+00 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(-9.2022e+00 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(1.7555e+01 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(-1.6419e+01 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(6.0462e+00)))))), 
+1.2082e-05 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(-1.1553e-04 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(1.8146e-03 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(-1.2109e-02 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(5.0416e-02 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(-1.3110e-01 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(2.1080e-01 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(-1.9172e-01 + (AbsolutePressure / 6.9654e+05 [Pa]) *
+(7.6619e-02))))))))), 
+1.3329e-05 * exp((AbsolutePressure / 6.9654e+05 [Pa] - 0.17199299251017933) / 2.9745e-01))) * 1 [Pa*s]
+

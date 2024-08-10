@@ -8,18 +8,23 @@ import barotropy as bpy
 bpy.print_package_info()
 bpy.set_plot_options()
 
+# TODO: ideas to improve fitting. Doing fitting in log(density) scale
+# TODO: double precission arithmetic in CFX
+# TODO: custom fitting with non-negativity constraint using non-linear solver
 
 from matplotlib import cm
 
 # Create folder to save results
-DIR_OUT = "./output"
+# DIR_OUT = "./output"
+DIR_OUT = "./barotropic_model_20240805"
 if not os.path.isdir(DIR_OUT):
     os.makedirs(DIR_OUT)
 
 # Load cases from Excel
 case_table = pd.read_excel("./simulation_cases.xlsx")
 case_indices = case_table["index"]
-case_indices = [1, 2]
+# case_indices = [1, 2]
+case_indices = [2]
 case_table = case_table[case_table["index"].isin(case_indices)]
 
 # Define plot settings
@@ -50,6 +55,7 @@ for i, (idx, row) in enumerate(case_table.iterrows()):
         calculation_type=row["calculation_type"],
         blending_onset=row["q_onset"],
         blending_width=row["q_transition"],
+        # blending_width=0.05,
         HEOS_solver="hybr",
         ODE_solver="LSODA",
         ODE_tolerance=1e-9,
@@ -59,12 +65,12 @@ for i, (idx, row) in enumerate(case_table.iterrows()):
     )
 
     # Evaluate barotropic model and export polynomial expressions
-    model.compute_properties()
+    model.solve()
     model.fit_polynomials()
     model.export_expressions_fluent(output_dir=dir_out)
     model.export_expressions_cfx(output_dir=dir_out)
     for var in model.poly_fitter.variables:
-        model.poly_fitter.plot_polynomial_and_error(var=var, savefig=True, showfig=False)
+        model.poly_fitter.plot_polynomial_and_error(var=var, savefig=True, showfig=True)
 
     # Create figure for plotting
     if i == 0:
@@ -104,6 +110,7 @@ for i, (idx, row) in enumerate(case_table.iterrows()):
         label=rf"$q_\text{{onset}}={row['q_onset']:0.2f}$, {row['calculation_type']}",
     )
 
+    ax_2.set_yscale("log")
     ax_2.plot(
         model.states["p"],
         model.states["rho"],

@@ -84,7 +84,7 @@ for i, mixture_ratio in enumerate(mixture_ratio_array):
     )
 
     # Evaluate barotropic model and export polynomial expressions
-    model.compute_properties()
+    model.solve()
 
     # Plot data for each variable
     for j, settings in enumerate(plot_settings):

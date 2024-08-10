@@ -86,7 +86,7 @@ for i, (idx, row) in enumerate(case_table.iterrows()):
     )
 
     # Evaluate barotropic model and export polynomial expressions
-    model.compute_properties()
+    model.solve()
     model.fit_polynomials()
     model.export_expressions_fluent(output_dir=dir_out)
     model.export_expressions_cfx(output_dir=dir_out)

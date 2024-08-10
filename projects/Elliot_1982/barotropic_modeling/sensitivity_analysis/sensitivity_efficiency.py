@@ -84,7 +84,7 @@ for i, efficiency in enumerate(efficiency_array):
     )
 
     # Evaluate barotropic model and export polynomial expressions
-    model.compute_properties()
+    model.solve()
 
     # Plot data for each variable
     for j, settings in enumerate(plot_settings):
