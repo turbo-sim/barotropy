@@ -6,7 +6,6 @@ import CoolProp.CoolProp as CP
 from functools import wraps
 
 from . import core_calculations as props
-# from .. import utilities as utils
 from .. import pysolver_view as psv
 
 MEANLINE_PROPERTIES = [
