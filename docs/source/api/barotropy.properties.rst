@@ -1,6 +1,6 @@
 Fluid properties
 ================
-.. automodule:: barotropy.fluid_properties.fluid_properties
+.. automodule:: barotropy.properties.fluid_properties
    :members:
    :undoc-members:
    :show-inheritance:
@@ -9,7 +9,7 @@ Fluid properties
 
 Core calculations
 =================
-.. automodule:: barotropy.fluid_properties.core_calculations
+.. automodule:: barotropy.properties.core_calculations
    :members:
    :undoc-members:
    :show-inheritance:
