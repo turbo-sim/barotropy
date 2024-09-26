@@ -168,14 +168,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../../source/bibliography.html">Bibliography</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../source/api/barotropy.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.barotropic_model.html">Barotropic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.properties.html">Fluid properties</a></li>
+
 <li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.math.html">Math functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.graphics.html">Graphic functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.utilities.html">Utility functions</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../source/api/barotropy.fluid_properties.html">Fluid properties</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.fluid_properties.fluid_interface.html">Fluid interface</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.fluid_properties.core_calculations.html">Core calculations</a></li>
-</ul>
-</details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../source/api/barotropy.pysolver_view.html">PySolverView</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.pysolver_view.nonlinear_system.html">barotropy.pysolver_view.nonlinear_system module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.pysolver_view.nonlinear_system_problems.html">barotropy.pysolver_view.nonlinear_system_problems module</a></li>
@@ -302,55 +299,115 @@ document.write(`
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">numpy.polynomial</span> <span class="kn">import</span> <span class="n">Polynomial</span>
 
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span> <span class="nn">numpy.polynomial</span> <span class="kn">import</span> <span class="n">Polynomial</span>
 <span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">solve_ivp</span>
 <span class="kn">from</span> <span class="nn">scipy.integrate._ivp.ivp</span> <span class="kn">import</span> <span class="n">METHODS</span> <span class="k">as</span> <span class="n">ODE_METHODS</span>
-
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">graphics</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">utilities</span> <span class="k">as</span> <span class="n">utils</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">pysolver_view</span> <span class="k">as</span> <span class="n">psv</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">fluid_properties</span> <span class="k">as</span> <span class="n">props</span>
-
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">properties</span> <span class="k">as</span> <span class="n">props</span>
 
 <span class="n">COLORS_MATLAB</span> <span class="o">=</span> <span class="n">graphics</span><span class="o">.</span><span class="n">COLORS_MATLAB</span>
 <span class="n">PROCESS_TYPES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;polytropic&quot;</span><span class="p">,</span> <span class="s2">&quot;adiabatic&quot;</span><span class="p">]</span>
-<span class="n">PROPERTY_CALCULATION_TYPES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;blending&quot;</span><span class="p">,</span> <span class="s2">&quot;equilibrium&quot;</span><span class="p">,</span> <span class="s2">&quot;metastable&quot;</span><span class="p">]</span>
-
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span class="n">CALCULATION_TYPES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;blending&quot;</span><span class="p">,</span> <span class="s2">&quot;equilibrium&quot;</span><span class="p">,</span> <span class="s2">&quot;metastable&quot;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="BarotropicModelOneComponent">
-<a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.BarotropicModelOneComponent">[docs]</a>
-<span class="k">class</span> <span class="nc">BarotropicModelOneComponent</span><span class="p">:</span>
+<div class="viewcode-block" id="BarotropicModel">
+<a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.BarotropicModel">[docs]</a>
+<span class="k">class</span> <span class="nc">BarotropicModel</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Coordinates the simulation and polynomial fitting for a barotropic process.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    fluid_name : str</span>
-<span class="sd">        The name of the fluid to be used in the simulation (e.g., &#39;Water&#39;).</span>
+<span class="sd">    fluid_name : str or list of str</span>
+<span class="sd">        The name(s) of the fluid(s) for the barotropic model.</span>
+
+<span class="sd">        - Specify a single string (e.g., &#39;co2&#39;) to use the single-component model.</span>
+<span class="sd">        - Specify a list of two strings (e.g., [&#39;water&#39;, &#39;nitrogen&#39;]) to use the two-component model.</span>
+
 <span class="sd">    T_in : float</span>
 <span class="sd">        Inlet temperature of the fluid in Kelvin.</span>
+
 <span class="sd">    p_in : float</span>
 <span class="sd">        Inlet pressure of the fluid in Pascals.</span>
+
 <span class="sd">    p_out : float</span>
 <span class="sd">        Outlet pressure of the fluid in Pascals.</span>
+
+
 <span class="sd">    efficiency : float</span>
 <span class="sd">        The efficiency of the polytropic process, dimensionless.</span>
+
+<span class="sd">    mixture_ratio : float</span>
+<span class="sd">        Mass ratio of the first to the second fluid in the mixture.</span>
+
+<span class="sd">        .. note::</span>
+<span class="sd">            Applicable only to the two-component model.</span>
+
 <span class="sd">    calculation_type : str, optional</span>
-<span class="sd">        The type of calculation to perform. Options include:</span>
+<span class="sd">        The type of fluid property calculation for the one-component model. Options include:</span>
 
 <span class="sd">        - ``equilibrium``: Computes equilibrium properties only.</span>
 <span class="sd">        - ``metastable``: Computes metastable properties only.</span>
 <span class="sd">        - ``blending``: Computes both equilibrium and metastable properties, blends them, and returns the blended properties.</span>
 
-<span class="sd">        Default is None, which will raise an error.</span>
+<span class="sd">        .. note::</span>
+<span class="sd">            Applicable only to the one-component model.</span>
+
 <span class="sd">    blending_onset : float, optional</span>
 <span class="sd">        The onset of blending in the process, typically a value between 0 and 1. Required when `calculation_type` is ``blending``.</span>
+
+<span class="sd">        .. note::</span>
+<span class="sd">            Applicable only to the one-component model.</span>
+
 <span class="sd">    blending_width : float, optional</span>
 <span class="sd">        The width of the blending region, typically a value between 0 and 1. Required when `calculation_type` is ``blending``.</span>
+
+<span class="sd">        .. note::</span>
+<span class="sd">            Applicable only to the one-component model.</span>
+
+<span class="sd">    HEOS_solver : str, optional</span>
+<span class="sd">        The solver algorithm used to compute the metastable states. Valid options:</span>
+
+<span class="sd">        .. list-table::</span>
+<span class="sd">            :widths: 20 50</span>
+<span class="sd">            :header-rows: 1</span>
+
+<span class="sd">            * - Solver name</span>
+<span class="sd">              - Description</span>
+<span class="sd">            * - ``hybr``</span>
+<span class="sd">              -  Powell&#39;s hybrid trust-region algorithm</span>
+<span class="sd">            * - ``lm``</span>
+<span class="sd">              - Levenberg–Marquardt algorithm</span>
+
+<span class="sd">        See `Scipy root() &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.root.html&gt;`_ for more info.</span>
+<span class="sd">        Recommended solvers: Both ``hybr`` and ``lm`` work well for the tested cases.</span>
+
+<span class="sd">        .. note::</span>
+<span class="sd">            Applicable only to the one-component model.</span>
+
+<span class="sd">    HEOS_tolerance : float, optional</span>
+<span class="sd">        The tolerance for the HEOS solver.</span>
+<span class="sd">        </span>
+<span class="sd">        .. note::</span>
+<span class="sd">            Applicable only to the one-component model.</span>
+
+<span class="sd">    HEOS_max_iter : int, optional</span>
+<span class="sd">        The maximum number of iterations for the HEOS solver.</span>
+
+<span class="sd">        .. note::</span>
+<span class="sd">            Applicable only to the one-component model.</span>
+
+<span class="sd">    HEOS_print_convergence : bool, optional</span>
+<span class="sd">        If True, prints convergence information for the HEOS solver.</span>
+
+<span class="sd">        .. note::</span>
+<span class="sd">            Applicable only to the one-component model.</span>
+
 <span class="sd">    ODE_solver : str, optional</span>
 <span class="sd">        The solver to use for the ODE integration. Valid options:</span>
 
@@ -374,47 +431,24 @@ document.write(`
 <span class="sd">              - Adams/BDF method with automatic stiffness detection and switching</span>
 
 <span class="sd">        See `Scipy solver_ivp() &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html&gt;`_  for more info.</span>
-<span class="sd">        Default is ``LSODA``.</span>
-<span class="sd">        </span>
 <span class="sd">        Recommended solvers: ``BDF``, ``LSODA``, or ``Radau`` for stiff problems or ``RK45`` for non-stiff problems with smooth blending.</span>
 
 <span class="sd">    ODE_tolerance : float, optional</span>
-<span class="sd">        The relative and absolute tolerance for the ODE solver. Default is 1e-8.</span>
-<span class="sd">    HEOS_solver : str, optional</span>
-<span class="sd">        The solver algorithm used to compute the metastable states. Valid options:</span>
+<span class="sd">        The relative and absolute tolerance for the ODE solver.</span>
 
-<span class="sd">        .. list-table::</span>
-<span class="sd">            :widths: 20 50</span>
-<span class="sd">            :header-rows: 1</span>
-
-<span class="sd">            * - Solver name</span>
-<span class="sd">              - Description</span>
-<span class="sd">            * - ``hybr``</span>
-<span class="sd">              -  Powell&#39;s hybrid trust-region algorithm</span>
-<span class="sd">            * - ``lm``</span>
-<span class="sd">              - Levenberg–Marquardt algorithm</span>
-
-<span class="sd">        See `Scipy root() &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.root.html&gt;`_ for more info. Default is ``hybr``.</span>
-<span class="sd">        </span>
-<span class="sd">        Recommended solvers: Both ``hybr`` and ``lm`` work well for the tested cases.</span>
-<span class="sd">    HEOS_tolerance : float, optional</span>
-<span class="sd">        The tolerance for the HEOS solver. Default is 1e-6.</span>
-<span class="sd">    HEOS_max_iter : int, optional</span>
-<span class="sd">        The maximum number of iterations for the HEOS solver. Default is 100.</span>
-<span class="sd">    HEOS_print_convergence : bool, optional</span>
-<span class="sd">        If True, prints convergence information for the HEOS solver. Default is False.</span>
 <span class="sd">    polynomial_degree : int</span>
-<span class="sd">        Degree of the polynomials to fit. Default is 8.</span>
+<span class="sd">        Degree of the polynomials to fit.</span>
 
 <span class="sd">        .. note::</span>
 
 <span class="sd">            When `calculation_type` is ``blending`` the degree of the polynomial in the blending region is set to 4 to achieve sufficient accuracy while preventing numerical round-off errors associated with single-precision arithmetic in CFD solvers.</span>
 
 <span class="sd">    polynomial_format : str, optional</span>
-<span class="sd">        Type of polynomial representation (``horner`` or ``standard``). Default is &#39;horner&#39;.</span>
+<span class="sd">        Type of polynomial representation (``horner`` or ``standard``).</span>
+<span class="sd">        </span>
 <span class="sd">    polynomial_variables : list of str</span>
-<span class="sd">        A list of variable names to fit polynomials to, such as &#39;density&#39;, &#39;viscosity&#39;,</span>
-<span class="sd">        &#39;speed_sound&#39;, &#39;void_fraction&#39;, &#39;vapor_quality&#39;.</span>
+<span class="sd">        A list of variable names to fit polynomials to, such as &#39;density&#39;, &#39;viscosity&#39;, &#39;speed_sound&#39;, &#39;void_fraction&#39;, &#39;vapor_quality&#39;.</span>
+
 <span class="sd">    output_dir : str</span>
 <span class="sd">        The directory where output will be saved.</span>
 
@@ -422,20 +456,21 @@ document.write(`
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">fluid_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">fluid_name</span><span class="p">,</span>
         <span class="n">T_in</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">p_in</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">p_out</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">efficiency</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.00</span><span class="p">,</span>
+        <span class="n">mixture_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">calculation_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">blending_onset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">blending_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">ODE_solver</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;lsoda&quot;</span><span class="p">,</span>
-        <span class="n">ODE_tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">,</span>
         <span class="n">HEOS_solver</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;hybr&quot;</span><span class="p">,</span>
         <span class="n">HEOS_tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="p">,</span>
         <span class="n">HEOS_max_iter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
         <span class="n">HEOS_print_convergence</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">ODE_solver</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;LSODA&quot;</span><span class="p">,</span>
+        <span class="n">ODE_tolerance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">,</span>
         <span class="n">polynomial_degree</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
         <span class="n">polynomial_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;horner&quot;</span><span class="p">,</span>
         <span class="n">polynomial_variables</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span>
@@ -448,6 +483,15 @@ document.write(`
         <span class="n">output_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;barotropic_model&quot;</span><span class="p">,</span>
     <span class="p">):</span>
 
+        <span class="c1"># Validate inputs and find the correct model type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_inputs</span><span class="p">(</span>
+            <span class="n">fluid_name</span><span class="p">,</span>
+            <span class="n">mixture_ratio</span><span class="p">,</span>
+            <span class="n">calculation_type</span><span class="p">,</span>
+            <span class="n">blending_onset</span><span class="p">,</span>
+            <span class="n">blending_width</span><span class="p">,</span>
+        <span class="p">)</span>
+
         <span class="c1"># Rename mandatory arguments</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fluid_name</span> <span class="o">=</span> <span class="n">fluid_name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">T_in</span> <span class="o">=</span> <span class="n">T_in</span>
@@ -455,6 +499,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">p_out</span> <span class="o">=</span> <span class="n">p_out</span>
 
         <span class="c1"># Assign optional arguments with defaults</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mixture_ratio</span> <span class="o">=</span> <span class="n">mixture_ratio</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">efficiency</span> <span class="o">=</span> <span class="n">efficiency</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">calculation_type</span> <span class="o">=</span> <span class="n">calculation_type</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">blending_onset</span> <span class="o">=</span> <span class="n">blending_onset</span>
@@ -475,51 +520,126 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">ode_solution</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">poly_fitter</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="BarotropicModelOneComponent.compute_properties">
-<a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.BarotropicModelOneComponent.compute_properties">[docs]</a>
-    <span class="k">def</span> <span class="nf">compute_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_validate_inputs</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fluid_name</span><span class="p">,</span>
+        <span class="n">mixture_ratio</span><span class="p">,</span>
+        <span class="n">calculation_type</span><span class="p">,</span>
+        <span class="n">blending_onset</span><span class="p">,</span>
+        <span class="n">blending_width</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="c1"># Validate inputs for one-component and two-component models</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fluid_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="c1"># One-component model</span>
+            <span class="k">if</span> <span class="n">calculation_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">CALCULATION_TYPES</span><span class="p">:</span>
+                <span class="n">allowed_types</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">ptype</span><span class="si">}</span><span class="s2">&#39;&quot;</span> <span class="k">for</span> <span class="n">ptype</span> <span class="ow">in</span> <span class="n">CALCULATION_TYPES</span><span class="p">)</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Invalid parameter calculation_type=</span><span class="si">{</span><span class="n">calculation_type</span><span class="si">}</span><span class="s2">. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;It must be one of </span><span class="si">{</span><span class="n">allowed_types</span><span class="si">}</span><span class="s2"> for the one-component model.&quot;</span>
+                <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">mixture_ratio</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Parameter mixture_ratio=</span><span class="si">{</span><span class="n">mixture_ratio</span><span class="si">}</span><span class="s2"> must be None for the one-component model.&quot;</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;one-component&quot;</span>
+
+        <span class="k">elif</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">fluid_name</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">fluid_name</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+            <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fluid_name</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="c1"># Two-component model</span>
+            <span class="k">if</span> <span class="n">mixture_ratio</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">mixture_ratio</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Parameter mixture_ratio=</span><span class="si">{</span><span class="n">mixture_ratio</span><span class="si">}</span><span class="s2"> must be a positive scalar for the two-component model.&quot;</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="p">(</span>
+                <span class="n">calculation_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="ow">or</span> <span class="n">blending_onset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="ow">or</span> <span class="n">blending_width</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="p">):</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;The following parameters must be None for the two-component model:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;  - calculation_type: </span><span class="si">{</span><span class="n">calculation_type</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;  - blending_onset: </span><span class="si">{</span><span class="n">blending_onset</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;  - blending_width: </span><span class="si">{</span><span class="n">blending_width</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;two-component&quot;</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Input parameter &#39;fluid_name&#39;=</span><span class="si">{</span><span class="n">fluid_name</span><span class="si">}</span><span class="s2"> must be either:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;  1. A single string for the one-component barotropic model</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;  2. A list of two strings for the two-component barotropic model.&quot;</span>
+            <span class="p">)</span>
+
+<div class="viewcode-block" id="BarotropicModel.solve">
+<a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.BarotropicModel.solve">[docs]</a>
+    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Solves the ODE for the barotropic process and stores the states.</span>
-
-<span class="sd">        See Also</span>
-<span class="sd">        --------</span>
-<span class="sd">        barotropic_model_one_fluid : </span>
-<span class="sd">            Function used to compute the fluid properties.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Manually pass all parameters to the ODE solver function</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ode_solution</span> <span class="o">=</span> <span class="n">barotropic_model_one_fluid</span><span class="p">(</span>
-            <span class="n">fluid_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fluid_name</span><span class="p">,</span>
-            <span class="n">T_in</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">T_in</span><span class="p">,</span>
-            <span class="n">p_in</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_in</span><span class="p">,</span>
-            <span class="n">p_out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_out</span><span class="p">,</span>
-            <span class="n">efficiency</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">efficiency</span><span class="p">,</span>
-            <span class="n">calculation_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">calculation_type</span><span class="p">,</span>
-            <span class="n">blending_onset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">blending_onset</span><span class="p">,</span>
-            <span class="n">blending_width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">blending_width</span><span class="p">,</span>
-            <span class="n">ODE_solver</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ODE_solver</span><span class="p">,</span>
-            <span class="n">ODE_tolerance</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ODE_tolerance</span><span class="p">,</span>
-            <span class="n">HEOS_solver</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">HEOS_solver</span><span class="p">,</span>
-            <span class="n">HEOS_tolerance</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">HEOS_tolerance</span><span class="p">,</span>
-            <span class="n">HEOS_max_iter</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">HEOS_max_iter</span><span class="p">,</span>
-            <span class="n">HEOS_print_convergence</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">HEOS_print_convergence</span><span class="p">,</span>
-        <span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="BarotropicModelOneComponent.fit_polynomials">
-<a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.BarotropicModelOneComponent.fit_polynomials">[docs]</a>
-    <span class="k">def</span> <span class="nf">fit_polynomials</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Fits polynomials to the states using the PolynomialFitter class.</span>
+<span class="sd">        Solves the equations for the one-component or two-component barotropic model and stores the fluid properties.</span>
+<span class="sd">        The type of calculation performed is selected automatically depending on the number of fluid names defined when initializing the class.</span>
 <span class="sd">        </span>
 <span class="sd">        See Also</span>
 <span class="sd">        --------</span>
-<span class="sd">        PolynomialFitter : </span>
+<span class="sd">        barotropic_model_one_component :</span>
+<span class="sd">            Calculation of fluid properties for the one-component model.</span>
+<span class="sd">        barotropic_model_two_component :</span>
+<span class="sd">            Calculation of fluid properties for the two-component model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Manually pass all parameters to the ODE solver function</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_type</span> <span class="o">==</span> <span class="s2">&quot;one-component&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ode_solution</span> <span class="o">=</span> <span class="n">barotropic_model_one_component</span><span class="p">(</span>
+                <span class="n">fluid_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fluid_name</span><span class="p">,</span>
+                <span class="n">T_in</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">T_in</span><span class="p">,</span>
+                <span class="n">p_in</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_in</span><span class="p">,</span>
+                <span class="n">p_out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_out</span><span class="p">,</span>
+                <span class="n">efficiency</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">efficiency</span><span class="p">,</span>
+                <span class="n">calculation_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">calculation_type</span><span class="p">,</span>
+                <span class="n">blending_onset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">blending_onset</span><span class="p">,</span>
+                <span class="n">blending_width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">blending_width</span><span class="p">,</span>
+                <span class="n">ODE_solver</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ODE_solver</span><span class="p">,</span>
+                <span class="n">ODE_tolerance</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ODE_tolerance</span><span class="p">,</span>
+                <span class="n">HEOS_solver</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">HEOS_solver</span><span class="p">,</span>
+                <span class="n">HEOS_tolerance</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">HEOS_tolerance</span><span class="p">,</span>
+                <span class="n">HEOS_max_iter</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">HEOS_max_iter</span><span class="p">,</span>
+                <span class="n">HEOS_print_convergence</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">HEOS_print_convergence</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_type</span> <span class="o">==</span> <span class="s2">&quot;two-component&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ode_solution</span> <span class="o">=</span> <span class="n">barotropic_model_two_component</span><span class="p">(</span>
+                <span class="n">fluid_name_1</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fluid_name</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">fluid_name_2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fluid_name</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">mixture_ratio</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mixture_ratio</span><span class="p">,</span>
+                <span class="n">T_in</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">T_in</span><span class="p">,</span>
+                <span class="n">p_in</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_in</span><span class="p">,</span>
+                <span class="n">p_out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_out</span><span class="p">,</span>
+                <span class="n">efficiency</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">efficiency</span><span class="p">,</span>
+                <span class="n">ODE_solver</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ODE_solver</span><span class="p">,</span>
+                <span class="n">ODE_tolerance</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ODE_tolerance</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Invalid value for model_type=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_type</span><span class="si">}</span><span class="s2">. Something went wrong during input validation.&quot;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BarotropicModel.fit_polynomials">
+<a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.BarotropicModel.fit_polynomials">[docs]</a>
+    <span class="k">def</span> <span class="nf">fit_polynomials</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fits polynomials to the states using the PolynomialFitter class.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        PolynomialFitter :</span>
 <span class="sd">            Class used for generating fitting polynomials.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">ode_solution</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Fluid properties are not computed. Please call the method &#39;compute_properties()&#39; first.&quot;</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+            <span class="c1"># msg = &quot;Fluid properties are not computed. Please call the &#39;solve()&#39; method first.&quot;</span>
+            <span class="c1"># raise ValueError(msg)</span>
 
         <span class="c1"># Fit the polynomials</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">poly_fitter</span> <span class="o">=</span> <span class="n">PolynomialFitter</span><span class="p">(</span>
@@ -538,8 +658,8 @@ document.write(`
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="BarotropicModelOneComponent.export_expressions_fluent">
-<a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.BarotropicModelOneComponent.export_expressions_fluent">[docs]</a>
+<div class="viewcode-block" id="BarotropicModel.export_expressions_fluent">
+<a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.BarotropicModel.export_expressions_fluent">[docs]</a>
     <span class="k">def</span> <span class="nf">export_expressions_fluent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Exports the polynomial expressions in a format suitable for Ansys Fluent.</span>
@@ -551,7 +671,7 @@ document.write(`
 
 <span class="sd">        See Also</span>
 <span class="sd">        --------</span>
-<span class="sd">        ExpressionExporter : </span>
+<span class="sd">        ExpressionExporter :</span>
 <span class="sd">            Class for exporting polynomial expressions for use in CFD software.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">exporter</span><span class="p">:</span>
@@ -562,8 +682,8 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">exporter</span><span class="o">.</span><span class="n">export_expressions_fluent</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="BarotropicModelOneComponent.export_expressions_cfx">
-<a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.BarotropicModelOneComponent.export_expressions_cfx">[docs]</a>
+<div class="viewcode-block" id="BarotropicModel.export_expressions_cfx">
+<a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.BarotropicModel.export_expressions_cfx">[docs]</a>
     <span class="k">def</span> <span class="nf">export_expressions_cfx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Exports the polynomial expressions in a format suitable for Ansys CFX.</span>
@@ -575,7 +695,7 @@ document.write(`
 
 <span class="sd">        See Also</span>
 <span class="sd">        --------</span>
-<span class="sd">        ExpressionExporter : </span>
+<span class="sd">        ExpressionExporter :</span>
 <span class="sd">            Class for exporting polynomial expressions for use in CFD software.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">exporter</span><span class="p">:</span>
@@ -588,9 +708,9 @@ document.write(`
 
 
 
-<div class="viewcode-block" id="barotropic_model_one_fluid">
-<a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.barotropic_model_one_fluid">[docs]</a>
-<span class="k">def</span> <span class="nf">barotropic_model_one_fluid</span><span class="p">(</span>
+<div class="viewcode-block" id="barotropic_model_one_component">
+<a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.barotropic_model_one_component">[docs]</a>
+<span class="k">def</span> <span class="nf">barotropic_model_one_component</span><span class="p">(</span>
     <span class="n">fluid_name</span><span class="p">,</span>
     <span class="n">T_in</span><span class="p">,</span>
     <span class="n">p_in</span><span class="p">,</span>
@@ -599,12 +719,12 @@ document.write(`
     <span class="n">calculation_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">blending_onset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">blending_width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">ODE_solver</span><span class="o">=</span><span class="s2">&quot;lsoda&quot;</span><span class="p">,</span>
-    <span class="n">ODE_tolerance</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
     <span class="n">HEOS_solver</span><span class="o">=</span><span class="s2">&quot;hybr&quot;</span><span class="p">,</span>
     <span class="n">HEOS_tolerance</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
     <span class="n">HEOS_max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
     <span class="n">HEOS_print_convergence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">ODE_solver</span><span class="o">=</span><span class="s2">&quot;lsoda&quot;</span><span class="p">,</span>
+    <span class="n">ODE_tolerance</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Simulates a polytropic process for a given fluid from an inlet state to a specified outlet pressure.</span>
@@ -633,26 +753,57 @@ document.write(`
 <span class="sd">    ----------</span>
 <span class="sd">    fluid_name : str</span>
 <span class="sd">        The name of the fluid to be used in the simulation (e.g., &#39;Water&#39;).</span>
+
 <span class="sd">    T_in : float</span>
 <span class="sd">        Inlet temperature of the fluid in Kelvin.</span>
+
 <span class="sd">    p_in : float</span>
 <span class="sd">        Inlet pressure of the fluid in Pascals.</span>
+
 <span class="sd">    p_out : float</span>
 <span class="sd">        Outlet pressure of the fluid in Pascals.</span>
+
 <span class="sd">    efficiency : float</span>
 <span class="sd">        The efficiency of the polytropic process, dimensionless.</span>
-<span class="sd">    calculation_type : str, optional</span>
+
+<span class="sd">    calculation_type : str</span>
 <span class="sd">        The type of calculation to perform. Options include:</span>
 
 <span class="sd">        - ``equilibrium``: Computes equilibrium properties only.</span>
 <span class="sd">        - ``metastable``: Computes metastable properties only.</span>
 <span class="sd">        - ``blending``: Computes both equilibrium and metastable properties, blends them, and returns the blended properties.</span>
 
-<span class="sd">        Default is None, which will raise an error.</span>
 <span class="sd">    blending_onset : float, optional</span>
 <span class="sd">        The onset of blending in the process, typically a value between 0 and 1. Required when `calculation_type` is ``blending``.</span>
 <span class="sd">    blending_width : float, optional</span>
 <span class="sd">        The width of the blending region, typically a value between 0 and 1. Required when `calculation_type` is ``blending``.</span>
+
+<span class="sd">    HEOS_solver : str, optional</span>
+<span class="sd">        The solver algorithm used to compute the metastable states. Valid options:</span>
+
+<span class="sd">        .. list-table::</span>
+<span class="sd">            :widths: 20 50</span>
+<span class="sd">            :header-rows: 1</span>
+
+<span class="sd">            * - Solver name</span>
+<span class="sd">              - Description</span>
+<span class="sd">            * - ``hybr``</span>
+<span class="sd">              -  Powell&#39;s hybrid trust-region algorithm</span>
+<span class="sd">            * - ``lm``</span>
+<span class="sd">              - Levenberg–Marquardt algorithm</span>
+
+<span class="sd">        See `Scipy root() &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.root.html&gt;`_ for more info.</span>
+<span class="sd">        Recommended solvers: Both ``hybr`` and ``lm`` work well for the tested cases.</span>
+
+<span class="sd">    HEOS_tolerance : float, optional</span>
+<span class="sd">        The tolerance for the HEOS solver.</span>
+
+<span class="sd">    HEOS_max_iter : int, optional</span>
+<span class="sd">        The maximum number of iterations for the HEOS solver.</span>
+<span class="sd">        </span>
+<span class="sd">    HEOS_print_convergence : bool, optional</span>
+<span class="sd">        If True, prints convergence information for the HEOS solver.</span>
+
 <span class="sd">    ODE_solver : str, optional</span>
 <span class="sd">        The solver to use for the ODE integration. Valid options:</span>
 
@@ -676,64 +827,38 @@ document.write(`
 <span class="sd">              - Adams/BDF method with automatic stiffness detection and switching</span>
 
 <span class="sd">        See `Scipy solver_ivp() &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html&gt;`_  for more info.</span>
-<span class="sd">        Default is ``LSODA``.</span>
-<span class="sd">        </span>
 <span class="sd">        Recommended solvers: ``BDF``, ``LSODA``, or ``Radau`` for stiff problems or ``RK45`` for non-stiff problems with smooth blending.</span>
 
 <span class="sd">    ODE_tolerance : float, optional</span>
-<span class="sd">        The relative and absolute tolerance for the ODE solver. Default is 1e-8.</span>
-<span class="sd">    HEOS_solver : str, optional</span>
-<span class="sd">        The solver algorithm used to compute the metastable states. Valid options:</span>
-
-<span class="sd">        .. list-table::</span>
-<span class="sd">            :widths: 20 50</span>
-<span class="sd">            :header-rows: 1</span>
-
-<span class="sd">            * - Solver name</span>
-<span class="sd">              - Description</span>
-<span class="sd">            * - ``hybr``</span>
-<span class="sd">              -  Powell&#39;s hybrid trust-region algorithm</span>
-<span class="sd">            * - ``lm``</span>
-<span class="sd">              - Levenberg–Marquardt algorithm</span>
-
-<span class="sd">        See `Scipy root() &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.root.html&gt;`_ for more info. Default is ``hybr``.</span>
-<span class="sd">        </span>
-<span class="sd">        Recommended solvers: Both ``hybr`` and ``lm`` work well for the tested cases.</span>
-<span class="sd">    HEOS_tolerance : float, optional</span>
-<span class="sd">        The tolerance for the HEOS solver. Default is 1e-6.</span>
-<span class="sd">    HEOS_max_iter : int, optional</span>
-<span class="sd">        The maximum number of iterations for the HEOS solver. Default is 100.</span>
-<span class="sd">    HEOS_print_convergence : bool, optional</span>
-<span class="sd">        If True, prints convergence information for the HEOS solver. Default is False.</span>
+<span class="sd">        The relative and absolute tolerance for the ODE solver.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    states : list</span>
-<span class="sd">        A list of states (dictionaries) representing the properties of the fluid at each evaluation point.</span>
+<span class="sd">    states : dictionary of arrays</span>
+<span class="sd">        A dictionary of Numpy arrays representing the properties of the fluid at each evaluation point.</span>
 <span class="sd">    solution : scipy.integrate.OdeResult</span>
 <span class="sd">        The result of the ODE integration containing information about the solver process.</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; states, solution = barotropic_model_one_fluid(</span>
-<span class="sd">    ...     fluid_name=&#39;Water&#39;,</span>
-<span class="sd">    ...     T_in=300.0,</span>
-<span class="sd">    ...     p_in=101325.0,</span>
-<span class="sd">    ...     p_out=200000.0,</span>
-<span class="sd">    ...     efficiency=0.85,</span>
-<span class="sd">    ...     calculation_type=&#39;blending&#39;,</span>
-<span class="sd">    ...     blending_onset=0.1,</span>
-<span class="sd">    ...     blending_width=0.05,</span>
-<span class="sd">    ...     ODE_solver=&#39;LSODA&#39;,</span>
-<span class="sd">    ...     ODE_tolerance=1e-8,</span>
-<span class="sd">    ...     HEOS_solver=&#39;hybr&#39;,</span>
-<span class="sd">    ...     HEOS_tolerance=1e-6,</span>
-<span class="sd">    ...     HEOS_max_iter=100,</span>
-<span class="sd">    ...     HEOS_print_convergence=False,</span>
-<span class="sd">    ...     n_eval=100</span>
-<span class="sd">    ... )</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="c1"># Check if the provided HEOS solver is valid</span>
+    <span class="n">valid_solvers_heos</span> <span class="o">=</span> <span class="n">psv</span><span class="o">.</span><span class="n">nonlinear_system</span><span class="o">.</span><span class="n">SOLVER_OPTIONS</span>
+    <span class="k">if</span> <span class="n">HEOS_solver</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_solvers_heos</span><span class="p">:</span>
+        <span class="n">error_message</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Invalid HEOS solver &#39;</span><span class="si">{</span><span class="n">HEOS_solver</span><span class="si">}</span><span class="s2">&#39; provided. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Valid solvers are: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">valid_solvers_heos</span><span class="p">)</span><span class="si">}</span><span class="s2">. &quot;</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_message</span><span class="p">)</span>
+
+    <span class="c1"># Check if the provided ODE solver is valid</span>
+    <span class="n">valid_solvers_ode</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ODE_METHODS</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">ODE_solver</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_solvers_ode</span><span class="p">:</span>
+        <span class="n">error_message</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Invalid ODE solver &#39;</span><span class="si">{</span><span class="n">ODE_solver</span><span class="si">}</span><span class="s2">&#39; provided. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Valid solver are: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">valid_solvers_ode</span><span class="p">)</span><span class="si">}</span><span class="s2">. &quot;</span>
+            <span class="s2">&quot;Recommended solvers: &#39;BDF&#39;, &#39;LSODA&#39; or &#39;Radau&#39; stiff problems involving equilibrium property calculations or blending calculations with a narrow blending width. &#39;RK45&#39; can be used for non-stiff problems with a wide blending width.&quot;</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_message</span><span class="p">)</span>
+    
     <span class="c1"># Initialize fluid and compute inlet state</span>
     <span class="n">fluid</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">Fluid</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">fluid_name</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;HEOS&quot;</span><span class="p">,</span> <span class="n">exceptions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">state_in</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span>
@@ -752,7 +877,7 @@ document.write(`
     <span class="k">def</span> <span class="nf">odefun</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="k">nonlocal</span> <span class="n">rhoT_guess_metastable</span>  <span class="c1"># Allows modification within the function scope</span>
 
-        <span class="c1"># Rename input variables</span>
+        <span class="c1"># Rename arguments</span>
         <span class="n">p</span> <span class="o">=</span> <span class="n">t</span>
         <span class="p">(</span><span class="n">h</span><span class="p">,)</span> <span class="o">=</span> <span class="n">y</span>
 
@@ -791,6 +916,11 @@ document.write(`
             <span class="k">return</span> <span class="n">dhdp</span><span class="p">,</span> <span class="n">state_meta</span>
 
         <span class="k">elif</span> <span class="n">calculation_type</span> <span class="o">==</span> <span class="s2">&quot;blending&quot;</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">utils</span><span class="o">.</span><span class="n">is_float</span><span class="p">(</span><span class="n">blending_onset</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">utils</span><span class="o">.</span><span class="n">is_float</span><span class="p">(</span><span class="n">blending_width</span><span class="p">):</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;The variables blending_onset=</span><span class="si">{</span><span class="n">blending_onset</span><span class="si">}</span><span class="s2"> and blending_width=</span><span class="si">{</span><span class="n">blending_width</span><span class="si">}</span><span class="s2"> must be floats when calculation_type=&#39;blending&#39;.&quot;</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
             <span class="c1"># Compute equilibrium state using CoolProp solver</span>
             <span class="n">state_eq</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span>
                 <span class="n">input_type</span><span class="o">=</span><span class="n">props</span><span class="o">.</span><span class="n">HmassP_INPUTS</span><span class="p">,</span>
@@ -835,33 +965,14 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Invalid calculation_type=&#39;</span><span class="si">{</span><span class="n">calculation_type</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Valid options are: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PROPERTY_CALCULATION_TYPES</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Valid options are: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">CALCULATION_TYPES</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
             <span class="p">)</span>
-
-    <span class="c1"># Check if the provided ODE_solver is valid</span>
-    <span class="n">valid_solvers_heos</span> <span class="o">=</span> <span class="n">psv</span><span class="o">.</span><span class="n">nonlinear_system</span><span class="o">.</span><span class="n">SOLVER_OPTIONS</span>
-    <span class="k">if</span> <span class="n">HEOS_solver</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_solvers_heos</span><span class="p">:</span>
-        <span class="n">error_message</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Invalid HEOS solver &#39;</span><span class="si">{</span><span class="n">HEOS_solver</span><span class="si">}</span><span class="s2">&#39; provided. &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;Valid solvers are: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">valid_solvers_heos</span><span class="p">)</span><span class="si">}</span><span class="s2">. &quot;</span>
-        <span class="p">)</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_message</span><span class="p">)</span>
-
-    <span class="c1"># Check if the provided ODE_solver is valid</span>
-    <span class="n">valid_solvers_ode</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ODE_METHODS</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-    <span class="k">if</span> <span class="n">ODE_solver</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_solvers_ode</span><span class="p">:</span>
-        <span class="n">error_message</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Invalid ODE solver &#39;</span><span class="si">{</span><span class="n">ODE_solver</span><span class="si">}</span><span class="s2">&#39; provided. &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;Valid solver are: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">valid_solvers_ode</span><span class="p">)</span><span class="si">}</span><span class="s2">. &quot;</span>
-            <span class="s2">&quot;Recommended solvers: &#39;BDF&#39;, &#39;LSODA&#39; or &#39;Radau&#39; stiff problems involving equilibrium property calculations or blending calculations with a narrow blending width. &#39;RK45&#39; can be used for non-stiff problems with a wide blending width.&quot;</span>
-        <span class="p">)</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_message</span><span class="p">)</span>
 
     <span class="c1"># Solve polytropic expansion differential equation</span>
     <span class="n">ode_sol</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="n">p</span><span class="p">,</span> <span class="n">h</span><span class="p">:</span> <span class="n">odefun</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">h</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>  <span class="c1"># Get only first output</span>
-        <span class="p">[</span><span class="n">p_in</span><span class="p">,</span> <span class="n">p_out</span><span class="p">],</span>
-        <span class="p">[</span><span class="n">state_in</span><span class="o">.</span><span class="n">h</span><span class="p">],</span>
+        <span class="n">fun</span><span class="o">=</span><span class="k">lambda</span> <span class="n">p</span><span class="p">,</span> <span class="n">h</span><span class="p">:</span> <span class="n">odefun</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">h</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>  <span class="c1"># Get only first output</span>
+        <span class="n">t_span</span><span class="o">=</span><span class="p">[</span><span class="n">p_in</span><span class="p">,</span> <span class="n">p_out</span><span class="p">],</span>
+        <span class="n">y0</span><span class="o">=</span><span class="p">[</span><span class="n">state_in</span><span class="o">.</span><span class="n">h</span><span class="p">],</span>
         <span class="n">method</span><span class="o">=</span><span class="n">ODE_solver</span><span class="p">,</span>
         <span class="n">rtol</span><span class="o">=</span><span class="n">ODE_tolerance</span><span class="p">,</span>
         <span class="n">atol</span><span class="o">=</span><span class="n">ODE_tolerance</span><span class="p">,</span>
@@ -874,6 +985,142 @@ document.write(`
 
     <span class="k">return</span> <span class="n">states</span><span class="p">,</span> <span class="n">ode_sol</span></div>
 
+
+
+<div class="viewcode-block" id="barotropic_model_two_component">
+<a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.barotropic_model_two_component">[docs]</a>
+<span class="k">def</span> <span class="nf">barotropic_model_two_component</span><span class="p">(</span>
+    <span class="n">fluid_name_1</span><span class="p">,</span>
+    <span class="n">fluid_name_2</span><span class="p">,</span>
+    <span class="n">mixture_ratio</span><span class="p">,</span>
+    <span class="n">T_in</span><span class="p">,</span>
+    <span class="n">p_in</span><span class="p">,</span>
+    <span class="n">p_out</span><span class="p">,</span>
+    <span class="n">efficiency</span><span class="p">,</span>
+    <span class="n">ODE_solver</span><span class="o">=</span><span class="s2">&quot;lsoda&quot;</span><span class="p">,</span>
+    <span class="n">ODE_tolerance</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Simulates a polytropic process for a mixture of two different fluids.</span>
+
+<span class="sd">    TODO: add model equations and explanation</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fluid_name_1 : str</span>
+<span class="sd">        The name of the first component of the mixture.</span>
+<span class="sd">    fluid_name_2 : str</span>
+<span class="sd">        The name of the second component of the mixture.</span>
+<span class="sd">    mixture_ratio : float</span>
+<span class="sd">        Mass ratio of the first to the second fluid in the mixture.</span>
+<span class="sd">    T_in : float</span>
+<span class="sd">        Inlet temperature of the mixture in Kelvin.</span>
+<span class="sd">    p_in : float</span>
+<span class="sd">        Inlet pressure of the mixture in Pascals.</span>
+<span class="sd">    p_out : float</span>
+<span class="sd">        Outlet pressure of the mixture in Pascals.</span>
+<span class="sd">    efficiency : float</span>
+<span class="sd">        The efficiency of the polytropic process, (between zero and one).</span>
+<span class="sd">    ODE_solver : str, optional</span>
+<span class="sd">        The solver to use for the ODE integration. Valid options:</span>
+
+<span class="sd">        .. list-table::</span>
+<span class="sd">            :widths: 20 50</span>
+<span class="sd">            :header-rows: 1</span>
+
+<span class="sd">            * - Solver name</span>
+<span class="sd">              - Description</span>
+<span class="sd">            * - ``RK23``</span>
+<span class="sd">              - Explicit Runge-Kutta method of order 3(2)</span>
+<span class="sd">            * - ``RK45``</span>
+<span class="sd">              - Explicit Runge-Kutta method of order 5(4)</span>
+<span class="sd">            * - ``DOP853``</span>
+<span class="sd">              - Explicit Runge-Kutta method of order 8</span>
+<span class="sd">            * - ``Radau``</span>
+<span class="sd">              - Implicit Runge-Kutta method of the Radau IIA family of order 5</span>
+<span class="sd">            * - ``BDF``</span>
+<span class="sd">              - Implicit multi-step variable-order (1 to 5) method based on a backward differentiation formula for the derivative approximation</span>
+<span class="sd">            * - ``LSODA``</span>
+<span class="sd">              - Adams/BDF method with automatic stiffness detection and switching</span>
+
+<span class="sd">        See `Scipy solver_ivp() &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html&gt;`_  for more info.</span>
+<span class="sd">        Recommended solvers: ``BDF``, ``LSODA``, or ``Radau`` for stiff problems or ``RK45`` for non-stiff problems with smooth blending.</span>
+
+<span class="sd">    ODE_tolerance : float, optional</span>
+<span class="sd">        The relative and absolute tolerance for the ODE solver.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    states : dictionary of arrays</span>
+<span class="sd">        A dictionary of Numpy arrays representing the properties of the fluid at each evaluation point.</span>
+<span class="sd">    solution : scipy.integrate.OdeResult</span>
+<span class="sd">        The result of the ODE integration containing information about the solver process.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Check if the provided ODE_solver is valid</span>
+    <span class="n">valid_solvers_ode</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ODE_METHODS</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">ODE_solver</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_solvers_ode</span><span class="p">:</span>
+        <span class="n">error_message</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Invalid ODE solver &#39;</span><span class="si">{</span><span class="n">ODE_solver</span><span class="si">}</span><span class="s2">&#39; provided. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Valid solver are: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">valid_solvers_ode</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_message</span><span class="p">)</span>
+
+    <span class="c1"># Calculate mass fractions of each component (constant values)</span>
+    <span class="n">y_1</span> <span class="o">=</span> <span class="n">mixture_ratio</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">mixture_ratio</span><span class="p">)</span>
+    <span class="n">y_2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">mixture_ratio</span><span class="p">)</span>
+
+    <span class="c1"># Initialize fluid and compute inlet state</span>
+    <span class="n">fluid_1</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">Fluid</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">fluid_name_1</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;HEOS&quot;</span><span class="p">,</span> <span class="n">exceptions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">fluid_2</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">Fluid</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">fluid_name_2</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;HEOS&quot;</span><span class="p">,</span> <span class="n">exceptions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Compute the inlet enthalpy of the mixture (ODE initial value)</span>
+    <span class="n">props_in_1</span> <span class="o">=</span> <span class="n">fluid_1</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">PT_INPUTS</span><span class="p">,</span> <span class="n">p_in</span><span class="p">,</span> <span class="n">T_in</span><span class="p">)</span>
+    <span class="n">props_in_2</span> <span class="o">=</span> <span class="n">fluid_2</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">PT_INPUTS</span><span class="p">,</span> <span class="n">p_in</span><span class="p">,</span> <span class="n">T_in</span><span class="p">)</span>
+    <span class="n">h_in</span> <span class="o">=</span> <span class="n">y_1</span> <span class="o">*</span> <span class="n">props_in_1</span><span class="o">.</span><span class="n">h</span> <span class="o">+</span> <span class="n">y_2</span> <span class="o">*</span> <span class="n">props_in_2</span><span class="o">.</span><span class="n">h</span>
+
+    <span class="c1"># Define the ODE system</span>
+    <span class="k">def</span> <span class="nf">odefun</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+
+        <span class="c1"># Rename arguments</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">t</span>
+        <span class="n">h</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="n">y</span>
+
+        <span class="c1"># Compute fluid states</span>
+        <span class="n">state_1</span> <span class="o">=</span> <span class="n">fluid_1</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">PT_INPUTS</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+        <span class="n">state_2</span> <span class="o">=</span> <span class="n">fluid_2</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">PT_INPUTS</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+
+        <span class="c1"># Compute mixture thermodynamic properties</span>
+        <span class="n">props</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">calculate_mixture_properties</span><span class="p">(</span><span class="n">state_1</span><span class="p">,</span> <span class="n">state_2</span><span class="p">,</span> <span class="n">y_1</span><span class="p">,</span> <span class="n">y_2</span><span class="p">)</span>
+
+        <span class="c1"># Add individual phases to the mixture properties</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">state_1</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">props</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">_1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">state_2</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">props</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">_2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="c1"># Compute right-hand-side of the ODE</span>
+        <span class="n">dhdp</span> <span class="o">=</span> <span class="n">efficiency</span> <span class="o">/</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">]</span>
+        <span class="n">dTdp</span> <span class="o">=</span> <span class="p">(</span><span class="n">dhdp</span> <span class="o">-</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;dhdp_T&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;cp&quot;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">dhdp</span><span class="p">,</span> <span class="n">dTdp</span><span class="p">],</span> <span class="n">props</span>
+
+    <span class="c1"># Solve polytropic expansion differential equation</span>
+    <span class="n">ode_sol</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span>
+        <span class="n">fun</span><span class="o">=</span><span class="k">lambda</span> <span class="n">p</span><span class="p">,</span> <span class="n">h</span><span class="p">:</span> <span class="n">odefun</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">h</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>  <span class="c1"># Get only first output</span>
+        <span class="n">t_span</span><span class="o">=</span><span class="p">[</span><span class="n">p_in</span><span class="p">,</span> <span class="n">p_out</span><span class="p">],</span>
+        <span class="n">y0</span><span class="o">=</span><span class="p">[</span><span class="n">h_in</span><span class="p">,</span> <span class="n">T_in</span><span class="p">],</span>
+        <span class="n">method</span><span class="o">=</span><span class="n">ODE_solver</span><span class="p">,</span>
+        <span class="n">rtol</span><span class="o">=</span><span class="n">ODE_tolerance</span><span class="p">,</span>
+        <span class="n">atol</span><span class="o">=</span><span class="n">ODE_tolerance</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ode_sol</span><span class="o">.</span><span class="n">success</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">ode_sol</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="c1"># Postprocess solution</span>
+    <span class="n">states</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">postprocess_ode</span><span class="p">(</span><span class="n">ode_sol</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">ode_sol</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">odefun</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">states</span><span class="p">,</span> <span class="n">ode_sol</span></div>
 
 
 
@@ -900,7 +1147,7 @@ document.write(`
 <span class="sd">    Fits polynomials to the thermodynamic properties of a fluid across various states.</span>
 
 <span class="sd">    polynomial_degree : int</span>
-<span class="sd">        Degree of the polynomials to fit. Default is 8.</span>
+<span class="sd">        Degree of the polynomials to fit.</span>
 
 <span class="sd">        .. note::</span>
 
@@ -908,9 +1155,10 @@ document.write(`
 
 <span class="sd">    polynomial_format : str, optional</span>
 <span class="sd">        Type of polynomial representation (``horner`` or ``standard``). Default is &#39;horner&#39;.</span>
+
 <span class="sd">    polynomial_variables : list of str</span>
-<span class="sd">        A list of variable names to fit polynomials to, such as &#39;density&#39;, &#39;viscosity&#39;,</span>
-<span class="sd">        &#39;speed_sound&#39;, &#39;void_fraction&#39;, &#39;vapor_quality&#39;.</span>
+<span class="sd">        A list of variable names to fit polynomials to, such as &#39;density&#39;, &#39;viscosity&#39;, &#39;speed_sound&#39;, &#39;void_fraction&#39;, &#39;vapor_quality&#39;.</span>
+
 <span class="sd">    output_dir : str</span>
 <span class="sd">        The directory where output will be saved.</span>
 
@@ -958,15 +1206,28 @@ document.write(`
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculation_type</span> <span class="o">==</span> <span class="s2">&quot;blending&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_fit_blending</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unsupported calculation type&quot;</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fit_single_segment</span><span class="p">()</span></div>
 
+
+    <span class="k">def</span> <span class="nf">_fit_single_segment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fits a single polynomial segment when &#39;calculation_type&#39; is not specified&#39;&quot;&quot;&quot;</span>
+        <span class="c1"># Scale pressure by inlet pressure to improve polynomial conditioning</span>
+        <span class="n">p_scaled</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_in</span>
+
+        <span class="c1"># Determine the polynomial limits</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">poly_breakpoints</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">p_in_scaled</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_out_scaled</span><span class="p">]</span>
+
+        <span class="c1"># Fit polynomials to data</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="n">var</span><span class="p">])</span>
+            <span class="n">poly</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">p_scaled</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">deg</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">poly_handles</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">poly</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">_fit_equilibrium</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fits polynomials for calculation_type=&quot;equilibrium&quot;.</span>
 
-<span class="sd">        This method scales pressure, identifies the phase transition, and fits polynomials</span>
-<span class="sd">        for the specified variables based on single-phase and two-phase regions.</span>
+<span class="sd">        This method scales pressure, identifies the phase transition, and fits polynomials for the specified variables based on single-phase and two-phase regions.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Scale pressure by inlet pressure to improve polynomial conditioning</span>
         <span class="n">p_scaled</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_in</span>
@@ -1010,17 +1271,21 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fits polynomials for calculation_type=&quot;blending&quot;.</span>
 
-<span class="sd">        This method identifies different regions based on the blending</span>
-<span class="sd">        parameter &quot;x&quot; and fits polynomials to ensure continuity across regions.</span>
+<span class="sd">        This method identifies different regions based on the blending parameter &quot;x&quot; and fits polynomials to ensure continuity across regions.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Get the scaled pressure values</span>
         <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_in</span>
 
         <span class="c1"># Define masks for different regions based on states[&quot;x&quot;]</span>
-        <span class="n">mask_region_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span>
-        <span class="n">mask_region_2</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># limit = 0.96</span>
+        <span class="n">limit</span> <span class="o">=</span> <span class="mf">0.8</span>
+        <span class="c1"># limit = 1</span>
+        <span class="n">mask_region_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">limit</span>
+        <span class="n">mask_region_2</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">limit</span><span class="p">)</span>
         <span class="n">mask_region_3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;density&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;density&quot;</span><span class="p">])</span>
 
         <span class="c1"># Determine breakpoints in terms of scaled pressure</span>
         <span class="n">p_region_2_start</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">mask_region_2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
@@ -1039,14 +1304,16 @@ document.write(`
             <span class="c1"># Fit polynomial for Region 1 (x &gt; 1)</span>
             <span class="n">y_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="n">var</span><span class="p">])[</span><span class="n">mask_region_1</span><span class="p">]</span>
             <span class="n">p_1</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">mask_region_1</span><span class="p">]</span>
-            <span class="n">poly_1</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">p_1</span><span class="p">,</span> <span class="n">y_1</span><span class="p">,</span> <span class="n">deg</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">()</span>
+            <span class="n">poly_1</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">p_1</span><span class="p">,</span> <span class="n">y_1</span><span class="p">,</span> <span class="n">deg</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">poly_handles</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">poly_1</span><span class="p">)</span>
 
             <span class="c1"># Fit polynomial for Region 2 (0 &lt;= x &lt;= 1)</span>
             <span class="c1"># TODO Hardcoded degree 4 to prevent numerical noise</span>
+            <span class="n">weight</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">10</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">])[</span><span class="n">mask_region_2</span><span class="p">]</span>
+            <span class="n">weight</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="n">y_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="n">var</span><span class="p">])[</span><span class="n">mask_region_2</span><span class="p">]</span>
             <span class="n">p_2</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">mask_region_2</span><span class="p">]</span>
-            <span class="n">poly_2</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">p_2</span><span class="p">,</span> <span class="n">y_2</span><span class="p">,</span> <span class="n">deg</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">()</span>  
+            <span class="n">poly_2</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">p_2</span><span class="p">,</span> <span class="n">y_2</span><span class="p">,</span> <span class="n">deg</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="n">weight</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">()</span>
 
             <span class="c1"># Ensure continuity by adjusting the first coefficient</span>
             <span class="n">y_1_end</span> <span class="o">=</span> <span class="n">poly_1</span><span class="p">(</span><span class="n">p_region_2_start</span><span class="p">)</span>
@@ -1168,7 +1435,9 @@ document.write(`
 <div class="viewcode-block" id="PolynomialFitter.plot_polynomial">
 <a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.PolynomialFitter.plot_polynomial">[docs]</a>
     <span class="nd">@_ensure_data_available</span>
-    <span class="k">def</span> <span class="nf">plot_polynomial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">p_eval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">showfig</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">savefig</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">plot_polynomial</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">p_eval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">showfig</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">savefig</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Plots the polynomials for the specified variable. If the pressure values for plotting are not provided, a suitable range is generated internally.</span>
 
@@ -1176,15 +1445,18 @@ document.write(`
 <span class="sd">        ----------</span>
 <span class="sd">        var : str</span>
 <span class="sd">            The variable for which to plot the polynomial.</span>
+
 <span class="sd">        p_eval : array-like, optional</span>
 <span class="sd">            The pressure values at which to plot the polynomial. If not provided, automatic values are generated.</span>
+
 <span class="sd">        showfig : bool, optional</span>
-<span class="sd">            If True, displays the plot. Default is True.</span>
+<span class="sd">            If True, displays the plot.</span>
+
 <span class="sd">        savefig : bool, optional</span>
-<span class="sd">            If True, saves the plot to a file. Default is False.</span>
+<span class="sd">            If True, saves the plot to a file.</span>
+
 <span class="sd">        output_dir : str, optional</span>
-<span class="sd">            The directory where the plot will be saved if `savefig` is True.</span>
-<span class="sd">            If not specified, uses the default output directory of the class.</span>
+<span class="sd">            The directory where the plot will be saved if `savefig` is True. If not specified, uses the default output directory of the class.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1240,7 +1512,7 @@ document.write(`
                 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_plus</span><span class="p">,</span> <span class="n">y_plus</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">COLORS_MATLAB</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
 
         <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        
+
         <span class="k">if</span> <span class="n">savefig</span><span class="p">:</span>
             <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;barotropic_model_</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">graphics</span><span class="o">.</span><span class="n">savefig_in_formats</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">file_path</span><span class="p">)</span>
@@ -1254,7 +1526,9 @@ document.write(`
 <div class="viewcode-block" id="PolynomialFitter.plot_polynomial_and_error">
 <a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.PolynomialFitter.plot_polynomial_and_error">[docs]</a>
     <span class="nd">@_ensure_data_available</span>
-    <span class="k">def</span> <span class="nf">plot_polynomial_and_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">showfig</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">savefig</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">plot_polynomial_and_error</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">showfig</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">savefig</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Plots the barotropic polynomials and original data points from the ODE solution to illustrate</span>
 <span class="sd">        the quality of the fit. Additionally, plots the relative error between the polynomial and the data.</span>
@@ -1263,13 +1537,15 @@ document.write(`
 <span class="sd">        ----------</span>
 <span class="sd">        var : str</span>
 <span class="sd">            The variable to plot (e.g., &#39;density&#39;, &#39;viscosity&#39;, etc.).</span>
+
 <span class="sd">        showfig : bool, optional</span>
-<span class="sd">            If True, displays the plot. Default is True.</span>
+<span class="sd">            If True, displays the plot.</span>
+
 <span class="sd">        savefig : bool, optional</span>
-<span class="sd">            If True, saves the plot to a file. Default is False.</span>
+<span class="sd">            If True, saves the plot to a file.</span>
+
 <span class="sd">        output_dir : str, optional</span>
-<span class="sd">            The directory where the plot will be saved if `savefig` is True.</span>
-<span class="sd">            If not specified, uses the default output directory of the class.</span>
+<span class="sd">            The directory where the plot will be saved if `savefig` is True. If not specified, uses the default output directory of the class.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1294,7 +1570,7 @@ document.write(`
         <span class="n">prop_states</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
 
         <span class="c1"># Compute the relative error</span>
-        <span class="n">relative_error</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">prop_poly</span> <span class="o">-</span> <span class="n">prop_states</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">prop_states</span><span class="p">)</span>
+        <span class="n">relative_error</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">prop_poly</span> <span class="o">-</span> <span class="n">prop_states</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">prop_states</span><span class="p">)</span>
 
         <span class="c1"># Plot the variable from polynomials and states in the upper subplot</span>
         <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
@@ -1335,7 +1611,7 @@ document.write(`
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">showfig</span><span class="p">:</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
-            
+
         <span class="k">return</span> <span class="n">fig</span></div>
 </div>
 
@@ -1351,8 +1627,9 @@ document.write(`
 <span class="sd">    ----------</span>
 <span class="sd">    poly_fitter : PolynomialFitter</span>
 <span class="sd">        An instance of PolynomialFitter containing the polynomial coefficients and breakpoints.</span>
+
 <span class="sd">    poly_format : str, optional</span>
-<span class="sd">        Type of polynomial representation (&#39;horner&#39; or &#39;standard&#39;). Default is &#39;horner&#39;.</span>
+<span class="sd">        Type of polynomial representation (&#39;horner&#39; or &#39;standard&#39;).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">poly_fitter</span><span class="p">,</span> <span class="n">poly_format</span><span class="o">=</span><span class="s2">&quot;horner&quot;</span><span class="p">):</span>
@@ -1376,24 +1653,23 @@ document.write(`
         <span class="p">}</span>
 
         <span class="c1"># Format of the numbers in the exported expressions</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">num_format</span> <span class="o">=</span> <span class="s2">&quot;0.16e&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_format</span> <span class="o">=</span> <span class="s2">&quot;0.4e&quot;</span>
 
         <span class="c1"># Define default output directory</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_dir_default</span> <span class="o">=</span> <span class="n">poly_fitter</span><span class="o">.</span><span class="n">output_dir_default</span>
 
-
 <div class="viewcode-block" id="ExpressionExporter.export_expressions_fluent">
 <a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.ExpressionExporter.export_expressions_fluent">[docs]</a>
     <span class="k">def</span> <span class="nf">export_expressions_fluent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Exports the barotropic model polynomials as expressions for use in Fluent CFD software.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Exports the barotropic model polynomials as expressions for use in Fluent CFD software.</span>
 
-<span class="sd">            Parameters</span>
-<span class="sd">            ----------</span>
-<span class="sd">            output_dir : str, optional</span>
-<span class="sd">                The directory where the expressions will be saved. It uses a default directory if not provided.</span>
-<span class="sd">            &quot;&quot;&quot;</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_export_expressions</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s2">&quot;fluent&quot;</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">)</span></div>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        output_dir : str, optional</span>
+<span class="sd">            The directory where the expressions will be saved. It uses a default directory if not provided.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_export_expressions</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s2">&quot;fluent&quot;</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ExpressionExporter.export_expressions_cfx">
@@ -1408,7 +1684,6 @@ document.write(`
 <span class="sd">            The directory where the expressions will be saved. It uses a default directory if not provided.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_export_expressions</span><span class="p">(</span><span class="n">solver</span><span class="o">=</span><span class="s2">&quot;cfx&quot;</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">)</span></div>
-
 
 
     <span class="k">def</span> <span class="nf">_export_expressions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1444,7 +1719,6 @@ document.write(`
                     <span class="n">expressions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_expressions</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span>
                     <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;barotropic_model_</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
                     <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">expressions</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
-
 
 <div class="viewcode-block" id="ExpressionExporter.generate_expressions">
 <a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.ExpressionExporter.generate_expressions">[docs]</a>
@@ -1501,63 +1775,60 @@ document.write(`
 <div class="viewcode-block" id="ExpressionExporter.polynomial_expression">
 <a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.ExpressionExporter.polynomial_expression">[docs]</a>
     <span class="k">def</span> <span class="nf">polynomial_expression</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coefficients</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Generates a polynomial expression string.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates a polynomial expression string.</span>
 
-<span class="sd">            Parameters</span>
-<span class="sd">            ----------</span>
-<span class="sd">            coefficients : array-like</span>
-<span class="sd">                Coefficients of the polynomial.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        coefficients : array-like</span>
+<span class="sd">            Coefficients of the polynomial.</span>
 
-<span class="sd">            Returns</span>
-<span class="sd">            -------</span>
-<span class="sd">            str</span>
-<span class="sd">                The polynomial expression string.</span>
-<span class="sd">            &quot;&quot;&quot;</span>
-            <span class="n">p_scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">poly_fitter</span><span class="o">.</span><span class="n">p_in</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">poly_format</span> <span class="o">==</span> <span class="s2">&quot;horner&quot;</span><span class="p">:</span>
-                <span class="n">coefficients</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">coefficients</span><span class="p">))</span>
-                <span class="n">polynomial_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">coefficients</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_format</span><span class="si">}}</span><span class="s2">&quot;</span>
-                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)):</span>
-                    <span class="n">polynomial_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">coefficients</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_format</span><span class="si">}}</span><span class="s2"> + (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">syntax</span><span class="p">[</span><span class="s1">&#39;pressure&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">p_scale</span><span class="si">:{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_format</span><span class="si">}}</span><span class="s2"> [Pa]) *</span><span class="se">\n</span><span class="s2">(</span><span class="si">{</span><span class="n">polynomial_string</span><span class="si">}</span><span class="s2">)&quot;</span>
-            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">poly_format</span> <span class="o">==</span> <span class="s2">&quot;standard&quot;</span><span class="p">:</span>
-                <span class="n">terms</span> <span class="o">=</span> <span class="p">[]</span>
-                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)):</span>
-                    <span class="n">summand</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">coefficients</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_format</span><span class="si">}}</span><span class="s2"> * (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">syntax</span><span class="p">[</span><span class="s1">&#39;pressure&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">p_scale</span><span class="si">:{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_format</span><span class="si">}}</span><span class="s2"> [Pa])^</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span>
-                    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
-                        <span class="n">summand</span> <span class="o">+=</span> <span class="s2">&quot; +&quot;</span>  
-                    <span class="n">terms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">summand</span><span class="p">)</span>
-                <span class="n">polynomial_string</span> <span class="o">=</span> <span class="s2">&quot; </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The polynomial format must be &#39;horner&#39; or &#39;standard&#39;&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">polynomial_string</span></div>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            The polynomial expression string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">p_scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">poly_fitter</span><span class="o">.</span><span class="n">p_in</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">poly_format</span> <span class="o">==</span> <span class="s2">&quot;horner&quot;</span><span class="p">:</span>
+            <span class="n">coefficients</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">coefficients</span><span class="p">))</span>
+            <span class="n">polynomial_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">coefficients</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_format</span><span class="si">}}</span><span class="s2">&quot;</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)):</span>
+                <span class="n">polynomial_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">coefficients</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_format</span><span class="si">}}</span><span class="s2"> + (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">syntax</span><span class="p">[</span><span class="s1">&#39;pressure&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">p_scale</span><span class="si">:{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_format</span><span class="si">}}</span><span class="s2"> [Pa]) *</span><span class="se">\n</span><span class="s2">(</span><span class="si">{</span><span class="n">polynomial_string</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">poly_format</span> <span class="o">==</span> <span class="s2">&quot;standard&quot;</span><span class="p">:</span>
+            <span class="n">terms</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)):</span>
+                <span class="n">summand</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">coefficients</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_format</span><span class="si">}}</span><span class="s2"> * (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">syntax</span><span class="p">[</span><span class="s1">&#39;pressure&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">p_scale</span><span class="si">:{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_format</span><span class="si">}}</span><span class="s2"> [Pa])^</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">summand</span> <span class="o">+=</span> <span class="s2">&quot; +&quot;</span>
+                <span class="n">terms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">summand</span><span class="p">)</span>
+            <span class="n">polynomial_string</span> <span class="o">=</span> <span class="s2">&quot; </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">terms</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The polynomial format must be &#39;horner&#39; or &#39;standard&#39;&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">polynomial_string</span></div>
 
 
 <div class="viewcode-block" id="ExpressionExporter.if_expression">
 <a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.ExpressionExporter.if_expression">[docs]</a>
     <span class="k">def</span> <span class="nf">if_expression</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression_1</span><span class="p">,</span> <span class="n">expression_2</span><span class="p">,</span> <span class="n">transition_pressure</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Generates an IF expression string for piecewise functions.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates an IF expression string for piecewise functions.</span>
 
-<span class="sd">            Parameters</span>
-<span class="sd">            ----------</span>
-<span class="sd">            expression_1 : str</span>
-<span class="sd">                The expression for the condition being true.</span>
-<span class="sd">            expression_2 : str</span>
-<span class="sd">                The expression for the condition being false.</span>
-<span class="sd">            transition_pressure : float</span>
-<span class="sd">                The transition pressure where the expressions change.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        expression_1 : str</span>
+<span class="sd">            The expression for the condition being true.</span>
+<span class="sd">        expression_2 : str</span>
+<span class="sd">            The expression for the condition being false.</span>
+<span class="sd">        transition_pressure : float</span>
+<span class="sd">            The transition pressure where the expressions change.</span>
 
-<span class="sd">            Returns</span>
-<span class="sd">            -------</span>
-<span class="sd">            str</span>
-<span class="sd">                The IF expression string.</span>
-<span class="sd">            &quot;&quot;&quot;</span>
-            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">syntax</span><span class="p">[</span><span class="s1">&#39;if&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">syntax</span><span class="p">[</span><span class="s1">&#39;pressure&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> &gt;= </span><span class="si">{</span><span class="n">transition_pressure</span><span class="si">:{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_format</span><span class="si">}}</span><span class="s2"> [Pa], </span><span class="se">\n</span><span class="si">{</span><span class="n">expression_1</span><span class="si">}</span><span class="s2">, </span><span class="se">\n</span><span class="si">{</span><span class="n">expression_2</span><span class="si">}</span><span class="s2">)&quot;</span></div>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            The IF expression string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">syntax</span><span class="p">[</span><span class="s1">&#39;if&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">syntax</span><span class="p">[</span><span class="s1">&#39;pressure&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> &gt;= </span><span class="si">{</span><span class="n">transition_pressure</span><span class="si">:{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_format</span><span class="si">}}</span><span class="s2"> [Pa], </span><span class="se">\n</span><span class="si">{</span><span class="n">expression_1</span><span class="si">}</span><span class="s2">, </span><span class="se">\n</span><span class="si">{</span><span class="n">expression_2</span><span class="si">}</span><span class="s2">)&quot;</span></div>
 </div>
-
-
-
 
 </pre></div>
 
