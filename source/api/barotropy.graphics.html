@@ -169,14 +169,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="barotropy.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="barotropy.barotropic_model.html">Barotropic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="barotropy.properties.html">Fluid properties</a></li>
+
 <li class="toctree-l2"><a class="reference internal" href="barotropy.math.html">Math functions</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Graphic functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="barotropy.utilities.html">Utility functions</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="barotropy.fluid_properties.html">Fluid properties</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="barotropy.fluid_properties.fluid_interface.html">Fluid interface</a></li>
-<li class="toctree-l3"><a class="reference internal" href="barotropy.fluid_properties.core_calculations.html">Core calculations</a></li>
-</ul>
-</details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="barotropy.pysolver_view.html">PySolverView</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="barotropy.pysolver_view.nonlinear_system.html">barotropy.pysolver_view.nonlinear_system module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="barotropy.pysolver_view.nonlinear_system_problems.html">barotropy.pysolver_view.nonlinear_system_problems module</a></li>
@@ -346,6 +343,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.create_gif"><code class="docutils literal notranslate"><span class="pre">create_gif()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.create_mp4"><code class="docutils literal notranslate"><span class="pre">create_mp4()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.plot_xy_data"><code class="docutils literal notranslate"><span class="pre">plot_xy_data()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.print_installed_fonts"><code class="docutils literal notranslate"><span class="pre">print_installed_fonts()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.print_rc_parameters"><code class="docutils literal notranslate"><span class="pre">print_rc_parameters()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.savefig_in_formats"><code class="docutils literal notranslate"><span class="pre">savefig_in_formats()</span></code></a></li>
@@ -399,6 +397,73 @@ document.write(`
 </dl>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.graphics.plot_xy_data">
+<span class="sig-prename descclassname"><span class="pre">barotropy.graphics.</span></span><span class="sig-name descname"><span class="pre">plot_xy_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figs_axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(6.0,</span> <span class="pre">5.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/graphics.html#plot_xy_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.graphics.plot_xy_data" title="Link to this definition">#</a></dt>
+<dd><p>Plots data and manages figure and axes creation.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function creates new figures and axes only if they do not already exist, ensuring idempotent behavior over multiple calls.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>data</strong><span class="classifier">dict</span></dt><dd><p>Dictionary containing multiple arrays with data to be plotted. Keys correspond
+to variable names, and values are arrays of data points. All arrays should be of
+the same size.</p>
+</dd>
+<dt><strong>figs_axes</strong><span class="classifier">dict</span></dt><dd><p>Dictionary to store figures and axes. The key is a tuple of 
+<cite>(var_x, var_y)</cite> and the value is a tuple of <cite>(fig, ax)</cite>.</p>
+</dd>
+<dt><strong>settings</strong><span class="classifier">dict</span></dt><dd><p>Dictionary containing plot settings, including:</p>
+<ul class="simple">
+<li><p><cite>var_x</cite> (str): Name of the x variable.</p></li>
+<li><p><cite>var_y</cite> (str): Name of the y variable.</p></li>
+<li><p><cite>xlabel</cite> (str): Label for the x-axis.</p></li>
+<li><p><cite>ylabel</cite> (str): Label for the y-axis.</p></li>
+<li><p><cite>x_scale</cite> (str): Scale for the x-axis (e.g., “linear”, “log”). Default is “linear”.</p></li>
+<li><p><cite>y_scale</cite> (str): Scale for the y-axis (e.g., “linear”, “log”). Default is “linear”.</p></li>
+<li><p><cite>x_lim</cite> (list or tuple): Limits for the x-axis (min, max).</p></li>
+<li><p><cite>y_lim</cite> (list or tuple): Limits for the y-axis (min, max).</p></li>
+</ul>
+</dd>
+<dt><strong>figsize</strong><span class="classifier">tuple, optional</span></dt><dd><p>Size of the figure, by default (6.0, 5.0).</p>
+</dd>
+<dt><strong>label</strong><span class="classifier">str, optional</span></dt><dd><p>Label for the plot line, by default None. If None, no label is added.</p>
+</dd>
+<dt><strong>color</strong><span class="classifier">str, optional</span></dt><dd><p>Color for the plot line, by default None. If None, the default color cycle is used.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>figs_axes</strong><span class="classifier">dict</span></dt><dd><p>Updated dictionary containing figures and axes.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">figs_axes</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plot_settings</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s2">&quot;var_x&quot;</span><span class="p">:</span> <span class="s2">&quot;p&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;var_y&quot;</span><span class="p">:</span> <span class="s2">&quot;density&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;xlabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Pressure (bar)&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;ylabel&quot;</span><span class="p">:</span> <span class="s2">&quot;Density (kg/m$^3$)&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;x_scale&quot;</span><span class="p">:</span> <span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;y_scale&quot;</span><span class="p">:</span> <span class="s2">&quot;log&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;x_lim&quot;</span><span class="p">:</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="s2">&quot;y_lim&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">]</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s2">&quot;p&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="s2">&quot;T&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">300</span><span class="p">,</span> <span class="mi">310</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="mi">330</span><span class="p">]</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">figs_axes</span> <span class="o">=</span> <span class="n">plot_xy_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">figs_axes</span><span class="p">,</span> <span class="n">plot_settings</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Sample Data&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -533,6 +598,7 @@ Features include improved font selections, tick marks, grid appearance, and colo
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.create_gif"><code class="docutils literal notranslate"><span class="pre">create_gif()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.create_mp4"><code class="docutils literal notranslate"><span class="pre">create_mp4()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.plot_xy_data"><code class="docutils literal notranslate"><span class="pre">plot_xy_data()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.print_installed_fonts"><code class="docutils literal notranslate"><span class="pre">print_installed_fonts()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.print_rc_parameters"><code class="docutils literal notranslate"><span class="pre">print_rc_parameters()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.graphics.savefig_in_formats"><code class="docutils literal notranslate"><span class="pre">savefig_in_formats()</span></code></a></li>
