@@ -839,7 +839,7 @@ def states_to_dict_2d(states):
             for field in state.keys():
                 if field not in state_dict_2d:
                     m, n = len(states), len(row)
-                    state_dict_2d[field] = np.empty((m, n), dtype=object)
+                    state_dict_2d[field] = np.empty((m, n), dtype=np.float64)
                 state_dict_2d[field][i, j] = state[field]
 
     return state_dict_2d

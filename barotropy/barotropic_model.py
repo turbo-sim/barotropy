@@ -774,19 +774,19 @@ def barotropic_model_two_component(
         state_2 = fluid_2.get_state(props.PT_INPUTS, p, T)
 
         # Compute mixture thermodynamic properties
-        props = props.calculate_mixture_properties(state_1, state_2, y_1, y_2)
+        state = props.calculate_mixture_properties(state_1, state_2, y_1, y_2)
 
         # Add individual phases to the mixture properties
         for key, value in state_1.items():
-            props[f"{key}_1"] = value
+            state[f"{key}_1"] = value
         for key, value in state_2.items():
-            props[f"{key}_2"] = value
+            state[f"{key}_2"] = value
 
         # Compute right-hand-side of the ODE
-        dhdp = efficiency / props["rho"]
-        dTdp = (dhdp - props["dhdp_T"]) / props["cp"]
+        dhdp = efficiency / state["rho"]
+        dTdp = (dhdp - state["dhdp_T"]) / state["cp"]
 
-        return [dhdp, dTdp], props
+        return [dhdp, dTdp], state
 
     # Solve polytropic expansion differential equation
     ode_sol = solve_ivp(
@@ -956,13 +956,13 @@ class PolynomialFitter:
 
         # Define masks for different regions based on states["x"]
         # limit = 0.96
-        limit = 0.8
-        # limit = 1
+        # limit = 0.8
+        limit = 1
         mask_region_1 = self.states["x"] > limit
         mask_region_2 = (self.states["x"] >= 0) & (self.states["x"] <= limit)
         mask_region_3 = self.states["x"] < 0
 
-        self.states["density"] = np.log(self.states["density"])
+        # self.states["density"] = np.log(self.states["density"])
 
         # Determine breakpoints in terms of scaled pressure
         p_region_2_start = p[mask_region_2][0]
@@ -1242,6 +1242,7 @@ class PolynomialFitter:
         relative_error = 100 * (prop_poly - prop_states) / np.abs(prop_states)
 
         # Plot the variable from polynomials and states in the upper subplot
+        print(var, prop_poly)
         ax1.plot(
             pressures,
             prop_poly,
@@ -1318,7 +1319,8 @@ class ExpressionExporter:
         }
 
         # Format of the numbers in the exported expressions
-        self.num_format = "0.4e"
+        # self.num_format = "0.4e"
+        self.num_format = "0.16e"
 
         # Define default output directory
         self.output_dir_default = poly_fitter.output_dir_default
