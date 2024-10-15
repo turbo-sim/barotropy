@@ -1091,19 +1091,19 @@ document.write(`
         <span class="n">state_2</span> <span class="o">=</span> <span class="n">fluid_2</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">PT_INPUTS</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
 
         <span class="c1"># Compute mixture thermodynamic properties</span>
-        <span class="n">props</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">calculate_mixture_properties</span><span class="p">(</span><span class="n">state_1</span><span class="p">,</span> <span class="n">state_2</span><span class="p">,</span> <span class="n">y_1</span><span class="p">,</span> <span class="n">y_2</span><span class="p">)</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">calculate_mixture_properties</span><span class="p">(</span><span class="n">state_1</span><span class="p">,</span> <span class="n">state_2</span><span class="p">,</span> <span class="n">y_1</span><span class="p">,</span> <span class="n">y_2</span><span class="p">)</span>
 
         <span class="c1"># Add individual phases to the mixture properties</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">state_1</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">props</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">_1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="n">state</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">_1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">state_2</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">props</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">_2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="n">state</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">_2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
         <span class="c1"># Compute right-hand-side of the ODE</span>
-        <span class="n">dhdp</span> <span class="o">=</span> <span class="n">efficiency</span> <span class="o">/</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">]</span>
-        <span class="n">dTdp</span> <span class="o">=</span> <span class="p">(</span><span class="n">dhdp</span> <span class="o">-</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;dhdp_T&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;cp&quot;</span><span class="p">]</span>
+        <span class="n">dhdp</span> <span class="o">=</span> <span class="n">efficiency</span> <span class="o">/</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">]</span>
+        <span class="n">dTdp</span> <span class="o">=</span> <span class="p">(</span><span class="n">dhdp</span> <span class="o">-</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;dhdp_T&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;cp&quot;</span><span class="p">]</span>
 
-        <span class="k">return</span> <span class="p">[</span><span class="n">dhdp</span><span class="p">,</span> <span class="n">dTdp</span><span class="p">],</span> <span class="n">props</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">dhdp</span><span class="p">,</span> <span class="n">dTdp</span><span class="p">],</span> <span class="n">state</span>
 
     <span class="c1"># Solve polytropic expansion differential equation</span>
     <span class="n">ode_sol</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span>
@@ -1279,13 +1279,13 @@ document.write(`
 
         <span class="c1"># Define masks for different regions based on states[&quot;x&quot;]</span>
         <span class="c1"># limit = 0.96</span>
-        <span class="n">limit</span> <span class="o">=</span> <span class="mf">0.8</span>
-        <span class="c1"># limit = 1</span>
+        <span class="c1"># limit = 0.8</span>
+        <span class="n">limit</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="n">mask_region_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">limit</span>
         <span class="n">mask_region_2</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">limit</span><span class="p">)</span>
         <span class="n">mask_region_3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;density&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;density&quot;</span><span class="p">])</span>
+        <span class="c1"># self.states[&quot;density&quot;] = np.log(self.states[&quot;density&quot;])</span>
 
         <span class="c1"># Determine breakpoints in terms of scaled pressure</span>
         <span class="n">p_region_2_start</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">mask_region_2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
@@ -1573,6 +1573,7 @@ document.write(`
         <span class="n">relative_error</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">prop_poly</span> <span class="o">-</span> <span class="n">prop_states</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">prop_states</span><span class="p">)</span>
 
         <span class="c1"># Plot the variable from polynomials and states in the upper subplot</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">prop_poly</span><span class="p">)</span>
         <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
             <span class="n">pressures</span><span class="p">,</span>
             <span class="n">prop_poly</span><span class="p">,</span>
@@ -1653,7 +1654,8 @@ document.write(`
         <span class="p">}</span>
 
         <span class="c1"># Format of the numbers in the exported expressions</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">num_format</span> <span class="o">=</span> <span class="s2">&quot;0.4e&quot;</span>
+        <span class="c1"># self.num_format = &quot;0.4e&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_format</span> <span class="o">=</span> <span class="s2">&quot;0.16e&quot;</span>
 
         <span class="c1"># Define default output directory</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_dir_default</span> <span class="o">=</span> <span class="n">poly_fitter</span><span class="o">.</span><span class="n">output_dir_default</span>
