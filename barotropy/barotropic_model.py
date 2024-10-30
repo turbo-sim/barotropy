@@ -1242,7 +1242,7 @@ class PolynomialFitter:
         relative_error = 100 * (prop_poly - prop_states) / np.abs(prop_states)
 
         # Plot the variable from polynomials and states in the upper subplot
-        print(var, prop_poly)
+        # TODO Delete? print(var, prop_poly)
         ax1.plot(
             pressures,
             prop_poly,
