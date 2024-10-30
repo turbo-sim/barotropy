@@ -351,7 +351,11 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.plot_residuals"><code class="docutils literal notranslate"><span class="pre">plot_residuals()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.plot_residuals_real_time"><code class="docutils literal notranslate"><span class="pre">plot_residuals_real_time()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.print_transcript_real_time"><code class="docutils literal notranslate"><span class="pre">print_transcript_real_time()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.read_expression_file"><code class="docutils literal notranslate"><span class="pre">read_expression_file()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.read_expression_file"><code class="docutils literal notranslate"><span class="pre">read_expression_file</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.read_expression_file.description"><code class="docutils literal notranslate"><span class="pre">read_expression_file.description()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.read_expression_file.expression"><code class="docutils literal notranslate"><span class="pre">read_expression_file.expression()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.read_residual_file"><code class="docutils literal notranslate"><span class="pre">read_residual_file()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.render_fluent_journal"><code class="docutils literal notranslate"><span class="pre">render_fluent_journal()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.run_cleanup_script"><code class="docutils literal notranslate"><span class="pre">run_cleanup_script()</span></code></a></li>
@@ -687,10 +691,11 @@ to print the content of the given transcript file in real time.</p>
 </dl>
 </dd></dl>
 
-<dl class="py function">
+<dl class="py class">
 <dt class="sig sig-object py" id="barotropy.fluent_automation.fluent_automation.read_expression_file">
-<span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">read_expression_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skiprows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent_automation/fluent_automation.html#read_expression_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.fluent_automation.read_expression_file" title="Link to this definition">#</a></dt>
-<dd><p>Read content of barotropic model expression file, extracting desired variables’ descriptions and expressions.</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">read_expression_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skiprows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent_automation/fluent_automation.html#read_expression_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.fluent_automation.read_expression_file" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Read content of barotropic model expression file, extracting desired variables’ descriptions and expressions.</p>
 <p>The file should have:
 1. A header indicating the purpose of the file and its creation timestamp.
 2. Sections for each variable, with a description prefixed by <code class="docutils literal notranslate"><span class="pre">case_</span></code> followed by the mathematical expression.</p>
@@ -699,7 +704,7 @@ to print the content of the given transcript file in real time.</p>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>filename</strong><span class="classifier">str</span></dt><dd><p>Path to the barotropic model expression file.</p>
 </dd>
-<dt><strong>vars</strong><span class="classifier">list of str</span></dt><dd><p>List of variables to extract from the file.</p>
+<dt><strong>var_name</strong><span class="classifier">str</span></dt><dd><p>List of variables to extract from the file.</p>
 </dd>
 <dt><strong>skiprows</strong><span class="classifier">int, optional</span></dt><dd><p>Number of initial rows in the file to skip (default is 2 to bypass header).</p>
 </dd>
@@ -707,12 +712,39 @@ to print the content of the given transcript file in real time.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt>dict</dt><dd><p>Dictionary containing the description and expression for each desired variable. 
-Each variable contributes two keys to the dictionary: ‘{var}_description’ and ‘{var}_expression’.</p>
+<dt>str</dt><dd><p>var_name.name = name of the variable. 
+var_name.expression = fluent expression of the variable.</p>
 </dd>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#barotropy.fluent_automation.fluent_automation.read_expression_file.description" title="barotropy.fluent_automation.fluent_automation.read_expression_file.description"><code class="xref py py-obj docutils literal notranslate"><span class="pre">description</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><strong>expression</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="barotropy.fluent_automation.fluent_automation.read_expression_file.description">
+<span class="sig-name descname"><span class="pre">description</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent_automation/fluent_automation.html#read_expression_file.description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.fluent_automation.read_expression_file.description" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="barotropy.fluent_automation.fluent_automation.read_expression_file.expression">
+<span class="sig-name descname"><span class="pre">expression</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent_automation/fluent_automation.html#read_expression_file.expression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.fluent_automation.read_expression_file.expression" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py function">
@@ -948,7 +980,11 @@ variables were successfully rendered.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.plot_residuals"><code class="docutils literal notranslate"><span class="pre">plot_residuals()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.plot_residuals_real_time"><code class="docutils literal notranslate"><span class="pre">plot_residuals_real_time()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.print_transcript_real_time"><code class="docutils literal notranslate"><span class="pre">print_transcript_real_time()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.read_expression_file"><code class="docutils literal notranslate"><span class="pre">read_expression_file()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.read_expression_file"><code class="docutils literal notranslate"><span class="pre">read_expression_file</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.read_expression_file.description"><code class="docutils literal notranslate"><span class="pre">read_expression_file.description()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.read_expression_file.expression"><code class="docutils literal notranslate"><span class="pre">read_expression_file.expression()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.read_residual_file"><code class="docutils literal notranslate"><span class="pre">read_residual_file()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.render_fluent_journal"><code class="docutils literal notranslate"><span class="pre">render_fluent_journal()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.run_cleanup_script"><code class="docutils literal notranslate"><span class="pre">run_cleanup_script()</span></code></a></li>
