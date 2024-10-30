@@ -15,27 +15,48 @@ save_figures = True
 if not os.path.isdir(DIR_OUT):
     os.makedirs(DIR_OUT)
 
+
+###################################################################################################################
+# Select case number
+cas = 69
+###################################################################################################################
+
+
+# Read Case Summary
+case_summ = "../projects/Simoneau_Hendricks_1979/cases_summary.xlsx"
+data = pd.read_excel(case_summ)
+data = pd.DataFrame(data)
+case_data = data[data.iloc[:, 0] == cas]
+
 # Create fluid object
-fluid_name = "nitrogen"
+fluid_name = case_data["fluidname"].iloc[0] 
 fluid = bpy.Fluid(name=fluid_name, backend="HEOS")
+
 
 # Define case parameters
 dT_subcooling = 10
-p_in = 0.5*fluid.critical_point.p
-p_out = 2*fluid.triple_point_liquid.p
+
+# total preessure in Pa
+p_in = float(case_data["P_0_in"])
+# Static pressure in Pa
+p_out = float(case_data["P_out"])
+# Total temperature in K
+T_in = float(case_data["T_0_in"])
+
 polytropic_efficiency = 1.00
 calculation_type = "blending"
-q_onset = 0.05
-q_transition = 0.02
+q_onset = 0.10 # use the liquid line till quality of 5%
+q_transition = 0.05 # transient from metastable liquid to equilibrium zone
+
 
 # Create barotropic model object
-state_sat = fluid.get_state(bpy.PQ_INPUTS, p_in, 0)
-state_in = fluid.get_state(bpy.PT_INPUTS, state_sat.p, state_sat.T-dT_subcooling)
+# state_sat = fluid.get_state(bpy.PQ_INPUTS, p_in, 0)
+# state_in = fluid.get_state(bpy.PT_INPUTS, state_sat.p, state_sat.T-dT_subcooling)
 model = bpy.BarotropicModel(
     fluid_name=fluid_name,
-    T_in=state_in.T,
-    p_in=state_in.p,
-    p_out=p_out,
+    T_in=T_in,
+    p_in=p_in,
+    p_out=p_out/2,
     efficiency=polytropic_efficiency,
     calculation_type=calculation_type,
     blending_onset=q_onset,
@@ -46,6 +67,7 @@ model = bpy.BarotropicModel(
     polynomial_degree=8,
     polynomial_format="horner",
     output_dir=DIR_OUT,
+    polynomial_variables=['density', 'viscosity', 'speed_sound']
 )
 
 # Evaluate barotropic model and export polynomial expressions
@@ -56,6 +78,15 @@ model.export_expressions_cfx(output_dir=DIR_OUT)
 for var in model.poly_fitter.variables:
     model.poly_fitter.plot_polynomial_and_error(var=var, savefig=True, showfig=True)
 
+
+
+# print("hello world")
+
+# expression = bpy.read_expression_file(filename="output/fluent_expressions.txt", vars=["density", "viscosity"])
+
+# bpy.print_dict(expression)
+
+# bpy.print_dict(expression)
 
 # Plot phase diagram
 var_x = "s"
