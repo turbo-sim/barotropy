@@ -535,9 +535,12 @@ document.write(`
 
 
 
+
+
 <div class="viewcode-block" id="read_expression_file">
 <a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.read_expression_file">[docs]</a>
-<span class="k">def</span> <span class="nf">read_expression_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="nb">vars</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">read_expression_file</span><span class="p">:</span>
+
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Read content of barotropic model expression file, extracting desired variables&#39; descriptions and expressions.</span>
 
@@ -549,48 +552,120 @@ document.write(`
 <span class="sd">    ----------</span>
 <span class="sd">    filename : str</span>
 <span class="sd">        Path to the barotropic model expression file.</span>
-<span class="sd">    vars : list of str</span>
+<span class="sd">    var_name : str</span>
 <span class="sd">        List of variables to extract from the file.</span>
 <span class="sd">    skiprows : int, optional</span>
 <span class="sd">        Number of initial rows in the file to skip (default is 2 to bypass header).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    dict</span>
-<span class="sd">        Dictionary containing the description and expression for each desired variable. </span>
-<span class="sd">        Each variable contributes two keys to the dictionary: &#39;{var}_description&#39; and &#39;{var}_expression&#39;.</span>
+<span class="sd">    str</span>
+<span class="sd">        var_name.name = name of the variable. </span>
+<span class="sd">        var_name.expression = fluent expression of the variable.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># Open the file and read its lines</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
-        <span class="n">lines</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">var_name</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var_name</span> <span class="o">=</span> <span class="n">var_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">skiprow</span> <span class="o">=</span> <span class="n">skiprows</span>
 
-    <span class="c1"># Initialize an empty dictionary to store the extracted expressions</span>
-    <span class="n">expressions</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">current_key</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Check if the file exists</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The file &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="si">}</span><span class="s2">&#39; does not exist. Stopping execution.&quot;</span><span class="p">)</span>
 
-    <span class="c1"># Loop through each line, skipping header rows</span>
-    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="n">skiprows</span><span class="p">:]:</span>
-        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>  <span class="c1"># Remove leading and trailing whitespace</span>
+    <span class="c1"># Expression Description </span>
+<div class="viewcode-block" id="read_expression_file.description">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.read_expression_file.description">[docs]</a>
+    <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;barotropic_model_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">var_name</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">name</span></div>
 
-        <span class="c1"># Check if the line starts with &#39;case_&#39;, indicating it&#39;s a description line</span>
-        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;case_&quot;</span><span class="p">):</span>
-            <span class="n">current_key</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Reset the current_key</span>
-            
-            <span class="c1"># Determine if the description matches any of the desired variables</span>
-            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
-                    <span class="n">current_key</span> <span class="o">=</span> <span class="n">var</span>
-                    <span class="n">expressions</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">_description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">line</span>
-                    <span class="n">expressions</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">_expression&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>  <span class="c1"># Initialize the expression as an empty string</span>
+
+
+
+<div class="viewcode-block" id="read_expression_file.expression">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.read_expression_file.expression">[docs]</a>
+    <span class="k">def</span> <span class="nf">expression</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+        <span class="c1"># Initialize a variable to store the expression as a string</span>
+        <span class="n">expression_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">start_collecting</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Loop through each line, skipping header rows</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">skiprow</span><span class="p">:]:</span>
+            <span class="c1"># Check if the line starts with &#39;barotropic_model_{var_name}&#39;</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;barotropic_model_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">var_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
+                <span class="n">start_collecting</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Start collecting lines for the expression</span>
+                <span class="k">continue</span>
+            <span class="k">elif</span> <span class="n">start_collecting</span><span class="p">:</span>
+                <span class="c1"># Stop if we reach an empty line (end of expression)</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
                     <span class="k">break</span>
+                <span class="c1"># Append the line to the expression string</span>
+                <span class="n">expression_str</span> <span class="o">+=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
 
-        <span class="c1"># If the line is part of an expression for a previously found variable, append it</span>
-        <span class="k">elif</span> <span class="n">current_key</span><span class="p">:</span>
-            <span class="n">expressions</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">current_key</span><span class="si">}</span><span class="s2">_expression&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">line</span>
+        <span class="c1"># return expression_str.strip()</span>
+        <span class="k">return</span> <span class="n">expression_str</span></div>
+</div>
 
-    <span class="k">return</span> <span class="n">expressions</span></div>
 
+
+
+<span class="c1"># def read_expression_file(filename, vars, skiprows=2):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Read content of barotropic model expression file, extracting desired variables&#39; descriptions and expressions.</span>
+
+<span class="c1">#     The file should have:</span>
+<span class="c1">#     1. A header indicating the purpose of the file and its creation timestamp.</span>
+<span class="c1">#     2. Sections for each variable, with a description prefixed by ``case_`` followed by the mathematical expression.</span>
+
+<span class="c1">#     Parameters</span>
+<span class="c1">#     ----------</span>
+<span class="c1">#     filename : str</span>
+<span class="c1">#         Path to the barotropic model expression file.</span>
+<span class="c1">#     vars : list of str</span>
+<span class="c1">#         List of variables to extract from the file.</span>
+<span class="c1">#     skiprows : int, optional</span>
+<span class="c1">#         Number of initial rows in the file to skip (default is 2 to bypass header).</span>
+
+<span class="c1">#     Returns</span>
+<span class="c1">#     -------</span>
+<span class="c1">#     dict</span>
+<span class="c1">#         Dictionary containing the description and expression for each desired variable. </span>
+<span class="c1">#         Each variable contributes two keys to the dictionary: &#39;{var}_description&#39; and &#39;{var}_expression&#39;.</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+
+<span class="c1">#     # Open the file and read its lines</span>
+<span class="c1">#     with open(filename, &quot;r&quot;) as file:</span>
+<span class="c1">#         lines = file.readlines()</span>
+
+<span class="c1">#     # Initialize an empty dictionary to store the extracted expressions</span>
+<span class="c1">#     expressions = {}</span>
+<span class="c1">#     current_key = None</span>
+
+<span class="c1">#     # Loop through each line, skipping header rows</span>
+<span class="c1">#     for line in lines[skiprows:]:</span>
+<span class="c1">#         line = line.strip()  # Remove leading and trailing whitespace</span>
+
+<span class="c1">#         # Check if the line starts with &#39;case_&#39;, indicating it&#39;s a description line</span>
+<span class="c1">#         if line.startswith(&quot;barotropic_&quot;):</span>
+<span class="c1">#             current_key = None  # Reset the current_key</span>
+            
+<span class="c1">#             # Determine if the description matches any of the desired variables</span>
+<span class="c1">#             for var in vars:</span>
+<span class="c1">#                 if var in line:</span>
+<span class="c1">#                     current_key = var</span>
+<span class="c1">#                     expressions[f&quot;{var}_description&quot;] = line</span>
+<span class="c1">#                     expressions[f&quot;{var}_expression&quot;] = &quot;&quot;  # Initialize the expression as an empty string</span>
+<span class="c1">#                     break</span>
+
+<span class="c1">#         # If the line is part of an expression for a previously found variable, append it</span>
+<span class="c1">#         elif current_key:</span>
+<span class="c1">#             expressions[f&quot;{current_key}_expression&quot;] += line</span>
+
+<span class="c1">#     return expressions</span>
 
 
 <div class="viewcode-block" id="add_solution_strategy">
