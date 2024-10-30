@@ -1378,7 +1378,7 @@ class ExpressionExporter:
                 if var in self.units:
                     unit = self.units[var]
                     expressions = self.generate_expressions(var, unit)
-                    file.write(f"barotropic_model_{var}\n")
+                    file.write(f"barotropic_{var}\n")
                     file.write(f"{expressions}\n\n")
 
     def generate_expressions(self, var, unit):
