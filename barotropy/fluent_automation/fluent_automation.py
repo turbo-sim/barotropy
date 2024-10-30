@@ -229,7 +229,10 @@ def add_barotropic_expressions(journal, expression_path, vars):
     return journal
 
 
-def read_expression_file(filename, vars, skiprows=2):
+
+
+class read_expression_file:
+
     """
     Read content of barotropic model expression file, extracting desired variables' descriptions and expressions.
 
@@ -241,47 +244,113 @@ def read_expression_file(filename, vars, skiprows=2):
     ----------
     filename : str
         Path to the barotropic model expression file.
-    vars : list of str
+    var_name : str
         List of variables to extract from the file.
     skiprows : int, optional
         Number of initial rows in the file to skip (default is 2 to bypass header).
 
     Returns
     -------
-    dict
-        Dictionary containing the description and expression for each desired variable. 
-        Each variable contributes two keys to the dictionary: '{var}_description' and '{var}_expression'.
+    str
+        var_name.name = name of the variable. 
+        var_name.expression = fluent expression of the variable.
     """
 
-    # Open the file and read its lines
-    with open(filename, "r") as file:
-        lines = file.readlines()
+    def __init__(self, filename, var_name, skiprows=2):
+        self.filename = filename
+        self.var_name = var_name
+        self.skiprow = skiprows
 
-    # Initialize an empty dictionary to store the extracted expressions
-    expressions = {}
-    current_key = None
+        # Check if the file exists
+        if not os.path.isfile(self.filename):
+            raise FileNotFoundError(f"The file '{self.filename}' does not exist. Stopping execution.")
 
-    # Loop through each line, skipping header rows
-    for line in lines[skiprows:]:
-        line = line.strip()  # Remove leading and trailing whitespace
+    # Expression Description 
+    def description(self):
+        name = f"barotropic_model_{self.var_name}"
+        return name
 
-        # Check if the line starts with 'case_', indicating it's a description line
-        if line.startswith("case_"):
-            current_key = None  # Reset the current_key
-            
-            # Determine if the description matches any of the desired variables
-            for var in vars:
-                if var in line:
-                    current_key = var
-                    expressions[f"{var}_description"] = line
-                    expressions[f"{var}_expression"] = ""  # Initialize the expression as an empty string
+
+
+    def expression(self):
+        with open(self.filename, "r") as file:
+            lines = file.readlines()
+
+        # Initialize a variable to store the expression as a string
+        expression_str = ""
+        start_collecting = False
+
+        # Loop through each line, skipping header rows
+        for line in lines[self.skiprow:]:
+            # Check if the line starts with 'barotropic_model_{var_name}'
+            if line.startswith(f"barotropic_model_{self.var_name}"):
+                start_collecting = True  # Start collecting lines for the expression
+                continue
+            elif start_collecting:
+                # Stop if we reach an empty line (end of expression)
+                if line.strip() == "":
                     break
+                # Append the line to the expression string
+                expression_str += line.strip() + " "
 
-        # If the line is part of an expression for a previously found variable, append it
-        elif current_key:
-            expressions[f"{current_key}_expression"] += line
+        # return expression_str.strip()
+        return expression_str
 
-    return expressions
+
+
+# def read_expression_file(filename, vars, skiprows=2):
+#     """
+#     Read content of barotropic model expression file, extracting desired variables' descriptions and expressions.
+
+#     The file should have:
+#     1. A header indicating the purpose of the file and its creation timestamp.
+#     2. Sections for each variable, with a description prefixed by ``case_`` followed by the mathematical expression.
+
+#     Parameters
+#     ----------
+#     filename : str
+#         Path to the barotropic model expression file.
+#     vars : list of str
+#         List of variables to extract from the file.
+#     skiprows : int, optional
+#         Number of initial rows in the file to skip (default is 2 to bypass header).
+
+#     Returns
+#     -------
+#     dict
+#         Dictionary containing the description and expression for each desired variable. 
+#         Each variable contributes two keys to the dictionary: '{var}_description' and '{var}_expression'.
+#     """
+
+#     # Open the file and read its lines
+#     with open(filename, "r") as file:
+#         lines = file.readlines()
+
+#     # Initialize an empty dictionary to store the extracted expressions
+#     expressions = {}
+#     current_key = None
+
+#     # Loop through each line, skipping header rows
+#     for line in lines[skiprows:]:
+#         line = line.strip()  # Remove leading and trailing whitespace
+
+#         # Check if the line starts with 'case_', indicating it's a description line
+#         if line.startswith("barotropic_"):
+#             current_key = None  # Reset the current_key
+            
+#             # Determine if the description matches any of the desired variables
+#             for var in vars:
+#                 if var in line:
+#                     current_key = var
+#                     expressions[f"{var}_description"] = line
+#                     expressions[f"{var}_expression"] = ""  # Initialize the expression as an empty string
+#                     break
+
+#         # If the line is part of an expression for a previously found variable, append it
+#         elif current_key:
+#             expressions[f"{current_key}_expression"] += line
+
+#     return expressions
 
 
 def add_solution_strategy(journal, strategy):
