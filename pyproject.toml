@@ -20,6 +20,7 @@ PyYAML = "^6.0.1"
 toml = "^0.10.2"
 cycler = "^0.12.1"
 parse = "^1.20.2"
+ansys-fluent-core = "^0.26.1"
 
 [tool.poetry.group.dev.dependencies]
 ipython = "^8.24.0"
