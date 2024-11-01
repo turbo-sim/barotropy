@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>barotropy.fluent_automation.fluent_automation &#8212; barotropy v0.0.3 documentation</title>
+    <title>barotropy.fluent_automation.fluent_automation_old &#8212; barotropy v0.0.3 documentation</title>
   
   
   
@@ -51,7 +51,7 @@
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/barotropy/fluent_automation/fluent_automation';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/barotropy/fluent_automation/fluent_automation_old';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -275,7 +275,7 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <h1>Source code for barotropy.fluent_automation.fluent_automation</h1><div class="highlight"><pre>
+  <h1>Source code for barotropy.fluent_automation.fluent_automation_old</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
@@ -296,50 +296,361 @@
 <span class="kn">from</span> <span class="nn">..utilities</span> <span class="kn">import</span> <span class="n">is_float</span><span class="p">,</span> <span class="n">wait_for_file</span>
 
 
+<div class="viewcode-block" id="create_fluent_journal">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.create_fluent_journal">[docs]</a>
+<span class="k">def</span> <span class="nf">create_fluent_journal</span><span class="p">(</span><span class="n">case_name</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="n">template_filename</span><span class="p">,</span> <span class="n">template_map</span><span class="p">,</span> <span class="n">barotropic_vars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">export_vars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">export_zones</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">solution_strategy</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create and validate a Fluent journal based on the provided parameters.</span>
+
+<span class="sd">    This function generates a Fluent journal, which is a script containing a sequence </span>
+<span class="sd">    of commands for the Fluent simulation software. It uses a template file and a map </span>
+<span class="sd">    of variable values to generate this script, with options for adding additional </span>
+<span class="sd">    commands related to barotropic variables, export variables, export zones, and </span>
+<span class="sd">    a solution strategy.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    case_name : str</span>
+<span class="sd">        Name of the simulation case.</span>
+<span class="sd">    output_dir : str</span>
+<span class="sd">        Path to the directory of the current simulation case</span>
+<span class="sd">    template_filename : str</span>
+<span class="sd">        Path to the template file used to generate the journal.</span>
+<span class="sd">    template_map : dict</span>
+<span class="sd">        Mapping of variable names to their values used for rendering the template.</span>
+<span class="sd">    barotropic_vars : list of str, optional</span>
+<span class="sd">        List of barotropic variable expressions to be added to the journal.</span>
+<span class="sd">    export_vars : dict, optional</span>
+<span class="sd">        Dictionary mapping output filenames to Fluent variable names to be exported.</span>
+<span class="sd">    export_zones : list of str, optional</span>
+<span class="sd">        List of zones from which data should be exported.</span>
+<span class="sd">    solution_strategy : dict of list, optional</span>
+<span class="sd">        Dictionary where each value is a list of commands or options for the solution strategy.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        The generated Fluent journal as a string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Validate parameters</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">output_dir</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Output directory must be provided.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_dir</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Output directory </span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s2"> does not exist.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">template_filename</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Template filename must be provided.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">template_filename</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Template file </span><span class="si">{</span><span class="n">template_filename</span><span class="si">}</span><span class="s2"> not found.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">export_zones</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">export_vars</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;export_vars must be provided if export_zones is specified.&quot;</span><span class="p">)</span>
     
+    <span class="k">if</span> <span class="n">export_vars</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">export_zones</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">export_zones</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Export zones must not be empty if export_vars is provided.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">export_vars</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">export_vars</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;export_vars should be a dictionary mapping between export filenames and Fluent variable names.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">export_zones</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">export_zones</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;export_zones should be a list of zones to export data from.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">solution_strategy</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">solution_strategy</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">solution_strategy</span><span class="o">.</span><span class="n">values</span><span class="p">())):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;solution_strategy should be a dictionary where each value is a list of commands or options.&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># Path handling</span>
+    <span class="n">case_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
+    <span class="n">file_prefix</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">case_name</span><span class="p">)</span>
+
+    <span class="c1"># Generate the journal file (a sequence of commands) for Fluent based on the template</span>
+    <span class="n">journal</span> <span class="o">=</span> <span class="n">render_fluent_journal</span><span class="p">(</span><span class="n">template_filename</span><span class="p">,</span> <span class="n">template_map</span><span class="p">)</span>
+
+    <span class="c1"># Add expressions for the barotropic model to the journal</span>
+    <span class="k">if</span> <span class="n">barotropic_vars</span><span class="p">:</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">case_path</span><span class="p">,</span> <span class="s2">&quot;barotropic_model&quot;</span><span class="p">,</span> <span class="s2">&quot;fluent_expressions.txt&quot;</span><span class="p">)</span>
+        <span class="n">journal</span> <span class="o">=</span> <span class="n">add_barotropic_expressions</span><span class="p">(</span><span class="n">journal</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">barotropic_vars</span><span class="p">)</span>
+
+    <span class="c1"># Add solution strategy commands to the journal</span>
+    <span class="k">if</span> <span class="n">solution_strategy</span><span class="p">:</span>
+        <span class="n">journal</span> <span class="o">=</span> <span class="n">add_solution_strategy</span><span class="p">(</span><span class="n">journal</span><span class="p">,</span> <span class="n">solution_strategy</span><span class="p">)</span>
+
+    <span class="c1"># Add commands to export specific variables after the simulation</span>
+    <span class="k">if</span> <span class="n">export_vars</span><span class="p">:</span>
+        <span class="n">journal</span> <span class="o">=</span> <span class="n">add_export_variables</span><span class="p">(</span><span class="n">journal</span><span class="p">,</span> <span class="n">file_prefix</span><span class="p">,</span> <span class="n">export_vars</span><span class="p">,</span> <span class="n">export_zones</span><span class="p">)</span>
+
+    <span class="c1"># Postprocess journal and check if there are any un-rendered variables</span>
+    <span class="n">journal</span> <span class="o">=</span> <span class="n">validate_journal</span><span class="p">(</span><span class="n">journal</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">journal</span></div>
+
+
+
+<div class="viewcode-block" id="render_fluent_journal">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.render_fluent_journal">[docs]</a>
+<span class="k">def</span> <span class="nf">render_fluent_journal</span><span class="p">(</span><span class="n">template_path</span><span class="p">,</span> <span class="n">template_map</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read a template Fluent journal file and replace placeholders with values from the provided map.</span>
+
+<span class="sd">    Read a template Fluent journal file and replace placeholders with values from the provided map.</span>
+
+<span class="sd">    This function takes a template Fluent journal file where variables are specified in curly brackets `{}`.</span>
+<span class="sd">    It then replaces these placeholders with the corresponding values provided in `template_map`.</span>
+
+<span class="sd">    The function also checks that all keys from the `template_map` are used in the template. </span>
+<span class="sd">    If any keys are unused, the function raises a ValueError.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    template_path : str</span>
+<span class="sd">        Path to the template Fluent journal file containing placeholders in curly braces `{}`.</span>
+<span class="sd">    template_map : dict</span>
+<span class="sd">        Dictionary mapping the placeholders in the template to their replacement values. Values are expected to be numerical.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list of str</span>
+<span class="sd">        List of strings where each string corresponds to a line from the rendered journal.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Suppose the content of &#39;journal_template.txt&#39; is as follows:</span>
+<span class="sd">    ```</span>
+<span class="sd">    ; Define boundary conditions</span>
+<span class="sd">    define/boundary-conditions/pressure-inlet inlet yes no {p0_in} no {p0_in} no yes no no yes {turbulence_intensity_in} {viscosity_ratio_in} </span>
+<span class="sd">    define/boundary-conditions/pressure-outlet outlet yes no {p_out} no yes no no yes {turbulence_intensity_in} {viscosity_ratio_in} no yes no no</span>
+<span class="sd">    define/boundary-conditions/wall wall no no no no {wall_roughness_height} no {wall_roughness_constant}</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    Using the function:</span>
+
+<span class="sd">    &gt;&gt;&gt; template_path = &#39;path_to_template.txt&#39;</span>
+<span class="sd">    &gt;&gt;&gt; template_map = {</span>
+<span class="sd">    ...     &#39;p0_in&#39;: 2e6,</span>
+<span class="sd">    ...     &#39;p_out&#39;: 1e5,</span>
+<span class="sd">    ...     &#39;turbulence_intensity_in&#39;: 5,  # Percentage</span>
+<span class="sd">    ...     &#39;viscosity_ratio_in&#39;: 10, </span>
+<span class="sd">    ...     &#39;wall_roughness_height&#39;: 1e-6,</span>
+<span class="sd">    ...     &#39;wall_roughness_constant&#39;: 0.5</span>
+<span class="sd">    ... }</span>
+<span class="sd">    &gt;&gt;&gt; rendered_journal = render_fluent_journal(template_path, template_map)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c1"># Read the template content</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">template_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">template_content</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+    <span class="c1"># Convert all numerical values in template_map to strings for formatting</span>
+    <span class="n">string_template_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">template_map</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+    <span class="c1"># Set of all keys in the template_map for tracking unused keys</span>
+    <span class="n">unused_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">string_template_map</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="n">rendered_journal</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">template_content</span><span class="p">:</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>  <span class="c1"># Remove leading and trailing whitespaces</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span> <span class="ow">or</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">):</span>
+            <span class="c1"># If line is empty or a comment, add it as it is</span>
+            <span class="n">rendered_journal</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Check which keys are used in this line</span>
+            <span class="n">keys_used_in_line</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">unused_keys</span> <span class="k">if</span> <span class="s1">&#39;{&#39;</span> <span class="o">+</span> <span class="n">key</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys_used_in_line</span><span class="p">:</span>
+                <span class="n">unused_keys</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="c1"># Replace content surrounded by curly brackets according to mapping</span>
+            <span class="n">rendered_journal</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">string_template_map</span><span class="p">))</span>
+
+    <span class="c1"># Check if there are any unused keys</span>
+    <span class="k">if</span> <span class="n">unused_keys</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Some keys in the template_map were not used in the template: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">unused_keys</span><span class="p">)</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">Check for missing or mistyped variable names.&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">rendered_journal</span></div>
+
+
+
+<div class="viewcode-block" id="add_barotropic_expressions">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.add_barotropic_expressions">[docs]</a>
+<span class="k">def</span> <span class="nf">add_barotropic_expressions</span><span class="p">(</span><span class="n">journal</span><span class="p">,</span> <span class="n">expression_path</span><span class="p">,</span> <span class="nb">vars</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Modify the Fluent journal to add commands for defining barotropic model expressions.</span>
+
+<span class="sd">    The function inserts the appropriate commands right after the &quot;; Define Barotropic Model expressions&quot; comment.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    - journal (list of str): Existing journal entries.</span>
+<span class="sd">    - expression_path (str): Path to the expression file.</span>
+<span class="sd">    - vars (list of str): Variables to extract from the expression file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    - list of str: Modified journal.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">    - ValueError: If the &quot;; Define Barotropic Model expressions&quot; comment is not found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Remove the &quot;barotropic_&quot; prefix</span>
+    <span class="nb">vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">var</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;barotropic_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">]</span>
+
+    <span class="c1"># Read expressions from the provided file</span>
+    <span class="n">expressions</span> <span class="o">=</span> <span class="n">read_expression_file</span><span class="p">(</span><span class="n">expression_path</span><span class="p">,</span> <span class="nb">vars</span><span class="p">)</span>
+    
+    <span class="c1"># Create commands from expressions</span>
+    <span class="n">commands</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">:</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="n">expressions</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">_description&quot;</span><span class="p">]</span>
+        <span class="n">expression</span> <span class="o">=</span> <span class="n">expressions</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">_expression&quot;</span><span class="p">]</span>
+        <span class="n">command</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;define/named-expressions edit &quot;barotropic_</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s1">&quot; description &quot;</span><span class="si">{</span><span class="n">description</span><span class="si">}</span><span class="s1">&quot; definition &quot;</span><span class="si">{</span><span class="n">expression</span><span class="si">}</span><span class="s1">&quot; q&#39;</span>
+        <span class="n">commands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+
+    <span class="c1"># Find the location to insert the commands in the journal</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">journal</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;; Define Barotropic Model expressions&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The &quot;; Define Barotropic Model expressions&quot; comment was not found in the journal.&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Insert the commands</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">command</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">commands</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">journal</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">journal</span></div>
+
+
+
+
+
 <div class="viewcode-block" id="read_expression_file">
-<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.read_expression_file">[docs]</a>
-<span class="k">def</span> <span class="nf">read_expression_file</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-<span class="w">    </span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Read all the expressions contained in the output file of the barotropic model and store them in a dictionary with the name of the variable as &quot;barotropic_{variable_name}&quot;</span>
-<span class="sd">    The expression file is needed as input</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.read_expression_file">[docs]</a>
+<span class="k">class</span> <span class="nc">read_expression_file</span><span class="p">:</span>
 
-    <span class="c1"># Read the file and store all in lines</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
-        <span class="n">lines</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read content of barotropic model expression file, extracting desired variables&#39; descriptions and expressions.</span>
 
-    <span class="c1"># Initialize the dictionary</span>
-    <span class="n">expressions</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">start_collecting</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="sd">    The file should have:</span>
+<span class="sd">    1. A header indicating the purpose of the file and its creation timestamp.</span>
+<span class="sd">    2. Sections for each variable, with a description prefixed by ``case_`` followed by the mathematical expression.</span>
 
-    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename : str</span>
+<span class="sd">        Path to the barotropic model expression file.</span>
+<span class="sd">    var_name : str</span>
+<span class="sd">        List of variables to extract from the file.</span>
+<span class="sd">    skiprows : int, optional</span>
+<span class="sd">        Number of initial rows in the file to skip (default is 2 to bypass header).</span>
 
-        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;barotropic_&quot;</span><span class="p">):</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-            <span class="n">start_collecting</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="n">expressions</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">expression_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-            <span class="k">continue</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        var_name.name = name of the variable. </span>
+<span class="sd">        var_name.expression = fluent expression of the variable.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-        <span class="k">elif</span> <span class="n">start_collecting</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">var_name</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var_name</span> <span class="o">=</span> <span class="n">var_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">skiprow</span> <span class="o">=</span> <span class="n">skiprows</span>
+
+        <span class="c1"># Check if the file exists</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The file &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="si">}</span><span class="s2">&#39; does not exist. Stopping execution.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Expression Description </span>
+<div class="viewcode-block" id="read_expression_file.description">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.read_expression_file.description">[docs]</a>
+    <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;barotropic_model_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">var_name</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">name</span></div>
+
+
+
+
+<div class="viewcode-block" id="read_expression_file.expression">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.read_expression_file.expression">[docs]</a>
+    <span class="k">def</span> <span class="nf">expression</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+        <span class="c1"># Initialize a variable to store the expression as a string</span>
+        <span class="n">expression_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">start_collecting</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Loop through each line, skipping header rows</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">skiprow</span><span class="p">:]:</span>
+            <span class="c1"># Check if the line starts with &#39;barotropic_model_{var_name}&#39;</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;barotropic_model_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">var_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
+                <span class="n">start_collecting</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Start collecting lines for the expression</span>
+                <span class="k">continue</span>
+            <span class="k">elif</span> <span class="n">start_collecting</span><span class="p">:</span>
+                <span class="c1"># Stop if we reach an empty line (end of expression)</span>
                 <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-                    <span class="n">start_collecting</span> <span class="o">=</span> <span class="kc">False</span>
-                    <span class="n">expressions</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">expression_str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-                    <span class="k">continue</span>
+                    <span class="k">break</span>
                 <span class="c1"># Append the line to the expression string</span>
                 <span class="n">expression_str</span> <span class="o">+=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
 
-    <span class="k">return</span> <span class="n">expressions</span></div>
+        <span class="c1"># return expression_str.strip()</span>
+        <span class="k">return</span> <span class="n">expression_str</span></div>
+</div>
 
 
 
-    
+
+<span class="c1"># def read_expression_file(filename, vars, skiprows=2):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Read content of barotropic model expression file, extracting desired variables&#39; descriptions and expressions.</span>
+
+<span class="c1">#     The file should have:</span>
+<span class="c1">#     1. A header indicating the purpose of the file and its creation timestamp.</span>
+<span class="c1">#     2. Sections for each variable, with a description prefixed by ``case_`` followed by the mathematical expression.</span>
+
+<span class="c1">#     Parameters</span>
+<span class="c1">#     ----------</span>
+<span class="c1">#     filename : str</span>
+<span class="c1">#         Path to the barotropic model expression file.</span>
+<span class="c1">#     vars : list of str</span>
+<span class="c1">#         List of variables to extract from the file.</span>
+<span class="c1">#     skiprows : int, optional</span>
+<span class="c1">#         Number of initial rows in the file to skip (default is 2 to bypass header).</span>
+
+<span class="c1">#     Returns</span>
+<span class="c1">#     -------</span>
+<span class="c1">#     dict</span>
+<span class="c1">#         Dictionary containing the description and expression for each desired variable. </span>
+<span class="c1">#         Each variable contributes two keys to the dictionary: &#39;{var}_description&#39; and &#39;{var}_expression&#39;.</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+
+<span class="c1">#     # Open the file and read its lines</span>
+<span class="c1">#     with open(filename, &quot;r&quot;) as file:</span>
+<span class="c1">#         lines = file.readlines()</span>
+
+<span class="c1">#     # Initialize an empty dictionary to store the extracted expressions</span>
+<span class="c1">#     expressions = {}</span>
+<span class="c1">#     current_key = None</span>
+
+<span class="c1">#     # Loop through each line, skipping header rows</span>
+<span class="c1">#     for line in lines[skiprows:]:</span>
+<span class="c1">#         line = line.strip()  # Remove leading and trailing whitespace</span>
+
+<span class="c1">#         # Check if the line starts with &#39;case_&#39;, indicating it&#39;s a description line</span>
+<span class="c1">#         if line.startswith(&quot;barotropic_&quot;):</span>
+<span class="c1">#             current_key = None  # Reset the current_key</span>
+            
+<span class="c1">#             # Determine if the description matches any of the desired variables</span>
+<span class="c1">#             for var in vars:</span>
+<span class="c1">#                 if var in line:</span>
+<span class="c1">#                     current_key = var</span>
+<span class="c1">#                     expressions[f&quot;{var}_description&quot;] = line</span>
+<span class="c1">#                     expressions[f&quot;{var}_expression&quot;] = &quot;&quot;  # Initialize the expression as an empty string</span>
+<span class="c1">#                     break</span>
+
+<span class="c1">#         # If the line is part of an expression for a previously found variable, append it</span>
+<span class="c1">#         elif current_key:</span>
+<span class="c1">#             expressions[f&quot;{current_key}_expression&quot;] += line</span>
+
+<span class="c1">#     return expressions</span>
 
 
 <div class="viewcode-block" id="add_solution_strategy">
-<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.add_solution_strategy">[docs]</a>
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.add_solution_strategy">[docs]</a>
 <span class="k">def</span> <span class="nf">add_solution_strategy</span><span class="p">(</span><span class="n">journal</span><span class="p">,</span> <span class="n">strategy</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Insert the solution strategy into a Fluent journal after the designated comment.</span>
@@ -406,10 +717,134 @@
 
 
 
+<div class="viewcode-block" id="add_export_variables">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.add_export_variables">[docs]</a>
+<span class="k">def</span> <span class="nf">add_export_variables</span><span class="p">(</span><span class="n">journal</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">variable_mapping</span><span class="p">,</span> <span class="n">zones</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Modify a Fluent journal to add commands for exporting specified variables to .xy files.</span>
+
+<span class="sd">    The function takes an existing journal list and appends commands to export</span>
+<span class="sd">    selected variables (as specified in variable_mapping) to .xy files. The filenames</span>
+<span class="sd">    for the exported .xy files will be prefixed by the provided prefix and the variable name.</span>
+<span class="sd">    The export commands are inserted right after the &quot;; Save XY plot files&quot; comment.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    journal : list of str</span>
+<span class="sd">        List of strings, where each string corresponds to a command or comment in the initial Fluent journal content.</span>
+<span class="sd">    prefix : str</span>
+<span class="sd">        Prefix for the exported .xy filenames, including the path.</span>
+<span class="sd">    variable_mapping : dict</span>
+<span class="sd">        Mapping from desired variable names (to be used in .xy filenames)</span>
+<span class="sd">        to their corresponding names in Fluent.</span>
+<span class="sd">    zones : list of str</span>
+<span class="sd">        List of Fluent zone names or IDs to specify the zones of interest for exporting.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list of str</span>
+<span class="sd">        List of strings with the modified Fluent journal commands.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If the &quot;; Save XY plot files&quot; comment is not found in the journal.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    # Define mapping between export filenames and Fluent variable names:</span>
+
+<span class="sd">    &gt;&gt;&gt; EXPORT_VARS_MAPPING = {</span>
+<span class="sd">            &quot;pressure&quot;: &quot;pressure&quot;,</span>
+<span class="sd">            &quot;density&quot;: &quot;density&quot;,</span>
+<span class="sd">            &quot;viscosity&quot;: &quot;viscosity-lam&quot;,</span>
+<span class="sd">            &quot;speed_sound&quot;: &quot;sound-speed&quot;,</span>
+<span class="sd">            ... # [Other mappings as needed]</span>
+<span class="sd">        }</span>
+
+<span class="sd">    # Define the journal content and prefix:</span>
+
+<span class="sd">    &gt;&gt;&gt; journal_content = [&quot;... [journal commands] ...&quot;, &quot;; Save XY plot files&quot;, &quot;... other commands ...&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; prefix = &quot;/path/to/simulation/case&quot;</span>
+
+<span class="sd">    # Add variables to export as .xy file to the journal:</span>
+
+<span class="sd">    &gt;&gt;&gt; new_journal = add_export_variables_to_journal(journal_content, prefix, EXPORT_VARS_MAPPING, [&quot;axis&quot;, &quot;wall&quot;])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Define commands to export .xy files</span>
+    <span class="n">export_entries</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">fluent_name</span> <span class="ow">in</span> <span class="n">variable_mapping</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">.xy&quot;</span>
+        <span class="n">export_entries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;plot/plot yes &quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot; yes no no </span><span class="si">{</span><span class="n">fluent_name</span><span class="si">}</span><span class="s2"> yes 1 0 </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">zones</span><span class="p">)</span><span class="si">}</span><span class="s2"> ()&quot;&quot;&quot;</span><span class="p">)</span>
+        
+    <span class="c1"># Find the index of the comment</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">journal</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;; Save XY plot files&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The &quot;; Save XY plot files&quot; comment was not found in the journal.&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># Insert the export commands right after the comment</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">command</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">export_entries</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">journal</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">journal</span></div>
+
+
+
+<div class="viewcode-block" id="validate_journal">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.validate_journal">[docs]</a>
+<span class="k">def</span> <span class="nf">validate_journal</span><span class="p">(</span><span class="n">journal</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Validate and combine the journal commands into a single string.</span>
+
+<span class="sd">    This function takes a list of journal commands, combines them into a single</span>
+<span class="sd">    string, and checks if there are any curly brackets left. If any curly brackets</span>
+<span class="sd">    are found, it raises a ValueError indicating that not all variables were rendered.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    journal : list of str</span>
+<span class="sd">        List of strings where each string corresponds to a line from the processed journal.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        Single string containing all journal commands, separated by newlines.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If any curly brackets are found in the combined string, indicating that not all</span>
+<span class="sd">        variables were successfully rendered.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; journal_lines = [&quot;define bc pressure-inlet {p_in}&quot;, &quot;solve&quot;]</span>
+<span class="sd">    &gt;&gt;&gt; validate_and_combine_journal(journal_lines)</span>
+<span class="sd">    ValueError: Not all variables were rendered in the journal. Check for missing or mistyped variable names.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Filter out commented lines for validation</span>
+    <span class="n">non_commented_lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">journal</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)]</span>
+    <span class="n">combined_journal</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">non_commented_lines</span><span class="p">)</span>
+
+    <span class="c1"># Find all occurrences of content within curly brackets</span>
+    <span class="n">unrendered_content</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\{([^}]+)\}&#39;</span><span class="p">,</span> <span class="n">combined_journal</span><span class="p">)</span> <span class="c1"># chatgpt</span>
+    
+    <span class="c1"># Check if any curly brackets are left in the combined string</span>
+    <span class="k">if</span> <span class="n">unrendered_content</span><span class="p">:</span>
+        <span class="n">error_message</span> <span class="o">=</span> <span class="s2">&quot;Not all variables were rendered in the journal. Unrendered variables found:</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">error_message</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;  - </span><span class="se">{{</span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="se">}}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">unrendered_content</span><span class="p">])</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_message</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">journal</span><span class="p">)</span></div>
+
+
 
 
 <div class="viewcode-block" id="parse_fluent_out">
-<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.parse_fluent_out">[docs]</a>
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.parse_fluent_out">[docs]</a>
 <span class="k">def</span> <span class="nf">parse_fluent_out</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parse an out-formatted datafile from Fluent and return a DataFrame.</span>
@@ -462,7 +897,7 @@
 
 
 <div class="viewcode-block" id="parse_fluent_xy">
-<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.parse_fluent_xy">[docs]</a>
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.parse_fluent_xy">[docs]</a>
 <span class="k">def</span> <span class="nf">parse_fluent_xy</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parse a Fluent .xy file and return its contents as a dictionary of DataFrames.</span>
@@ -532,7 +967,7 @@
 
 
 <div class="viewcode-block" id="plot_residuals">
-<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.plot_residuals">[docs]</a>
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.plot_residuals">[docs]</a>
 <span class="k">def</span> <span class="nf">plot_residuals</span><span class="p">(</span><span class="n">transcript_file</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">savefig</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fullpath</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Plot the residual history from the given transcript file.</span>
@@ -612,7 +1047,7 @@
 
 
 <div class="viewcode-block" id="read_residual_file">
-<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.read_residual_file">[docs]</a>
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.read_residual_file">[docs]</a>
 <span class="k">def</span> <span class="nf">read_residual_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">res_number</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">line_start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reads a transcript file to extract the residual history and returns it as a Pandas DataFrame.</span>
@@ -678,21 +1113,21 @@
 
 
 
-<span class="c1"># def print_transcript_real_time(transcript_file):</span>
-<span class="c1">#     &quot;&quot;&quot;Print the content of transcript_file.trn in real time&quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">print_transcript_real_time</span><span class="p">(</span><span class="n">transcript_file</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print the content of transcript_file.trn in real time&quot;&quot;&quot;</span>
 
-<span class="c1">#     # Wait until the transcript file is created before executing the script</span>
-<span class="c1">#     wait_for_file(transcript_file)</span>
+    <span class="c1"># Wait until the transcript file is created before executing the script</span>
+    <span class="n">wait_for_file</span><span class="p">(</span><span class="n">transcript_file</span><span class="p">)</span>
 
-<span class="c1">#     # Run a subprocess to run the &quot;stream_tramscript_file.py&quot; script in the background</span>
-<span class="c1">#     args = [&quot;python&quot;, stream_transcript.__file__, f&quot;{transcript_file}&quot;]</span>
-<span class="c1">#     process = subprocess.Popen(args)</span>
+    <span class="c1"># Run a subprocess to run the &quot;stream_tramscript_file.py&quot; script in the background</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;python&quot;</span><span class="p">,</span> <span class="n">stream_transcript</span><span class="o">.</span><span class="vm">__file__</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">transcript_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+    <span class="n">process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
     
-<span class="c1">#     return process</span>
+    <span class="k">return</span> <span class="n">process</span>
     
 
 <div class="viewcode-block" id="print_transcript_real_time">
-<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.print_transcript_real_time">[docs]</a>
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.print_transcript_real_time">[docs]</a>
 <span class="k">def</span> <span class="nf">print_transcript_real_time</span><span class="p">(</span><span class="n">transcript_file</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Print the content of transcript_file.trn in real time.</span>
@@ -716,7 +1151,7 @@
 
 
 <div class="viewcode-block" id="plot_residuals_real_time">
-<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.plot_residuals_real_time">[docs]</a>
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.plot_residuals_real_time">[docs]</a>
 <span class="k">def</span> <span class="nf">plot_residuals_real_time</span><span class="p">(</span><span class="n">transcript_file</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Plot the residual history contained in the transcript_file.trn in real time.</span>
@@ -741,7 +1176,7 @@
 
 
 <div class="viewcode-block" id="run_fluent_simulation">
-<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.run_fluent_simulation">[docs]</a>
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.run_fluent_simulation">[docs]</a>
 <span class="k">def</span> <span class="nf">run_fluent_simulation</span><span class="p">(</span><span class="n">journal</span><span class="p">,</span> <span class="n">n_proc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">3600</span><span class="p">,</span> <span class="n">plot_residuals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
                           <span class="n">print_transcript</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">transcript_file</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -875,7 +1310,7 @@
 
  
 <div class="viewcode-block" id="TranscriptFileMissingError">
-<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.TranscriptFileMissingError">[docs]</a>
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.TranscriptFileMissingError">[docs]</a>
 <span class="k">class</span> <span class="nc">TranscriptFileMissingError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when plotting residuals is requested but no transcript file is provided.&quot;&quot;&quot;</span>
     
@@ -888,7 +1323,7 @@
 
 
 <div class="viewcode-block" id="run_cleanup_script">
-<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.run_cleanup_script">[docs]</a>
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.run_cleanup_script">[docs]</a>
 <span class="k">def</span> <span class="nf">run_cleanup_script</span><span class="p">(</span><span class="n">max_retries</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">wait_interval</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Execute the cleanup script found in the current working directory.</span>
