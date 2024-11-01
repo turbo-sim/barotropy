@@ -15,16 +15,17 @@ bpy.set_plot_options()
 from matplotlib import cm
 
 # Create folder to save results
-# DIR_OUT = "./output"
-DIR_OUT = "./barotropic_model_20240805"
+DIR_OUT = "./output"
+# DIR_OUT = "./barotropic_model_20240805"
+# DIR_OUT = "./barotropic_model_20240820"
 if not os.path.isdir(DIR_OUT):
     os.makedirs(DIR_OUT)
 
 # Load cases from Excel
 case_table = pd.read_excel("./simulation_cases.xlsx")
 case_indices = case_table["index"]
-# case_indices = [1, 2]
-case_indices = [2]
+case_indices = [11, 12, 13]
+# case_indices = [2]
 case_table = case_table[case_table["index"].isin(case_indices)]
 
 # Define plot settings
