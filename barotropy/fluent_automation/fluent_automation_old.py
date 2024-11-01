@@ -18,43 +18,339 @@ from . import stream_residuals, stream_transcript  # Import as module to get its
 from ..utilities import is_float, wait_for_file
 
 
+def create_fluent_journal(case_name, output_dir, template_filename, template_map, barotropic_vars=None, export_vars=None, export_zones=None, solution_strategy=None):
+    """
+    Create and validate a Fluent journal based on the provided parameters.
+
+    This function generates a Fluent journal, which is a script containing a sequence 
+    of commands for the Fluent simulation software. It uses a template file and a map 
+    of variable values to generate this script, with options for adding additional 
+    commands related to barotropic variables, export variables, export zones, and 
+    a solution strategy.
+
+    Parameters
+    ----------
+    case_name : str
+        Name of the simulation case.
+    output_dir : str
+        Path to the directory of the current simulation case
+    template_filename : str
+        Path to the template file used to generate the journal.
+    template_map : dict
+        Mapping of variable names to their values used for rendering the template.
+    barotropic_vars : list of str, optional
+        List of barotropic variable expressions to be added to the journal.
+    export_vars : dict, optional
+        Dictionary mapping output filenames to Fluent variable names to be exported.
+    export_zones : list of str, optional
+        List of zones from which data should be exported.
+    solution_strategy : dict of list, optional
+        Dictionary where each value is a list of commands or options for the solution strategy.
+
+    Returns
+    -------
+    str
+        The generated Fluent journal as a string.
+    """
+
+    # Validate parameters
+    if not output_dir:
+        raise ValueError("Output directory must be provided.")
+    elif not os.path.exists(output_dir):
+        raise FileNotFoundError(f"Output directory {output_dir} does not exist.")
+
+    if not template_filename:
+        raise ValueError("Template filename must be provided.")
+    elif not os.path.exists(template_filename):
+        raise FileNotFoundError(f"Template file {template_filename} not found.")
+
+    if export_zones and not export_vars:
+        raise ValueError("export_vars must be provided if export_zones is specified.")
     
-def read_expression_file(filename):
+    if export_vars and (not export_zones or len(export_zones) == 0):
+        raise ValueError("Export zones must not be empty if export_vars is provided.")
+
+    if export_vars and not isinstance(export_vars, dict):
+        raise ValueError("export_vars should be a dictionary mapping between export filenames and Fluent variable names.")
+
+    if export_zones and not isinstance(export_zones, list):
+        raise ValueError("export_zones should be a list of zones to export data from.")
+
+    if solution_strategy and not (isinstance(solution_strategy, dict) and all(isinstance(v, list) for v in solution_strategy.values())):
+        raise ValueError("solution_strategy should be a dictionary where each value is a list of commands or options.")
     
-    '''
-    Read all the expressions contained in the output file of the barotropic model and store them in a dictionary with the name of the variable as "barotropic_{variable_name}"
-    The expression file is needed as input
-    '''
+    # Path handling
+    case_path = os.path.dirname(output_dir)
+    file_prefix = os.path.join(output_dir, case_name)
 
-    # Read the file and store all in lines
-    with open(filename, "r") as file:
-        lines = file.readlines()
+    # Generate the journal file (a sequence of commands) for Fluent based on the template
+    journal = render_fluent_journal(template_filename, template_map)
 
-    # Initialize the dictionary
-    expressions = {}
-    start_collecting = False
+    # Add expressions for the barotropic model to the journal
+    if barotropic_vars:
+        path = os.path.join(case_path, "barotropic_model", "fluent_expressions.txt")
+        journal = add_barotropic_expressions(journal, path, barotropic_vars)
 
-    for line in lines:
+    # Add solution strategy commands to the journal
+    if solution_strategy:
+        journal = add_solution_strategy(journal, solution_strategy)
 
-        if line.startswith("barotropic_"):
-            name = line.strip()
-            start_collecting = True
-            expressions[name] = []
-            expression_str = ""
-            continue
+    # Add commands to export specific variables after the simulation
+    if export_vars:
+        journal = add_export_variables(journal, file_prefix, export_vars, export_zones)
 
-        elif start_collecting:
+    # Postprocess journal and check if there are any un-rendered variables
+    journal = validate_journal(journal)
+
+    return journal
+
+
+def render_fluent_journal(template_path, template_map):
+    """
+    Read a template Fluent journal file and replace placeholders with values from the provided map.
+
+    Read a template Fluent journal file and replace placeholders with values from the provided map.
+
+    This function takes a template Fluent journal file where variables are specified in curly brackets `{}`.
+    It then replaces these placeholders with the corresponding values provided in `template_map`.
+
+    The function also checks that all keys from the `template_map` are used in the template. 
+    If any keys are unused, the function raises a ValueError.
+
+    Parameters
+    ----------
+    template_path : str
+        Path to the template Fluent journal file containing placeholders in curly braces `{}`.
+    template_map : dict
+        Dictionary mapping the placeholders in the template to their replacement values. Values are expected to be numerical.
+
+    Returns
+    -------
+    list of str
+        List of strings where each string corresponds to a line from the rendered journal.
+
+    Examples
+    --------
+    Suppose the content of 'journal_template.txt' is as follows:
+    ```
+    ; Define boundary conditions
+    define/boundary-conditions/pressure-inlet inlet yes no {p0_in} no {p0_in} no yes no no yes {turbulence_intensity_in} {viscosity_ratio_in} 
+    define/boundary-conditions/pressure-outlet outlet yes no {p_out} no yes no no yes {turbulence_intensity_in} {viscosity_ratio_in} no yes no no
+    define/boundary-conditions/wall wall no no no no {wall_roughness_height} no {wall_roughness_constant}
+    ```
+
+    Using the function:
+
+    >>> template_path = 'path_to_template.txt'
+    >>> template_map = {
+    ...     'p0_in': 2e6,
+    ...     'p_out': 1e5,
+    ...     'turbulence_intensity_in': 5,  # Percentage
+    ...     'viscosity_ratio_in': 10, 
+    ...     'wall_roughness_height': 1e-6,
+    ...     'wall_roughness_constant': 0.5
+    ... }
+    >>> rendered_journal = render_fluent_journal(template_path, template_map)
+    """
+    
+    # Read the template content
+    with open(template_path, 'r') as file:
+        template_content = file.readlines()
+
+    # Convert all numerical values in template_map to strings for formatting
+    string_template_map = {key: str(value) for key, value in template_map.items()}
+
+    # Set of all keys in the template_map for tracking unused keys
+    unused_keys = set(string_template_map.keys())
+
+    rendered_journal = []
+    for line in template_content:
+        line = line.strip()  # Remove leading and trailing whitespaces
+        if not line or line.startswith(';'):
+            # If line is empty or a comment, add it as it is
+            rendered_journal.append(line)
+        else:
+            # Check which keys are used in this line
+            keys_used_in_line = [key for key in unused_keys if '{' + key + '}' in line]
+            for key in keys_used_in_line:
+                unused_keys.remove(key)
+            # Replace content surrounded by curly brackets according to mapping
+            rendered_journal.append(line.format(**string_template_map))
+
+    # Check if there are any unused keys
+    if unused_keys:
+        raise ValueError(f"Some keys in the template_map were not used in the template: {', '.join(unused_keys)}.\nCheck for missing or mistyped variable names.")
+
+    return rendered_journal
+
+
+def add_barotropic_expressions(journal, expression_path, vars):
+    """
+    Modify the Fluent journal to add commands for defining barotropic model expressions.
+
+    The function inserts the appropriate commands right after the "; Define Barotropic Model expressions" comment.
+
+    Parameters:
+    - journal (list of str): Existing journal entries.
+    - expression_path (str): Path to the expression file.
+    - vars (list of str): Variables to extract from the expression file.
+
+    Returns:
+    - list of str: Modified journal.
+
+    Raises:
+    - ValueError: If the "; Define Barotropic Model expressions" comment is not found.
+    """
+
+    # Remove the "barotropic_" prefix
+    vars = [var.replace("barotropic_", "") for var in vars]
+
+    # Read expressions from the provided file
+    expressions = read_expression_file(expression_path, vars)
+    
+    # Create commands from expressions
+    commands = []
+    for var in vars:
+        description = expressions[f"{var}_description"]
+        expression = expressions[f"{var}_expression"]
+        command = f'define/named-expressions edit "barotropic_{var}" description "{description}" definition "{expression}" q'
+        commands.append(command)
+
+    # Find the location to insert the commands in the journal
+    try:
+        idx = journal.index("; Define Barotropic Model expressions")
+    except ValueError:
+        raise ValueError('The "; Define Barotropic Model expressions" comment was not found in the journal.')
+
+    # Insert the commands
+    for i, command in enumerate(commands, start=idx+1):
+        journal.insert(i, command)
+    
+    return journal
+
+
+
+
+class read_expression_file:
+
+    """
+    Read content of barotropic model expression file, extracting desired variables' descriptions and expressions.
+
+    The file should have:
+    1. A header indicating the purpose of the file and its creation timestamp.
+    2. Sections for each variable, with a description prefixed by ``case_`` followed by the mathematical expression.
+
+    Parameters
+    ----------
+    filename : str
+        Path to the barotropic model expression file.
+    var_name : str
+        List of variables to extract from the file.
+    skiprows : int, optional
+        Number of initial rows in the file to skip (default is 2 to bypass header).
+
+    Returns
+    -------
+    str
+        var_name.name = name of the variable. 
+        var_name.expression = fluent expression of the variable.
+    """
+
+    def __init__(self, filename, var_name, skiprows=2):
+        self.filename = filename
+        self.var_name = var_name
+        self.skiprow = skiprows
+
+        # Check if the file exists
+        if not os.path.isfile(self.filename):
+            raise FileNotFoundError(f"The file '{self.filename}' does not exist. Stopping execution.")
+
+    # Expression Description 
+    def description(self):
+        name = f"barotropic_model_{self.var_name}"
+        return name
+
+
+
+    def expression(self):
+        with open(self.filename, "r") as file:
+            lines = file.readlines()
+
+        # Initialize a variable to store the expression as a string
+        expression_str = ""
+        start_collecting = False
+
+        # Loop through each line, skipping header rows
+        for line in lines[self.skiprow:]:
+            # Check if the line starts with 'barotropic_model_{var_name}'
+            if line.startswith(f"barotropic_model_{self.var_name}"):
+                start_collecting = True  # Start collecting lines for the expression
+                continue
+            elif start_collecting:
+                # Stop if we reach an empty line (end of expression)
                 if line.strip() == "":
-                    start_collecting = False
-                    expressions[name] = expression_str.strip()
-                    continue
+                    break
                 # Append the line to the expression string
                 expression_str += line.strip() + " "
 
-    return expressions
+        # return expression_str.strip()
+        return expression_str
 
 
-    
+
+# def read_expression_file(filename, vars, skiprows=2):
+#     """
+#     Read content of barotropic model expression file, extracting desired variables' descriptions and expressions.
+
+#     The file should have:
+#     1. A header indicating the purpose of the file and its creation timestamp.
+#     2. Sections for each variable, with a description prefixed by ``case_`` followed by the mathematical expression.
+
+#     Parameters
+#     ----------
+#     filename : str
+#         Path to the barotropic model expression file.
+#     vars : list of str
+#         List of variables to extract from the file.
+#     skiprows : int, optional
+#         Number of initial rows in the file to skip (default is 2 to bypass header).
+
+#     Returns
+#     -------
+#     dict
+#         Dictionary containing the description and expression for each desired variable. 
+#         Each variable contributes two keys to the dictionary: '{var}_description' and '{var}_expression'.
+#     """
+
+#     # Open the file and read its lines
+#     with open(filename, "r") as file:
+#         lines = file.readlines()
+
+#     # Initialize an empty dictionary to store the extracted expressions
+#     expressions = {}
+#     current_key = None
+
+#     # Loop through each line, skipping header rows
+#     for line in lines[skiprows:]:
+#         line = line.strip()  # Remove leading and trailing whitespace
+
+#         # Check if the line starts with 'case_', indicating it's a description line
+#         if line.startswith("barotropic_"):
+#             current_key = None  # Reset the current_key
+            
+#             # Determine if the description matches any of the desired variables
+#             for var in vars:
+#                 if var in line:
+#                     current_key = var
+#                     expressions[f"{var}_description"] = line
+#                     expressions[f"{var}_expression"] = ""  # Initialize the expression as an empty string
+#                     break
+
+#         # If the line is part of an expression for a previously found variable, append it
+#         elif current_key:
+#             expressions[f"{current_key}_expression"] += line
+
+#     return expressions
 
 
 def add_solution_strategy(journal, strategy):
@@ -121,6 +417,124 @@ def add_solution_strategy(journal, strategy):
 
     return journal
 
+
+def add_export_variables(journal, prefix, variable_mapping, zones):
+    """
+    Modify a Fluent journal to add commands for exporting specified variables to .xy files.
+
+    The function takes an existing journal list and appends commands to export
+    selected variables (as specified in variable_mapping) to .xy files. The filenames
+    for the exported .xy files will be prefixed by the provided prefix and the variable name.
+    The export commands are inserted right after the "; Save XY plot files" comment.
+
+    Parameters
+    ----------
+    journal : list of str
+        List of strings, where each string corresponds to a command or comment in the initial Fluent journal content.
+    prefix : str
+        Prefix for the exported .xy filenames, including the path.
+    variable_mapping : dict
+        Mapping from desired variable names (to be used in .xy filenames)
+        to their corresponding names in Fluent.
+    zones : list of str
+        List of Fluent zone names or IDs to specify the zones of interest for exporting.
+
+    Returns
+    -------
+    list of str
+        List of strings with the modified Fluent journal commands.
+
+    Raises
+    ------
+    ValueError
+        If the "; Save XY plot files" comment is not found in the journal.
+
+    Examples
+    --------
+    # Define mapping between export filenames and Fluent variable names:
+
+    >>> EXPORT_VARS_MAPPING = {
+            "pressure": "pressure",
+            "density": "density",
+            "viscosity": "viscosity-lam",
+            "speed_sound": "sound-speed",
+            ... # [Other mappings as needed]
+        }
+
+    # Define the journal content and prefix:
+
+    >>> journal_content = ["... [journal commands] ...", "; Save XY plot files", "... other commands ..."]
+    >>> prefix = "/path/to/simulation/case"
+
+    # Add variables to export as .xy file to the journal:
+
+    >>> new_journal = add_export_variables_to_journal(journal_content, prefix, EXPORT_VARS_MAPPING, ["axis", "wall"])
+    """
+
+    # Define commands to export .xy files
+    export_entries = []
+    for name, fluent_name in variable_mapping.items():
+        filename = f"{prefix}_{name}.xy"
+        export_entries.append(f"""plot/plot yes "{filename}" yes no no {fluent_name} yes 1 0 {' '.join(zones)} ()""")
+        
+    # Find the index of the comment
+    try:
+        idx = journal.index("; Save XY plot files")
+    except ValueError:
+        raise ValueError('The "; Save XY plot files" comment was not found in the journal.')
+    
+    # Insert the export commands right after the comment
+    for i, command in enumerate(export_entries, start=idx+1):
+        journal.insert(i, command)
+
+    return journal
+
+
+def validate_journal(journal):
+    """
+    Validate and combine the journal commands into a single string.
+
+    This function takes a list of journal commands, combines them into a single
+    string, and checks if there are any curly brackets left. If any curly brackets
+    are found, it raises a ValueError indicating that not all variables were rendered.
+
+    Parameters
+    ----------
+    journal : list of str
+        List of strings where each string corresponds to a line from the processed journal.
+
+    Returns
+    -------
+    str
+        Single string containing all journal commands, separated by newlines.
+
+    Raises
+    ------
+    ValueError
+        If any curly brackets are found in the combined string, indicating that not all
+        variables were successfully rendered.
+
+    Examples
+    --------
+    >>> journal_lines = ["define bc pressure-inlet {p_in}", "solve"]
+    >>> validate_and_combine_journal(journal_lines)
+    ValueError: Not all variables were rendered in the journal. Check for missing or mistyped variable names.
+    """
+
+    # Filter out commented lines for validation
+    non_commented_lines = [line for line in journal if not line.strip().startswith(';')]
+    combined_journal = '\n'.join(non_commented_lines)
+
+    # Find all occurrences of content within curly brackets
+    unrendered_content = re.findall(r'\{([^}]+)\}', combined_journal) # chatgpt
+    
+    # Check if any curly brackets are left in the combined string
+    if unrendered_content:
+        error_message = "Not all variables were rendered in the journal. Unrendered variables found:\n"
+        error_message += '\n'.join([f"  - {{{var}}}" for var in unrendered_content])
+        raise ValueError(error_message)
+    
+    return '\n'.join(journal)
 
 
 
@@ -382,17 +796,17 @@ def read_residual_file(filename, res_number=5, line_start=0, header=None):
     return df
 
 
-# def print_transcript_real_time(transcript_file):
-#     """Print the content of transcript_file.trn in real time"""
+def print_transcript_real_time(transcript_file):
+    """Print the content of transcript_file.trn in real time"""
 
-#     # Wait until the transcript file is created before executing the script
-#     wait_for_file(transcript_file)
+    # Wait until the transcript file is created before executing the script
+    wait_for_file(transcript_file)
 
-#     # Run a subprocess to run the "stream_tramscript_file.py" script in the background
-#     args = ["python", stream_transcript.__file__, f"{transcript_file}"]
-#     process = subprocess.Popen(args)
+    # Run a subprocess to run the "stream_tramscript_file.py" script in the background
+    args = ["python", stream_transcript.__file__, f"{transcript_file}"]
+    process = subprocess.Popen(args)
     
-#     return process
+    return process
     
 
 def print_transcript_real_time(transcript_file):
