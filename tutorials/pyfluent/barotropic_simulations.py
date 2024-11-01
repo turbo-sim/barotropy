@@ -25,10 +25,11 @@ SHOW_FIG = False
 SAVE_FIG = True
 
 # Fluent Parameters
-N_ITER = 100 # Number of iterations
+N_ITER = 30 # Number of iterations
 SHOW_GRAPHICS = True # Show fluent gui
-PROCESSORS_NUMBER = 24 # Number of processors for fluent
-FLUENT_FILE =  "template_simoneau_hendricks_1979.cas.h5"
+PROCESSORS_NUMBER = 2 # Number of processors for fluent
+FLUENT_FILE =  "simoneau_hendricks_1979.cas.h5"
+EXCEL_DATAFILE = "cases_summary.xlsx"  # Case summary file
 PLOT_REALTIME_RESIDUALS = False # plot the residuals in real time in a python figure
 
 # Residual
@@ -40,14 +41,13 @@ RES_OMEGA = 1e-7
 TIME_SCALE_FACTOR = 0.05
 
 # Relaxation factors
-RELF_DENSITY = 1e-12
+RELF_DENSITY = 0.01
 RELF_K = 0.75
 RELF_OMEGA = 0.75
 RELF_BODYFORCE = 1.
 RELF_TURB_VISCOSITY = 1.
 
-# Case summary file
-EXCEL_DATAFILE = "cases_summary.xlsx"
+
 ###################################################################################################################
 
 # Read Case Summary
@@ -217,6 +217,8 @@ for i, row in case_data.iterrows():
         bpy.plot_residuals_real_time(transcript_file)
 
     # Upload the case file
+    # TODO: @Alberto: 01.11.2024 it seems that Fluent is changing the .cas file when the commands are being applied
+    # TODO: I suggest to create a copy of the file in the folder corresponding to the current simulation case so that the commands are applied to the copy of the file
     solver.file.read_case(file_name = FLUENT_FILE)
 
     #  Inlet condition
