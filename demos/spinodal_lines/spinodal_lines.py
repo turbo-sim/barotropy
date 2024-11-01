@@ -16,7 +16,7 @@ if not os.path.exists(fig_dir):
 method = "bfgs"
 # method = "slsqp"
 # names = ["CO2", "water", "nitrogen", "ammonia", "butane", "R134a"]
-names = ["CO2"]
+names = ["nitrogen"]
 
 for fluid_name in names:
 
