@@ -1,0 +1,120 @@
+Auto-Transcript Start Time:  11:15:35, 30 Oct 2024 Romance Standard Time 
+Current Directory: "C:\Users\alber\OneDrive - Danmarks Tekniske Universitet\Documents\CFD\barotropy\projects\Simoneau_Hendricks_1979\automate_simulations"
+
+              Welcome to ANSYS Fluent 2024 R2
+
+              Copyright 1987-2024 ANSYS, Inc. All Rights Reserved.
+              Unauthorized use, distribution or duplication is prohibited.
+              This product is subject to U.S. laws governing export and re-export.
+              For full Legal Notice, see documentation.
+
+Build Time: May 13 2024 11:28:30 EST  Build Id: 10192  
+ 
+Connected License Server List:	1055@ansys-ls.mbar.dtu.dk
+
+     --------------------------------------------------------------
+     This is an academic version of ANSYS FLUENT. Usage of this product
+     license is limited to the terms and conditions specified in your ANSYS
+     license form, additional terms section.
+     --------------------------------------------------------------
+Host spawning Node 0 on machine "CME-EL-ALBER1" (win64).
+
+------------------------------------------------------------------------------------------
+ID    Hostname       Core   O.S.         PID    Vendor                                   
+------------------------------------------------------------------------------------------
+n9    CME-EL-ALBER1  10/28  Windows-x64  26720  13th Gen Intel(R) Core(TM) i7-13850HX    
+n8    CME-EL-ALBER1  9/28   Windows-x64  22564  13th Gen Intel(R) Core(TM) i7-13850HX    
+n7    CME-EL-ALBER1  8/28   Windows-x64  31236  13th Gen Intel(R) Core(TM) i7-13850HX    
+n6    CME-EL-ALBER1  7/28   Windows-x64  26356  13th Gen Intel(R) Core(TM) i7-13850HX    
+n5    CME-EL-ALBER1  6/28   Windows-x64  14108  13th Gen Intel(R) Core(TM) i7-13850HX    
+n4    CME-EL-ALBER1  5/28   Windows-x64  32648  13th Gen Intel(R) Core(TM) i7-13850HX    
+n3    CME-EL-ALBER1  4/28   Windows-x64  31172  13th Gen Intel(R) Core(TM) i7-13850HX    
+n2    CME-EL-ALBER1  3/28   Windows-x64  2200   13th Gen Intel(R) Core(TM) i7-13850HX    
+n1    CME-EL-ALBER1  2/28   Windows-x64  2228   13th Gen Intel(R) Core(TM) i7-13850HX    
+n0*   CME-EL-ALBER1  1/28   Windows-x64  26928  13th Gen Intel(R) Core(TM) i7-13850HX    
+host  CME-EL-ALBER1         Windows-x64  26572  13th Gen Intel(R) Core(TM) i7-13850HX    
+
+MPI Option Selected: intel
+Selected system interconnect: default
+------------------------------------------------------------------------------------------
+
+Cleanup script file is C:\\Users\\alber\\OneDrive - Danmarks Tekniske Universitet\\Documents\\CFD\\barotropy\\projects\\Simoneau_Hendricks_1979\\automate_simulations\\cleanup-fluent-CME-EL-ALBER1-26572.bat
+
+Posting ANSYS Product Improvement Program startup data
+Done.
+Fast-loading "C:\PROGRA~1\ANSYSI~1\v242\fluent\fluent24.2.0\\addons\afd\lib\hdfio.bin"
+Done.
+Note: Rank = 0: Process affinity not being set (6).
+Note: Rank = 1: Process affinity not being set (6).
+Note: Rank = 2: Process affinity not being set (6).
+Note: Rank = 3: Process affinity not being set (6).
+Note: Rank = 4: Process affinity not being set (6).
+Note: Rank = 5: Process affinity not being set (6).
+Note: Rank = 6: Process affinity not being set (6).
+Note: Rank = 7: Process affinity not being set (6).
+Note: Rank = 8: Process affinity not being set (6).
+Note: Rank = 9: Process affinity not being set (6).
+
+Reading from CME-EL-ALBER1:"C:/Users/alber/OneDrive - Danmarks Tekniske Universitet/Documents/CFD/barotropy/tutorials/../projects/Simoneau_Hendricks_1979/automate_simulations/template_simoneau_hendricks_1979.cas.h5" in NODE0 mode ...
+  Reading mesh ...
+       77319 cells,     1 cell zone  ...
+          77319 quadrilateral cells,  zone id: 17
+      155518 faces,     5 face zones ...
+         153758 2D interior faces,  zone id: 10
+             99 2D pressure-inlet faces,  zone id: 11
+             99 2D pressure-outlet faces,  zone id: 12
+            781 2D axis faces,  zone id: 13
+            781 2D wall faces,  zone id: 14
+       78200 nodes,     1 node zone  ...
+  Done.
+
+
+Building...
+     mesh
+	distributing mesh
+		parts..........,
+		faces..........,
+		nodes..........,
+		cells..........,
+        bandwidth reduction using Reverse Cuthill-McKee: 99/85 = 1.16471
+     materials,
+     interface,
+     domains,
+	mixture
+     zones,
+	wall
+	axis
+	outlet
+	inlet
+	int_solid
+	fld
+     parallel,
+Done.
+
+> (cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Solution|Methods"))
+(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Solution|Methods"))
+(cx-gui-do cx-activate-item "NavigationPane*Frame2*Table1*List_Tree2")
+(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Solution|Methods"))
+(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Solution|Run Calculation"))
+(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Solution|Run Calculation"))
+(cx-gui-do cx-activate-item "NavigationPane*Frame2*Table1*List_Tree2")
+(cx-gui-do cx-set-list-tree-selections "NavigationPane*Frame2*Table1*List_Tree2" (list "Solution|Run Calculation"))
+(cx-gui-do cx-set-expression-entry "Run Calculation*Table1*Table2(Pseudo Time Settings)*Table1(Fluid Time Scale)*Table3*ExpressionEntry2(Time Scale Factor)" '("0.05" . 0))
+(cx-gui-do cx-activate-item "Run Calculation*Table1*Table2(Pseudo Time Settings)*Table1(Fluid Time Scale)*Table3*ExpressionEntry2(Time Scale Factor)")
+(cx-gui-do cx-activate-item "MenuBar*WriteSubMenu*Case...")
+(cx-gui-do cx-set-file-dialog-entries "Select File" '( "template_simoneau_hendricks_1979.cas.h5") "CFF Case Files (*.cas.h5 )")
+(cx-gui-do cx-activate-item "Question*OK")
+
+Writing to CME-EL-ALBER1:"C:/Users/alber/OneDrive - Danmarks Tekniske Universitet/Documents/CFD/barotropy/projects/Simoneau_Hendricks_1979/automate_simulations/template_simoneau_hendricks_1979.cas.h5" in NODE0 mode and compression level 1 ...
+Grouping cells for Laplace smoothing ...
+       77319 cells,     1 zone  ...
+      155518 faces,     5 zones ...
+       78200 nodes,     1 zone  ...
+  Done.
+Done.
+/exit y
+
+Posting ANSYS Product Improvement Program performance data 
+Done.
+Auto-Transcript Stop Time:  11:17:16, 30 Oct 2024 Romance Standard Time 
+Total Transcript Time: 1 Minute 41 Second.
