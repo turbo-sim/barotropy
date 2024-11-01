@@ -21,7 +21,7 @@ The fluid properties between the saturation line and the spinodal line can be co
 
 ## Getting started
 
-The installation instructions ar edetailed in the next section. The script below contains a minimum working example to get started with the code:
+The installation instructions are detailed in the next section. The script below contains a minimum working example to get started with the code:
 
 ``` matlab
 %% Minimum working example showcasing the barotropic model
