@@ -48,7 +48,7 @@ This guide will walk you through the process of installing ``barotropy`` via ``p
 
 
 
-.. Congratulations! You have now successfully installed Turboflow in its own Conda virtual environment using pip. You're ready to start using Turboflow in your Python projects.
+Congratulations! You have now successfully installed barotropy in its own Conda virtual environment using pip. You're ready to start using the package for your Python projects.
 
 
 
@@ -100,18 +100,13 @@ This installation guide is intended for developers who wish to contribute to or 
 
       conda activate barotropy_env
 
-5. **Install Poetry to manage dependencies**:
-
-   .. code-block:: bash
-
-      conda install poetry
-
-   Poetry is a powerful dependency manager that offers separation of user and developer dependencies, ensuring that only the necessary packages are installed based on the user's intent. Additionally, it simplifies the process of adding, updating, and removing dependencies, making it easier to maintain the project's requirements.
-
-6. **Use Poetry to install the required dependencies for TurboFlow development**:
+   
+5. **Use Poetry to install the dependencies required for development**:
 
    .. code-block:: bash
 
       poetry install
+
+   Poetry is a powerful dependency manager that offers separation of user and developer dependencies, ensuring that only the necessary packages are installed based on the user's intent. Additionally, it simplifies the process of adding, updating, and removing dependencies, making it easier to maintain the project's requirements.
 
 
