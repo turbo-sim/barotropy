@@ -3,8 +3,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 import barotropy as bpy
+
+# Define plot settings
 bpy.print_package_info()
 bpy.set_plot_options()
+SAVE_FIGURES = True
+SHOW_FIGURES = True
 
 # Create folder to save results
 DIR_OUT = "./output"
@@ -16,10 +20,6 @@ case_table = pd.read_excel("./simulation_cases.xlsx")
 case_indices = case_table["index"]
 # case_indices = [1]
 case_table = case_table[case_table["index"].isin(case_indices)]
-
-# Define plot settings
-SAVE_FIGURES = True
-SHOW_FIGURES = True
 
 # Loop over cases
 for i, (idx, row) in enumerate(case_table.iterrows()):
