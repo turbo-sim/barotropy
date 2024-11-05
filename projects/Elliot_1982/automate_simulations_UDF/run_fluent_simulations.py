@@ -10,7 +10,7 @@ from barotropy import (
     create_fluent_journal,
     run_fluent_simulation,
     plot_residuals,
-    plot_nozzle_data,
+    plot_nozzle_xy_data,
 )
 
 # Import data about simulation cases
@@ -134,7 +134,7 @@ for _, row in case_data.iterrows():
     plot_residuals(template_map["transcript_file"], savefig=True, fullpath=filename_res)
 
     # Plot nozzle data
-    plot_nozzle_data(case_name, fig_dir, EXPORT_VARS.keys())
+    plot_nozzle_xy_data(case_name, fig_dir, EXPORT_VARS.keys())
 
     # Make a copy of the latest results in a folder with a simpler name
     results_backup_dir = os.path.join(case_path, "simulation_latest")
