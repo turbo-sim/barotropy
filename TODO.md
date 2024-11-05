@@ -1,6 +1,6 @@
 
 Add better polynomial fit (custom optimization?)
-Provide order of each polynomial as list / check number of elements is correct /prevent negative slope.
+Provide order of each polynomial as list / check number of elements is correct /prevent negative slope
 
 ## Software package
 - Translate the function for the two-component barotropic model
