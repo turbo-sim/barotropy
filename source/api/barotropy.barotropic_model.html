@@ -341,6 +341,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.PolynomialFitter"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.PolynomialFitter.evaluate_polynomial"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter.evaluate_polynomial()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.PolynomialFitter.fit_polynomials"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter.fit_polynomials()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.PolynomialFitter.plot_phase_diagram"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter.plot_phase_diagram()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.PolynomialFitter.plot_polynomial"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter.plot_polynomial()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.PolynomialFitter.plot_polynomial_and_error"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter.plot_polynomial_and_error()</span></code></a></li>
 </ul>
@@ -761,10 +762,13 @@ The type of calculation performed is selected automatically depending on the num
 <tr class="row-even"><td><p><a class="reference internal" href="#barotropy.barotropic_model.PolynomialFitter.fit_polynomials" title="barotropy.barotropic_model.PolynomialFitter.fit_polynomials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_polynomials</span></code></a>()</p></td>
 <td><p>Fits polynomials to the data obtained from the ODE solution based on the specified calculation type.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#barotropy.barotropic_model.PolynomialFitter.plot_polynomial" title="barotropy.barotropic_model.PolynomialFitter.plot_polynomial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_polynomial</span></code></a>(var[, p_eval, showfig, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#barotropy.barotropic_model.PolynomialFitter.plot_phase_diagram" title="barotropy.barotropic_model.PolynomialFitter.plot_phase_diagram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_phase_diagram</span></code></a>(fluid, var_x, var_y[, ...])</p></td>
+<td><p>Plots the barotropic process in the phase diagram of the specified fluid.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#barotropy.barotropic_model.PolynomialFitter.plot_polynomial" title="barotropy.barotropic_model.PolynomialFitter.plot_polynomial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_polynomial</span></code></a>(var[, p_eval, showfig, ...])</p></td>
 <td><p>Plots the polynomials for the specified variable.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#barotropy.barotropic_model.PolynomialFitter.plot_polynomial_and_error" title="barotropy.barotropic_model.PolynomialFitter.plot_polynomial_and_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_polynomial_and_error</span></code></a>(var[, showfig, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#barotropy.barotropic_model.PolynomialFitter.plot_polynomial_and_error" title="barotropy.barotropic_model.PolynomialFitter.plot_polynomial_and_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_polynomial_and_error</span></code></a>(var[, num_points, ...])</p></td>
 <td><p>Plots the barotropic polynomials and original data points from the ODE solution to illustrate the quality of the fit.</p></td>
 </tr>
 </tbody>
@@ -829,6 +833,41 @@ Given in Pascals (Pa).</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="barotropy.barotropic_model.PolynomialFitter.plot_phase_diagram">
+<span class="sig-name descname"><span class="pre">plot_phase_diagram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fluid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savefig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showfig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#PolynomialFitter.plot_phase_diagram"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.PolynomialFitter.plot_phase_diagram" title="Link to this definition">#</a></dt>
+<dd><p>Plots the barotropic process in the phase diagram of the specified fluid.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is applicable to single-component systems</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>fluid</strong><span class="classifier">Fluid</span></dt><dd><p>Fluid object used to plot the phase diagram.</p>
+</dd>
+<dt><strong>var_x</strong><span class="classifier">str</span></dt><dd><p>Variable for the x-axis (e.g., “s” for entropy).</p>
+</dd>
+<dt><strong>var_y</strong><span class="classifier">str</span></dt><dd><p>Variable for the y-axis (e.g., “T” for temperature).</p>
+</dd>
+<dt><strong>savefig</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, saves the figure to the specified directory. Default is True.</p>
+</dd>
+<dt><strong>showfig</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, displays the figure after plotting. Default is True.</p>
+</dd>
+<dt><strong>output_dir</strong><span class="classifier">str, optional</span></dt><dd><p>Directory where the plot will be saved if <cite>savefig</cite> is True. If not specified, 
+uses the default output directory of the class.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>fig</strong><span class="classifier">matplotlib.figure.Figure</span></dt><dd><p>The figure object containing the plotted phase diagram.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="barotropy.barotropic_model.PolynomialFitter.plot_polynomial">
 <span class="sig-name descname"><span class="pre">plot_polynomial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_eval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showfig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savefig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#PolynomialFitter.plot_polynomial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.PolynomialFitter.plot_polynomial" title="Link to this definition">#</a></dt>
 <dd><p>Plots the polynomials for the specified variable. If the pressure values for plotting are not provided, a suitable range is generated internally.</p>
@@ -858,13 +897,15 @@ Given in Pascals (Pa).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="barotropy.barotropic_model.PolynomialFitter.plot_polynomial_and_error">
-<span class="sig-name descname"><span class="pre">plot_polynomial_and_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showfig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savefig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#PolynomialFitter.plot_polynomial_and_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.PolynomialFitter.plot_polynomial_and_error" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plot_polynomial_and_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showfig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savefig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#PolynomialFitter.plot_polynomial_and_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.PolynomialFitter.plot_polynomial_and_error" title="Link to this definition">#</a></dt>
 <dd><p>Plots the barotropic polynomials and original data points from the ODE solution to illustrate
 the quality of the fit. Additionally, plots the relative error between the polynomial and the data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>var</strong><span class="classifier">str</span></dt><dd><p>The variable to plot (e.g., ‘density’, ‘viscosity’, etc.).</p>
+</dd>
+<dt><strong>num_points</strong><span class="classifier">int, optional</span></dt><dd><p>Number of plot points for each of the polynomial segments.</p>
 </dd>
 <dt><strong>showfig</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, displays the plot.</p>
 </dd>
@@ -1148,6 +1189,7 @@ Recommended solvers: <code class="docutils literal notranslate"><span class="pre
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.PolynomialFitter"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.PolynomialFitter.evaluate_polynomial"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter.evaluate_polynomial()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.PolynomialFitter.fit_polynomials"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter.fit_polynomials()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.PolynomialFitter.plot_phase_diagram"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter.plot_phase_diagram()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.PolynomialFitter.plot_polynomial"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter.plot_polynomial()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.PolynomialFitter.plot_polynomial_and_error"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter.plot_polynomial_and_error()</span></code></a></li>
 </ul>
