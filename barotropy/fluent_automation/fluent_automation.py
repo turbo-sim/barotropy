@@ -312,7 +312,7 @@ def plot_residuals(transcript_file, fig=None, ax=None, savefig=False, fullpath=N
 
     # If save flag is set and a path is provided, save the figure in multiple formats
     if savefig and fullpath:
-        for ext in [".png", ".svg", ".pdf"]:
+        for ext in [".png", ".svg", ".eps"]:
             fig.savefig(fullpath + ext, bbox_inches="tight")
 
     return fig, ax

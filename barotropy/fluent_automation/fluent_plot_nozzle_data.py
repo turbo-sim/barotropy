@@ -5,19 +5,18 @@ from .fluent_automation import parse_fluent_xy
 from ..utilities import savefig_in_formats
 
 
-def plot_nozzle_data(case_name, fig_dir, data_vars):
-    root_dir = os.path.dirname(fig_dir)
-    
+def plot_nozzle_xy_data(case_name, dir_xy, data_vars):
+
     # Parse all the requested files at the start
     parsed_data = {}
     for var in data_vars:
-        filepath = os.path.join(root_dir, f"{case_name}_{var}.xy")
+        filepath = os.path.join(dir_xy, f"{case_name}_{var}.xy")
         parsed_data[var] = parse_fluent_xy(filepath)
 
     # Define dictionary of variable/functions
     var_funcs = {
         "pressure": plot_pressure_distribution,
-        "velocity": plot_velocity_distribution,
+        "velocity-magnitude": plot_velocity_distribution,
         "density": plot_density_distribution,
         "speed_sound": plot_speed_sound_distribution,
         "viscosity": plot_viscosity_distribution,
@@ -27,17 +26,24 @@ def plot_nozzle_data(case_name, fig_dir, data_vars):
     }
 
     # Loop only over the functions whose keys are substrings in any of the keys of data_vars
+    figs = []
     for var_func_key in var_funcs:
         if any(var_func_key in data_var for data_var in data_vars):
             base_name = f"{case_name}_{var_func_key}"
             fig, _ = var_funcs[var_func_key](parsed_data)
-            savefig_in_formats(fig, os.path.join(fig_dir, base_name))
+            savefig_in_formats(fig, os.path.join(dir_xy, base_name))
+            figs.append(fig)
+            
+    return figs
 
 
 def plot_pressure_distribution(parsed_data):
     df = parsed_data.get("pressure")
     lines = []
-    add_line(lines, df, "wall", "Static Pressure")
+    # add_line(lines, df, "wall", "Static Pressure")
+    add_line(lines, df, "wall_conv", "Static Pressure")
+    add_line(lines, df, "wall_throat", "Static Pressure")
+    add_line(lines, df, "wall_dive", "Static Pressure")
     return generic_plot_distribution(
         lines,
         title="Pressure distribution", 
@@ -48,9 +54,12 @@ def plot_pressure_distribution(parsed_data):
     )
 
 def plot_velocity_distribution(parsed_data):
-    df = parsed_data.get("velocity")
+    df = parsed_data.get("velocity-magnitude")
     lines = []
-    add_line(lines, df, "axis", "Velocity Magnitude")
+    # add_line(lines, df, "axis", "Velocity Magnitude")
+    add_line(lines, df, "centerline_conv", "Velocity Magnitude")
+    add_line(lines, df, "centerline_throat", "Velocity Magnitude")
+    add_line(lines, df, "centerline_dive", "Velocity Magnitude")
     return generic_plot_distribution(
         lines,
         title="Velocity distribution", 
@@ -64,8 +73,11 @@ def plot_density_distribution(parsed_data):
     df1 = parsed_data.get("density")
     df2 = parsed_data.get("barotropic_density")
     lines = []
-    add_line(lines, df1, "wall", "Density", "Fluent data")
-    add_line(lines, df2, "wall", "barotropic_density", "Barotropic model", linestyle="--")
+    add_line(lines, df1, "wall_conv", "Density")
+    add_line(lines, df1, "wall_throat", "Density")
+    add_line(lines, df1, "wall_dive", "Density")
+    # add_line(lines, df1, "wall", "Density", "Fluent data")
+    # add_line(lines, df2, "wall", "barotropic_density", "Barotropic model", linestyle="--")
     return generic_plot_distribution(
         lines,
         title="Density distribution", 
@@ -173,7 +185,7 @@ def generic_plot_distribution(lines, fig=None, ax=None, title="", xlabel="", yla
         legend = line.get('legend', None)
         linestyle = line.get('linestyle', "-")
         
-        ax.plot(df[zone]["Position"] * scale_x, df[zone][data_key] * scale_y, linewidth=1.25, linestyle=linestyle, label=legend)
+        ax.plot(df[zone]["X-Coordinate"] * scale_x, df[zone][data_key] * scale_y, linewidth=1.25, linestyle=linestyle, label=legend)
     
     if len(lines) > 1:
         ax.legend()
