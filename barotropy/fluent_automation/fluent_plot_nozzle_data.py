@@ -85,7 +85,7 @@ def plot_viscosity_distribution(parsed_data):
         lines,
         title="Viscosity distribution", 
         xlabel="Axial position (mm)", 
-        ylabel="Viscosity ($\mathrm{\mu}$Pa s)", 
+        ylabel=r"Viscosity ($\mathrm{\mu}$Pa s)", 
         scale_x=1e3,
         scale_y=1e-6
     )

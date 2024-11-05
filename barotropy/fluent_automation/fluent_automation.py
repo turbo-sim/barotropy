@@ -289,11 +289,11 @@ def plot_residuals(transcript_file, fig=None, ax=None, savefig=False, fullpath=N
     # Define a mapping for the residual names to readable labels
     # TODO: extend to 3D and other turbulence models
     name_map = {
-        'continuity': '$p$ - continuity',
-        'x-velocity': '$v_x$ - momentum',
-        'y-velocity': '$v_y$ - momentum',
-        'k': '$k$ - turbulence',
-        'omega': '$\omega$ - turbulence'
+        'continuity': r'$p$ - continuity',
+        'x-velocity': r'$v_x$ - momentum',
+        'y-velocity': r'$v_y$ - momentum',
+        'k': r'$k$ - turbulence',
+        'omega': r'$\omega$ - turbulence'
     }
 
     # Plot residuals using the mapped labels

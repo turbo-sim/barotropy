@@ -17,6 +17,18 @@ COLORS_MATLAB = graphics.COLORS_MATLAB
 PROCESS_TYPES = ["polytropic", "adiabatic"]
 CALCULATION_TYPES = ["blending", "equilibrium", "metastable"]
 
+LABEL_MAPPING = {
+    "density": "Density (kg/m$^3$)",
+    "viscosity": "Viscosity (Pa·s)",
+    "speed_sound": "Speed of sound (m/s)",
+    "void_fraction": "Void fraction",
+    "vapor_quality": "Vapor quality",
+    "s": "Entropy (J/kg/K)\n",
+    "T": "Temperature (K)",
+    "h": "Enthalpy (J/kg)",
+    "rho": r"Density (kg/m$^3$)",
+}
+
 
 class BarotropicModel:
     """
@@ -93,7 +105,7 @@ class BarotropicModel:
 
     HEOS_tolerance : float, optional
         The tolerance for the HEOS solver.
-        
+
         .. note::
             Applicable only to the one-component model.
 
@@ -146,7 +158,7 @@ class BarotropicModel:
 
     polynomial_format : str, optional
         Type of polynomial representation (``horner`` or ``standard``).
-        
+
     polynomial_variables : list of str
         A list of variable names to fit polynomials to, such as 'density', 'viscosity', 'speed_sound', 'void_fraction', 'vapor_quality'.
 
@@ -279,7 +291,7 @@ class BarotropicModel:
         """
         Solves the equations for the one-component or two-component barotropic model and stores the fluid properties.
         The type of calculation performed is selected automatically depending on the number of fluid names defined when initializing the class.
-        
+
         See Also
         --------
         barotropic_model_one_component :
@@ -486,7 +498,7 @@ def barotropic_model_one_component(
 
     HEOS_max_iter : int, optional
         The maximum number of iterations for the HEOS solver.
-        
+
     HEOS_print_convergence : bool, optional
         If True, prints convergence information for the HEOS solver.
 
@@ -544,7 +556,7 @@ def barotropic_model_one_component(
             "Recommended solvers: 'BDF', 'LSODA' or 'Radau' stiff problems involving equilibrium property calculations or blending calculations with a narrow blending width. 'RK45' can be used for non-stiff problems with a wide blending width."
         )
         raise ValueError(error_message)
-    
+
     # Initialize fluid and compute inlet state
     fluid = props.Fluid(name=fluid_name, backend="HEOS", exceptions=True)
     state_in = fluid.get_state(
@@ -867,13 +879,6 @@ class PolynomialFitter:
         self.p_out = self.states["p"][-1]
         self.p_in_scaled = self.p_in / self.p_in
         self.p_out_scaled = self.p_out / self.p_in
-        self.plot_labels = {
-            "density": "Density (kg/m$^3$)",
-            "viscosity": "Viscosity (Pa·s)",
-            "speed_sound": "Speed of sound (m/s)",
-            "void_fraction": "Void fraction",
-            "vapor_quality": "Vapor quality",
-        }
 
     def fit_polynomials(self):
         """
@@ -986,7 +991,7 @@ class PolynomialFitter:
 
             # Fit polynomial for Region 2 (0 <= x <= 1)
             # TODO Hardcoded degree 4 to prevent numerical noise
-            weight = 1 + 10*np.array(self.states["x"])[mask_region_2]
+            weight = 1 + 10 * np.array(self.states["x"])[mask_region_2]
             weight = None
             y_2 = np.array(self.states[var])[mask_region_2]
             p_2 = p[mask_region_2]
@@ -1146,7 +1151,7 @@ class PolynomialFitter:
 
         # Set axis labels
         ax.set_xlabel("Pressure (Pa)")
-        ax.set_ylabel(self.plot_labels.get(var, var))
+        ax.set_ylabel(LABEL_MAPPING.get(var, var))
 
         # Plot specified values or segments between breakpoints
         if p_eval is not None:
@@ -1196,7 +1201,7 @@ class PolynomialFitter:
 
     @_ensure_data_available
     def plot_polynomial_and_error(
-        self, var, showfig=True, savefig=False, output_dir=None
+        self, var, num_points=500, showfig=True, savefig=False, output_dir=None
     ):
         r"""
         Plots the barotropic polynomials and original data points from the ODE solution to illustrate
@@ -1206,6 +1211,9 @@ class PolynomialFitter:
         ----------
         var : str
             The variable to plot (e.g., 'density', 'viscosity', etc.).
+
+        num_points : int, optional
+            Number of plot points for each of the polynomial segments.
 
         showfig : bool, optional
             If True, displays the plot.
@@ -1231,29 +1239,40 @@ class PolynomialFitter:
 
         # Mapping variable names to axis labels (variable name if not found)
         x_label = "Pressure (Pa)"
-        y_label = self.plot_labels.get(var, var)
+        y_label = LABEL_MAPPING.get(var, var)
 
-        # Generate pressure values and evaluate the variable
-        pressures = self.states["p"]
-        prop_poly = self.evaluate_polynomial(pressures, var)
+        # Generate pressure values for the state points and calculate relative error
+        p_states = self.states["p"]
         prop_states = self.states[var]
-
-        # Compute the relative error
-        relative_error = 100 * (prop_poly - prop_states) / np.abs(prop_states)
-
-        # Plot the variable from polynomials and states in the upper subplot
-        # TODO Delete? print(var, prop_poly)
-        ax1.plot(
-            pressures,
-            prop_poly,
-            label=f"Polynomial fit",
-            linestyle="-",
-            color=COLORS_MATLAB[1],
+        relative_error = (
+            100 * (self.evaluate_polynomial(p_states, var) - prop_states) / np.abs(prop_states)
         )
+
+        # Plot polynomial and data segments for each breakpoint
+        extrap_lower = [0.8 * self.poly_breakpoints[-1]]
+        extrap_upper = [1.2 * self.poly_breakpoints[0]]
+        breakpoints = extrap_upper + self.poly_breakpoints + extrap_lower
+
+        for i in range(len(breakpoints) - 1):
+            # Define segment range between breakpoints
+            bp1, bp2 = breakpoints[i], breakpoints[i + 1]
+            p_segment = np.linspace(bp1, bp2, num_points) * self.p_in
+
+            # Evaluate polynomial on segment
+            prop_poly_segment = self.evaluate_polynomial(p_segment, var)
+            ax1.plot(
+                p_segment,
+                prop_poly_segment,
+                linestyle="-",
+                # marker="+",
+                color=COLORS_MATLAB[1],
+            )
+
+        # Plot original data points
         ax1.plot(
-            pressures,
+            p_states,
             prop_states,
-            label=f"Original values",
+            label="Original values",
             marker="o",
             markersize=2.5,
             linestyle="none",
@@ -1262,14 +1281,15 @@ class PolynomialFitter:
         ax1.set_ylabel(y_label)
         ax1.legend(loc="lower right")
 
-        # Plot the relative error in the lower subplot
+        # Plot relative error
         ax2.plot(
-            pressures,
+            p_states,
             relative_error,
             label="Relative Error",
             linestyle="-",
+            marker="o",
             markersize=2.5,
-            color=COLORS_MATLAB[1],
+            color=COLORS_MATLAB[0],
         )
         ax2.set_xlabel(x_label)
         ax2.set_ylabel("Relative error (%)")
@@ -1277,6 +1297,85 @@ class PolynomialFitter:
 
         if savefig:
             file_path = os.path.join(output_dir, f"barotropic_model_error_{var}")
+            graphics.savefig_in_formats(fig, file_path)
+
+        if not showfig:
+            plt.close(fig)
+
+        return fig
+
+    @_ensure_data_available
+    def plot_phase_diagram(self, fluid, var_x, var_y, savefig=True, showfig=True, output_dir=None):
+        """
+        Plots the barotropic process in the phase diagram of the specified fluid.
+
+        .. note::
+            This function is applicable to single-component systems
+
+        Parameters
+        ----------
+        fluid : Fluid
+            Fluid object used to plot the phase diagram.
+        var_x : str
+            Variable for the x-axis (e.g., "s" for entropy).
+        var_y : str
+            Variable for the y-axis (e.g., "T" for temperature).
+        savefig : bool, optional
+            If True, saves the figure to the specified directory. Default is True.
+        showfig : bool, optional
+            If True, displays the figure after plotting. Default is True.
+        output_dir : str, optional
+            Directory where the plot will be saved if `savefig` is True. If not specified, 
+            uses the default output directory of the class.
+
+        Returns
+        -------
+        fig : matplotlib.figure.Figure
+            The figure object containing the plotted phase diagram.
+
+
+        """
+        # If output_dir is not given, set it to the default directory
+        output_dir = output_dir or self.output_dir_default
+        if not os.path.isdir(output_dir):
+            os.makedirs(output_dir)
+
+        # Create a figure and axis
+        fig, ax = plt.subplots(figsize=(6.0, 5.0))
+        fig.suptitle(
+            f"Barotropic process for {fluid.name}",
+            fontsize=14,
+            y=0.95,  # Adjust this value to control the distance
+        )
+
+        # Apply the mapping if it exists; otherwise, use the variable name
+        ax.set_xlabel(LABEL_MAPPING.get(var_x, var_x))
+        ax.set_ylabel(LABEL_MAPPING.get(var_y, var_y))
+
+        # Plot phase diagram for the first subplot
+        ax = fluid.plot_phase_diagram(
+            var_x,
+            var_y,
+            axes=ax,
+            plot_critical_point=True,
+            plot_saturation_line=True,
+            plot_spinodal_line=True,
+            plot_quality_isolines=True,
+            N=50,
+        )
+
+        # Plot the calculated states on the first subplot
+        ax.plot(
+            self.states[var_x],
+            self.states[var_y],
+            color=graphics.COLORS_MATLAB[0],
+            linewidth=1.25,
+        )
+
+        plt.tight_layout(pad=1)
+
+        if savefig:
+            file_path = os.path.join(output_dir, f"barotropic_process_{fluid.name}")
             graphics.savefig_in_formats(fig, file_path)
 
         if not showfig:

@@ -6,7 +6,6 @@ import ansys.fluent.core as pyfluent
 import datetime
 import time
 
-
 import barotropy as bpy
 
 bpy.print_package_info()
@@ -26,10 +25,11 @@ SHOW_FIG = False
 SAVE_FIG = True
 
 # Fluent Parameters
-N_ITER = 100  # Number of iterations
-SHOW_GRAPHICS = "no_gui_or_graphics"  # Show fluent gui
-PROCESSORS_NUMBER = 24  # Number of processors for fluent
-FLUENT_FILE = "template_simoneau_hendricks_1979.cas.h5"
+N_ITER = 30  # Number of iterations
+SHOW_GRAPHICS = True  # Show fluent gui
+PROCESSORS_NUMBER = 2  # Number of processors for fluent
+FLUENT_FILE = "simoneau_hendricks_1979.cas.h5"
+EXCEL_DATAFILE = "cases_summary.xlsx"  # Case summary file
 PLOT_REALTIME_RESIDUALS = False  # plot the residuals in real time in a python figure
 
 # Residual
@@ -41,29 +41,33 @@ RES_OMEGA = 1e-7
 TIME_SCALE_FACTOR = 0.05
 
 # Relaxation factors
-RELF_DENSITY = 1e-12
+RELF_DENSITY = 0.01
 RELF_K = 0.75
 RELF_OMEGA = 0.75
 RELF_BODYFORCE = 1.0
 RELF_TURB_VISCOSITY = 1.0
 
-# Case summary file
-EXCEL_DATAFILE = "cases_summary.xlsx"
+
 ###################################################################################################################
 
 # Read Case Summary
 data = pd.read_excel(EXCEL_DATAFILE)
 case_data = data[data["Case"].isin(CASES)]
 
-
 # Opening Fluent
 solver = pyfluent.launch_fluent(
-    ui_mode=SHOW_GRAPHICS,  # to launch also the gui
-    precision="double",
+    product_version=pyfluent.FluentVersion.v242,
+    mode=pyfluent.FluentMode.SOLVER,
+    ui_mode=pyfluent.UIMode.HIDDEN_GUI,
+    dimension=pyfluent.Dimension.TWO,
+    precision=pyfluent.Precision.DOUBLE,
     processor_count=PROCESSORS_NUMBER,
-    dimension=2,
 )
 
+
+# Retrieve the Fluent version
+fluent_version = solver.get_fluent_version()
+print(f"Current Fluent version: {fluent_version}")
 
 for i, row in case_data.iterrows():
 
@@ -71,7 +75,7 @@ for i, row in case_data.iterrows():
     cas = row["Case"]
 
     print("\n")
-    print(f"    Case {cas}      ")
+    print(f"    Creating barotropic model for case {cas}")
     print("\n")
 
     # Create case folder
@@ -79,8 +83,9 @@ for i, row in case_data.iterrows():
     if not os.path.isdir(dir_out):
         os.makedirs(dir_out)
 
-    #####   Barotropic Model    #####
-
+    # ------------------------------ #
+    # ------ Barotropic Model ------ #
+    # ------------------------------ #
     # Create Barotropic Model Subfolder
     dir_barotropic = os.path.join(dir_out, f"barotropic_model")
     if not os.path.isdir(dir_barotropic):
@@ -89,17 +94,9 @@ for i, row in case_data.iterrows():
     # Create fluid object
     fluid_name = row["fluidname"]
     fluid = bpy.Fluid(name=fluid_name, backend="HEOS")
-
-    # Define case parameters
-    dT_subcooling = 10
-
-    # total preessure in Pa
-    p_in = row["P_0_in"]
-    # Static pressure in Pa
-    p_out = row["P_out"]
-    # Total temperature in K
-    T_in = row["T_0_in"]
-
+    p_in = row["P_0_in"]  # total preessure in Pa
+    p_out = row["P_out"]  # Static pressure in Pa
+    T_in = row["T_0_in"]  # Total temperature in K
     polytropic_efficiency = row["polytropic_efficiency"]
     calculation_type = row["calculation_type"]
     q_onset = row["q_onset"]
@@ -110,7 +107,7 @@ for i, row in case_data.iterrows():
         fluid_name=fluid_name,
         T_in=T_in,
         p_in=p_in,
-        p_out=p_out / 2,
+        p_out=fluid.triple_point_liquid.p,  # Use triple pressure as minimum pressure
         efficiency=polytropic_efficiency,
         calculation_type=calculation_type,
         blending_onset=q_onset,
@@ -129,70 +126,17 @@ for i, row in case_data.iterrows():
     model.fit_polynomials()
     model.export_expressions_fluent(output_dir=dir_barotropic)
     model.export_expressions_cfx(output_dir=dir_barotropic)
+    model.poly_fitter.plot_phase_diagram(
+        fluid=fluid, var_x="s", var_y="T", savefig=SAVE_FIG, showfig=SHOW_FIG
+    )
     for var in model.poly_fitter.variables:
         model.poly_fitter.plot_polynomial_and_error(
             var=var, savefig=SAVE_FIG, showfig=SHOW_FIG
         )
 
-    # Plot phase diagram
-    var_x = "s"
-    var_y = "T"
-    fig, (ax_1, ax_2) = plt.subplots(
-        1, 2, figsize=(12.0, 5.0), gridspec_kw={"wspace": 0.25}
-    )
-    fig.suptitle(f"Barotropic model for expansion of {fluid_name}", fontsize=14)
-    ax_1.set_xlabel("Entropy (J/kg/K)\n")
-    ax_1.set_ylabel("Temperature (K)")
-    ax_2.set_xlabel("Pressure (Pa)\n")
-    ax_2.set_ylabel("Density (kg/m$^3$)")
-    ax_1 = fluid.plot_phase_diagram(
-        var_x,
-        var_y,
-        axes=ax_1,
-        plot_critical_point=True,
-        plot_saturation_line=True,
-        plot_spinodal_line=True,
-        plot_quality_isolines=True,
-        N=50,
-    )
-
-    ax_1.plot(
-        model.states[var_x],
-        model.states[var_y],
-        color=bpy.COLORS_MATLAB[0],
-        linewidth=1.25,
-    )
-
-    ax_2.plot(
-        model.states["p"],
-        model.states["density"],
-        linewidth=1.25,
-        marker="none",
-        markersize=3,
-        linestyle="-",
-        color=bpy.COLORS_MATLAB[0],
-        label="Calculated data",
-    )
-
-    p = np.linspace(p_out, p_in, 1000)
-
-    ax_2.plot(
-        p,
-        model.poly_fitter.evaluate_polynomial(p, "density"),
-        linewidth=1.25,
-        marker="none",
-        markersize=3,
-        linestyle="-.",
-        color=bpy.COLORS_MATLAB[1],
-        label="Polynomial fit",
-    )
-
-    ax_2.legend(loc="lower right")
-
-    # Save figure
-    plt.savefig(os.path.join(dir_barotropic, "barotropic_model_expansion.png"))
-
-    #####   Fluent Simulation   #####
+    # ------------------------------- #
+    # ------ Fluent Simulation ------ #
+    # ------------------------------- #
 
     # Create Simulation Subfolder
     current_datetime = datetime.datetime.now()
@@ -203,7 +147,7 @@ for i, row in case_data.iterrows():
         os.makedirs(dir_simulation)
 
     print("\n")
-    print(f"    Simulating Case {cas}")
+    print(f"    Running Fluent simulations for case {cas}")
     print("\n")
 
     transcript_file = os.path.join(
@@ -215,6 +159,8 @@ for i, row in case_data.iterrows():
         bpy.plot_residuals_real_time(transcript_file)
 
     # Upload the case file
+    # TODO: @Alberto: 01.11.2024 it seems that Fluent is changing the .cas file when the commands are being applied
+    # TODO: I suggest to create a copy of the file in the folder corresponding to the current simulation case so that the commands are applied to the copy of the file
     solver.file.read_case(file_name=FLUENT_FILE)
 
     #  Inlet condition
