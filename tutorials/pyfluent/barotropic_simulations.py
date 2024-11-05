@@ -64,7 +64,7 @@ solver = pyfluent.launch_fluent(
     dimension=2,
 )
 
-
+# 
 for i, row in case_data.iterrows():
 
     # Case number simulated
