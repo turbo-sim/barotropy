@@ -39,7 +39,7 @@ for i, (idx, row) in enumerate(case_table.iterrows()):
     print()
     color = "black" if i == 0 else colors[i - 1]
     print(row["tag"])
-    dir_out = os.path.join(DIR_OUT, row["tag"])
+    dir_out_current = os.path.join(DIR_OUT, row["tag"])
 
     # Create barotropic model object
     fluid_name = row["fluid_name"]
@@ -60,7 +60,7 @@ for i, (idx, row) in enumerate(case_table.iterrows()):
         ODE_tolerance=1e-9,
         polynomial_degree=8,
         polynomial_format="horner",
-        output_dir=dir_out,
+        output_dir=dir_out_current,
     )
 
     # Evaluate barotropic model and export polynomial expressions
@@ -116,6 +116,13 @@ for i, (idx, row) in enumerate(case_table.iterrows()):
         linewidth=1.25,
         label=rf"$q_\text{{onset}}={row['q_onset']:0.2f}$, {row['calculation_type']}",
     )
+
+
+    model.poly_fitter.plot_phase_diagram(
+        fluid=fluid,
+        var_x="s",
+        var_y="T",
+        output_dir=dir_out_current)
 
 # Show figure
 plt.show()
