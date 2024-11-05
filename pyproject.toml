@@ -9,18 +9,18 @@ repository = "https://github.com/turbo-sim/barotropy"
 documentation = "https://turbo-sim.github.io/barotropy/"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.12"
 numpy = "^1.26.4"
-scipy = "^1.13.1"
+scipy = "^1.14.1"
 matplotlib = "^3.9.2"
-pandas = "^1.5.3"
+pandas = "^2.2.3"
 openpyxl = "^3.1.2"
 CoolProp = "^6.6.0"
 PyYAML = "^6.0.1"
 toml = "^0.10.2"
 cycler = "^0.12.1"
 parse = "^1.20.2"
-ansys-fluent-core = "^0.20.1"
+ansys-fluent-core = "^0.26.1"
 
 [tool.poetry.group.dev.dependencies]
 ipython = "^8.24.0"
