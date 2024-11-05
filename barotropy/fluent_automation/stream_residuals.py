@@ -22,11 +22,11 @@ def _plot_residuals_real_time(filename, frequency=0.5):
         time.sleep(1)  # Adjust the delay time as needed
 
     # Residual name mapping
-    name_map = {'continuity': '$p$ - continuity',
-                'x-velocity': '$v_x$ - momentum',
-                'y-velocity': '$v_y$ - momentum',
-                'k': '$k$ - turbulence',
-                'omega': '$\omega$ - turbulence'}
+    name_map = {'continuity': r'$p$ - continuity',
+                'x-velocity': r'$v_x$ - momentum',
+                'y-velocity': r'$v_y$ - momentum',
+                'k': r'$k$ - turbulence',
+                'omega': r'$\omega$ - turbulence'}
     
     # Create the figure and initialize lines for each residual
     fig, ax = plt.subplots()
