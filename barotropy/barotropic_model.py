@@ -947,11 +947,11 @@ class PolynomialFitter:
                 poly_2p = Polynomial.fit(p_2p, y_2p, deg=self.degree).convert()
 
                 # # Ensure continuity by adjusting the first coefficient
-                # y_1p_breakpoint = poly_1p(p_transition)
-                # y_2p_breakpoint = poly_2p(p_transition)
-                # coeffs_2p = poly_2p.coef
-                # coeffs_2p[0] -= y_2p_breakpoint - y_1p_breakpoint
-                # poly_2p = Polynomial(coeffs_2p)
+                y_1p_breakpoint = poly_1p(p_transition)
+                y_2p_breakpoint = poly_2p(p_transition)
+                coeffs_2p = poly_2p.coef
+                coeffs_2p[0] -= y_2p_breakpoint - y_1p_breakpoint
+                poly_2p = Polynomial(coeffs_2p)
                 self.poly_handles[var].append(poly_2p)
                 
 
