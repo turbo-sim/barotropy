@@ -81,7 +81,7 @@ def compute_properties_1phase(
 
     # Calculate departure from saturation properties
     if supersaturation:
-        calculate_supersaturation(AS, props)
+        props = calculate_supersaturation(AS, props)
         props["subcooling"] = calculate_subcooling(AS)
         props["superheating"] = calculate_superheating(AS)
 
@@ -201,7 +201,7 @@ def compute_properties_2phase(abstract_state, supersaturation=False):
     if supersaturation:
         props["subcooling"] = calculate_subcooling(AS)
         props["superheating"] = calculate_superheating(AS)
-        calculate_supersaturation(AS, props)
+        props = calculate_supersaturation(AS, props)
 
     # Add properties as aliases
     for key, value in PROPERTY_ALIAS.items():
@@ -371,7 +371,7 @@ def compute_properties_metastable_rhoT(
     props["conductivity"] = AS.conductivity()
 
     if supersaturation:
-        calculate_supersaturation(AS, props)
+        props = calculate_supersaturation(AS, props)
 
     # Generalized quality outside the two-phase region
     if generalize_quality:
@@ -517,7 +517,8 @@ def compute_properties_coolprop(
     abstract_state.update(input_type, prop_1, prop_2)
 
     # Retrieve single-phase properties
-    if abstract_state.phase() != CP.iphase_twophase:
+    is_two_phase = abstract_state.phase() == CP.iphase_twophase
+    if not is_two_phase:
         properties = compute_properties_1phase(
             abstract_state,
             generalize_quality=generalize_quality,
@@ -529,7 +530,8 @@ def compute_properties_coolprop(
             supersaturation=supersaturation,
         )
 
-    # Properties
+    # Define flag to check if state is within the two-phase region
+    properties["is_two_phase"] = is_two_phase
     return properties
 
 
@@ -1245,6 +1247,8 @@ def calculate_supersaturation(abstract_state, props):
     else:
         props["T_saturation"] = np.nan
         props["supersaturation_degree"] = np.nan
+
+    return props
 
 
 # ------------------------------------------------------------------------------------ #
