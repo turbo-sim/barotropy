@@ -584,14 +584,35 @@ def barotropic_model_one_component(
 
         # Do calculations according to specified type
         if calculation_type == "equilibrium":
-            # Compute equilibrium state using CoolProp solver
-            state_eq = fluid.get_state(
-                input_type=props.HmassP_INPUTS,
-                prop_1=h,
-                prop_2=p,
-                generalize_quality=True,
-                supersaturation=True,
-            )
+            
+            # Compute equilibrium thermodynamic state
+            try:  # Compute equilibrium state using CoolProp solver
+                state_eq = fluid.get_state(
+                    input_type=props.HmassP_INPUTS,
+                    prop_1=h,
+                    prop_2=p,
+                    generalize_quality=True,
+                    supersaturation=True,
+                )
+
+            except:  # Compute metastable state using custom solver
+                print("Warning: CoolProp solver failed, switching to custom solver...")
+                state_eq = fluid.get_state_equilibrium(
+                    prop_1="h",
+                    prop_1_value=h,
+                    prop_2="p",
+                    prop_2_value=p,
+                    rhoT_guess=rhoT_guess_metastable,
+                    generalize_quality=True,
+                    supersaturation=True,
+                    solver_algorithm=HEOS_solver,
+                    solver_tolerance=HEOS_tolerance,
+                    solver_max_iterations=HEOS_max_iter,
+                    print_convergence=HEOS_print_convergence,
+                )
+
+            # Update guess for the next integration step
+            rhoT_guess_metastable = [state_eq.rho, state_eq.T]
             dhdp = np.atleast_1d(efficiency / state_eq["rho"])
             return dhdp, state_eq
 
@@ -947,11 +968,11 @@ class PolynomialFitter:
                 poly_2p = Polynomial.fit(p_2p, y_2p, deg=self.degree).convert()
 
                 # # Ensure continuity by adjusting the first coefficient
-                y_1p_breakpoint = poly_1p(p_transition)
-                y_2p_breakpoint = poly_2p(p_transition)
-                coeffs_2p = poly_2p.coef
-                coeffs_2p[0] -= y_2p_breakpoint - y_1p_breakpoint
-                poly_2p = Polynomial(coeffs_2p)
+                # y_1p_breakpoint = poly_1p(p_transition)
+                # y_2p_breakpoint = poly_2p(p_transition)
+                # coeffs_2p = poly_2p.coef
+                # coeffs_2p[0] -= y_2p_breakpoint - y_1p_breakpoint
+                # poly_2p = Polynomial(coeffs_2p)
                 self.poly_handles[var].append(poly_2p)
                 
 
@@ -1216,7 +1237,7 @@ class PolynomialFitter:
 
     @_ensure_data_available
     def plot_polynomial_and_error(
-        self, var, num_points=2000, showfig=True, savefig=False, output_dir=None
+        self, var, num_points=500, showfig=True, savefig=False, output_dir=None
     ):
         r"""
         Plots the barotropic polynomials and original data points from the ODE solution to illustrate
