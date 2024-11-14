@@ -359,6 +359,9 @@ class BarotropicModel:
         )
         self.poly_fitter.fit_polynomials()
 
+
+
+
         # Automatically initialize the ExpressionExporter
         self.exporter = ExpressionExporter(
             poly_fitter=self.poly_fitter,
@@ -915,9 +918,11 @@ class PolynomialFitter:
         p_scaled = self.states["p"] / self.p_in
 
         # Determine points within the two-phase region
-        eps = 1e-9
-        mask_1phase = np.abs(self.states["supersaturation_degree"]) > eps
-        mask_2phase = np.abs(self.states["supersaturation_degree"]) <= eps
+        # eps = 1e-9
+        # mask_1phase = np.abs(self.states["supersaturation_degree"]) > eps
+        # mask_2phase = np.abs(self.states["supersaturation_degree"]) <= eps
+        mask_1phase = ~self.states["is_two_phase"]
+        mask_2phase = self.states["is_two_phase"]
 
         # Determine the phase change pressure if it exists and the breakpoints for the different polynomial segments
         if mask_2phase.any():
@@ -948,6 +953,7 @@ class PolynomialFitter:
                 # coeffs_2p[0] -= y_2p_breakpoint - y_1p_breakpoint
                 # poly_2p = Polynomial(coeffs_2p)
                 self.poly_handles[var].append(poly_2p)
+                
 
     def _fit_blending(self):
         """
@@ -1076,13 +1082,16 @@ class PolynomialFitter:
         # The argument to the polynomials in self.poly_handles() should be normalized pressures (not physical pressures)
         # The values in self.poly_breakpoints are normalized pressures (not physical pressures)
 
-        # Convert input to array if not already
+        # Convert input to array and scale
         p = np.atleast_1d(p)
-        var_values = np.zeros_like(p, dtype=float)
-
-        # Define scaled pressures for internal calculations
         p_scaled = p / self.p_in
+
+        # Reverse order of breakpoints if pressure is ascending (compression vs expansion)
         bps = np.array(self.poly_breakpoints)
+        bps = bps[::-1] if self.p_in < self.p_out else bps
+
+        # Loop over polynomial segments
+        var_values = np.zeros_like(p, dtype=float)
         if variable in self.poly_handles.keys():
             for i, poly in enumerate(self.poly_handles.get(variable, [])):
                 mask = (p_scaled <= bps[i]) & (p_scaled > bps[i + 1])
@@ -1092,21 +1101,23 @@ class PolynomialFitter:
             raise ValueError(f"No polynomials found for variable '{variable}'")
 
         # Safeguard for pressures lower than the lowest breakpoint (exponential decay)
-        mask_lower = p_scaled <= self.p_out_scaled
+        p_min_scaled = min(self.p_in_scaled, self.p_out_scaled)
+        mask_lower = p_scaled <= p_min_scaled
         if np.any(mask_lower):
             poly_last = self.poly_handles[variable][-1]
-            a1 = poly_last(self.p_out_scaled)
-            a2 = a1 / poly_last.deriv(m=1)(self.p_out_scaled)
-            exp_values = a1 * np.exp((p_scaled[mask_lower] - self.p_out_scaled) / a2)
+            a1 = poly_last(p_min_scaled)
+            a2 = a1 / poly_last.deriv(m=1)(p_min_scaled)
+            exp_values = a1 * np.exp((p_scaled[mask_lower] - p_min_scaled) / a2)
             var_values[mask_lower] = exp_values
 
         # Safeguard for pressures higher than the highest breakpoint (linear extrapolation)
-        mask_upper = p_scaled > self.p_in_scaled
+        p_max_scaled = max(self.p_in_scaled, self.p_out_scaled)
+        mask_upper = p_scaled > p_max_scaled 
         if np.any(mask_upper):
             poly_first = self.poly_handles[variable][0]
-            b1 = poly_first(self.p_in_scaled)
-            b2 = poly_first.deriv(m=1)(self.p_in_scaled)
-            extrap = b1 + b2 * (p_scaled[mask_upper] - self.p_in_scaled)
+            b1 = poly_first(p_max_scaled )
+            b2 = poly_first.deriv(m=1)(p_max_scaled )
+            extrap = b1 + b2 * (p_scaled[mask_upper] - p_max_scaled)
             var_values[mask_upper] = extrap
 
         return var_values
@@ -1162,10 +1173,14 @@ class PolynomialFitter:
 
         else:
 
+            # Reverse order of breakpoints if pressure is ascending (compression vs expansion)
+            bps = np.array(self.poly_breakpoints)
+            bps = bps[::-1] if self.p_in < self.p_out else bps
+
+            # Concatenate to form the complete list of breakpoints
+            breakpoints = [0.8 * bps[0]] + self.poly_breakpoints + [1.2 * bps[-1]]
+
             # Iterate over the breakpoints and plot the segments
-            extrap_lower = [0.8 * self.poly_breakpoints[-1]]
-            extrap_upper = [1.2 * self.poly_breakpoints[0]]
-            breakpoints = extrap_upper + self.poly_breakpoints + extrap_lower
             for i in range(len(breakpoints) - 1):
 
                 # Generate segments between breakpoints
