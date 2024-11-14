@@ -1216,7 +1216,7 @@ class PolynomialFitter:
 
     @_ensure_data_available
     def plot_polynomial_and_error(
-        self, var, num_points=500, showfig=True, savefig=False, output_dir=None
+        self, var, num_points=2000, showfig=True, savefig=False, output_dir=None
     ):
         r"""
         Plots the barotropic polynomials and original data points from the ODE solution to illustrate
