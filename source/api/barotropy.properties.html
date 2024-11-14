@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Fluid properties &#8212; barotropy v0.0.5 documentation</title>
+    <title>Fluid properties &#8212; barotropy v0.0.6 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
-    <script src="../../_static/documentation_options.js?v=113287e0"></script>
+    <script src="../../_static/documentation_options.js?v=06460786"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>let toggleHintShow = 'Click to show';</script>
@@ -135,7 +135,7 @@
   
   
   
-    <p class="title logo__title">barotropy v0.0.5 documentation</p>
+    <p class="title logo__title">barotropy v0.0.6 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -496,7 +496,7 @@ the original exception is re-raised.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="barotropy.properties.fluid_properties.Fluid.get_state_blending">
-<span class="sig-name descname"><span class="pre">get_state_blending</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prop_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prop_1_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prop_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prop_2_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rhoT_guess_equilibrium</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rhoT_guess_metastable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blending_variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blending_onset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blending_width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_phase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supersaturation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">generalize_quality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'hybr'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_max_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_convergence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/properties/fluid_properties.html#Fluid.get_state_blending"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.properties.fluid_properties.Fluid.get_state_blending" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_state_blending</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prop_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prop_1_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prop_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prop_2_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rhoT_guess_equilibrium</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rhoT_guess_metastable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blending_variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blending_onset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blending_width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase_change</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supersaturation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">generalize_quality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'hybr'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_max_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_convergence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/properties/fluid_properties.html#Fluid.get_state_blending"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.properties.fluid_properties.Fluid.get_state_blending" title="Link to this definition">#</a></dt>
 <dd><p>Calculate fluid properties by blending equilibrium and metastable properties</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
