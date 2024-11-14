@@ -1251,11 +1251,11 @@
                 <span class="n">poly_2p</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">p_2p</span><span class="p">,</span> <span class="n">y_2p</span><span class="p">,</span> <span class="n">deg</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">()</span>
 
                 <span class="c1"># # Ensure continuity by adjusting the first coefficient</span>
-                <span class="c1"># y_1p_breakpoint = poly_1p(p_transition)</span>
-                <span class="c1"># y_2p_breakpoint = poly_2p(p_transition)</span>
-                <span class="c1"># coeffs_2p = poly_2p.coef</span>
-                <span class="c1"># coeffs_2p[0] -= y_2p_breakpoint - y_1p_breakpoint</span>
-                <span class="c1"># poly_2p = Polynomial(coeffs_2p)</span>
+                <span class="n">y_1p_breakpoint</span> <span class="o">=</span> <span class="n">poly_1p</span><span class="p">(</span><span class="n">p_transition</span><span class="p">)</span>
+                <span class="n">y_2p_breakpoint</span> <span class="o">=</span> <span class="n">poly_2p</span><span class="p">(</span><span class="n">p_transition</span><span class="p">)</span>
+                <span class="n">coeffs_2p</span> <span class="o">=</span> <span class="n">poly_2p</span><span class="o">.</span><span class="n">coef</span>
+                <span class="n">coeffs_2p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="n">y_2p_breakpoint</span> <span class="o">-</span> <span class="n">y_1p_breakpoint</span>
+                <span class="n">poly_2p</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="p">(</span><span class="n">coeffs_2p</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">poly_handles</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">poly_2p</span><span class="p">)</span>
                 
 
@@ -1528,7 +1528,7 @@
 <a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.PolynomialFitter.plot_polynomial_and_error">[docs]</a>
     <span class="nd">@_ensure_data_available</span>
     <span class="k">def</span> <span class="nf">plot_polynomial_and_error</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">num_points</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">showfig</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">savefig</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="kc">None</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">num_points</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">showfig</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">savefig</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Plots the barotropic polynomials and original data points from the ODE solution to illustrate</span>
