@@ -13,11 +13,11 @@ pressure_data['pressure'] = pressure_data['pressure']*10**6
 # %% compute the convergin part
 # Define the functions
 def compute_converging_T(pressure, s_in):
-    temperature = PropsSI('T', 'P', pressure, 'S', s_in, fluidname)
+    temperature = round(PropsSI('T', 'P', pressure, 'S', s_in, fluidname),4)
     return temperature
 
 def compute_diverging_T(pressure):
-    temperature = PropsSI('T','P',pressure,'Q',0,fluidname)
+    temperature = round(PropsSI('T','P',pressure,'Q',0,fluidname),4)
     return temperature
 
 # Define a custom function that applies different calculations based on conditions
