@@ -13,7 +13,7 @@ bpy.set_plot_options()
 
 ###################################################################################################################
 # Select cases number
-CASES = [68, 70]
+CASES = [72, 73, 69]
 
 # Main directory
 MAIN_DIR = "output"
@@ -25,20 +25,23 @@ SHOW_FIG = False
 SAVE_FIG = True
 
 # Fluent Parameters
-N_ITER = 30  # Number of iterations
+N_ITER = 5000  # Number of iterations
 SHOW_GRAPHICS = True  # Show fluent gui
-PROCESSORS_NUMBER = 2  # Number of processors for fluent
+PROCESSORS_NUMBER = 16  # Number of processors for fluent
 FLUENT_FILE = "simoneau_hendricks_1979.cas.h5"
 EXCEL_DATAFILE = "cases_summary.xlsx"  # Case summary file
-PLOT_REALTIME_RESIDUALS = False  # plot the residuals in real time in a python figure
+PLOT_REALTIME_RESIDUALS = True  # plot the residuals in real time in a python figure
+
+# Integration timescale
+TIME_SCALE_FACTOR = 0.5
 
 # Residual
-RES_CONTINUITY = 1e-7
-RES_X_VELOCITY = 1e-7
-RES_Y_VELOCITY = 1e-7
-RES_K = 1e-7
-RES_OMEGA = 1e-7
-TIME_SCALE_FACTOR = 0.05
+tol = 1e-6
+RES_CONTINUITY = tol
+RES_X_VELOCITY = tol
+RES_Y_VELOCITY = tol
+RES_K = tol
+RES_OMEGA = tol
 
 # Relaxation factors
 RELF_DENSITY = 0.01
@@ -74,20 +77,25 @@ for i, row in case_data.iterrows():
     # Case number simulated
     cas = row["Case"]
 
-    print("\n")
-    print(f"    Creating barotropic model for case {cas}")
-    print("\n")
-
     # Create case folder
     dir_out = os.path.join(MAIN_DIR, f"case_{cas}")
     if not os.path.isdir(dir_out):
         os.makedirs(dir_out)
 
+    # Unique datetime for current case
+    current_datetime = datetime.datetime.now()
+    formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
+
     # ------------------------------ #
     # ------ Barotropic Model ------ #
     # ------------------------------ #
+
+    print("\n")
+    print(f"    Creating barotropic model for case {cas}")
+    print("\n")
+
     # Create Barotropic Model Subfolder
-    dir_barotropic = os.path.join(dir_out, f"barotropic_model")
+    dir_barotropic = os.path.join(dir_out, f"barotropic_model_{formatted_datetime}")
     if not os.path.isdir(dir_barotropic):
         os.makedirs(dir_barotropic)
 
@@ -138,10 +146,6 @@ for i, row in case_data.iterrows():
     # ------ Fluent Simulation ------ #
     # ------------------------------- #
 
-    # Create Simulation Subfolder
-    current_datetime = datetime.datetime.now()
-    formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
-
     dir_simulation = os.path.join(dir_out, f"simulation_{formatted_datetime}")
     if not os.path.isdir(dir_simulation):
         os.makedirs(dir_simulation)
@@ -150,13 +154,11 @@ for i, row in case_data.iterrows():
     print(f"    Running Fluent simulations for case {cas}")
     print("\n")
 
-    transcript_file = os.path.join(
-        dir_simulation, f"transcript_{formatted_datetime}.trn"
-    )
+    transcript_file = os.path.join(dir_simulation, f"case_{cas}.trn")
     solver.file.start_transcript(file_name=transcript_file)
 
     if PLOT_REALTIME_RESIDUALS:
-        bpy.plot_residuals_real_time(transcript_file)
+        subprocess = bpy.plot_residuals_real_time(transcript_file)
 
     # Upload the case file
     # TODO: @Alberto: 01.11.2024 it seems that Fluent is changing the .cas file when the commands are being applied
@@ -192,17 +194,12 @@ for i, row in case_data.iterrows():
     }
 
     # Set residuals
-    solver.solution.monitor.residual.equations["continuity"].absolute_criteria = (
-        RES_CONTINUITY
-    )
-    solver.solution.monitor.residual.equations["x-velocity"].absolute_criteria = (
-        RES_X_VELOCITY
-    )
-    solver.solution.monitor.residual.equations["y-velocity"].absolute_criteria = (
-        RES_Y_VELOCITY
-    )
-    solver.solution.monitor.residual.equations["k"].absolute_criteria = RES_K
-    solver.solution.monitor.residual.equations["omega"].absolute_criteria = RES_OMEGA
+    residuals = solver.solution.monitor.residual.equations
+    residuals["continuity"].absolute_criteria = RES_CONTINUITY
+    residuals["x-velocity"].absolute_criteria = RES_X_VELOCITY
+    residuals["y-velocity"].absolute_criteria = RES_Y_VELOCITY
+    residuals["k"].absolute_criteria = RES_K
+    residuals["omega"].absolute_criteria = RES_OMEGA
     # solver.tui.solve.set.advanced.retain_cell_residuals('yes')
 
     # Set time step method
@@ -235,7 +232,7 @@ for i, row in case_data.iterrows():
     )
 
     # Define the out file
-    out_file = os.path.join(dir_simulation, f"report-file-0_{formatted_datetime}.out")
+    out_file = os.path.join(dir_simulation, f"case_{cas}.out")
     solver.solution.monitor.report_files["report-file-0"] = {"file_name": out_file}
     solver.solution.monitor.report_files["report-file-0"] = {
         "report_defs": ["mass_in", "mass-balance"]
@@ -251,7 +248,7 @@ for i, row in case_data.iterrows():
     solver.solution.run_calculation.iterate(iter_count=N_ITER)
 
     # Create pressure profile solution file
-    output_press_file = f"case_{cas}_{formatted_datetime}_pressure_profile.xy"
+    output_press_file = f"case_{cas}.xy"
     file_path_pressure = os.path.join(dir_simulation, output_press_file)
     output_press_file = '"' + file_path_pressure + '"'
 
@@ -278,7 +275,7 @@ for i, row in case_data.iterrows():
         )
 
     # Save case data
-    output_file_case = rf"case_{cas}_{formatted_datetime}_simulation_setup.cas.h5"
+    output_file_case = rf"case_{cas}.cas.h5"
     case_file_path = os.path.join(dir_simulation, output_file_case)
 
     while os.path.exists(case_file_path):
@@ -297,8 +294,12 @@ for i, row in case_data.iterrows():
 
     solver.file.stop_transcript()
 
+    # Save residual plot
+    filename = os.path.join(dir_simulation,f"case_{cas}_residuals")
+    bpy.plot_residuals(transcript_file, savefig=True, fullpath=filename)
+
     if PLOT_REALTIME_RESIDUALS:
-        plt.close("all")
+        subprocess.kill()
 
 
 # Exiting Fluent
