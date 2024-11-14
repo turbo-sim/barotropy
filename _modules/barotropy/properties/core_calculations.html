@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>barotropy.properties.core_calculations &#8212; barotropy v0.0.5 documentation</title>
+    <title>barotropy.properties.core_calculations &#8212; barotropy v0.0.6 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
-    <script src="../../../_static/documentation_options.js?v=113287e0"></script>
+    <script src="../../../_static/documentation_options.js?v=06460786"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>let toggleHintShow = 'Click to show';</script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">barotropy v0.0.5 documentation</p>
+    <p class="title logo__title">barotropy v0.0.6 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -361,7 +361,7 @@
 
     <span class="c1"># Calculate departure from saturation properties</span>
     <span class="k">if</span> <span class="n">supersaturation</span><span class="p">:</span>
-        <span class="n">calculate_supersaturation</span><span class="p">(</span><span class="n">AS</span><span class="p">,</span> <span class="n">props</span><span class="p">)</span>
+        <span class="n">props</span> <span class="o">=</span> <span class="n">calculate_supersaturation</span><span class="p">(</span><span class="n">AS</span><span class="p">,</span> <span class="n">props</span><span class="p">)</span>
         <span class="n">props</span><span class="p">[</span><span class="s2">&quot;subcooling&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_subcooling</span><span class="p">(</span><span class="n">AS</span><span class="p">)</span>
         <span class="n">props</span><span class="p">[</span><span class="s2">&quot;superheating&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_superheating</span><span class="p">(</span><span class="n">AS</span><span class="p">)</span>
 
@@ -484,7 +484,7 @@
     <span class="k">if</span> <span class="n">supersaturation</span><span class="p">:</span>
         <span class="n">props</span><span class="p">[</span><span class="s2">&quot;subcooling&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_subcooling</span><span class="p">(</span><span class="n">AS</span><span class="p">)</span>
         <span class="n">props</span><span class="p">[</span><span class="s2">&quot;superheating&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_superheating</span><span class="p">(</span><span class="n">AS</span><span class="p">)</span>
-        <span class="n">calculate_supersaturation</span><span class="p">(</span><span class="n">AS</span><span class="p">,</span> <span class="n">props</span><span class="p">)</span>
+        <span class="n">props</span> <span class="o">=</span> <span class="n">calculate_supersaturation</span><span class="p">(</span><span class="n">AS</span><span class="p">,</span> <span class="n">props</span><span class="p">)</span>
 
     <span class="c1"># Add properties as aliases</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">PROPERTY_ALIAS</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -657,7 +657,7 @@
     <span class="n">props</span><span class="p">[</span><span class="s2">&quot;conductivity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">AS</span><span class="o">.</span><span class="n">conductivity</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">supersaturation</span><span class="p">:</span>
-        <span class="n">calculate_supersaturation</span><span class="p">(</span><span class="n">AS</span><span class="p">,</span> <span class="n">props</span><span class="p">)</span>
+        <span class="n">props</span> <span class="o">=</span> <span class="n">calculate_supersaturation</span><span class="p">(</span><span class="n">AS</span><span class="p">,</span> <span class="n">props</span><span class="p">)</span>
 
     <span class="c1"># Generalized quality outside the two-phase region</span>
     <span class="k">if</span> <span class="n">generalize_quality</span><span class="p">:</span>
@@ -806,7 +806,8 @@
     <span class="n">abstract_state</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">input_type</span><span class="p">,</span> <span class="n">prop_1</span><span class="p">,</span> <span class="n">prop_2</span><span class="p">)</span>
 
     <span class="c1"># Retrieve single-phase properties</span>
-    <span class="k">if</span> <span class="n">abstract_state</span><span class="o">.</span><span class="n">phase</span><span class="p">()</span> <span class="o">!=</span> <span class="n">CP</span><span class="o">.</span><span class="n">iphase_twophase</span><span class="p">:</span>
+    <span class="n">is_two_phase</span> <span class="o">=</span> <span class="n">abstract_state</span><span class="o">.</span><span class="n">phase</span><span class="p">()</span> <span class="o">==</span> <span class="n">CP</span><span class="o">.</span><span class="n">iphase_twophase</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_two_phase</span><span class="p">:</span>
         <span class="n">properties</span> <span class="o">=</span> <span class="n">compute_properties_1phase</span><span class="p">(</span>
             <span class="n">abstract_state</span><span class="p">,</span>
             <span class="n">generalize_quality</span><span class="o">=</span><span class="n">generalize_quality</span><span class="p">,</span>
@@ -818,7 +819,8 @@
             <span class="n">supersaturation</span><span class="o">=</span><span class="n">supersaturation</span><span class="p">,</span>
         <span class="p">)</span>
 
-    <span class="c1"># Properties</span>
+    <span class="c1"># Define flag to check if state is within the two-phase region</span>
+    <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;is_two_phase&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">is_two_phase</span>
     <span class="k">return</span> <span class="n">properties</span></div>
 
 
@@ -1551,7 +1553,9 @@
         <span class="n">props</span><span class="p">[</span><span class="s2">&quot;supersaturation_degree&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;T&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">AS</span><span class="o">.</span><span class="n">T</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">props</span><span class="p">[</span><span class="s2">&quot;T_saturation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-        <span class="n">props</span><span class="p">[</span><span class="s2">&quot;supersaturation_degree&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span></div>
+        <span class="n">props</span><span class="p">[</span><span class="s2">&quot;supersaturation_degree&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="k">return</span> <span class="n">props</span></div>
 
 
 
