@@ -938,14 +938,40 @@
                 <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;The variables blending_onset=</span><span class="si">{</span><span class="n">blending_onset</span><span class="si">}</span><span class="s2"> and blending_width=</span><span class="si">{</span><span class="n">blending_width</span><span class="si">}</span><span class="s2"> must be floats when calculation_type=&#39;blending&#39;.&quot;</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
-            <span class="c1"># Compute equilibrium state using CoolProp solver</span>
-            <span class="n">state_eq</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span>
-                <span class="n">input_type</span><span class="o">=</span><span class="n">props</span><span class="o">.</span><span class="n">HmassP_INPUTS</span><span class="p">,</span>
-                <span class="n">prop_1</span><span class="o">=</span><span class="n">h</span><span class="p">,</span>
-                <span class="n">prop_2</span><span class="o">=</span><span class="n">p</span><span class="p">,</span>
-                <span class="n">generalize_quality</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                <span class="n">supersaturation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="p">)</span>
+            <span class="c1"># # Compute equilibrium state using CoolProp solver</span>
+            <span class="c1"># state_eq = fluid.get_state(</span>
+            <span class="c1">#     input_type=props.HmassP_INPUTS,</span>
+            <span class="c1">#     prop_1=h,</span>
+            <span class="c1">#     prop_2=p,</span>
+            <span class="c1">#     generalize_quality=True,</span>
+            <span class="c1">#     supersaturation=True,</span>
+            <span class="c1"># )</span>
+
+            <span class="c1"># Compute equilibrium thermodynamic state</span>
+            <span class="k">try</span><span class="p">:</span>  <span class="c1"># Compute equilibrium state using CoolProp solver</span>
+                <span class="n">state_eq</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span>
+                    <span class="n">input_type</span><span class="o">=</span><span class="n">props</span><span class="o">.</span><span class="n">HmassP_INPUTS</span><span class="p">,</span>
+                    <span class="n">prop_1</span><span class="o">=</span><span class="n">h</span><span class="p">,</span>
+                    <span class="n">prop_2</span><span class="o">=</span><span class="n">p</span><span class="p">,</span>
+                    <span class="n">generalize_quality</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">supersaturation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="p">)</span>
+
+            <span class="k">except</span><span class="p">:</span>  <span class="c1"># Compute metastable state using custom solver</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: CoolProp solver failed, switching to custom solver...&quot;</span><span class="p">)</span>
+                <span class="n">state_eq</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">get_state_equilibrium</span><span class="p">(</span>
+                    <span class="n">prop_1</span><span class="o">=</span><span class="s2">&quot;h&quot;</span><span class="p">,</span>
+                    <span class="n">prop_1_value</span><span class="o">=</span><span class="n">h</span><span class="p">,</span>
+                    <span class="n">prop_2</span><span class="o">=</span><span class="s2">&quot;p&quot;</span><span class="p">,</span>
+                    <span class="n">prop_2_value</span><span class="o">=</span><span class="n">p</span><span class="p">,</span>
+                    <span class="n">rhoT_guess</span><span class="o">=</span><span class="n">rhoT_guess_metastable</span><span class="p">,</span>
+                    <span class="n">generalize_quality</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">supersaturation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">solver_algorithm</span><span class="o">=</span><span class="n">HEOS_solver</span><span class="p">,</span>
+                    <span class="n">solver_tolerance</span><span class="o">=</span><span class="n">HEOS_tolerance</span><span class="p">,</span>
+                    <span class="n">solver_max_iterations</span><span class="o">=</span><span class="n">HEOS_max_iter</span><span class="p">,</span>
+                    <span class="n">print_convergence</span><span class="o">=</span><span class="n">HEOS_print_convergence</span><span class="p">,</span>
+                <span class="p">)</span>
 
             <span class="c1"># Compute metastable state using custom solver</span>
             <span class="n">state_meta</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">get_state_metastable</span><span class="p">(</span>
