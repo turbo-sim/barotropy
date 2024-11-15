@@ -7,10 +7,11 @@ import matplotlib.pyplot as plt
 
 import barotropy as bpy
 
+0.050
 
-CASE_INDEX = 34
-calculation_type = "equilibrium"
-q_onset = 0.05 # use the liquid line till quality of 5%
+CASE_INDEX = 38
+calculation_type = "blending"
+q_onset = 0.95 # use the liquid line till quality of 5%
 q_transition = 0.05 # transient from metastable liquid to equilibrium zone
 
 # Define plot settings
@@ -32,16 +33,12 @@ data_summary = pd.read_excel(EXCEL_DATA_SUMMARY)
 data_profiles = pd.read_excel(EXCEL_DATA_PROFILES)
 case_data = data_summary[data_summary["Case"] == CASE_INDEX].squeeze()
 
-
-# %% plot phase diagram
-
 # Create fluid object
 fluid_name = data_summary['fluidname'].values[0]
 fluid = bpy.Fluid(name=fluid_name, backend="HEOS")
 
 # Define case parameters
 dT_subcooling = 5
-
 
 # total preessure in Pa
 p_in = float(case_data["P_0_in"])
@@ -53,17 +50,7 @@ p_out = case_data["P_out"]
 # Total temperature in K
 T_in = case_data["T_0_in"] + 273.15
 
-# %%
-
-# dT_subcooling = 4
-# # p_in = 0.4 * fluid.critical_point.p
-# state_sat = fluid.get_state(bpy.PQ_INPUTS, p_in, 0)
-# state_in = fluid.get_state(bpy.PT_INPUTS, state_sat.p, state_sat.T - dT_subcooling)
-# # T_in = state_in.T
-# p_out = fluid.triple_point_liquid.p
-
 polytropic_efficiency = 1.00
-
 
 # Create barotropic model object
 model = bpy.BarotropicModel(
@@ -85,18 +72,9 @@ model = bpy.BarotropicModel(
 )
 
 
-
-
 # Evaluate barotropic model and export polynomial expressions
 model.solve()
-# bpy.print_dict(model.states)
-# %%
-
-ax = fluid.plot_phase_diagram('s', 'T', plot_spinodal_line=True, plot_quality_isolines=True)
-ax.plot(model.states['s'], model.states['T'])
-
 model.fit_polynomials()
-
 model.export_expressions_fluent(output_dir=DIR_OUT)
 model.export_expressions_cfx(output_dir=DIR_OUT)
 model.poly_fitter.plot_phase_diagram(
