@@ -45,7 +45,7 @@ for p in p_array:
         prop_2_value=state_in.s,
         rhoT_guess_equilibrium=rhoT_guess_equilibrium,
         rhoT_guess_metastable=rhoT_guess_metastable,
-        initial_phase="flashing",
+        phase_change="flashing",
         blending_variable="Q",
         blending_onset=Q_onset,
         blending_width=dQ_transition,
