@@ -67,3 +67,6 @@ settings.json    # VS Code settings file
 
 # Fluent cleanup scripts
 .bat
+
+
+projects/nakagawa_2009/3D meshes MAN/*.msh
