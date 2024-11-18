@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-import barotropy as brtp
+import barotropy as bpy
 
 
 # Define plot settings
@@ -14,10 +14,10 @@ save_figures = True
 show_figures = True
 case_name = "zhang_dykas_2021"
 case_name_bis = "Zhang et al. (2021)"
-brtp.set_plot_options(fontsize=14, grid=False)
+bpy.set_plot_options(fontsize=14, grid=False)
 
 # Check if the 'figures' directory exists. If not, create it.
-figures_path = "figures"
+figures_path = "output"
 if not os.path.exists(figures_path):
     os.makedirs(figures_path)
 
@@ -29,7 +29,7 @@ exp_data = pd.read_excel("validation_data.xlsx", sheet_name="experimental_data")
 
 # Define the data of each case
 fluid_name = "water"
-fluid = brtp.Fluid(fluid_name)
+fluid = bpy.Fluid(fluid_name)
 T_in = case_data["T0_in[degC]"].to_numpy() + 273.15
 p_in = case_data["p0_in[kPa]"].to_numpy() * 1e3
 area_ratio = nozzle_geom["Y[m]"].to_numpy()[-1] / np.min(nozzle_geom["Y[m]"].to_numpy())
@@ -64,10 +64,10 @@ ax.plot(
 ax.legend(loc="upper right")
 fig.tight_layout(pad=1.00)
 
+# Save plots
 if save_figures:
-    plt.savefig(os.path.join(figures_path, f"{case_name}_nozzle_coordinates.png"), dpi=500)
-    plt.savefig(os.path.join(figures_path, f"{case_name}_nozzle_coordinates.svg"))
-
+    filepath = os.path.join(figures_path, f"{case_name}_nozzle_coordinates")
+    bpy.savefig_in_formats(fig, filepath)
 
 # Plot the nozzle expansions in a p-s diagram
 fig, ax = plt.subplots()
@@ -84,13 +84,12 @@ prop_x = "s"
 prop_y = "p"
 quality_isolines = np.linspace(0, 1, 21)
 quality_delta = quality_isolines[1] - quality_isolines[0]
-brtp.plot_phase_diagram(
+fluid.plot_phase_diagram(
     prop_x,
     prop_y,
-    fluid,
+    axes=ax,
     plot_critical_point=True,
     plot_saturation_line=True,
-    plot_triple_point=False,
     plot_quality_isolines=True,
     quality_labels=False,
     quality_levels=quality_isolines
@@ -99,7 +98,7 @@ brtp.plot_phase_diagram(
 # Loop over all cases
 for i, (T, p) in enumerate(zip(T_in, p_in), start=1):
     # Compute the exit pressure
-    state_outlet, state_sonic, state_inlet = brtp.compute_supersonic_exit(
+    state_outlet, state_sonic, state_inlet = bpy.compute_supersonic_exit(
         T, p, area_ratio, fluid
     )
 
@@ -116,56 +115,33 @@ for i, (T, p) in enumerate(zip(T_in, p_in), start=1):
         label=f"Case {i}",
     )
 
-ax.plot([], [], color="black", linestyle=":", label=f"$\Delta q={quality_delta*100}\%$")
+ax.plot([], [], color="black", linestyle=":", label=rf"$\Delta q={quality_delta*100}\%$")
 
 # Re-scale the plot
 ax.legend(loc="upper right", fontsize=10)
-brtp.scale_graphics_x(fig, 1 / 1e3, mode="multiply")
-brtp.scale_graphics_y(fig, 1 / 1e3, mode="multiply")
+bpy.scale_graphics_x(fig, 1 / 1e3, mode="multiply")
+bpy.scale_graphics_y(fig, 1 / 1e3, mode="multiply")
 ax.relim()
 fig.tight_layout(pad=1, w_pad=None, h_pad=None)
 
+# Save plots
 if save_figures:
-    plt.savefig(os.path.join(figures_path, f"{case_name}_ps_diagram.png"), dpi=500)
-    plt.savefig(os.path.join(figures_path, f"{case_name}_ps_diagram.svg"))
+    filepath = os.path.join(figures_path, f"{case_name}_ps_diagram")
+    bpy.savefig_in_formats(fig, filepath)
 
 
 # Plot the pressure distributions
+fig = plt.figure(figsize=(6.4, 4.8))
+ax = fig.gca()
+ax.set_xlabel("Axial position (mm)")
+ax.set_ylabel("Static pressure (kPa)")
+ax.set_xscale("linear")
+ax.set_yscale("linear")
 for case_index in exp_data['Case'].unique():
 
     # Get the case specifications
     T0_in = case_data[case_data['Case'] == case_index]["T0_in[degC]"].iloc[0]
     p0_in = case_data[case_data['Case'] == case_index]["p0_in[kPa]"].iloc[0]
-
-    # Create figure
-    fig = plt.figure(figsize=(6.4, 4.8))
-    ax = fig.gca()
-    ax.set_title(f"{case_name_bis} - Case {case_index}")
-    ax.set_xlabel("Axial position (mm)")
-    ax.set_ylabel("Static pressure (kPa)")
-    ax.set_xscale("linear")
-    ax.set_yscale("linear")
-    # ax.set_ylim([0, np.ceil(pressure / 10) * 10])
-    # ax.set_ylim([])
-    # ax.set_xticks([])
-    # ax.set_yticks([])
-
-# # Plot simulation data
-#     # Load Fluent XY datafile
-# file_sim = os.path.join(results_dir, f"case_{case_index}_pressure.xy")
-# df_sim = parse_fluent_xy(file_sim)
-# order = df_sim["wall"]["Position"].argsort()
-# x = df_sim["wall"]["Position"][order] * 1e3
-# y = df_sim["wall"]["Static Pressure"][order] / 1e5
-# ax.plot(
-#     x,
-#     y,
-#     # color="black",
-#     linewidth=1.5,
-#     linestyle="-",
-#     marker="none",
-#     label="Simulation results",
-# )
 
     # Plot experimental data
     _exp_data = exp_data[exp_data['Case'] == case_index]
@@ -175,22 +151,20 @@ for case_index in exp_data['Case'].unique():
         marker="o",
         linewidth=1.25,
         # color="red",
-        linestyle="None",
-        label="Experimental data",
+        linestyle="-",
+        label=f"Case {case_index}",
     )
 
-    # Create legend
-    leg = ax.legend(loc="upper right")
+# Create legend
+leg = ax.legend(loc="upper right")
 
-    # Adjust PAD
-    fig.tight_layout(pad=1, w_pad=None, h_pad=None)
+# Adjust PAD
+fig.tight_layout(pad=1, w_pad=None, h_pad=None)
 
-    # Save plots
-    if save_figures:
-        plt.savefig(os.path.join(figures_path, f"{case_name}_validation_case_{case_index}.png"), dpi=500)
-        plt.savefig(os.path.join(figures_path, f"{case_name}_validation_case_{case_index}.svg"))
-
-
+# Save plots
+if save_figures:
+    filepath = os.path.join(figures_path, f"{case_name}_experimental_data")
+    bpy.savefig_in_formats(fig, filepath)
 
 # Display figures
 if show_figures:
