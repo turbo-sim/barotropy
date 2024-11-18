@@ -7,12 +7,8 @@ import matplotlib.pyplot as plt
 
 import barotropy as bpy
 
-0.050
 
 CASE_INDEX = 38
-calculation_type = "blending"
-q_onset = 0.95 # use the liquid line till quality of 5%
-q_transition = 0.05 # transient from metastable liquid to equilibrium zone
 
 # Define plot settings
 bpy.print_package_info()
@@ -50,7 +46,15 @@ p_out = case_data["P_out"]
 # Total temperature in K
 T_in = case_data["T_0_in"] + 273.15
 
+calculation_type = case_data["calculation_type"]
+q_onset = case_data["q_onset"] # use the liquid line till quality of 5%
+q_transition = case_data["q_transition"] # transient from metastable liquid to equilibrium zone
 polytropic_efficiency = 1.00
+
+print("Blending options:")
+print(f'        calculation type: {calculation_type}')
+print(f'        q_onset: {q_onset}')
+print(f'        q_transition: {q_transition}')
 
 # Create barotropic model object
 model = bpy.BarotropicModel(
