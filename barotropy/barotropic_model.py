@@ -643,14 +643,40 @@ def barotropic_model_one_component(
                 msg = f"The variables blending_onset={blending_onset} and blending_width={blending_width} must be floats when calculation_type='blending'."
                 raise ValueError(msg)
 
-            # Compute equilibrium state using CoolProp solver
-            state_eq = fluid.get_state(
-                input_type=props.HmassP_INPUTS,
-                prop_1=h,
-                prop_2=p,
-                generalize_quality=True,
-                supersaturation=True,
-            )
+            # # Compute equilibrium state using CoolProp solver
+            # state_eq = fluid.get_state(
+            #     input_type=props.HmassP_INPUTS,
+            #     prop_1=h,
+            #     prop_2=p,
+            #     generalize_quality=True,
+            #     supersaturation=True,
+            # )
+
+            # Compute equilibrium thermodynamic state
+            try:  # Compute equilibrium state using CoolProp solver
+                state_eq = fluid.get_state(
+                    input_type=props.HmassP_INPUTS,
+                    prop_1=h,
+                    prop_2=p,
+                    generalize_quality=True,
+                    supersaturation=True,
+                )
+
+            except:  # Compute metastable state using custom solver
+                print("Warning: CoolProp solver failed, switching to custom solver...")
+                state_eq = fluid.get_state_equilibrium(
+                    prop_1="h",
+                    prop_1_value=h,
+                    prop_2="p",
+                    prop_2_value=p,
+                    rhoT_guess=rhoT_guess_metastable,
+                    generalize_quality=True,
+                    supersaturation=True,
+                    solver_algorithm=HEOS_solver,
+                    solver_tolerance=HEOS_tolerance,
+                    solver_max_iterations=HEOS_max_iter,
+                    print_convergence=HEOS_print_convergence,
+                )
 
             # Compute metastable state using custom solver
             state_meta = fluid.get_state_metastable(
