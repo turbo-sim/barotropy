@@ -1,10 +1,11 @@
 import os
+import shutil
+import datetime
 import numpy as np
 import pandas as pd
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import ansys.fluent.core as pyfluent
-import datetime
-import time
 
 import barotropy as bpy
 
@@ -44,16 +45,19 @@ RES_K = tol
 RES_OMEGA = tol
 
 # Relaxation factors
-RELF_DENSITY = 0.01
+RELF_DENSITY = 0.05
 RELF_K = 0.75
 RELF_OMEGA = 0.75
 RELF_BODYFORCE = 1.0
 RELF_TURB_VISCOSITY = 1.0
 
+# Turbulence boundary conditions
+INLET_TURBULENT_INTENSITY = 0.05
+INLET_TURBULENT_VISCOSITY_RATIO = 10
 
 ###################################################################################################################
 
-# Read Case Summary
+# Load cases from Excel
 data = pd.read_excel(EXCEL_DATAFILE)
 case_data = data[data["Case"].isin(CASES)]
 
@@ -72,7 +76,12 @@ solver = pyfluent.launch_fluent(
 fluent_version = solver.get_fluent_version()
 print(f"Current Fluent version: {fluent_version}")
 
+# Loop over cases
 for i, row in case_data.iterrows():
+
+    # Unique datetime for current case
+    current_datetime = datetime.datetime.now()
+    formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
 
     # Case number simulated
     cas = row["Case"]
@@ -85,6 +94,16 @@ for i, row in case_data.iterrows():
     # Unique datetime for current case
     current_datetime = datetime.datetime.now()
     formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
+
+    # Create case folder
+    case_index = row["index"]
+    case_name = f"case_{case_index}"
+    case_dir = os.path.join(MAIN_DIR, case_name)
+    os.makedirs(case_dir, exist_ok=True)
+
+    # Timestamped subdirectory for the current simulation
+    timestamp_dir = os.path.join(case_dir, formatted_datetime)
+    os.makedirs(timestamp_dir, exist_ok=True)
 
     # ------------------------------ #
     # ------ Barotropic Model ------ #

@@ -52,9 +52,9 @@ INLET_TURBULENT_INTENSITY = 0.05
 INLET_TURBULENT_VISCOSITY_RATIO = 10
 
 # Load cases from Excel
-case_data = pd.read_excel(EXCEL_DATAFILE, sheet_name="SI Units")
+data = pd.read_excel(EXCEL_DATAFILE, sheet_name="SI Units")
 case_indices = [1, 2, 14]  # Consider only some of the cases
-case_data = case_data[case_data["index"].isin(case_indices)]
+case_data = data[case_data["index"].isin(case_indices)]
 
 # Opening Fluent
 solver = pyfluent.launch_fluent(
