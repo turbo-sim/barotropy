@@ -75,9 +75,12 @@ def compute_properties_1phase(
         props["quality_mass"] = props["Q"]
         props["quality_volume"] = 1.00 if props["Q"] >= 1 else 0.00
     else:
-        props["Q"] = np.nan
-        props["quality_mass"] = np.nan
-        props["quality_volume"] = np.nan
+        _AS = CP.AbstractState(AS.backend_name(), AS.name())
+        _AS.update(CP.DmassT_INPUTS, _AS.rhomass_critical(), _AS.T_critical())
+        s_crit = _AS.smass()
+        props["Q"] = 1.00 if props["smass"] > s_crit else 0.00
+        props["quality_mass"] = props["Q"]
+        props["quality_volume"] = props["Q"]
 
     # Calculate departure from saturation properties
     if supersaturation:
