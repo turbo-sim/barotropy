@@ -17,7 +17,7 @@ if not os.path.isdir(DIR_OUT):
 
 # Barotropic figures settings
 SHOW_FIG = True
-SAVE_FIG = True
+SAVE_FIG = False
 
 # Create fluid object
 fluid_name = "CO2"
@@ -28,14 +28,26 @@ p_in = 2.0*fluid.critical_point.p
 # s_in = 0.9*fluid.critical_point.s
 s_in = 1.1*fluid.critical_point.s
 state_in = fluid.get_state(bpy.PSmass_INPUTS, p_in, s_in)
-# p_out = 0.5*fluid.critical_point.p
 p_out = 1.01*fluid.triple_point_liquid.p
 
+
+# p_stagnation = 58.96e5
+# T_stagnation = 314.67
+# state_in = fluid.get_state(bpy.PT_INPUTS, p_stagnation, T_stagnation)
+# p_out = 0.2*fluid.critical_point.p
+
+
+# p_stagnation = 58.96e5
+# s_stagnation = 1.28*fluid.critical_point.s
+# state_in = fluid.get_state(bpy.PSmass_INPUTS, p_stagnation, s_stagnation)
+# p_out = 0.22*fluid.critical_point.p
+
+
 # Additional parameters for the calculations
-polytropic_efficiency = 1.00
-calculation_type = "equilibrium"
-q_onset = 1.00
-q_transition = 0.05
+polytropic_efficiency = 0.98
+calculation_type = "blending"
+q_onset = 0.95
+q_transition = 0.01
 
 # Create barotropic model object
 model = bpy.BarotropicModel(
@@ -53,7 +65,6 @@ model = bpy.BarotropicModel(
     polynomial_degree=6,
     polynomial_format="horner",
     output_dir=DIR_OUT,
-    polynomial_variables=["density", "viscosity", "speed_sound", "vapor_quality", "void_fraction"],
 )
 
 # Evaluate barotropic model and export polynomial expressions
