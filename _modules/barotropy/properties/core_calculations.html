@@ -662,15 +662,29 @@
     <span class="k">if</span> <span class="n">supersaturation</span><span class="p">:</span>
         <span class="n">props</span> <span class="o">=</span> <span class="n">calculate_supersaturation</span><span class="p">(</span><span class="n">AS</span><span class="p">,</span> <span class="n">props</span><span class="p">)</span>
 
+    <span class="c1"># # Generalized quality outside the two-phase region</span>
+    <span class="c1"># if generalize_quality:</span>
+    <span class="c1">#     props[&quot;Q&quot;] = calculate_generalized_quality(AS)</span>
+    <span class="c1">#     props[&quot;quality_mass&quot;] = props[&quot;Q&quot;]</span>
+    <span class="c1">#     props[&quot;quality_volume&quot;] = np.nan</span>
+    <span class="c1"># else:</span>
+    <span class="c1">#     props[&quot;Q&quot;] = np.nan</span>
+    <span class="c1">#     props[&quot;quality_mass&quot;] = np.nan</span>
+    <span class="c1">#     props[&quot;quality_volume&quot;] = np.nan</span>
+
     <span class="c1"># Generalized quality outside the two-phase region</span>
     <span class="k">if</span> <span class="n">generalize_quality</span><span class="p">:</span>
         <span class="n">props</span><span class="p">[</span><span class="s2">&quot;Q&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_generalized_quality</span><span class="p">(</span><span class="n">AS</span><span class="p">)</span>
         <span class="n">props</span><span class="p">[</span><span class="s2">&quot;quality_mass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;Q&quot;</span><span class="p">]</span>
-        <span class="n">props</span><span class="p">[</span><span class="s2">&quot;quality_volume&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="n">props</span><span class="p">[</span><span class="s2">&quot;quality_volume&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.00</span> <span class="k">if</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;Q&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="k">else</span> <span class="mf">0.00</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">props</span><span class="p">[</span><span class="s2">&quot;Q&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-        <span class="n">props</span><span class="p">[</span><span class="s2">&quot;quality_mass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-        <span class="n">props</span><span class="p">[</span><span class="s2">&quot;quality_volume&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="n">_AS</span> <span class="o">=</span> <span class="n">CP</span><span class="o">.</span><span class="n">AbstractState</span><span class="p">(</span><span class="n">AS</span><span class="o">.</span><span class="n">backend_name</span><span class="p">(),</span> <span class="n">AS</span><span class="o">.</span><span class="n">name</span><span class="p">())</span>
+        <span class="n">_AS</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">CP</span><span class="o">.</span><span class="n">DmassT_INPUTS</span><span class="p">,</span> <span class="n">_AS</span><span class="o">.</span><span class="n">rhomass_critical</span><span class="p">(),</span> <span class="n">_AS</span><span class="o">.</span><span class="n">T_critical</span><span class="p">())</span>
+        <span class="n">s_crit</span> <span class="o">=</span> <span class="n">_AS</span><span class="o">.</span><span class="n">smass</span><span class="p">()</span>
+        <span class="n">props</span><span class="p">[</span><span class="s2">&quot;Q&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.00</span> <span class="k">if</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;smass&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">s_crit</span> <span class="k">else</span> <span class="mf">0.00</span>
+        <span class="n">props</span><span class="p">[</span><span class="s2">&quot;quality_mass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;Q&quot;</span><span class="p">]</span>
+        <span class="n">props</span><span class="p">[</span><span class="s2">&quot;quality_volume&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">props</span><span class="p">[</span><span class="s2">&quot;Q&quot;</span><span class="p">]</span>
+
 
     <span class="c1"># Add properties as aliases</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">PROPERTY_ALIAS</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
