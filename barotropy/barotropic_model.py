@@ -2,6 +2,7 @@ import os
 import datetime
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 
 from functools import wraps
 from numpy.polynomial import Polynomial
@@ -190,8 +191,8 @@ class BarotropicModel:
             "density",
             "viscosity",
             "speed_sound",
-            # "void_fraction",
-            # "vapor_quality",
+            "void_fraction",
+            "vapor_quality",
         ],
         output_dir: str = "barotropic_model",
     ):
@@ -358,9 +359,6 @@ class BarotropicModel:
             output_dir=self.output_dir,
         )
         self.poly_fitter.fit_polynomials()
-
-
-
 
         # Automatically initialize the ExpressionExporter
         self.exporter = ExpressionExporter(
@@ -591,7 +589,7 @@ def barotropic_model_one_component(
                     input_type=props.HmassP_INPUTS,
                     prop_1=h,
                     prop_2=p,
-                    generalize_quality=True,
+                    generalize_quality=False,
                     supersaturation=True,
                 )
 
@@ -603,7 +601,7 @@ def barotropic_model_one_component(
                     prop_2="p",
                     prop_2_value=p,
                     rhoT_guess=rhoT_guess_metastable,
-                    generalize_quality=True,
+                    generalize_quality=False,
                     supersaturation=True,
                     solver_algorithm=HEOS_solver,
                     solver_tolerance=HEOS_tolerance,
@@ -658,7 +656,7 @@ def barotropic_model_one_component(
                     input_type=props.HmassP_INPUTS,
                     prop_1=h,
                     prop_2=p,
-                    generalize_quality=True,
+                    generalize_quality=False,
                     supersaturation=True,
                 )
 
@@ -670,7 +668,7 @@ def barotropic_model_one_component(
                     prop_2="p",
                     prop_2_value=p,
                     rhoT_guess=rhoT_guess_metastable,
-                    generalize_quality=True,
+                    generalize_quality=False,
                     supersaturation=True,
                     solver_algorithm=HEOS_solver,
                     solver_tolerance=HEOS_tolerance,
@@ -1422,20 +1420,65 @@ class PolynomialFitter:
             plot_critical_point=True,
             plot_saturation_line=True,
             plot_spinodal_line=True,
-            plot_quality_isolines=True,
+            plot_quality_isolines=False,
             N=50,
         )
 
-        # Plot the calculated states on the first subplot
+        # Plots contour of void fraction
+        var_z = "vapor_quality"
+        # var_z = "void_fraction"
+        prop_dict = props.compute_quality_grid(fluid, num_points=100, quality_levels=np.linspace(0.0, 1.0, 100))
+        range_z = np.linspace(0.00, 1, 11)
+        colors = plt.cm.Blues(np.linspace(0.25, 0.75, 256)[::-1])
+        colormap = mcolors.LinearSegmentedColormap.from_list("", colors)
+        contour = ax.contourf(
+            prop_dict[var_x],
+            prop_dict[var_y],
+            prop_dict[var_z],
+            range_z,
+            cmap=colormap,
+        )
+
+        # Add contour lines with black edges
+        contour_lines = ax.contour(
+            prop_dict[var_x],
+            prop_dict[var_y],
+            prop_dict[var_z],
+            range_z,
+            colors='black',
+            linewidths=0.5,
+        )
+
+        # Plot the calculated states
         ax.plot(
             self.states[var_x],
             self.states[var_y],
             color=graphics.COLORS_MATLAB[0],
             linewidth=1.25,
         )
+        ax.plot(
+            self.states[var_x][0],
+            self.states[var_y][0],
+            color=graphics.COLORS_MATLAB[0],
+            linewidth=1.25,
+            marker="o",
+            markerfacecolor="w",
+        )
+        ax.plot(
+            self.states[var_x][-1],
+            self.states[var_y][-1],
+            color=graphics.COLORS_MATLAB[0],
+            linewidth=1.25,
+            marker="o",
+            markerfacecolor="w",
+        )
 
         plt.tight_layout(pad=1)
 
+        graphics.scale_graphics_x(fig, 1/fluid.critical_point.s, mode="multiply")
+        ax.set_xlim([0.9, 1.3])
+        graphics.scale_graphics_y(fig, 1/fluid.critical_point.T, mode="multiply")
+        ax.set_ylim([0.85, 1.05])
         if savefig:
             file_path = os.path.join(output_dir, f"barotropic_process_{fluid.name}")
             graphics.savefig_in_formats(fig, file_path)
