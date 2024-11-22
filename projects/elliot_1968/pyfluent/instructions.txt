@@ -1,0 +1,22 @@
+1. Install Python in Windows. I recommend you to do so using Pycharm. If you are familiar with other IDEs like VSCode you are welcome to use them.
+2. Install the package with the barotropic model with the following command in your terminal: "pip install barotropy"
+2. (alternative) If you are not familiar with the terminal, you can install barotropy with the steps listed below
+3. Extract the .zip file attached in the email and then open the Python file "barotropic_simulations.py" in Pycharm.
+3. Run the file "elliot_1968_plotting.py" with the to run the simulations with the settings specified in "elliot_1968_data.xlsx"
+4. Explore the code and adapt it where needed or the Elliot1968 nozzle simulations.
+
+
+# Installing barotropy in Pycharm without using the terminal
+
+To install a package using PyCharm with pip (without using Conda or the Windows terminal), you can follow these steps:
+
+1. Open PyCharm and open your project.
+2. In the top menu, go to File > Settings (or PyCharm > Preferences on macOS).
+3. In the Settings window, navigate to Project: <your_project_name> > Python Interpreter.
+4. You'll see a list of installed packages for the project's Python interpreter. Click the + button on the right side of this list to open the Available Packages dialog.
+5. In the search bar, type the name of the package you want to install. PyCharm will search the Python Package Index (PyPI) for the package.
+6. When you find the package, click on it, then click the Install Package button at the bottom of the dialog.
+7. PyCharm will install the package using pip in the background, and you should see a notification once it’s installed successfully.
+8. Close the dialog and return to your project. The package should now be available for you to use in your code.
+
+This method uses PyCharm's built-in integration with pip and avoids the need to use a separate terminal.

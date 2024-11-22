@@ -1,0 +1,48 @@
+; Start tracing in transcript file
+file/set-tui-version "21.2"
+file/start-transcript "{transcript_file}"
+
+; Set batch execution options
+; 1. Ask to overwrite? | 2. Exit on error | 3. Hide questions?
+file/set-batch-options no yes no
+
+; Initialize the case
+file/read-case {case_file}
+
+; Define boundary conditions
+define/boundary-conditions/pressure-inlet inlet yes no {p0_in} no {p0_in} no yes no no yes {turbulence_intensity_in} {viscosity_ratio_in} 
+define/boundary-conditions/pressure-outlet outlet yes no {p_out} no yes no no yes {turbulence_intensity_in} {viscosity_ratio_in} no yes no no
+define/boundary-conditions/wall wall no no no no {wall_roughness_height} no {wall_roughness_constant}
+define/boundary-conditions/axis axis
+
+; Define Barotropic Model expressions
+; Commands above were added by Python function
+
+; Save integral quantities to file (use q to navigate to parent directory)
+solve/report-files/edit/report-file-0 file-name "{report_file}" q
+solve/report-files/edit "report-file-0" report-defs "mass_flow_rate" "area" "pressure" "density" "speed_sound" "velocity" "mach" "void_fraction" "mass_fraction" () q
+
+; Define termination criteria
+solve/monitors/residual convergence-criteria {residual_tol} {residual_tol} {residual_tol} {residual_tol} {residual_tol}
+solve/monitors/residual convergence-criteria {residual_tol} {residual_tol} {residual_tol} {residual_tol} {residual_tol}
+solve/set/advanced retain-cell-residuals yes q
+
+; Not convenient to create report definitions in TUI
+;/solve/report-definitions/
+
+; Initialize the flow
+solve/initialize/initialize-flow
+solve/initialize/hyb-initialization
+
+; Run the simulation according to solution strategy
+; Commands above were added by Python function
+
+; Save case and data to file
+file/write-case-data "{case_out_file}"
+
+; Save XY plot files
+; Commands above were added by Python function
+
+; Exit Fluent
+exit yes
+

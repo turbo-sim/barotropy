@@ -2,11 +2,12 @@
 
 import os
 import shutil
+import datetime
 import numpy as np
 import pandas as pd
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import ansys.fluent.core as pyfluent
-import datetime
 import time
 
 import barotropy as bpy
@@ -46,7 +47,7 @@ RES_K = tol
 RES_OMEGA = tol
 
 # Relaxation factors
-RELF_DENSITY = 0.01
+RELF_DENSITY = 0.05
 RELF_K = 0.75
 RELF_OMEGA = 0.75
 RELF_BODYFORCE = 1.0
@@ -55,10 +56,13 @@ RELF_TURB_VISCOSITY = 1.0
 # TODO: understand what to do if a simulation explodes
 # TODO: create and save a panda dataflrame (excel) with the summary of the simulations containing time, if the simulation was finished, number of iterations...
 
+# Turbulence boundary conditions
+INLET_TURBULENT_INTENSITY = 0.05
+INLET_TURBULENT_VISCOSITY_RATIO = 10
 
 ###################################################################################################################
 
-# Read Case Summary
+# Load cases from Excel
 data = pd.read_excel(EXCEL_DATAFILE)
 case_data = data[data["Case"].isin(CASES)]
 
@@ -85,7 +89,12 @@ print(time_start_code_seconds)
 fluent_version = solver.get_fluent_version()
 print(f"Current Fluent version: {fluent_version}")
 
+# Loop over cases
 for i, row in case_data.iterrows():
+
+    # Unique datetime for current case
+    current_datetime = datetime.datetime.now()
+    formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
 
     # Case number simulated
     cas = row["Case"]
@@ -99,12 +108,15 @@ for i, row in case_data.iterrows():
     current_datetime = datetime.datetime.now()
     formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
 
-    # Timestamped subdirectory for the current simulation
-    timestamp_dir = os.path.join(dir_case, formatted_datetime)
-    if not os.path.isdir(timestamp_dir):
-        os.makedirs(timestamp_dir, exist_ok=True)
+    # Create case folder
+    case_index = row["index"]
+    case_name = f"case_{case_index}"
+    case_dir = os.path.join(MAIN_DIR, case_name)
+    os.makedirs(case_dir, exist_ok=True)
 
-    dir_out = timestamp_dir
+    # Timestamped subdirectory for the current simulation
+    timestamp_dir = os.path.join(case_dir, formatted_datetime)
+    os.makedirs(timestamp_dir, exist_ok=True)
 
     # ------------------------------ #
     # ------ Barotropic Model ------ #
@@ -331,7 +343,6 @@ for i, row in case_data.iterrows():
 # Exiting Fluent
 solver.exit()
 
-time.sleep(10000)
 
 time_end_code_fomratted = time.strftime("%H:%M:%S", time.localtime())
 

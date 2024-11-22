@@ -1,0 +1,88 @@
+CFX expressions of water_nitrogen properties along polytropic process
+Creation datetime: 01-Nov-2023 14:39:32
+
+case_001_a_density
+if(Absolute Pressure>=49300 [Pa], 
+5.879032e-01 + (Absolute Pressure/2.000000e+06 [Pa])*
+(1.560111e+03 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-2.253557e+03 + (Absolute Pressure/2.000000e+06 [Pa])*
+(2.773312e+03 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-2.662695e+03 + (Absolute Pressure/2.000000e+06 [Pa])*
+(1.898156e+03 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-9.823422e+02 + (Absolute Pressure/2.000000e+06 [Pa])*
+(3.643442e+02 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-9.537130e+01 + (Absolute Pressure/2.000000e+06 [Pa])*
+(1.714822e+01 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-2.011574e+00 + (Absolute Pressure/2.000000e+06 [Pa])*
+(1.384578e-01 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-4.237826e-03)))))))))))), 
+3.771591e+01*exp((Absolute Pressure - 4.930000e+04 [Pa])/(5.188203e+04) [Pa])) * 1 [kg/m^3]
+
+case_001_a_mass_fraction
+if(Absolute Pressure>=49300 [Pa], 
+1.451714e-02 + (Absolute Pressure/2.000000e+06 [Pa])*
+(5.398566e-17 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-4.314569e-16 + (Absolute Pressure/2.000000e+06 [Pa])*
+(1.563607e-15 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-3.020825e-15 + (Absolute Pressure/2.000000e+06 [Pa])*
+(3.488477e-15 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-2.571793e-15 + (Absolute Pressure/2.000000e+06 [Pa])*
+(1.253118e-15 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-4.081895e-16 + (Absolute Pressure/2.000000e+06 [Pa])*
+(8.790485e-17 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-1.200766e-17 + (Absolute Pressure/2.000000e+06 [Pa])*
+(9.420784e-19 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-3.232468e-20)))))))))))), 
+1.451714e-02*exp((Absolute Pressure - 4.930000e+04 [Pa])/(8.203995e+20) [Pa]))
+
+case_001_a_speed_sound
+if(Absolute Pressure>=49300 [Pa], 
+4.204605e+01 + (Absolute Pressure/2.000000e+06 [Pa])*
+(6.657454e+01 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-1.446729e+00 + (Absolute Pressure/2.000000e+06 [Pa])*
+(4.806127e+00 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-6.602668e+00 + (Absolute Pressure/2.000000e+06 [Pa])*
+(5.874300e+00 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-3.524630e+00 + (Absolute Pressure/2.000000e+06 [Pa])*
+(1.449845e+00 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-4.093526e-01 + (Absolute Pressure/2.000000e+06 [Pa])*
+(7.794995e-02 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-9.562973e-03 + (Absolute Pressure/2.000000e+06 [Pa])*
+(6.822637e-04 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-2.150344e-05)))))))))))), 
+4.368630e+01*exp((Absolute Pressure - 4.930000e+04 [Pa])/(1.313645e+06) [Pa])) * 1 [m/s]
+
+case_001_a_viscosity
+if(Absolute Pressure>=49300 [Pa], 
+1.859285e-05 + (Absolute Pressure/2.000000e+06 [Pa])*
+(1.495079e-03 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-2.228635e-03 + (Absolute Pressure/2.000000e+06 [Pa])*
+(2.819785e-03 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-2.769660e-03 + (Absolute Pressure/2.000000e+06 [Pa])*
+(2.008932e-03 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-1.053249e-03 + (Absolute Pressure/2.000000e+06 [Pa])*
+(3.944947e-04 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-1.040478e-04 + (Absolute Pressure/2.000000e+06 [Pa])*
+(1.882014e-05 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-2.218302e-06 + (Absolute Pressure/2.000000e+06 [Pa])*
+(1.532870e-07 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-4.707038e-09)))))))))))), 
+5.413361e-05*exp((Absolute Pressure - 4.930000e+04 [Pa])/(7.787972e+04) [Pa])) * 1 [Pa*s]
+
+case_001_a_void_fraction
+if(Absolute Pressure>=49300 [Pa], 
+9.994233e-01 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-1.540466e+00 + (Absolute Pressure/2.000000e+06 [Pa])*
+(2.225895e+00 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-2.738588e+00 + (Absolute Pressure/2.000000e+06 [Pa])*
+(2.628806e+00 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-1.873693e+00 + (Absolute Pressure/2.000000e+06 [Pa])*
+(9.695628e-01 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-3.595706e-01 + (Absolute Pressure/2.000000e+06 [Pa])*
+(9.411490e-02 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-1.692133e-02 + (Absolute Pressure/2.000000e+06 [Pa])*
+(1.984867e-03 + (Absolute Pressure/2.000000e+06 [Pa])*
+(-1.366143e-04 + (Absolute Pressure/2.000000e+06 [Pa])*
+(4.181267e-06)))))))))))), 
+9.627632e-01*exp((Absolute Pressure - 4.930000e+04 [Pa])/(-1.341300e+06) [Pa]))
+

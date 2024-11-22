@@ -75,9 +75,12 @@ def compute_properties_1phase(
         props["quality_mass"] = props["Q"]
         props["quality_volume"] = 1.00 if props["Q"] >= 1 else 0.00
     else:
-        props["Q"] = np.nan
-        props["quality_mass"] = np.nan
-        props["quality_volume"] = np.nan
+        _AS = CP.AbstractState(AS.backend_name(), AS.name())
+        _AS.update(CP.DmassT_INPUTS, _AS.rhomass_critical(), _AS.T_critical())
+        s_crit = _AS.smass()
+        props["Q"] = 1.00 if props["smass"] > s_crit else 0.00
+        props["quality_mass"] = props["Q"]
+        props["quality_volume"] = props["Q"]
 
     # Calculate departure from saturation properties
     if supersaturation:
@@ -373,15 +376,29 @@ def compute_properties_metastable_rhoT(
     if supersaturation:
         props = calculate_supersaturation(AS, props)
 
+    # # Generalized quality outside the two-phase region
+    # if generalize_quality:
+    #     props["Q"] = calculate_generalized_quality(AS)
+    #     props["quality_mass"] = props["Q"]
+    #     props["quality_volume"] = np.nan
+    # else:
+    #     props["Q"] = np.nan
+    #     props["quality_mass"] = np.nan
+    #     props["quality_volume"] = np.nan
+
     # Generalized quality outside the two-phase region
     if generalize_quality:
         props["Q"] = calculate_generalized_quality(AS)
         props["quality_mass"] = props["Q"]
-        props["quality_volume"] = np.nan
+        props["quality_volume"] = 1.00 if props["Q"] >= 1 else 0.00
     else:
-        props["Q"] = np.nan
-        props["quality_mass"] = np.nan
-        props["quality_volume"] = np.nan
+        _AS = CP.AbstractState(AS.backend_name(), AS.name())
+        _AS.update(CP.DmassT_INPUTS, _AS.rhomass_critical(), _AS.T_critical())
+        s_crit = _AS.smass()
+        props["Q"] = 1.00 if props["smass"] > s_crit else 0.00
+        props["quality_mass"] = props["Q"]
+        props["quality_volume"] = props["Q"]
+
 
     # Add properties as aliases
     for key, value in PROPERTY_ALIAS.items():
