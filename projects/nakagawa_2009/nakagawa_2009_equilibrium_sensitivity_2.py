@@ -50,7 +50,7 @@ linestyles = ["-", "--", ":", "-."] * 3
 
 # Map q_width to linestyles
 linestyles = ["-", "--", ":", "-."] * 3
-q_width_values = sorted(set(case_data["q_transition"]))  # Unique sorted q_width values
+q_width_values = sorted(set(case_data["q_width"]))  # Unique sorted q_width values
 linestyle_map = {value: linestyles[i] for i, value in enumerate(q_width_values)}
 
 # Map q_onset to colors

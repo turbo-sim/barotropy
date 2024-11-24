@@ -138,7 +138,7 @@ for i, row in case_data.iterrows():
         efficiency=row["polytropic_efficiency"],
         calculation_type=row["calculation_type"],
         blending_onset=row["q_onset"],
-        blending_width=row["q_transition"],
+        blending_width=row["q_width"],
         ODE_solver="LSODA",
         ODE_tolerance=1e-12,
         polynomial_degree=[4, 6, 8],
