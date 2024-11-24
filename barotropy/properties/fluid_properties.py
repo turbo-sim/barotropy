@@ -23,6 +23,19 @@ MEANLINE_PROPERTIES = [
     "gamma",
 ]
 
+LABEL_MAPPING = {
+    "density": "Density (kg/m$^3$)",
+    "viscosity": "Viscosity (Pa·s)",
+    "speed_sound": "Speed of sound (m/s)",
+    "void_fraction": "Void fraction",
+    "vapor_quality": "Vapor quality",
+    "p": "Pressure (Pa)",
+    "s": "Entropy (J/kg/K)",
+    "T": "Temperature (K)",
+    "h": "Enthalpy (J/kg)",
+    "rho": r"Density (kg/m$^3$)",
+}
+
 # Dynamically add INPUTS fields to the module
 # for attr in dir(CP):
 #     if attr.endswith('_INPUTS'):
@@ -483,6 +496,8 @@ class Fluid:
     ):
         if axes is None:
             axes = plt.gca()
+            axes.set_xlabel(LABEL_MAPPING.get(x_prop, x_prop))
+            axes.set_ylabel(LABEL_MAPPING.get(y_prop, y_prop))
 
         # Saturation line
         if plot_saturation_line:
