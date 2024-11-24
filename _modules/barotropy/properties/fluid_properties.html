@@ -301,6 +301,19 @@
     <span class="s2">&quot;gamma&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
+<span class="n">LABEL_MAPPING</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="s2">&quot;Density (kg/m$^3$)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;viscosity&quot;</span><span class="p">:</span> <span class="s2">&quot;Viscosity (Pa·s)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;speed_sound&quot;</span><span class="p">:</span> <span class="s2">&quot;Speed of sound (m/s)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;void_fraction&quot;</span><span class="p">:</span> <span class="s2">&quot;Void fraction&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;vapor_quality&quot;</span><span class="p">:</span> <span class="s2">&quot;Vapor quality&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;p&quot;</span><span class="p">:</span> <span class="s2">&quot;Pressure (Pa)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="s2">&quot;Entropy (J/kg/K)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;T&quot;</span><span class="p">:</span> <span class="s2">&quot;Temperature (K)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;h&quot;</span><span class="p">:</span> <span class="s2">&quot;Enthalpy (J/kg)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rho&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;Density (kg/m$^3$)&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
 <span class="c1"># Dynamically add INPUTS fields to the module</span>
 <span class="c1"># for attr in dir(CP):</span>
 <span class="c1">#     if attr.endswith(&#39;_INPUTS&#39;):</span>
@@ -783,6 +796,8 @@
     <span class="p">):</span>
         <span class="k">if</span> <span class="n">axes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+            <span class="n">axes</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">LABEL_MAPPING</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x_prop</span><span class="p">,</span> <span class="n">x_prop</span><span class="p">))</span>
+            <span class="n">axes</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">LABEL_MAPPING</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">y_prop</span><span class="p">,</span> <span class="n">y_prop</span><span class="p">))</span>
 
         <span class="c1"># Saturation line</span>
         <span class="k">if</span> <span class="n">plot_saturation_line</span><span class="p">:</span>

@@ -561,30 +561,26 @@ The expression file is needed as input</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.fluent_automation.fluent_automation.read_residual_file">
-<span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">read_residual_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">res_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent_automation/fluent_automation.html#read_residual_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.fluent_automation.read_residual_file" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">read_residual_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent_automation/fluent_automation.html#read_residual_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.fluent_automation.read_residual_file" title="Link to this definition">#</a></dt>
 <dd><p>Reads a transcript file to extract the residual history and returns it as a Pandas DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>filename</strong><span class="classifier">str</span></dt><dd><p>Path to the transcript file.</p>
 </dd>
-<dt><strong>res_number</strong><span class="classifier">int, optional</span></dt><dd><p>Number of residuals to be extracted. Defaults to 5.</p>
-</dd>
 <dt><strong>line_start</strong><span class="classifier">int, optional</span></dt><dd><p>Line number to start reading from. Useful for files with non-relevant introductory lines. Defaults to 0.</p>
-</dd>
-<dt><strong>header</strong><span class="classifier">list of str, optional</span></dt><dd><p>List of column names for the DataFrame. If not provided, the function tries to extract it from the file.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt>pd.DataFrame</dt><dd><p>DataFrame containing the extracted residuals. Column names are either provided or extracted from the file.</p>
+<dt>pd.DataFrame</dt><dd><p>DataFrame containing the extracted residuals with appropriate column headers.</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>It’s assumed that the residual headers in the transcript file start with ‘iter’ and ‘continuity’.</p>
+<p>It is assumed that the residual headers in the transcript file start with ‘iter’ end with ‘time/iter’.</p>
 </dd></dl>
 
 <dl class="py function">

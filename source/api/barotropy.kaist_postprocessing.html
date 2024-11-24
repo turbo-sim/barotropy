@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Fluent automation &#8212; barotropy v0.0.6 documentation</title>
+    <title>barotropy.kaist_postprocessing module &#8212; barotropy v0.0.6 documentation</title>
   
   
   
@@ -52,11 +52,9 @@
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'source/api/barotropy.fluent_automation';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'source/api/barotropy.kaist_postprocessing';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="barotropy.fluent_automation.fluent_automation module" href="barotropy.fluent_automation.fluent_automation.html" />
-    <link rel="prev" title="barotropy.pysolver_view.pysolver_utilities module" href="barotropy.pysolver_view.pysolver_utilities.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -108,6 +106,8 @@
       
       
       
+        
+      
       <dialog id="pst-primary-sidebar-modal"></dialog>
       <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
@@ -147,7 +147,7 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/one_component_systems.html">One-component systems</a></li>
@@ -156,7 +156,7 @@
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../barotropic_model.html">Barotropic model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="barotropy.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="barotropy.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="barotropy.barotropic_model.html">Barotropic model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="barotropy.properties.html">Fluid properties</a></li>
 
@@ -173,7 +173,7 @@
 <li class="toctree-l3"><a class="reference internal" href="barotropy.pysolver_view.pysolver_utilities.html">barotropy.pysolver_view.pysolver_utilities module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">Fluent automation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="barotropy.fluent_automation.html">Fluent automation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="barotropy.fluent_automation.fluent_automation.html">barotropy.fluent_automation.fluent_automation module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="barotropy.fluent_automation.fluent_plot_nozzle_data.html">barotropy.fluent_automation.fluent_plot_nozzle_data module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="barotropy.fluent_automation.stream_residuals.html">barotropy.fluent_automation.stream_residuals module</a></li>
@@ -236,7 +236,7 @@
       
       
       
-      <li><a href="../../_sources/source/api/barotropy.fluent_automation.rst" target="_blank"
+      <li><a href="../../_sources/source/api/barotropy.kaist_postprocessing.rst" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -312,7 +312,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Fluent automation</h1>
+    <h1>barotropy.kaist_postprocessing module</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -322,7 +322,9 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.kaist_postprocessing.calculate_enthalpy_rise"><code class="docutils literal notranslate"><span class="pre">calculate_enthalpy_rise()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.kaist_postprocessing.convert_units"><code class="docutils literal notranslate"><span class="pre">convert_units()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.kaist_postprocessing.load_and_convert_data"><code class="docutils literal notranslate"><span class="pre">load_and_convert_data()</span></code></a></li>
 </ul>
             </nav>
         </div>
@@ -334,45 +336,48 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="module-barotropy.fluent_automation">
-<span id="fluent-automation"></span><h1>Fluent automation<a class="headerlink" href="#module-barotropy.fluent_automation" title="Link to this heading">#</a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="barotropy.fluent_automation.fluent_automation.html">barotropy.fluent_automation.fluent_automation module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.TranscriptFileMissingError"><code class="docutils literal notranslate"><span class="pre">TranscriptFileMissingError</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.add_solution_strategy"><code class="docutils literal notranslate"><span class="pre">add_solution_strategy()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.parse_fluent_out"><code class="docutils literal notranslate"><span class="pre">parse_fluent_out()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.parse_fluent_xy"><code class="docutils literal notranslate"><span class="pre">parse_fluent_xy()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.plot_residuals"><code class="docutils literal notranslate"><span class="pre">plot_residuals()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.plot_residuals_real_time"><code class="docutils literal notranslate"><span class="pre">plot_residuals_real_time()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.print_transcript_real_time"><code class="docutils literal notranslate"><span class="pre">print_transcript_real_time()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.read_expression_file"><code class="docutils literal notranslate"><span class="pre">read_expression_file()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.read_residual_file"><code class="docutils literal notranslate"><span class="pre">read_residual_file()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.run_cleanup_script"><code class="docutils literal notranslate"><span class="pre">run_cleanup_script()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.run_fluent_simulation"><code class="docutils literal notranslate"><span class="pre">run_fluent_simulation()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="barotropy.fluent_automation.fluent_plot_nozzle_data.html">barotropy.fluent_automation.fluent_plot_nozzle_data module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.add_line"><code class="docutils literal notranslate"><span class="pre">add_line()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.generic_plot_distribution"><code class="docutils literal notranslate"><span class="pre">generic_plot_distribution()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_density_distribution"><code class="docutils literal notranslate"><span class="pre">plot_density_distribution()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_nozzle_xy_data"><code class="docutils literal notranslate"><span class="pre">plot_nozzle_xy_data()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_pressure_distribution"><code class="docutils literal notranslate"><span class="pre">plot_pressure_distribution()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_speed_sound_distribution"><code class="docutils literal notranslate"><span class="pre">plot_speed_sound_distribution()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_vapor_quality_distribution"><code class="docutils literal notranslate"><span class="pre">plot_vapor_quality_distribution()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_velocity_distribution"><code class="docutils literal notranslate"><span class="pre">plot_velocity_distribution()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_viscosity_distribution"><code class="docutils literal notranslate"><span class="pre">plot_viscosity_distribution()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_void_fraction_distribution"><code class="docutils literal notranslate"><span class="pre">plot_void_fraction_distribution()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_yplus_distribution"><code class="docutils literal notranslate"><span class="pre">plot_yplus_distribution()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="barotropy.fluent_automation.stream_residuals.html">barotropy.fluent_automation.stream_residuals module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="barotropy.fluent_automation.stream_transcript.html">barotropy.fluent_automation.stream_transcript module</a></li>
-</ul>
-</div>
-</section>
+  <section id="module-barotropy.kaist_postprocessing">
+<span id="barotropy-kaist-postprocessing-module"></span><h1>barotropy.kaist_postprocessing module<a class="headerlink" href="#module-barotropy.kaist_postprocessing" title="Link to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.kaist_postprocessing.calculate_enthalpy_rise">
+<span class="sig-prename descclassname"><span class="pre">barotropy.kaist_postprocessing.</span></span><span class="sig-name descname"><span class="pre">calculate_enthalpy_rise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T_filter_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">P_filter_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">P_filter_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MF_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MF_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angular_speed</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/kaist_postprocessing.html#calculate_enthalpy_rise"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.kaist_postprocessing.calculate_enthalpy_rise" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.kaist_postprocessing.convert_units">
+<span class="sig-prename descclassname"><span class="pre">barotropy.kaist_postprocessing.</span></span><span class="sig-name descname"><span class="pre">convert_units</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'absolute'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/kaist_postprocessing.html#convert_units"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.kaist_postprocessing.convert_units" title="Link to this definition">#</a></dt>
+<dd><p>Convert measured quantities to SI units.</p>
+<p>The function assumes:
+- Temperatures are in degrees Celsius and are converted to Kelvin.
+- Pressures are in gauge bars and are converted to Pascals (absolute).
+- Angular speeds are in Hz and are converted to rad/s.
+- Mass flows are in kg/min and are converted to kg/s.</p>
+<p>For ‘absolute’ mode, multiplicative and additive conversions are applied
+For ‘uncertainty’ mode, only multiplicative conversions are applied (typical deviation is a differential quantity)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>df</strong><span class="classifier">DataFrame</span></dt><dd><p>The pandas DataFrame containing the data to be converted.</p>
+</dd>
+<dt><strong>mode</strong><span class="classifier">str, optional</span></dt><dd><p>Specifies whether the data in the DataFrame are ‘absolute’ measurements or ‘uncertainty’ values.
+Default is ‘absolute’.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>DataFrame</dt><dd><p>The DataFrame with converted units.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.kaist_postprocessing.load_and_convert_data">
+<span class="sig-prename descclassname"><span class="pre">barotropy.kaist_postprocessing.</span></span><span class="sig-name descname"><span class="pre">load_and_convert_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_mapping</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/kaist_postprocessing.html#load_and_convert_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.kaist_postprocessing.load_and_convert_data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
 </section>
 
 
@@ -386,24 +391,6 @@
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="barotropy.pysolver_view.pysolver_utilities.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">barotropy.pysolver_view.pysolver_utilities module</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="barotropy.fluent_automation.fluent_automation.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">barotropy.fluent_automation.fluent_automation module</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               
@@ -421,7 +408,9 @@
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.kaist_postprocessing.calculate_enthalpy_rise"><code class="docutils literal notranslate"><span class="pre">calculate_enthalpy_rise()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.kaist_postprocessing.convert_units"><code class="docutils literal notranslate"><span class="pre">convert_units()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.kaist_postprocessing.load_and_convert_data"><code class="docutils literal notranslate"><span class="pre">load_and_convert_data()</span></code></a></li>
 </ul>
   </nav></div>
 

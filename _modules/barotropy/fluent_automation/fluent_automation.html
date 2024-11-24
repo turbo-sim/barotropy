@@ -290,13 +290,33 @@
 
 <span class="kn">from</span> <span class="nn">parse</span> <span class="kn">import</span> <span class="n">parse</span>
 
-<span class="c1"># TODO: This might be broken, verify that it works after I refactored into package</span>
-<span class="c1"># from barotropy import stream_residuals, stream_transcript  # Import as module to get its path</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">stream_residuals</span><span class="p">,</span> <span class="n">stream_transcript</span>  <span class="c1"># Import as module to get its path</span>
 <span class="kn">from</span> <span class="nn">..utilities</span> <span class="kn">import</span> <span class="n">is_float</span><span class="p">,</span> <span class="n">wait_for_file</span>
 
+<span class="n">RESIDUAL_LABEL_MAPPING</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;continuity&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$p$ - continuity&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;x-velocity&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$v_x$ - momentum&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;y-velocity&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$v_y$ - momentum&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;z-velocity&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$v_z$ - momentum&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;k&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$k$ - turbulence&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;omega&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\omega$ - turbulence&#39;</span>
+<span class="p">}</span>
 
-    
+<span class="c1"># Define mapping betweet export filenames and Fluent variable names</span>
+<span class="n">EXPORT_VARS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;pressure&quot;</span><span class="p">:</span> <span class="s2">&quot;pressure&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="s2">&quot;density&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;viscosity&quot;</span><span class="p">:</span> <span class="s2">&quot;viscosity-lam&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;speed_sound&quot;</span><span class="p">:</span> <span class="s2">&quot;sound-speed&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;velocity&quot;</span><span class="p">:</span> <span class="s2">&quot;velocity-magnitude&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;y_plus&quot;</span><span class="p">:</span> <span class="s2">&quot;y-plus&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;barotropic_density&quot;</span><span class="p">:</span> <span class="s2">&quot;expr:barotropic_density&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;barotropic_speed_sound&quot;</span><span class="p">:</span> <span class="s2">&quot;expr:barotropic_speed_sound&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;barotropic_viscosity&quot;</span><span class="p">:</span> <span class="s2">&quot;expr:barotropic_viscosity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;barotropic_void_fraction&quot;</span><span class="p">:</span> <span class="s2">&quot;expr:barotropic_void_fraction&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;barotropic_vapor_quality&quot;</span><span class="p">:</span> <span class="s2">&quot;expr:barotropic_vapor_quality&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
 <div class="viewcode-block" id="read_expression_file">
 <a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.read_expression_file">[docs]</a>
 <span class="k">def</span> <span class="nf">read_expression_file</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
@@ -442,7 +462,7 @@
     
     <span class="k">try</span><span class="p">:</span>
         <span class="c1"># Load file using Pandas</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">delim_whitespace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="c1"># Process the column names</span>
         <span class="n">cleaned_columns</span> <span class="o">=</span> <span class="p">[</span>
@@ -566,7 +586,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Read residuals from the transcript file</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">read_residual_file</span><span class="p">(</span><span class="n">transcript_file</span><span class="p">,</span> <span class="n">res_number</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">read_residual_file</span><span class="p">(</span><span class="n">transcript_file</span><span class="p">)</span>
 
     <span class="c1"># If no figure or axis provided, create new ones</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">fig</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">ax</span><span class="p">:</span>
@@ -577,23 +597,13 @@
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Iteration number&quot;</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Normalized RMS residual&quot;</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
-
-    <span class="c1"># Define a mapping for the residual names to readable labels</span>
-    <span class="c1"># TODO: extend to 3D and other turbulence models</span>
-    <span class="n">name_map</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;continuity&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$p$ - continuity&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;x-velocity&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$v_x$ - momentum&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;y-velocity&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$v_y$ - momentum&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;k&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$k$ - turbulence&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;omega&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s1">&#39;$\omega$ - turbulence&#39;</span>
-    <span class="p">}</span>
-
+    
     <span class="c1"># Plot residuals using the mapped labels</span>
     <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
             <span class="n">df</span><span class="p">[</span><span class="s2">&quot;iter&quot;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">],</span>
             <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> 
-            <span class="n">label</span><span class="o">=</span><span class="n">name_map</span><span class="p">[</span><span class="n">column</span><span class="p">]</span>
+            <span class="n">label</span><span class="o">=</span><span class="n">RESIDUAL_LABEL_MAPPING</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="n">column</span><span class="p">)</span>
         <span class="p">)</span>
 
     <span class="c1"># Add legend to the plot</span>
@@ -611,9 +621,73 @@
 
 
 
+<span class="c1"># def read_residual_file(filename, res_number=5, line_start=0, header=None):</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Reads a transcript file to extract the residual history and returns it as a Pandas DataFrame.</span>
+
+<span class="c1">#     Parameters</span>
+<span class="c1">#     ----------</span>
+<span class="c1">#     filename : str</span>
+<span class="c1">#         Path to the transcript file.</span>
+<span class="c1">#     res_number : int, optional</span>
+<span class="c1">#         Number of residuals to be extracted. Defaults to 5.</span>
+<span class="c1">#     line_start : int, optional</span>
+<span class="c1">#         Line number to start reading from. Useful for files with non-relevant introductory lines. Defaults to 0.</span>
+<span class="c1">#     header : list of str, optional</span>
+<span class="c1">#         List of column names for the DataFrame. If not provided, the function tries to extract it from the file.</span>
+
+<span class="c1">#     Returns</span>
+<span class="c1">#     -------</span>
+<span class="c1">#     pd.DataFrame</span>
+<span class="c1">#         DataFrame containing the extracted residuals. Column names are either provided or extracted from the file.</span>
+
+<span class="c1">#     Notes</span>
+<span class="c1">#     -----</span>
+<span class="c1">#     It&#39;s assumed that the residual headers in the transcript file start with &#39;iter&#39; and &#39;continuity&#39;.</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+    
+<span class="c1">#     # Read data from the transcript file</span>
+<span class="c1">#     with open(filename, &#39;r&#39;) as file:</span>
+<span class="c1">#         lines = file.readlines()</span>
+
+<span class="c1">#     # Initialize lists to store values</span>
+<span class="c1">#     residuals = []</span>
+    
+<span class="c1">#     # Use the provided header if available, otherwise extract from the file</span>
+<span class="c1">#     if not header:</span>
+<span class="c1">#         header = []</span>
+    
+<span class="c1">#     # Loop through lines to extract headers and residuals</span>
+<span class="c1">#     for line in lines[line_start:]:</span>
+        
+<span class="c1">#         # If header hasn&#39;t been found, look for it based on the expected starting words</span>
+<span class="c1">#         words = line.split()</span>
+<span class="c1">#         if not header and len(words) &gt;= 2 and words[0] == &#39;iter&#39; and words[1] == &#39;continuity&#39;:</span>
+<span class="c1">#             header = line.split()</span>
+<span class="c1">#             header = [item.split(&quot;/&quot;) for item in header]</span>
+<span class="c1">#             header = [item for sublist in header for item in sublist]</span>
+<span class="c1">#             header = header[0:res_number+1]</span>
+
+<span class="c1">#         # Extract lines that contain numeric residual values</span>
+<span class="c1">#         line_elements = line.split()[0:res_number+1]</span>
+<span class="c1">#         numeric_line = all([is_float(element) for element in line_elements])</span>
+        
+<span class="c1">#         # Append lines that match the expected structure and content</span>
+<span class="c1">#         if header and len(header) == len(line_elements) and numeric_line:</span>
+<span class="c1">#             residuals.append(line_elements)</span>
+
+<span class="c1">#     # Convert the list of residuals into a DataFrame</span>
+<span class="c1">#     df = pd.DataFrame(residuals, columns=header)</span>
+
+<span class="c1">#     # Convert values to float for computation purposes</span>
+<span class="c1">#     df = df.astype(float)</span>
+
+<span class="c1">#     return df</span>
+
+
 <div class="viewcode-block" id="read_residual_file">
 <a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.read_residual_file">[docs]</a>
-<span class="k">def</span> <span class="nf">read_residual_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">res_number</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">line_start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">read_residual_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">line_start</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reads a transcript file to extract the residual history and returns it as a Pandas DataFrame.</span>
 
@@ -621,74 +695,65 @@
 <span class="sd">    ----------</span>
 <span class="sd">    filename : str</span>
 <span class="sd">        Path to the transcript file.</span>
-<span class="sd">    res_number : int, optional</span>
-<span class="sd">        Number of residuals to be extracted. Defaults to 5.</span>
 <span class="sd">    line_start : int, optional</span>
 <span class="sd">        Line number to start reading from. Useful for files with non-relevant introductory lines. Defaults to 0.</span>
-<span class="sd">    header : list of str, optional</span>
-<span class="sd">        List of column names for the DataFrame. If not provided, the function tries to extract it from the file.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pd.DataFrame</span>
-<span class="sd">        DataFrame containing the extracted residuals. Column names are either provided or extracted from the file.</span>
+<span class="sd">        DataFrame containing the extracted residuals with appropriate column headers.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    It&#39;s assumed that the residual headers in the transcript file start with &#39;iter&#39; and &#39;continuity&#39;.</span>
+<span class="sd">    It is assumed that the residual headers in the transcript file start with &#39;iter&#39; end with &#39;time/iter&#39;.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-    
+
     <span class="c1"># Read data from the transcript file</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
         <span class="n">lines</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
 
-    <span class="c1"># Initialize lists to store values</span>
+    <span class="c1"># Initialize variables</span>
     <span class="n">residuals</span> <span class="o">=</span> <span class="p">[]</span>
-    
-    <span class="c1"># Use the provided header if available, otherwise extract from the file</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">header</span><span class="p">:</span>
-        <span class="n">header</span> <span class="o">=</span> <span class="p">[]</span>
-    
+    <span class="n">header</span> <span class="o">=</span> <span class="kc">None</span>
+
     <span class="c1"># Loop through lines to extract headers and residuals</span>
     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="n">line_start</span><span class="p">:]:</span>
         
-        <span class="c1"># If header hasn&#39;t been found, look for it based on the expected starting words</span>
+        <span class="c1"># Skip empty lines</span>
         <span class="n">words</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">header</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;iter&#39;</span> <span class="ow">and</span> <span class="n">words</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;continuity&#39;</span><span class="p">:</span>
-            <span class="n">header</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-            <span class="n">header</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">header</span><span class="p">]</span>
-            <span class="n">header</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">header</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
-            <span class="n">header</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">res_number</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">words</span><span class="p">:</span>
+            <span class="k">continue</span>
 
-        <span class="c1"># Extract lines that contain numeric residual values</span>
-        <span class="n">line_elements</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="n">res_number</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">numeric_line</span> <span class="o">=</span> <span class="nb">all</span><span class="p">([</span><span class="n">is_float</span><span class="p">(</span><span class="n">element</span><span class="p">)</span> <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">line_elements</span><span class="p">])</span>
-        
-        <span class="c1"># Append lines that match the expected structure and content</span>
-        <span class="k">if</span> <span class="n">header</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">header</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">line_elements</span><span class="p">)</span> <span class="ow">and</span> <span class="n">numeric_line</span><span class="p">:</span>
-            <span class="n">residuals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line_elements</span><span class="p">)</span>
+        <span class="c1"># Detect header based on first column being &quot;iter&quot; and last column being &quot;time/iter&quot;</span>
+        <span class="k">if</span> <span class="n">header</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;iter&quot;</span> <span class="ow">and</span> <span class="n">words</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;time/iter&quot;</span><span class="p">:</span>
+            <span class="n">header</span> <span class="o">=</span> <span class="n">words</span>
 
-    <span class="c1"># Convert the list of residuals into a DataFrame</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">residuals</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">header</span><span class="p">)</span>
+        <span class="c1"># Extract numeric values for residuals</span>
+        <span class="k">elif</span> <span class="n">header</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">header</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># Ensure line matches header length</span>
+                <span class="k">if</span> <span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="ow">and</span> <span class="n">is_float</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>  <span class="c1"># Check &quot;iter&quot; is numeric and first residual is valid</span>
+                    <span class="n">residuals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span> <span class="c1"># Exclude &quot;time/iter&quot; which are 2 entries</span>
 
-    <span class="c1"># Convert values to float for computation purposes</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+    <span class="c1"># Create empty DataFrame if no data is found</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">residuals</span> <span class="ow">or</span> <span class="n">header</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    
+    <span class="c1"># # Validate header and residuals</span>
+    <span class="c1"># if header is None:</span>
+    <span class="c1">#     raise ValueError(&quot;No valid header found in the file.&quot;)</span>
+    <span class="c1"># if not residuals:</span>
+    <span class="c1">#     raise ValueError(&quot;No valid residual data found in the file.&quot;)</span>
+
+    <span class="c1"># Create dataframe (excluding &quot;iter&quot; and &quot;time/iter&quot;)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">residuals</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">header</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># Exclude &quot;time/iter&quot; which is 1 entry</span>
+
+    <span class="c1"># Convert column data to numbers</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;iter&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;iter&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">header</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">header</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">df</span></div>
 
-
-
-<span class="c1"># def print_transcript_real_time(transcript_file):</span>
-<span class="c1">#     &quot;&quot;&quot;Print the content of transcript_file.trn in real time&quot;&quot;&quot;</span>
-
-<span class="c1">#     # Wait until the transcript file is created before executing the script</span>
-<span class="c1">#     wait_for_file(transcript_file)</span>
-
-<span class="c1">#     # Run a subprocess to run the &quot;stream_tramscript_file.py&quot; script in the background</span>
-<span class="c1">#     args = [&quot;python&quot;, stream_transcript.__file__, f&quot;{transcript_file}&quot;]</span>
-<span class="c1">#     process = subprocess.Popen(args)</span>
-    
-<span class="c1">#     return process</span>
     
 
 <div class="viewcode-block" id="print_transcript_real_time">
@@ -713,6 +778,7 @@
     <span class="n">wait_for_file</span><span class="p">(</span><span class="n">transcript_file</span><span class="p">)</span>
     <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="n">stream_transcript</span><span class="o">.</span><span class="vm">__file__</span><span class="p">,</span>  <span class="n">transcript_file</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">args</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="plot_residuals_real_time">

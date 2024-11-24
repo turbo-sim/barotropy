@@ -285,8 +285,8 @@
 
 <div class="viewcode-block" id="plot_nozzle_xy_data">
 <a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_nozzle_xy_data">[docs]</a>
-<span class="k">def</span> <span class="nf">plot_nozzle_xy_data</span><span class="p">(</span><span class="n">case_name</span><span class="p">,</span> <span class="n">dir_xy</span><span class="p">,</span> <span class="n">data_vars</span><span class="p">):</span>
-
+<span class="k">def</span> <span class="nf">plot_nozzle_xy_data</span><span class="p">(</span><span class="n">case_name</span><span class="p">,</span> <span class="n">dir_xy</span><span class="p">,</span> <span class="n">data_vars</span><span class="p">,</span> <span class="n">zone_list</span><span class="p">,</span> <span class="n">x_var</span><span class="p">):</span>
+    
     <span class="c1"># Parse all the requested files at the start</span>
     <span class="n">parsed_data</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">data_vars</span><span class="p">:</span>
@@ -296,12 +296,12 @@
     <span class="c1"># Define dictionary of variable/functions</span>
     <span class="n">var_funcs</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;pressure&quot;</span><span class="p">:</span> <span class="n">plot_pressure_distribution</span><span class="p">,</span>
-        <span class="s2">&quot;velocity-magnitude&quot;</span><span class="p">:</span> <span class="n">plot_velocity_distribution</span><span class="p">,</span>
+        <span class="s2">&quot;velocity&quot;</span><span class="p">:</span> <span class="n">plot_velocity_distribution</span><span class="p">,</span>
         <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="n">plot_density_distribution</span><span class="p">,</span>
         <span class="s2">&quot;speed_sound&quot;</span><span class="p">:</span> <span class="n">plot_speed_sound_distribution</span><span class="p">,</span>
         <span class="s2">&quot;viscosity&quot;</span><span class="p">:</span> <span class="n">plot_viscosity_distribution</span><span class="p">,</span>
         <span class="s2">&quot;void_fraction&quot;</span><span class="p">:</span> <span class="n">plot_void_fraction_distribution</span><span class="p">,</span>
-        <span class="s2">&quot;mass_fraction&quot;</span><span class="p">:</span> <span class="n">plot_mass_fraction_distribution</span><span class="p">,</span>
+        <span class="s2">&quot;vapor_quality&quot;</span><span class="p">:</span> <span class="n">plot_vapor_quality_distribution</span><span class="p">,</span>
         <span class="s2">&quot;y_plus&quot;</span><span class="p">:</span> <span class="n">plot_yplus_distribution</span><span class="p">,</span>
     <span class="p">}</span>
 
@@ -310,7 +310,7 @@
     <span class="k">for</span> <span class="n">var_func_key</span> <span class="ow">in</span> <span class="n">var_funcs</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">var_func_key</span> <span class="ow">in</span> <span class="n">data_var</span> <span class="k">for</span> <span class="n">data_var</span> <span class="ow">in</span> <span class="n">data_vars</span><span class="p">):</span>
             <span class="n">base_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">case_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">var_func_key</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="n">fig</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">var_funcs</span><span class="p">[</span><span class="n">var_func_key</span><span class="p">](</span><span class="n">parsed_data</span><span class="p">)</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">var_funcs</span><span class="p">[</span><span class="n">var_func_key</span><span class="p">](</span><span class="n">parsed_data</span><span class="p">,</span> <span class="n">zone_list</span><span class="p">,</span> <span class="n">x_var</span><span class="p">)</span>
             <span class="n">savefig_in_formats</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir_xy</span><span class="p">,</span> <span class="n">base_name</span><span class="p">))</span>
             <span class="n">figs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
             
@@ -320,144 +320,159 @@
 
 <div class="viewcode-block" id="plot_pressure_distribution">
 <a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_pressure_distribution">[docs]</a>
-<span class="k">def</span> <span class="nf">plot_pressure_distribution</span><span class="p">(</span><span class="n">parsed_data</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">plot_pressure_distribution</span><span class="p">(</span><span class="n">parsed_data</span><span class="p">,</span> <span class="n">zone_list</span><span class="p">,</span> <span class="n">x_var</span><span class="p">):</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;pressure&quot;</span><span class="p">)</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="c1"># add_line(lines, df, &quot;wall&quot;, &quot;Static Pressure&quot;)</span>
-    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="s2">&quot;wall_conv&quot;</span><span class="p">,</span> <span class="s2">&quot;Static Pressure&quot;</span><span class="p">)</span>
-    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="s2">&quot;wall_throat&quot;</span><span class="p">,</span> <span class="s2">&quot;Static Pressure&quot;</span><span class="p">)</span>
-    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="s2">&quot;wall_dive&quot;</span><span class="p">,</span> <span class="s2">&quot;Static Pressure&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">zone</span> <span class="ow">in</span> <span class="n">zone_list</span><span class="p">:</span>
+        <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">zone</span><span class="p">,</span> <span class="s2">&quot;Static Pressure&quot;</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">generic_plot_distribution</span><span class="p">(</span>
         <span class="n">lines</span><span class="p">,</span>
         <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Pressure distribution&quot;</span><span class="p">,</span> 
         <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Axial position (mm)&quot;</span><span class="p">,</span> 
         <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Static pressure (bar)&quot;</span><span class="p">,</span> 
         <span class="n">scale_x</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span>
-        <span class="n">scale_y</span><span class="o">=</span><span class="mf">1e-5</span>
+        <span class="n">scale_y</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span>
+        <span class="n">x_var</span><span class="o">=</span><span class="n">x_var</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="plot_velocity_distribution">
 <a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_velocity_distribution">[docs]</a>
-<span class="k">def</span> <span class="nf">plot_velocity_distribution</span><span class="p">(</span><span class="n">parsed_data</span><span class="p">):</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;velocity-magnitude&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">plot_velocity_distribution</span><span class="p">(</span><span class="n">parsed_data</span><span class="p">,</span> <span class="n">zone_list</span><span class="p">,</span> <span class="n">x_var</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;velocity&quot;</span><span class="p">)</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="c1"># add_line(lines, df, &quot;axis&quot;, &quot;Velocity Magnitude&quot;)</span>
-    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="s2">&quot;centerline_conv&quot;</span><span class="p">,</span> <span class="s2">&quot;Velocity Magnitude&quot;</span><span class="p">)</span>
-    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="s2">&quot;centerline_throat&quot;</span><span class="p">,</span> <span class="s2">&quot;Velocity Magnitude&quot;</span><span class="p">)</span>
-    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="s2">&quot;centerline_dive&quot;</span><span class="p">,</span> <span class="s2">&quot;Velocity Magnitude&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">zone</span> <span class="ow">in</span> <span class="n">zone_list</span><span class="p">:</span>
+        <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">zone</span><span class="p">,</span> <span class="s2">&quot;Velocity Magnitude&quot;</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">generic_plot_distribution</span><span class="p">(</span>
         <span class="n">lines</span><span class="p">,</span>
         <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Velocity distribution&quot;</span><span class="p">,</span> 
         <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Axial position (mm)&quot;</span><span class="p">,</span> 
         <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Fluid velocity (m/s)&quot;</span><span class="p">,</span> 
         <span class="n">scale_x</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span>
-        <span class="n">scale_y</span><span class="o">=</span><span class="mi">1</span>
+        <span class="n">scale_y</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">x_var</span><span class="o">=</span><span class="n">x_var</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="plot_density_distribution">
 <a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_density_distribution">[docs]</a>
-<span class="k">def</span> <span class="nf">plot_density_distribution</span><span class="p">(</span><span class="n">parsed_data</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">plot_density_distribution</span><span class="p">(</span><span class="n">parsed_data</span><span class="p">,</span> <span class="n">zone_list</span><span class="p">,</span> <span class="n">x_var</span><span class="p">):</span>
     <span class="n">df1</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;density&quot;</span><span class="p">)</span>
     <span class="n">df2</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;barotropic_density&quot;</span><span class="p">)</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df1</span><span class="p">,</span> <span class="s2">&quot;wall_conv&quot;</span><span class="p">,</span> <span class="s2">&quot;Density&quot;</span><span class="p">)</span>
-    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df1</span><span class="p">,</span> <span class="s2">&quot;wall_throat&quot;</span><span class="p">,</span> <span class="s2">&quot;Density&quot;</span><span class="p">)</span>
-    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df1</span><span class="p">,</span> <span class="s2">&quot;wall_dive&quot;</span><span class="p">,</span> <span class="s2">&quot;Density&quot;</span><span class="p">)</span>
-    <span class="c1"># add_line(lines, df1, &quot;wall&quot;, &quot;Density&quot;, &quot;Fluent data&quot;)</span>
-    <span class="c1"># add_line(lines, df2, &quot;wall&quot;, &quot;barotropic_density&quot;, &quot;Barotropic model&quot;, linestyle=&quot;--&quot;)</span>
+    <span class="k">for</span> <span class="n">zone</span> <span class="ow">in</span> <span class="n">zone_list</span><span class="p">:</span>
+        <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df1</span><span class="p">,</span> <span class="n">zone</span><span class="p">,</span> <span class="s2">&quot;Density&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Fluent data&quot;</span><span class="p">)</span>
+        <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df2</span><span class="p">,</span> <span class="n">zone</span><span class="p">,</span> <span class="s2">&quot;barotropic_density&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Barotropic model&quot;</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">generic_plot_distribution</span><span class="p">(</span>
         <span class="n">lines</span><span class="p">,</span>
         <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Density distribution&quot;</span><span class="p">,</span> 
         <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Axial position (mm)&quot;</span><span class="p">,</span> 
         <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Density (kg/m$^3$)&quot;</span><span class="p">,</span> 
         <span class="n">scale_x</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span>
-        <span class="n">scale_y</span><span class="o">=</span><span class="mi">1</span>
+        <span class="n">scale_y</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">x_var</span><span class="o">=</span><span class="n">x_var</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="plot_viscosity_distribution">
 <a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_viscosity_distribution">[docs]</a>
-<span class="k">def</span> <span class="nf">plot_viscosity_distribution</span><span class="p">(</span><span class="n">parsed_data</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">plot_viscosity_distribution</span><span class="p">(</span><span class="n">parsed_data</span><span class="p">,</span> <span class="n">zone_list</span><span class="p">,</span> <span class="n">x_var</span><span class="p">):</span>
     <span class="n">df1</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;viscosity&quot;</span><span class="p">)</span>
     <span class="n">df2</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;barotropic_viscosity&quot;</span><span class="p">)</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df1</span><span class="p">,</span> <span class="s2">&quot;wall&quot;</span><span class="p">,</span> <span class="s2">&quot;Molecular Viscosity&quot;</span><span class="p">)</span>
-    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df2</span><span class="p">,</span> <span class="s2">&quot;wall&quot;</span><span class="p">,</span> <span class="s2">&quot;barotropic_viscosity&quot;</span><span class="p">,</span> <span class="s2">&quot;Barotropic model&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">zone</span> <span class="ow">in</span> <span class="n">zone_list</span><span class="p">:</span>
+        <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df1</span><span class="p">,</span> <span class="n">zone</span><span class="p">,</span> <span class="s2">&quot;Molecular Viscosity&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Fluent data&quot;</span><span class="p">)</span>
+        <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df2</span><span class="p">,</span> <span class="n">zone</span><span class="p">,</span> <span class="s2">&quot;barotropic_viscosity&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Barotropic model&quot;</span><span class="p">)</span>
+    
     <span class="k">return</span> <span class="n">generic_plot_distribution</span><span class="p">(</span>
         <span class="n">lines</span><span class="p">,</span>
         <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Viscosity distribution&quot;</span><span class="p">,</span> 
         <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Axial position (mm)&quot;</span><span class="p">,</span> 
         <span class="n">ylabel</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;Viscosity ($\mathrm{\mu}$Pa s)&quot;</span><span class="p">,</span> 
         <span class="n">scale_x</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span>
-        <span class="n">scale_y</span><span class="o">=</span><span class="mf">1e-6</span>
+        <span class="n">scale_y</span><span class="o">=</span><span class="mf">1e+6</span><span class="p">,</span>
+        <span class="n">x_var</span><span class="o">=</span><span class="n">x_var</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="plot_speed_sound_distribution">
 <a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_speed_sound_distribution">[docs]</a>
-<span class="k">def</span> <span class="nf">plot_speed_sound_distribution</span><span class="p">(</span><span class="n">parsed_data</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">plot_speed_sound_distribution</span><span class="p">(</span><span class="n">parsed_data</span><span class="p">,</span> <span class="n">zone_list</span><span class="p">,</span> <span class="n">x_var</span><span class="p">):</span>
     <span class="n">df1</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;speed_sound&quot;</span><span class="p">)</span>
     <span class="n">df2</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;barotropic_speed_sound&quot;</span><span class="p">)</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df1</span><span class="p">,</span> <span class="s2">&quot;wall&quot;</span><span class="p">,</span> <span class="s2">&quot;Sound Speed&quot;</span><span class="p">)</span>
-    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df2</span><span class="p">,</span> <span class="s2">&quot;wall&quot;</span><span class="p">,</span> <span class="s2">&quot;barotropic_speed_sound&quot;</span><span class="p">,</span> <span class="s2">&quot;Barotropic model&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">zone</span> <span class="ow">in</span> <span class="n">zone_list</span><span class="p">:</span>
+        <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df1</span><span class="p">,</span> <span class="n">zone</span><span class="p">,</span> <span class="s2">&quot;Sound Speed&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Fluent data&quot;</span><span class="p">)</span>
+        <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df2</span><span class="p">,</span> <span class="n">zone</span><span class="p">,</span> <span class="s2">&quot;barotropic_speed_sound&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Barotropic model&quot;</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">generic_plot_distribution</span><span class="p">(</span>
         <span class="n">lines</span><span class="p">,</span>
         <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Speed of sound distribution&quot;</span><span class="p">,</span> 
         <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Axial position (mm)&quot;</span><span class="p">,</span> 
         <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Speed of sound (m/s)&quot;</span><span class="p">,</span> 
         <span class="n">scale_x</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span>
-        <span class="n">scale_y</span><span class="o">=</span><span class="mi">1</span>
+        <span class="n">scale_y</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">x_var</span><span class="o">=</span><span class="n">x_var</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="plot_void_fraction_distribution">
 <a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_void_fraction_distribution">[docs]</a>
-<span class="k">def</span> <span class="nf">plot_void_fraction_distribution</span><span class="p">(</span><span class="n">parsed_data</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">plot_void_fraction_distribution</span><span class="p">(</span><span class="n">parsed_data</span><span class="p">,</span> <span class="n">zone_list</span><span class="p">,</span> <span class="n">x_var</span><span class="p">):</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;barotropic_void_fraction&quot;</span><span class="p">)</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="s2">&quot;wall&quot;</span><span class="p">,</span> <span class="s2">&quot;barotropic_void_fraction&quot;</span><span class="p">,</span> <span class="s2">&quot;Barotropic model&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">zone</span> <span class="ow">in</span> <span class="n">zone_list</span><span class="p">:</span>
+        <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">zone</span><span class="p">,</span> <span class="s2">&quot;barotropic_void_fraction&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Barotropic model&quot;</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">generic_plot_distribution</span><span class="p">(</span>
         <span class="n">lines</span><span class="p">,</span>
         <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Void fraction distribution&quot;</span><span class="p">,</span> 
         <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Axial position (mm)&quot;</span><span class="p">,</span> 
         <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Void fraction (%)&quot;</span><span class="p">,</span> 
         <span class="n">scale_x</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span>
-        <span class="n">scale_y</span><span class="o">=</span><span class="mi">100</span>
+        <span class="n">scale_y</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">x_var</span><span class="o">=</span><span class="n">x_var</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="plot_mass_fraction_distribution">
-<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_mass_fraction_distribution">[docs]</a>
-<span class="k">def</span> <span class="nf">plot_mass_fraction_distribution</span><span class="p">(</span><span class="n">parsed_data</span><span class="p">):</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;barotropic_mass_fraction&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="plot_vapor_quality_distribution">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_vapor_quality_distribution">[docs]</a>
+<span class="k">def</span> <span class="nf">plot_vapor_quality_distribution</span><span class="p">(</span><span class="n">parsed_data</span><span class="p">,</span> <span class="n">zone_list</span><span class="p">,</span> <span class="n">x_var</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;barotropic_vapor_quality&quot;</span><span class="p">)</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="s2">&quot;wall&quot;</span><span class="p">,</span> <span class="s2">&quot;barotropic_mass_fraction&quot;</span><span class="p">,</span> <span class="s2">&quot;Barotropic model&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">zone</span> <span class="ow">in</span> <span class="n">zone_list</span><span class="p">:</span>
+        <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">zone</span><span class="p">,</span> <span class="s2">&quot;barotropic_vapor_quality&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Barotropic model&quot;</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">generic_plot_distribution</span><span class="p">(</span>
         <span class="n">lines</span><span class="p">,</span>
         <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Mass fraction distribution&quot;</span><span class="p">,</span> 
         <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Axial position (mm)&quot;</span><span class="p">,</span> 
         <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Mass fraction (%)&quot;</span><span class="p">,</span> 
         <span class="n">scale_x</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span>
-        <span class="n">scale_y</span><span class="o">=</span><span class="mi">100</span>
+        <span class="n">scale_y</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">x_var</span><span class="o">=</span><span class="n">x_var</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="plot_yplus_distribution">
 <a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_yplus_distribution">[docs]</a>
-<span class="k">def</span> <span class="nf">plot_yplus_distribution</span><span class="p">(</span><span class="n">parsed_data</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">plot_yplus_distribution</span><span class="p">(</span><span class="n">parsed_data</span><span class="p">,</span> <span class="n">zone_list</span><span class="p">,</span> <span class="n">x_var</span><span class="p">):</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;y_plus&quot;</span><span class="p">)</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="s2">&quot;wall&quot;</span><span class="p">,</span> <span class="s2">&quot;Wall Yplus&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">zone</span> <span class="ow">in</span> <span class="n">zone_list</span><span class="p">:</span>
+        <span class="n">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">zone</span><span class="p">,</span> <span class="s2">&quot;Wall Yplus&quot;</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">generic_plot_distribution</span><span class="p">(</span>
         <span class="n">lines</span><span class="p">,</span>
         <span class="n">title</span><span class="o">=</span><span class="s2">&quot;$y+$ distribution&quot;</span><span class="p">,</span> 
         <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Axial position (mm)&quot;</span><span class="p">,</span> 
         <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;$y+$ at the wall&quot;</span><span class="p">,</span> 
         <span class="n">scale_x</span><span class="o">=</span><span class="mf">1e3</span><span class="p">,</span>
-        <span class="n">scale_y</span><span class="o">=</span><span class="mi">1</span>
+        <span class="n">scale_y</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">x_var</span><span class="o">=</span><span class="n">x_var</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
@@ -466,13 +481,13 @@
 <span class="c1"># Helper functions</span>
 <div class="viewcode-block" id="add_line">
 <a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.add_line">[docs]</a>
-<span class="k">def</span> <span class="nf">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">zone</span><span class="p">,</span> <span class="n">data_key</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="s2">&quot;Fluent data&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">add_line</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">zone</span><span class="p">,</span> <span class="n">data_key</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Fluent data&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">data_key</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="n">zone</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
         <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
             <span class="s2">&quot;df&quot;</span><span class="p">:</span> <span class="n">df</span><span class="p">,</span> 
             <span class="s2">&quot;zone&quot;</span><span class="p">:</span> <span class="n">zone</span><span class="p">,</span> 
             <span class="s2">&quot;data_key&quot;</span><span class="p">:</span> <span class="n">data_key</span><span class="p">,</span> 
-            <span class="s2">&quot;legend&quot;</span><span class="p">:</span> <span class="n">legend</span><span class="p">,</span> 
+            <span class="s2">&quot;legend&quot;</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span> 
             <span class="s2">&quot;linestyle&quot;</span><span class="p">:</span> <span class="n">linestyle</span>
         <span class="p">})</span></div>
 
@@ -480,7 +495,7 @@
 
 <div class="viewcode-block" id="generic_plot_distribution">
 <a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.generic_plot_distribution">[docs]</a>
-<span class="k">def</span> <span class="nf">generic_plot_distribution</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">scale_x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">scale_y</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">generic_plot_distribution</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">scale_x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">scale_y</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">x_var</span><span class="o">=</span><span class="s2">&quot;X-Coordinate&quot;</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">fig</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">ax</span><span class="p">:</span>
         <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">6.4</span><span class="p">,</span> <span class="mf">4.8</span><span class="p">))</span>
     
@@ -495,7 +510,7 @@
         <span class="n">legend</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;legend&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">linestyle</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;linestyle&#39;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
         
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">zone</span><span class="p">][</span><span class="s2">&quot;X-Coordinate&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">scale_x</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="n">zone</span><span class="p">][</span><span class="n">data_key</span><span class="p">]</span> <span class="o">*</span> <span class="n">scale_y</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.25</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="n">linestyle</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">legend</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">zone</span><span class="p">][</span><span class="n">x_var</span><span class="p">]</span> <span class="o">*</span> <span class="n">scale_x</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="n">zone</span><span class="p">][</span><span class="n">data_key</span><span class="p">]</span> <span class="o">*</span> <span class="n">scale_y</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.25</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="n">linestyle</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">legend</span><span class="p">)</span>
     
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
