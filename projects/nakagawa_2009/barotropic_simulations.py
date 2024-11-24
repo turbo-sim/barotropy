@@ -8,16 +8,16 @@ import pandas as pd
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import ansys.fluent.core as pyfluent
-import time
 
 import barotropy as bpy
 
 bpy.print_package_info()
 bpy.set_plot_options()
-# %%
+
+
 ###################################################################################################################
 # Select cases number
-CASES = [117]
+CASES = [1]
 
 # Main directory
 MAIN_DIR = "output"
@@ -27,13 +27,13 @@ if not os.path.exists(MAIN_DIR):
 # Barotropic figures settings
 SHOW_FIG = False
 SAVE_FIG = True
-
+# c
 # Fluent Parameters
 N_ITER = 5000  # Number of iterations
 PROCESSORS_NUMBER = 24  # Number of processors for fluent
-FLUENT_FILE = "simoneau_hendricks_1979.cas.h5"
-EXCEL_DATAFILE = "cases_summary.xlsx"  # Case summary file
-PLOT_REALTIME_RESIDUALS = False  # plot the residuals in real time in a python figure
+FLUENT_FILE = "nakagawa_mesh_course.cas.h5"
+EXCEL_DATAFILE = "nakagawa_2009_data.xlsx"  # Case summary file
+PLOT_REALTIME_RESIDUALS = True  # plot the residuals in real time in a python figure
 
 # Integration timescale
 TIME_SCALE_FACTOR = 0.5
@@ -53,12 +53,14 @@ RELF_OMEGA = 0.75
 RELF_BODYFORCE = 1.0
 RELF_TURB_VISCOSITY = 1.0
 
+
 # TODO: understand what to do if a simulation explodes
 # TODO: create and save a panda dataflrame (excel) with the summary of the simulations containing time, if the simulation was finished, number of iterations...
 
 # Turbulence boundary conditions
 INLET_TURBULENT_INTENSITY = 0.05
 INLET_TURBULENT_VISCOSITY_RATIO = 10
+
 
 ###################################################################################################################
 
@@ -70,21 +72,16 @@ case_data = data[data["Case"].isin(CASES)]
 solver = pyfluent.launch_fluent(
     product_version=pyfluent.FluentVersion.v242,
     mode=pyfluent.FluentMode.SOLVER,
-    ui_mode=pyfluent.UIMode.HIDDEN_GUI,
+    ui_mode=pyfluent.UIMode.GUI,
+    # ui_mode=pyfluent.UIMode.HIDDEN_GUI,
     dimension=pyfluent.Dimension.TWO,
     precision=pyfluent.Precision.DOUBLE,
     processor_count=PROCESSORS_NUMBER,
 )
 
-# %% How to create the times
-time_start_code_fomratted = time.strftime("%H:%M:%S", time.localtime())
 
-time_start_code_seconds = int(time.time()) # Unix time in seconds
 
-print(time_start_code_fomratted)
 
-print(time_start_code_seconds)
-# %%
 # Retrieve the Fluent version
 fluent_version = solver.get_fluent_version()
 print(f"Current Fluent version: {fluent_version}")
@@ -108,9 +105,15 @@ for i, row in case_data.iterrows():
     current_datetime = datetime.datetime.now()
     formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
 
+    # Timestamped subdirectory for the current simulation
+    timestamp_dir = os.path.join(dir_case, formatted_datetime)
+    if not os.path.isdir(timestamp_dir):
+        os.makedirs(timestamp_dir, exist_ok=True)
+
+    dir_out = timestamp_dir
+
     # Create case folder
-    case_index = row["index"]
-    case_name = f"case_{case_index}"
+    case_name = f"case_{row['Case']}"
     case_dir = os.path.join(MAIN_DIR, case_name)
     os.makedirs(case_dir, exist_ok=True)
 
@@ -136,8 +139,8 @@ for i, row in case_data.iterrows():
     fluid = bpy.Fluid(name=fluid_name, backend="HEOS")
     p_in = row["P_0_in"]  # total preessure in Pa
     p_out = row["P_out"]  # Static pressure in Pa
-    T_in = row["T_0_in"]  # Total temperature in K
-    polytropic_efficiency = row["polytropic_efficiency"]
+    T_in = row["T_0_in"] + 273.15  # Total temperature in K
+    polytropic_efficiency = row['polytropic_efficiency']
     calculation_type = row["calculation_type"]
     q_onset = row["q_onset"]
     q_transition = row["q_transition"]
@@ -304,27 +307,15 @@ for i, row in case_data.iterrows():
         # Save the case file
         solver.file.write(file_name=case_file_path, file_type="case")
 
-    # def delete_folder(folder_path):
-    #     if os.path.exists(folder_path):
-    #         # Loop through all files and directories inside the folder
-    #         for root, dirs, files in os.walk(folder_path, topdown=False):
-    #             for file in files:
-    #                 os.remove(os.path.join(root, file))  # Delete files
-    #             for dir in dirs:
-    #                 os.rmdir(os.path.join(root, dir))  # Delete directories
-    #         os.rmdir(folder_path)  # Finally, delete the main folder
-    #         print(f"The folder '{folder_path}' has been deleted.")
-    #     else:
-    #         print(f"The folder '{folder_path}' does not exist.")
-
 
     # # TODO Correct the last folder thigs. It is saying that it is not possible to access
     # # Update the 'latest' folder for this case with the most recent results
     latest_dir = os.path.join(dir_case, "latest")
     # if os.path.isdir(latest_dir):
-    #     # shutil.rmtree(latest_dir)  # Remove previous latest folder for this case
-    #     delete_folder(latest_dir)
-    shutil.copytree(timestamp_dir, latest_dir)
+    #     # os.rmdir(latest_dir) # Remove previous latest folder for this case
+    #     shutil.rmtree(latest_dir)
+    # shutil.copytree(timestamp_dir, latest_dir)
+
 
     print("\n")
     print(f"    Simulation Done")
@@ -342,10 +333,5 @@ for i, row in case_data.iterrows():
 
 # Exiting Fluent
 solver.exit()
-
-
-time_end_code_fomratted = time.strftime("%H:%M:%S", time.localtime())
-
-time_end_code_seconds = int(time.time()) # Unix time in seconds
 
 print(" All cases simulated ")

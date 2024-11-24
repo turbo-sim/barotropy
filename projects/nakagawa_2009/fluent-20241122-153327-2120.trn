@@ -1,0 +1,63 @@
+Auto-Transcript Start Time:  15:33:27, 22 Nov 2024 Romance Standard Time 
+Current Directory: "C:\Users\alber\OneDrive - Danmarks Tekniske Universitet\Documents\projects\barotropy\projects\nakagawa_2009"
+Information: The server has started and is running.
+
+              Welcome to ANSYS Fluent 2024 R2
+
+              Copyright 1987-2024 ANSYS, Inc. All Rights Reserved.
+              Unauthorized use, distribution or duplication is prohibited.
+              This product is subject to U.S. laws governing export and re-export.
+              For full Legal Notice, see documentation.
+
+Build Time: May 13 2024 11:28:30 EST  Build Id: 10192  
+ 
+Connected License Server List:	1055@ansys-ls.mbar.dtu.dk
+
+     --------------------------------------------------------------
+     This is an academic version of ANSYS FLUENT. Usage of this product
+     license is limited to the terms and conditions specified in your ANSYS
+     license form, additional terms section.
+     --------------------------------------------------------------
+Host spawning Node 0 on machine "CME-EL-ALBER1" (win64).
+
+------------------------------------------------------------------------------------------
+ID    Hostname       Core   O.S.         PID    Vendor                                   
+------------------------------------------------------------------------------------------
+n23   CME-EL-ALBER1  24/28  Windows-x64  21656  13th Gen Intel(R) Core(TM) i7-13850HX    
+n22   CME-EL-ALBER1  23/28  Windows-x64  9896   13th Gen Intel(R) Core(TM) i7-13850HX    
+n21   CME-EL-ALBER1  22/28  Windows-x64  11752  13th Gen Intel(R) Core(TM) i7-13850HX    
+n20   CME-EL-ALBER1  21/28  Windows-x64  9476   13th Gen Intel(R) Core(TM) i7-13850HX    
+n19   CME-EL-ALBER1  20/28  Windows-x64  24644  13th Gen Intel(R) Core(TM) i7-13850HX    
+n18   CME-EL-ALBER1  19/28  Windows-x64  26152  13th Gen Intel(R) Core(TM) i7-13850HX    
+n17   CME-EL-ALBER1  18/28  Windows-x64  22048  13th Gen Intel(R) Core(TM) i7-13850HX    
+n16   CME-EL-ALBER1  17/28  Windows-x64  19632  13th Gen Intel(R) Core(TM) i7-13850HX    
+n15   CME-EL-ALBER1  16/28  Windows-x64  16352  13th Gen Intel(R) Core(TM) i7-13850HX    
+n14   CME-EL-ALBER1  15/28  Windows-x64  24680  13th Gen Intel(R) Core(TM) i7-13850HX    
+n13   CME-EL-ALBER1  14/28  Windows-x64  21676  13th Gen Intel(R) Core(TM) i7-13850HX    
+n12   CME-EL-ALBER1  13/28  Windows-x64  27528  13th Gen Intel(R) Core(TM) i7-13850HX    
+n11   CME-EL-ALBER1  12/28  Windows-x64  21908  13th Gen Intel(R) Core(TM) i7-13850HX    
+n10   CME-EL-ALBER1  11/28  Windows-x64  9700   13th Gen Intel(R) Core(TM) i7-13850HX    
+n9    CME-EL-ALBER1  10/28  Windows-x64  16072  13th Gen Intel(R) Core(TM) i7-13850HX    
+n8    CME-EL-ALBER1  9/28   Windows-x64  6704   13th Gen Intel(R) Core(TM) i7-13850HX    
+n7    CME-EL-ALBER1  8/28   Windows-x64  26752  13th Gen Intel(R) Core(TM) i7-13850HX    
+n6    CME-EL-ALBER1  7/28   Windows-x64  26444  13th Gen Intel(R) Core(TM) i7-13850HX    
+n5    CME-EL-ALBER1  6/28   Windows-x64  2236   13th Gen Intel(R) Core(TM) i7-13850HX    
+n4    CME-EL-ALBER1  5/28   Windows-x64  27228  13th Gen Intel(R) Core(TM) i7-13850HX    
+------------------------------------------------------------------------------------------
+ID    Hostname       Core   O.S.         PID    Vendor                                   
+------------------------------------------------------------------------------------------
+n3    CME-EL-ALBER1  4/28   Windows-x64  13320  13th Gen Intel(R) Core(TM) i7-13850HX    
+n2    CME-EL-ALBER1  3/28   Windows-x64  11040  13th Gen Intel(R) Core(TM) i7-13850HX    
+n1    CME-EL-ALBER1  2/28   Windows-x64  18904  13th Gen Intel(R) Core(TM) i7-13850HX    
+n0*   CME-EL-ALBER1  1/28   Windows-x64  5752   13th Gen Intel(R) Core(TM) i7-13850HX    
+host  CME-EL-ALBER1         Windows-x64  5688   13th Gen Intel(R) Core(TM) i7-13850HX    
+
+MPI Option Selected: intel
+Selected system interconnect: default
+------------------------------------------------------------------------------------------
+
+Cleanup script file is C:\\Users\\alber\\OneDrive - Danmarks Tekniske Universitet\\Documents\\projects\\barotropy\\projects\\nakagawa_2009\\cleanup-fluent-CME-EL-ALBER1-5688.bat
+
+Posting ANSYS Product Improvement Program startup data
+Done.
+
