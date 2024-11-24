@@ -18,17 +18,6 @@ COLORS_MATLAB = graphics.COLORS_MATLAB
 PROCESS_TYPES = ["polytropic", "adiabatic"]
 CALCULATION_TYPES = ["blending", "equilibrium", "metastable"]
 
-LABEL_MAPPING = {
-    "density": "Density (kg/m$^3$)",
-    "viscosity": "Viscosity (Pa·s)",
-    "speed_sound": "Speed of sound (m/s)",
-    "void_fraction": "Void fraction",
-    "vapor_quality": "Vapor quality",
-    "s": "Entropy (J/kg/K)\n",
-    "T": "Temperature (K)",
-    "h": "Enthalpy (J/kg)",
-    "rho": r"Density (kg/m$^3$)",
-}
 
 
 class BarotropicModel:
@@ -569,7 +558,7 @@ def barotropic_model_one_component(
         "flashing" if state_in.s < fluid.critical_point.s else "condensation"
     )
 
-    # Initial guess for the metastable state (could be updated later)
+    # Initial guess for the metastable state (is updated at each iteration)
     rhoT_guess_metastable = [state_in.rho, state_in.T]
 
     # Differential equation defining the polytropic process
@@ -676,23 +665,37 @@ def barotropic_model_one_component(
                     print_convergence=HEOS_print_convergence,
                 )
 
-            # Compute metastable state using custom solver
-            state_meta = fluid.get_state_metastable(
-                prop_1="h",
-                prop_1_value=h,
-                prop_2="p",
-                prop_2_value=p,
-                rhoT_guess=rhoT_guess_metastable,
-                generalize_quality=False,
-                supersaturation=True,
-                solver_algorithm=HEOS_solver,
-                solver_tolerance=HEOS_tolerance,
-                solver_max_iterations=HEOS_max_iter,
-                print_convergence=HEOS_print_convergence,
+            # Determine if metastable state should be used (avoid metastable computations too deep into the 2-phase region)
+            q = state_eq["vapor_quality"]
+            use_metastable = (
+                (phase_change_type == "flashing" and q <= 1.0 * (blending_onset + blending_width)) or
+                (phase_change_type == "condensation" and q >= (blending_onset - blending_width))
             )
 
-            # Update guess for the next integration step
-            rhoT_guess_metastable = [state_meta.rho, state_meta.T]
+            # Compute metastable state or use equilibrium state
+            if use_metastable:
+                state_meta = fluid.get_state_metastable(
+                    prop_1="h",
+                    prop_1_value=h,
+                    prop_2="p",
+                    prop_2_value=p,
+                    rhoT_guess=rhoT_guess_metastable,
+                    generalize_quality=False,
+                    supersaturation=True,
+                    solver_algorithm=HEOS_solver,
+                    solver_tolerance=HEOS_tolerance,
+                    solver_max_iterations=HEOS_max_iter,
+                    print_convergence=HEOS_print_convergence,
+                )
+
+                # Update guess for the next integration step
+                # Use only previous metastable calculation as initial guess (never equilibrium calculation)
+                # Some ODE solvers do corrective steps at return to higher pressures after doing equilibrium calculations
+                # The custom HEOS solver may fail if it uses the equilibrium state as initial guess because the density changes significantly
+                rhoT_guess_metastable = [state_meta.rho, state_meta.T]
+
+            else:
+                state_meta = state_eq
 
             # Compute blended state
             state_blend = props.blend_properties(
@@ -727,6 +730,7 @@ def barotropic_model_one_component(
         raise Exception(ode_sol.message)
 
     # Postprocess solution
+    rhoT_guess_metastable = [state_in.rho, state_in.T]  # Start postprocessing from inlet state
     states = utils.postprocess_ode(ode_sol.t, ode_sol.y, odefun)
 
     return states, ode_sol
@@ -916,7 +920,7 @@ class PolynomialFitter:
         # Rename arguments
         self.states = states
         self.variables = variables
-        self.degree = degree
+        self.poly_degree = degree
         self.calculation_type = calculation_type
         self.output_dir_default = output_dir
 
@@ -950,7 +954,7 @@ class PolynomialFitter:
         # Fit polynomials to data
         for var in self.variables:
             y = np.array(self.states[var])
-            poly = Polynomial.fit(p_scaled, y, deg=self.degree).convert()
+            poly = Polynomial.fit(p_scaled, y, deg=self.poly_degree).convert()
             self.poly_handles[var] = [poly]
 
     def _fit_equilibrium(self):
@@ -976,6 +980,18 @@ class PolynomialFitter:
         else:
             self.poly_breakpoints = [self.p_in_scaled, self.p_out_scaled]
 
+        # TODO Clean
+        if isinstance(self.poly_degree, list) and len(self.poly_degree) == 2:
+            degree_1, degree_2 = self.poly_degree
+        elif isinstance(self.poly_degree, (int, float)):
+            degree_1 = degree_2 = self.poly_degree
+        else:
+            print("poly_degree must be a scalar (int or float) or a list with 2 items.")
+            print("Switching to default values")
+            degree_1 = 6
+            degree_2 = 6
+            # raise ValueError("poly_degree must be a scalar (int or float) or a list with 2 items.")
+
         # Fit polynomials to data
         for var in self.variables:
             self.poly_handles[var] = []
@@ -983,13 +999,13 @@ class PolynomialFitter:
             if mask_1phase.any():  # Single-phase data
                 y_1p = np.array(self.states[var])[mask_1phase]
                 p_1p = p_scaled[mask_1phase]
-                poly_1p = Polynomial.fit(p_1p, y_1p, deg=self.degree).convert()
+                poly_1p = Polynomial.fit(p_1p, y_1p, deg=degree_1).convert()
                 self.poly_handles[var].append(poly_1p)
 
             if mask_2phase.any():  # Two-phase data
                 y_2p = np.array(self.states[var])[mask_2phase]
                 p_2p = p_scaled[mask_2phase]
-                poly_2p = Polynomial.fit(p_2p, y_2p, deg=self.degree).convert()
+                poly_2p = Polynomial.fit(p_2p, y_2p, deg=degree_2).convert()
 
                 # # Ensure continuity by adjusting the first coefficient
                 # y_1p_breakpoint = poly_1p(p_transition)
@@ -1014,9 +1030,11 @@ class PolynomialFitter:
         # limit = 0.96
         # limit = 0.8
         limit = 1
-        mask_region_1 = self.states["x"] > limit
-        mask_region_2 = (self.states["x"] >= 0) & (self.states["x"] <= limit)
-        mask_region_3 = self.states["x"] < 0
+        mask_region_1 = self.states["x"] >= limit
+        mask_region_2 = (self.states["x"] > 0) & (self.states["x"] < limit)
+        mask_region_3 = self.states["x"] <= 0
+
+
 
         # self.states["density"] = np.log(self.states["density"])
 
@@ -1034,19 +1052,27 @@ class PolynomialFitter:
         for var in self.variables:
             self.poly_handles[var] = []
 
+            # TODO Clean
+            if isinstance(self.poly_degree, list) and len(self.poly_degree) == 3:
+                degree_1, degree_2, degree_3 = self.poly_degree
+            elif isinstance(self.poly_degree, (int, float)):
+                degree_1 = degree_2 = degree_3 = self.poly_degree
+            else:
+                raise ValueError("poly_degree must be a scalar (int or float) or a list with 3 items.")
+
+
             # Fit polynomial for Region 1 (x > 1)
             y_1 = np.array(self.states[var])[mask_region_1]
             p_1 = p[mask_region_1]
-            poly_1 = Polynomial.fit(p_1, y_1, deg=1).convert()
+            degree_1 = min(len(y_1) - 1, degree_1)
+            poly_1 = Polynomial.fit(p_1, y_1, deg=degree_1).convert()
             self.poly_handles[var].append(poly_1)
 
             # Fit polynomial for Region 2 (0 <= x <= 1)
-            # TODO Hardcoded degree 4 to prevent numerical noise
-            weight = 1 + 10 * np.array(self.states["x"])[mask_region_2]
-            weight = None
             y_2 = np.array(self.states[var])[mask_region_2]
             p_2 = p[mask_region_2]
-            poly_2 = Polynomial.fit(p_2, y_2, deg=5, w=weight).convert()
+            degree_2 = min(len(y_2) - 1, degree_2)
+            poly_2 = Polynomial.fit(p_2, y_2, deg=degree_2).convert()
 
             # Ensure continuity by adjusting the first coefficient
             y_1_end = poly_1(p_region_2_start)
@@ -1059,7 +1085,8 @@ class PolynomialFitter:
             # Fit polynomial for Region 3 (x < 0)
             y_3 = np.array(self.states[var])[mask_region_3]
             p_3 = p[mask_region_3]
-            poly_3 = Polynomial.fit(p_3, y_3, deg=self.degree).convert()
+            degree_3 = min(len(y_3) - 1, degree_3)
+            poly_3 = Polynomial.fit(p_3, y_3, deg=degree_3).convert()
 
             # Ensure continuity by adjusting the first coefficient
             y_2_end = poly_2(p_region_2_end)
@@ -1207,7 +1234,7 @@ class PolynomialFitter:
 
         # Set axis labels
         ax.set_xlabel("Pressure (Pa)")
-        ax.set_ylabel(LABEL_MAPPING.get(var, var))
+        ax.set_ylabel(props.LABEL_MAPPING.get(var, var))
 
         # Plot specified values or segments between breakpoints
         if p_eval is not None:
@@ -1299,13 +1326,13 @@ class PolynomialFitter:
 
         # Mapping variable names to axis labels (variable name if not found)
         x_label = "Pressure (Pa)"
-        y_label = LABEL_MAPPING.get(var, var)
+        y_label = props.LABEL_MAPPING.get(var, var)
 
         # Generate pressure values for the state points and calculate relative error
         p_states = self.states["p"]
         prop_states = self.states[var]
         relative_error = (
-            100 * (self.evaluate_polynomial(p_states, var) - prop_states) / np.abs(prop_states)
+            100 * (self.evaluate_polynomial(p_states, var) - prop_states) / (np.abs(prop_states) + 1e-6)
         )
 
         # Plot polynomial and data segments for each breakpoint
@@ -1409,8 +1436,8 @@ class PolynomialFitter:
         )
 
         # Apply the mapping if it exists; otherwise, use the variable name
-        ax.set_xlabel(LABEL_MAPPING.get(var_x, var_x))
-        ax.set_ylabel(LABEL_MAPPING.get(var_y, var_y))
+        ax.set_xlabel(props.LABEL_MAPPING.get(var_x, var_x))
+        ax.set_ylabel(props.LABEL_MAPPING.get(var_y, var_y))
 
         # Plot phase diagram for the first subplot
         ax = fluid.plot_phase_diagram(
@@ -1475,10 +1502,10 @@ class PolynomialFitter:
 
         plt.tight_layout(pad=1)
 
-        graphics.scale_graphics_x(fig, 1/fluid.critical_point.s, mode="multiply")
-        ax.set_xlim([0.9, 1.3])
-        graphics.scale_graphics_y(fig, 1/fluid.critical_point.T, mode="multiply")
-        ax.set_ylim([0.85, 1.05])
+        # graphics.scale_graphics_x(fig, 1/fluid.critical_point.s, mode="multiply")
+        # ax.set_xlim([0.9, 1.3])
+        # graphics.scale_graphics_y(fig, 1/fluid.critical_point.T, mode="multiply")
+        # ax.set_ylim([0.85, 1.05])
         if savefig:
             file_path = os.path.join(output_dir, f"barotropic_process_{fluid.name}")
             graphics.savefig_in_formats(fig, file_path)
@@ -1511,7 +1538,7 @@ class ExpressionExporter:
         self.units = {
             "density": "kg/m^3",
             "viscosity": "Pa*s",
-            "speed_of_sound": "m/s",
+            "speed_sound": "m/s",
             "void_fraction": "none",
             "vapor_quality": "none",
         }
@@ -1584,6 +1611,8 @@ class ExpressionExporter:
                     expressions = self.generate_expressions(var, unit)
                     file.write(f"barotropic_{var}\n")
                     file.write(f"{expressions}\n\n")
+                else:
+                    raise ValueError(f"Missing unit for variable: {var}")
 
     def generate_expressions(self, var, unit):
         """

@@ -5,6 +5,17 @@ import pandas as pd
 
 import matplotlib.pyplot as plt
 
+
+RESIDUAL_LABEL_MAPPING = {
+    'continuity': r'$p$ - continuity',
+    'x-velocity': r'$v_x$ - momentum',
+    'y-velocity': r'$v_y$ - momentum',
+    'z-velocity': r'$v_z$ - momentum',
+    'k': r'$k$ - turbulence',
+    'omega': r'$\omega$ - turbulence'
+}
+
+
 def _plot_residuals_real_time(filename, frequency=0.5):
     """Plot the residual history from transcript file in real time"""
     print("Plotting data")
@@ -18,21 +29,14 @@ def _plot_residuals_real_time(filename, frequency=0.5):
     # Read the transcript file until there is residual information
     df = pd.DataFrame()
     while df.empty:
-        df = read_residual_file(filename, res_number=5)
+        df = read_residual_file(filename)
         time.sleep(1)  # Adjust the delay time as needed
-
-    # Residual name mapping
-    name_map = {'continuity': r'$p$ - continuity',
-                'x-velocity': r'$v_x$ - momentum',
-                'y-velocity': r'$v_y$ - momentum',
-                'k': r'$k$ - turbulence',
-                'omega': r'$\omega$ - turbulence'}
     
     # Create the figure and initialize lines for each residual
     fig, ax = plt.subplots()
     lines = {}
     for res_name in df.columns[1:]:
-        line, = ax.plot([], [], linewidth=1.0, label=name_map[res_name])
+        line, = ax.plot([], [], linewidth=1.0, label=RESIDUAL_LABEL_MAPPING.get(res_name, res_name))
         lines[res_name] = line
 
     # Define title and axes labesl
@@ -56,7 +60,7 @@ def _plot_residuals_real_time(filename, frequency=0.5):
         while plt.get_fignums(): # Continue loop while figures are open
 
             # Read residual history from file
-            df = read_residual_file(filename, res_number=5)
+            df = read_residual_file(filename)
 
             # Update the plot with the latest data
             for res_name, line in lines.items():

@@ -12,13 +12,33 @@ import matplotlib.pyplot as plt
 
 from parse import parse
 
-# TODO: This might be broken, verify that it works after I refactored into package
-# from barotropy import stream_residuals, stream_transcript  # Import as module to get its path
 from . import stream_residuals, stream_transcript  # Import as module to get its path
 from ..utilities import is_float, wait_for_file
 
+RESIDUAL_LABEL_MAPPING = {
+    'continuity': r'$p$ - continuity',
+    'x-velocity': r'$v_x$ - momentum',
+    'y-velocity': r'$v_y$ - momentum',
+    'z-velocity': r'$v_z$ - momentum',
+    'k': r'$k$ - turbulence',
+    'omega': r'$\omega$ - turbulence'
+}
 
-    
+# Define mapping betweet export filenames and Fluent variable names
+EXPORT_VARS = {
+    "pressure": "pressure",
+    "density": "density",
+    "viscosity": "viscosity-lam",
+    "speed_sound": "sound-speed",
+    "velocity": "velocity-magnitude",
+    "y_plus": "y-plus",
+    "barotropic_density": "expr:barotropic_density",
+    "barotropic_speed_sound": "expr:barotropic_speed_sound",
+    "barotropic_viscosity": "expr:barotropic_viscosity",
+    "barotropic_void_fraction": "expr:barotropic_void_fraction",
+    "barotropic_vapor_quality": "expr:barotropic_vapor_quality",
+}
+
 def read_expression_file(filename):
     
     '''
@@ -156,7 +176,7 @@ def parse_fluent_out(filename):
     
     try:
         # Load file using Pandas
-        df = pd.read_csv(filename, skiprows=2, delim_whitespace=True, header=0)
+        df = pd.read_csv(filename, skiprows=2, sep='\s+', header=0)
 
         # Process the column names
         cleaned_columns = [
@@ -274,7 +294,7 @@ def plot_residuals(transcript_file, fig=None, ax=None, savefig=False, fullpath=N
     """
 
     # Read residuals from the transcript file
-    df = read_residual_file(transcript_file, res_number=5)
+    df = read_residual_file(transcript_file)
 
     # If no figure or axis provided, create new ones
     if not fig and not ax:
@@ -285,23 +305,13 @@ def plot_residuals(transcript_file, fig=None, ax=None, savefig=False, fullpath=N
     ax.set_xlabel("Iteration number")
     ax.set_ylabel("Normalized RMS residual")
     ax.set_yscale("log")
-
-    # Define a mapping for the residual names to readable labels
-    # TODO: extend to 3D and other turbulence models
-    name_map = {
-        'continuity': r'$p$ - continuity',
-        'x-velocity': r'$v_x$ - momentum',
-        'y-velocity': r'$v_y$ - momentum',
-        'k': r'$k$ - turbulence',
-        'omega': r'$\omega$ - turbulence'
-    }
-
+    
     # Plot residuals using the mapped labels
     for column in df.columns[1:]:
         ax.plot(
             df["iter"], df[column],
             linewidth=1.0, linestyle="-", marker="none", 
-            label=name_map[column]
+            label=RESIDUAL_LABEL_MAPPING.get(column, column)
         )
 
     # Add legend to the plot
@@ -318,7 +328,71 @@ def plot_residuals(transcript_file, fig=None, ax=None, savefig=False, fullpath=N
     return fig, ax
 
 
-def read_residual_file(filename, res_number=5, line_start=0, header=None):
+# def read_residual_file(filename, res_number=5, line_start=0, header=None):
+#     """
+#     Reads a transcript file to extract the residual history and returns it as a Pandas DataFrame.
+
+#     Parameters
+#     ----------
+#     filename : str
+#         Path to the transcript file.
+#     res_number : int, optional
+#         Number of residuals to be extracted. Defaults to 5.
+#     line_start : int, optional
+#         Line number to start reading from. Useful for files with non-relevant introductory lines. Defaults to 0.
+#     header : list of str, optional
+#         List of column names for the DataFrame. If not provided, the function tries to extract it from the file.
+
+#     Returns
+#     -------
+#     pd.DataFrame
+#         DataFrame containing the extracted residuals. Column names are either provided or extracted from the file.
+
+#     Notes
+#     -----
+#     It's assumed that the residual headers in the transcript file start with 'iter' and 'continuity'.
+#     """
+    
+#     # Read data from the transcript file
+#     with open(filename, 'r') as file:
+#         lines = file.readlines()
+
+#     # Initialize lists to store values
+#     residuals = []
+    
+#     # Use the provided header if available, otherwise extract from the file
+#     if not header:
+#         header = []
+    
+#     # Loop through lines to extract headers and residuals
+#     for line in lines[line_start:]:
+        
+#         # If header hasn't been found, look for it based on the expected starting words
+#         words = line.split()
+#         if not header and len(words) >= 2 and words[0] == 'iter' and words[1] == 'continuity':
+#             header = line.split()
+#             header = [item.split("/") for item in header]
+#             header = [item for sublist in header for item in sublist]
+#             header = header[0:res_number+1]
+
+#         # Extract lines that contain numeric residual values
+#         line_elements = line.split()[0:res_number+1]
+#         numeric_line = all([is_float(element) for element in line_elements])
+        
+#         # Append lines that match the expected structure and content
+#         if header and len(header) == len(line_elements) and numeric_line:
+#             residuals.append(line_elements)
+
+#     # Convert the list of residuals into a DataFrame
+#     df = pd.DataFrame(residuals, columns=header)
+
+#     # Convert values to float for computation purposes
+#     df = df.astype(float)
+
+#     return df
+
+
+def read_residual_file(filename, line_start=0):
     """
     Reads a transcript file to extract the residual history and returns it as a Pandas DataFrame.
 
@@ -326,73 +400,64 @@ def read_residual_file(filename, res_number=5, line_start=0, header=None):
     ----------
     filename : str
         Path to the transcript file.
-    res_number : int, optional
-        Number of residuals to be extracted. Defaults to 5.
     line_start : int, optional
         Line number to start reading from. Useful for files with non-relevant introductory lines. Defaults to 0.
-    header : list of str, optional
-        List of column names for the DataFrame. If not provided, the function tries to extract it from the file.
 
     Returns
     -------
     pd.DataFrame
-        DataFrame containing the extracted residuals. Column names are either provided or extracted from the file.
+        DataFrame containing the extracted residuals with appropriate column headers.
 
     Notes
     -----
-    It's assumed that the residual headers in the transcript file start with 'iter' and 'continuity'.
+    It is assumed that the residual headers in the transcript file start with 'iter' end with 'time/iter'.
+
     """
-    
+
     # Read data from the transcript file
     with open(filename, 'r') as file:
         lines = file.readlines()
 
-    # Initialize lists to store values
+    # Initialize variables
     residuals = []
-    
-    # Use the provided header if available, otherwise extract from the file
-    if not header:
-        header = []
-    
+    header = None
+
     # Loop through lines to extract headers and residuals
     for line in lines[line_start:]:
         
-        # If header hasn't been found, look for it based on the expected starting words
+        # Skip empty lines
         words = line.split()
-        if not header and len(words) >= 2 and words[0] == 'iter' and words[1] == 'continuity':
-            header = line.split()
-            header = [item.split("/") for item in header]
-            header = [item for sublist in header for item in sublist]
-            header = header[0:res_number+1]
+        if not words:
+            continue
 
-        # Extract lines that contain numeric residual values
-        line_elements = line.split()[0:res_number+1]
-        numeric_line = all([is_float(element) for element in line_elements])
-        
-        # Append lines that match the expected structure and content
-        if header and len(header) == len(line_elements) and numeric_line:
-            residuals.append(line_elements)
+        # Detect header based on first column being "iter" and last column being "time/iter"
+        if header is None and words[0] == "iter" and words[-1] == "time/iter":
+            header = words
 
-    # Convert the list of residuals into a DataFrame
-    df = pd.DataFrame(residuals, columns=header)
+        # Extract numeric values for residuals
+        elif header:
+            if len(words) == len(header) + 1:  # Ensure line matches header length
+                if words[0].isdigit() and is_float(words[1]):  # Check "iter" is numeric and first residual is valid
+                    residuals.append(words[0:-2]) # Exclude "time/iter" which are 2 entries
 
-    # Convert values to float for computation purposes
-    df = df.astype(float)
+    # Create empty DataFrame if no data is found
+    if not residuals or header is None:
+        return pd.DataFrame()
+    
+    # # Validate header and residuals
+    # if header is None:
+    #     raise ValueError("No valid header found in the file.")
+    # if not residuals:
+    #     raise ValueError("No valid residual data found in the file.")
+
+    # Create dataframe (excluding "iter" and "time/iter")
+    df = pd.DataFrame(residuals, columns=header[0:-1]) # Exclude "time/iter" which is 1 entry
+
+    # Convert column data to numbers
+    df["iter"] = df["iter"].astype(int)
+    df[header[1:-1]] = df[header[1:-1]].astype(float)
 
     return df
-
-
-# def print_transcript_real_time(transcript_file):
-#     """Print the content of transcript_file.trn in real time"""
-
-#     # Wait until the transcript file is created before executing the script
-#     wait_for_file(transcript_file)
-
-#     # Run a subprocess to run the "stream_tramscript_file.py" script in the background
-#     args = ["python", stream_transcript.__file__, f"{transcript_file}"]
-#     process = subprocess.Popen(args)
-    
-#     return process
     
 
 def print_transcript_real_time(transcript_file):
@@ -415,6 +480,7 @@ def print_transcript_real_time(transcript_file):
     wait_for_file(transcript_file)
     args = [sys.executable, stream_transcript.__file__,  transcript_file]
     return subprocess.Popen(args)
+
 
 def plot_residuals_real_time(transcript_file):
     """
