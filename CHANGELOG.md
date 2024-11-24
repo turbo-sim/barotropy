@@ -1,6 +1,25 @@
 
-Add better polynomial fit (custom optimization?)
-Provide order of each polynomial as list / check number of elements is correct /prevent negative slope
+# Changelog
+
+
+## Sunday 24-11-2024
+I improved my python code to:
+- Handle inviscid and viscous cases
+- Print the residuals for any number of residual variables
+- Improved the barotropy calculations to make them more robust:
+  - Add the custom solver as fallback option for the equilibrium property calculations.
+  - Added a recalculation of the inlet state as initial guess just before the recalculation of the fluid states during ODE postprocessing.
+  - Increased the tolerance of the ODE solver from 1e-9 to 1e-12 to force tinier steps and a higher resolution of the polytropic process. Having a larger number of datapoints is advantagenous for the polynomial fitting, specially in the sigmoid region, which needs to be fitted with 3-to-6 order polynomial and requires multiple datapoints to avoid ill-conditioned polyfitting.
+  - Addded the option to provide the degrees of the polynomials as a single scalar or as a list of scalarts to the BarotropicModel class. In addition, I added a smart strategy to automatically reduce the order of the polynomials when the number of datapoints in a fitting segment is smaller than the degree of the polynomial to be fitted.
+
+
+# Planned changes
+
+- [ ] Add better polynomial fit. Perhaps not needed now that the ODE solver tolerance has been improved.
+- [ ] Prevent negative slope. Perhaps not needed now that the ODE solver tolerance has been improved.
+- [ ] Provide order of each polynomial as list / check number of elements is correct
+
+
 
 ## Software package
 - Translate the function for the two-component barotropic model
@@ -49,7 +68,6 @@ Provide order of each polynomial as list / check number of elements is correct /
 
 
 ## Simulations
-
 - LAES cases
 - Lettieri CO2 data (important!)
 - Zhang steam nozzle
