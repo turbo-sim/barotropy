@@ -59,6 +59,8 @@ settings.json    # VS Code settings file
 *.bak
 .DS_Store       # Mac OS X desktop services store
 *.swp           # Vim swap files
+*.bat
+
 
 # Results folders
 **/output/
@@ -69,4 +71,4 @@ settings.json    # VS Code settings file
 .bat
 
 
-projects/nakagawa_2009/3D_meshes_MAN/*.msh
+projects/nakagawa_2009/cases
