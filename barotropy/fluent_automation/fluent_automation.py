@@ -294,7 +294,7 @@ def plot_residuals(transcript_file, fig=None, ax=None, savefig=False, fullpath=N
     """
 
     # Read residuals from the transcript file
-    df = read_residual_file(transcript_file)
+    df, _ = read_residual_file(transcript_file)
 
     # If no figure or axis provided, create new ones
     if not fig and not ax:
@@ -392,7 +392,78 @@ def plot_residuals(transcript_file, fig=None, ax=None, savefig=False, fullpath=N
 #     return df
 
 
-def read_residual_file(filename, line_start=0):
+# def read_residual_file(filename, line_start=0):
+#     """
+#     Reads a transcript file to extract the residual history and returns it as a Pandas DataFrame.
+
+#     Parameters
+#     ----------
+#     filename : str
+#         Path to the transcript file.
+#     line_start : int, optional
+#         Line number to start reading from. Useful for files with non-relevant introductory lines. Defaults to 0.
+
+#     Returns
+#     -------
+#     pd.DataFrame
+#         DataFrame containing the extracted residuals with appropriate column headers.
+
+#     Notes
+#     -----
+#     It is assumed that the residual headers in the transcript file start with 'iter' end with 'time/iter'.
+
+#     """
+
+#     # Read data from the transcript file
+#     with open(filename, 'r') as file:
+#         lines = file.readlines()
+
+#     # Initialize variables
+#     residuals = []
+#     header = None
+
+#     # Loop through lines to extract headers and residuals
+#     for line in lines[line_start:]:
+        
+#         # Skip empty lines
+#         words = line.split()
+#         if not words:
+#             continue
+
+#         # Detect header based on first column being "iter" and last column being "time/iter"
+#         if header is None and words[0] == "iter" and words[-1] == "time/iter":
+#             header = words
+
+#         # Extract numeric values for residuals
+#         elif header:
+#             if len(words) == len(header) + 1:  # Ensure line matches header length
+#                 if words[0].isdigit() and is_float(words[1]):  # Check "iter" is numeric and first residual is valid
+#                     residuals.append(words[0:-2]) # Exclude "time/iter" which are 2 entries
+
+#     # Create empty DataFrame if no data is found
+#     if not residuals or header is None:
+#         return pd.DataFrame()
+    
+#     # # Validate header and residuals
+#     # if header is None:
+#     #     raise ValueError("No valid header found in the file.")
+#     # if not residuals:
+#     #     raise ValueError("No valid residual data found in the file.")
+
+#     # Create dataframe (excluding "iter" and "time/iter")
+#     df = pd.DataFrame(residuals, columns=header[0:-1]) # Exclude "time/iter" which is 1 entry
+
+#     # Convert column data to numbers
+#     df["iter"] = df["iter"].astype(int)
+#     df[header[1:-1]] = df[header[1:-1]].astype(float)
+
+#     # Check if there is an error
+
+#     return df
+
+
+
+def read_residual_file(filename, line_start=0, error_message='Error: floating point exception'):
     """
     Reads a transcript file to extract the residual history and returns it as a Pandas DataFrame.
 
@@ -457,7 +528,14 @@ def read_residual_file(filename, line_start=0):
     df["iter"] = df["iter"].astype(int)
     df[header[1:-1]] = df[header[1:-1]].astype(float)
 
-    return df
+    # Check if there is an error
+    if error_message in lines:
+        # print("Error in the simulation...")
+        simulation_finished = False
+    else:
+        simulation_finished = True
+
+    return df, simulation_finished
     
 
 def print_transcript_real_time(transcript_file):
@@ -679,6 +757,10 @@ def run_cleanup_script(max_retries=5, wait_interval=5):
         time.sleep(wait_interval)  # Wait before the next retry
 
     print("Failed to find cleanup script after", max_retries, "retries.")
+
+
+
+
 
 
 
