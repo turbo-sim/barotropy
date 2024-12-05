@@ -29,7 +29,7 @@ def _plot_residuals_real_time(filename, frequency=0.5):
     # Read the transcript file until there is residual information
     df = pd.DataFrame()
     while df.empty:
-        df = read_residual_file(filename)
+        df,_ = read_residual_file(filename)
         time.sleep(1)  # Adjust the delay time as needed
     
     # Create the figure and initialize lines for each residual
@@ -60,7 +60,7 @@ def _plot_residuals_real_time(filename, frequency=0.5):
         while plt.get_fignums(): # Continue loop while figures are open
 
             # Read residual history from file
-            df = read_residual_file(filename)
+            df,_ = read_residual_file(filename)
 
             # Update the plot with the latest data
             for res_name, line in lines.items():
