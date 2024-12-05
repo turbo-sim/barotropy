@@ -23,7 +23,7 @@ if not os.path.isdir(DIR_OUT):
     os.makedirs(DIR_OUT)
 
 # Read the case summary file
-EXCEL_DATA_SUMMARY = 'nakagawa_2009_data.xlsx'
+EXCEL_DATA_SUMMARY = 'nakagawa_2009_cases.xlsx'
 # EXCEL_DATA_PROFILES = 'pressure_profile_summary_converted.xlsx'
 data_summary = pd.read_excel(EXCEL_DATA_SUMMARY)
 # data_profiles = pd.read_excel(EXCEL_DATA_PROFILES)
