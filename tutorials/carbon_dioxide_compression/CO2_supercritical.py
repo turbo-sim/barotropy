@@ -17,54 +17,36 @@ if not os.path.isdir(DIR_OUT):
 
 # Barotropic figures settings
 SHOW_FIG = True
-SAVE_FIG = False
+SAVE_FIG = True
 
 # Create fluid object
 fluid_name = "CO2"
 fluid = bpy.Fluid(name=fluid_name, backend="HEOS")
 
 # Define inlet state and outlet pressure
-p_in = 2.0*fluid.critical_point.p
-# s_in = 0.9*fluid.critical_point.s
-s_in = 1.1*fluid.critical_point.s
-state_in = fluid.get_state(bpy.PSmass_INPUTS, p_in, s_in)
-p_out = 1.01*fluid.triple_point_liquid.p
+T_in = 310.0
+p_in = 85e5
+p_out = 5*p_in
 
-
-# p_stagnation = 58.96e5
-# T_stagnation = 314.67
-# state_in = fluid.get_state(bpy.PT_INPUTS, p_stagnation, T_stagnation)
-# p_out = 0.2*fluid.critical_point.p
-
-
-# p_stagnation = 58.96e5
-# s_stagnation = 1.28*fluid.critical_point.s
-# state_in = fluid.get_state(bpy.PSmass_INPUTS, p_stagnation, s_stagnation)
-# p_out = 0.22*fluid.critical_point.p
-
-
-# Additional parameters for the calculations
-polytropic_efficiency = 0.98
-calculation_type = "blending"
-q_onset = 0.95
-q_transition = 0.01
+# Additional parameters for the barotropic calculations
+polytropic_efficiency = 0.8
+calculation_type = "equilibrium"
 
 # Create barotropic model object
 model = bpy.BarotropicModel(
     fluid_name=fluid_name,
-    T_in=state_in.T,
-    p_in=state_in.p,
+    T_in=T_in,
+    p_in=p_in,
     p_out=p_out,
     efficiency=polytropic_efficiency,
     calculation_type=calculation_type,
-    blending_onset=q_onset,
-    blending_width=q_transition,
     HEOS_solver="hybr",
     ODE_solver="LSODA",
     ODE_tolerance=1e-9,
     polynomial_degree=6,
     polynomial_format="horner",
     output_dir=DIR_OUT,
+    polynomial_variables=["density", "viscosity"],
 )
 
 # Evaluate barotropic model and export polynomial expressions
@@ -78,6 +60,7 @@ model.poly_fitter.plot_phase_diagram(
     var_y="T",
     savefig=SAVE_FIG,
     showfig=SHOW_FIG,
+    plot_spinodal_line=False,
 )
 for var in model.poly_fitter.variables:
     model.poly_fitter.plot_polynomial_and_error(

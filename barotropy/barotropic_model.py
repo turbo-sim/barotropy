@@ -558,6 +558,11 @@ def barotropic_model_one_component(
         "flashing" if state_in.s < fluid.critical_point.s else "condensation"
     )
 
+    # Determine if the process is an expansion or a compression
+    # Invert the efficiency for the case of a compression process
+    if p_out > p_in:
+        efficiency = 1 / efficiency
+
     # Initial guess for the metastable state (is updated at each iteration)
     rhoT_guess_metastable = [state_in.rho, state_in.T]
 
@@ -582,7 +587,7 @@ def barotropic_model_one_component(
                     supersaturation=True,
                 )
 
-            except:  # Compute metastable state using custom solver
+            except:  # Switch custom solver if something goes wrong
                 print("Warning: CoolProp solver failed, switching to custom solver...")
                 state_eq = fluid.get_state_equilibrium(
                     prop_1="h",
@@ -630,15 +635,6 @@ def barotropic_model_one_component(
                 msg = f"The variables blending_onset={blending_onset} and blending_width={blending_width} must be floats when calculation_type='blending'."
                 raise ValueError(msg)
 
-            # # Compute equilibrium state using CoolProp solver
-            # state_eq = fluid.get_state(
-            #     input_type=props.HmassP_INPUTS,
-            #     prop_1=h,
-            #     prop_2=p,
-            #     generalize_quality=True,
-            #     supersaturation=True,
-            # )
-
             # Compute equilibrium thermodynamic state
             try:  # Compute equilibrium state using CoolProp solver
                 state_eq = fluid.get_state(
@@ -649,7 +645,7 @@ def barotropic_model_one_component(
                     supersaturation=True,
                 )
 
-            except:  # Compute metastable state using custom solver
+            except:  # Switch custom solver if something goes wrong
                 print("Warning: CoolProp solver failed, switching to custom solver...")
                 state_eq = fluid.get_state_equilibrium(
                     prop_1="h",
@@ -673,6 +669,7 @@ def barotropic_model_one_component(
             )
 
             # Compute metastable state or use equilibrium state
+            # Do the calculation only within the blending region to avoid using the HEOS solver too deep into the two-phase region
             if use_metastable:
                 state_meta = fluid.get_state_metastable(
                     prop_1="h",
@@ -695,6 +692,7 @@ def barotropic_model_one_component(
                 rhoT_guess_metastable = [state_meta.rho, state_meta.T]
 
             else:
+                # Take the equilibrium state outside the blending region
                 state_meta = state_eq
 
             # Compute blended state
@@ -730,7 +728,8 @@ def barotropic_model_one_component(
         raise Exception(ode_sol.message)
 
     # Postprocess solution
-    rhoT_guess_metastable = [state_in.rho, state_in.T]  # Start postprocessing from inlet state
+    # Start postprocessing from inlet state, otherwise initial guess will be too far away
+    rhoT_guess_metastable = [state_in.rho, state_in.T] 
     states = utils.postprocess_ode(ode_sol.t, ode_sol.y, odefun)
 
     return states, ode_sol
@@ -940,9 +939,14 @@ class PolynomialFitter:
             self._fit_equilibrium()
         elif self.calculation_type == "blending":
             self._fit_blending()
-        else:
+        elif self.calculation_type in ["metastable"]:
             self._fit_single_segment()
-
+        else:
+            raise ValueError(
+                f"Invalid calculation_type='{self.calculation_type}'. "
+                f"Valid options are: {', '.join(CALCULATION_TYPES)}."
+            )
+        
     def _fit_single_segment(self):
         """Fits a single polynomial segment when 'calculation_type' is not specified'"""
         # Scale pressure by inlet pressure to improve polynomial conditioning
@@ -950,6 +954,7 @@ class PolynomialFitter:
 
         # Determine the polynomial limits
         self.poly_breakpoints = [self.p_in_scaled, self.p_out_scaled]
+        self.poly_degree = 6
 
         # Fit polynomials to data
         for var in self.variables:
@@ -988,8 +993,8 @@ class PolynomialFitter:
         else:
             print("poly_degree must be a scalar (int or float) or a list with 2 items.")
             print("Switching to default values")
-            degree_1 = 6
-            degree_2 = 6
+            degree_1 = 4
+            degree_2 = 4
             # raise ValueError("poly_degree must be a scalar (int or float) or a list with 2 items.")
 
         # Fit polynomials to data
@@ -1034,10 +1039,6 @@ class PolynomialFitter:
         mask_region_2 = (self.states["x"] > 0) & (self.states["x"] < limit)
         mask_region_3 = self.states["x"] <= 0
 
-
-
-        # self.states["density"] = np.log(self.states["density"])
-
         # Determine breakpoints in terms of scaled pressure
         p_region_2_start = p[mask_region_2][0]
         p_region_2_end = p[mask_region_2][-1]
@@ -1058,8 +1059,7 @@ class PolynomialFitter:
             elif isinstance(self.poly_degree, (int, float)):
                 degree_1 = degree_2 = degree_3 = self.poly_degree
             else:
-                raise ValueError("poly_degree must be a scalar (int or float) or a list with 3 items.")
-
+                raise ValueError("The variable poly_degree must be a scalar or a list with 3 items.")
 
             # Fit polynomial for Region 1 (x > 1)
             y_1 = np.array(self.states[var])[mask_region_1]
@@ -1151,7 +1151,7 @@ class PolynomialFitter:
         """
 
         # Note:
-        # The argument to the polynomials in self.poly_handles() should be normalized pressures (not physical pressures)
+        # The argument to the polynomials in self.poly_handles() should be the normalized pressures (not physical pressures)
         # The values in self.poly_breakpoints are normalized pressures (not physical pressures)
 
         # Convert input to array and scale
@@ -1392,7 +1392,7 @@ class PolynomialFitter:
         return fig
 
     @_ensure_data_available
-    def plot_phase_diagram(self, fluid, var_x, var_y, savefig=True, showfig=True, output_dir=None):
+    def plot_phase_diagram(self, fluid, var_x, var_y, savefig=True, showfig=True, output_dir=None, plot_spinodal_line=True, plot_quality_isolines=True):
         """
         Plots the barotropic process in the phase diagram of the specified fluid.
 
@@ -1446,35 +1446,36 @@ class PolynomialFitter:
             axes=ax,
             plot_critical_point=True,
             plot_saturation_line=True,
-            plot_spinodal_line=True,
-            plot_quality_isolines=False,
+            plot_spinodal_line=plot_spinodal_line,
+            plot_quality_isolines=plot_quality_isolines,
             N=50,
         )
 
         # Plots contour of void fraction
-        var_z = "vapor_quality"
-        # var_z = "void_fraction"
-        prop_dict = props.compute_quality_grid(fluid, num_points=100, quality_levels=np.linspace(0.0, 1.0, 100))
-        range_z = np.linspace(0.00, 1, 11)
-        colors = plt.cm.Blues(np.linspace(0.25, 0.75, 256)[::-1])
-        colormap = mcolors.LinearSegmentedColormap.from_list("", colors)
-        contour = ax.contourf(
-            prop_dict[var_x],
-            prop_dict[var_y],
-            prop_dict[var_z],
-            range_z,
-            cmap=colormap,
-        )
+        if plot_quality_isolines:
+            var_z = "vapor_quality"
+            # var_z = "void_fraction"
+            prop_dict = props.compute_quality_grid(fluid, num_points=100, quality_levels=np.linspace(0.0, 1.0, 100))
+            range_z = np.linspace(0.00, 1, 11)
+            colors = plt.cm.Blues(np.linspace(0.25, 0.75, 256)[::-1])
+            colormap = mcolors.LinearSegmentedColormap.from_list("", colors)
+            contour = ax.contourf(
+                prop_dict[var_x],
+                prop_dict[var_y],
+                prop_dict[var_z],
+                range_z,
+                cmap=colormap,
+            )
 
-        # Add contour lines with black edges
-        contour_lines = ax.contour(
-            prop_dict[var_x],
-            prop_dict[var_y],
-            prop_dict[var_z],
-            range_z,
-            colors='black',
-            linewidths=0.5,
-        )
+            # Add contour lines with black edges
+            contour_lines = ax.contour(
+                prop_dict[var_x],
+                prop_dict[var_y],
+                prop_dict[var_z],
+                range_z,
+                colors='black',
+                linewidths=0.5,
+            )
 
         # Plot the calculated states
         ax.plot(
@@ -1530,6 +1531,7 @@ class ExpressionExporter:
     """
 
     def __init__(self, poly_fitter, poly_format="horner"):
+
         # Rename arguments
         self.poly_fitter = poly_fitter
         self.poly_format = poly_format
@@ -1550,7 +1552,6 @@ class ExpressionExporter:
         }
 
         # Format of the numbers in the exported expressions
-        # self.num_format = "0.4e"
         self.num_format = "0.16e"
 
         # Define default output directory
@@ -1633,11 +1634,18 @@ class ExpressionExporter:
 
         # Retrieve polynomial coefficients
         p_in = self.poly_fitter.p_in
+        p_out = self.poly_fitter.p_out
         p_in_scaled = self.poly_fitter.p_in_scaled
         p_out_scaled = self.poly_fitter.p_out_scaled
         polynomials = self.poly_fitter.poly_handles[var]
         breakpoints = [p_in * bp for bp in self.poly_fitter.poly_breakpoints]
 
+        # Reverse the order of pressures if the process is a compression rather than an expansion
+        if p_out > p_in:
+            p_in_scaled, p_out_scaled = p_out_scaled, p_in_scaled
+            breakpoints = breakpoints[::-1]
+            # polynomials = polynomials[::-1]  # TODO Not sure if needed
+            
         # Initialize expressions
         expression = self.polynomial_expression(polynomials[0].coef)
         for i in range(1, len(polynomials)):
@@ -1648,7 +1656,7 @@ class ExpressionExporter:
         poly_last = polynomials[-1]
         a1 = poly_last(p_out_scaled)
         a2 = a1 / poly_last.deriv(m=1)(p_out_scaled)
-        exp_safeguard = f"{a1:{self.num_format}} * exp(({self.syntax['pressure']} / {p_in:{self.num_format}} [Pa] - {p_out_scaled}) / {a2:{self.num_format}})"
+        exp_safeguard = f"{a1:{self.num_format}} * exp(({self.syntax['pressure']} / {p_in:{self.num_format}} [Pa] - {p_out_scaled}) / ({a2:{self.num_format}}))"
         expression = self.if_expression(expression, exp_safeguard, breakpoints[-1])
 
         # Safeguard for pressures higher than p_in (Linear extrapolation)
@@ -1660,7 +1668,7 @@ class ExpressionExporter:
 
         # Add fluid property unit
         if unit != "none":
-            expression = f"{expression} * 1 [{unit}]"
+            expression = f"({expression}) * 1 [{unit}]"
         return expression
 
     def polynomial_expression(self, coefficients):
