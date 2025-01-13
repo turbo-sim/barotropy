@@ -1,7 +1,22 @@
 # Barotropy
 
+Enhance your turbomachinery CFD simulations with **`barotropy`**, a Python package designed to create barotropic fluid property models. The barotropic approximation assumes that fluid properties (e.g., density, viscosity, speed of sound) depend solely on pressure, which is a very accurate assumption for most turbomachinery flows. This simplification reduces computational costs while improving convergence reliability in simulations involving complex fluid property variations, such as supercritical CO₂ compressors or two-phase flows in nozzles and turbines.
 
-This package contains functions for generating a barotropic model for fluid properties, a simplified mathematical representation that assumes fluid properties are only a function of pressure. This approach can be particularly useful in CFD modeling, as it offers a faster and more robust alternative to more complex fluid models. Barotropic models are particularly relevant for certain types of flows, such as two-phase flowsin turbomachinery. In such applications, the barotropic model is advantageous because it can approximate scenarios where the fluid follows a known thermodynamic process, such as an adiabatic process within a turbine or compressor.
+## Key Features
+
+- **Simplified Fluid Modeling:** Generate barotropic models to lower computational cost and enhance solver robustness compared to real-gas fluid property tables.  
+- **Optimized for Two-Phase Flows:** Simulate two-phase flows with one or two-components using the Homogeneous Equilibrium Model (HEM) or the Delayed Equilibrium Model (DEM) assumptions..  
+- **Seamless Integration with Commercial CFD Solvers:** Easily export barotropic models as simple expressions ready to be copy-pasted into ANSYS Fluent or ANSYS CFX.  
+
+
+<p align="center">
+  <img src="docs/_static/two-phase_turbine.jpg"  width="85%" />
+</p>
+
+<p align="center">
+  <img src="docs/_static/sCO2_compressor.jpg"  width="85%" />
+</p>
+
 
 
 ## Getting Started
@@ -18,7 +33,7 @@ After installation, verify that everything is set up correctly by running the fo
 python -c "import barotropy; barotropy.print_package_info()"
 ```
 
-For detailed information and examples, visit the [documentation page](https://turbo-sim.github.io/barotropy/) and explore the [tutorials](https://turbo-sim.github.io/barotropy/source/tutorials.html) to get started with the code!
+For detailed information and examples, visit the [documentation page](https://turbo-sim.github.io/barotropy/).
 
 
 
