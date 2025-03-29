@@ -111,40 +111,40 @@ Please follow these steps to submit a pull request.
    - Go to your fork on GitHub and click the "New pull request" button.
 
 
+.. 
+   Reporting issue
+   ----------------
 
-Reporting issue
-----------------
+   If you find a bug or have a feature request, please open an issue in the Github project page and follow the provided templates.
 
-If you find a bug or have a feature request, please open an issue in the Github project page and follow the provided templates.
+   CI/CD Pipeline
+   --------------
 
-CI/CD Pipeline
---------------
+   barotropy uses GitHub Actions to automate its Continuous Integration and Continuous Deployment (CI/CD) processes.
 
-barotropy uses GitHub Actions to automate its Continuous Integration and Continuous Deployment (CI/CD) processes.
+   Automated Testing
+   ^^^^^^^^^^^^^^^^^
 
-Automated Testing
-^^^^^^^^^^^^^^^^^
+   The ``ci.yml`` action is triggered whenever a commit is pushed to the repository. This action runs the test suite on both Windows and Linux environments, ensuring the code's compatibility and correctness across different platforms.
 
-The ``ci.yml`` action is triggered whenever a commit is pushed to the repository. This action runs the test suite on both Windows and Linux environments, ensuring the code's compatibility and correctness across different platforms.
+   Package Publishing
+   ^^^^^^^^^^^^^^^^^^
 
-Package Publishing
-^^^^^^^^^^^^^^^^^^
+   barotropy utilizes the ``bumpversion`` package to manage versioning and release control. To increment the version number, use the following command:
 
-barotropy utilizes the ``bumpversion`` package to manage versioning and release control. To increment the version number, use the following command:
+   .. code-block:: bash
 
-.. code-block:: bash
+      bumpversion patch  # or minor, major
 
-   bumpversion patch  # or minor, major
+   After bumping the version, push the changes to the remote repository along with tags to signify the new version:
 
-After bumping the version, push the changes to the remote repository along with tags to signify the new version:
+   .. code-block:: bash
 
-.. code-block:: bash
+      git push origin --tags
 
-   git push origin --tags
+   If the tests pass successfully, the package is automatically published to the Python Package Index (PyPI), making it readily available for users to install and use.
 
-If the tests pass successfully, the package is automatically published to the Python Package Index (PyPI), making it readily available for users to install and use.
+   Documentation Deployment
+   ^^^^^^^^^^^^^^^^^^^^^^^^
 
-Documentation Deployment
-^^^^^^^^^^^^^^^^^^^^^^^^
-
-barotropy automates the deployment of documentation using the ``deploy_docs`` action. This action builds the Sphinx documentation of the project and publishes the HTML files to GitHub Pages each time that a new commit is pushed to the remote repository. By automating this process, barotropy ensures that the project's documentation remains up-to-date and easily accessible to users and contributors.
+   barotropy automates the deployment of documentation using the ``deploy_docs`` action. This action builds the Sphinx documentation of the project and publishes the HTML files to GitHub Pages each time that a new commit is pushed to the remote repository. By automating this process, barotropy ensures that the project's documentation remains up-to-date and easily accessible to users and contributors.

@@ -93,6 +93,7 @@ DmolarUmolar_INPUTS = CP.DmolarUmolar_INPUTS
 PHASE_INDEX = {attr: getattr(CP, attr) for attr in dir(CP) if attr.startswith("iphase")}
 INPUT_PAIRS = {attr: getattr(CP, attr) for attr in dir(CP) if attr.endswith("_INPUTS")}
 INPUT_PAIRS = sorted(INPUT_PAIRS.items(), key=lambda x: x[1])
+INPUT_TYPE_MAP = {v: k for k, v in INPUT_PAIRS}
 
 def _handle_computation_exceptions(func):
     @wraps(func)
@@ -105,7 +106,19 @@ def _handle_computation_exceptions(func):
         except Exception as e:
             self.converged_flag = False
             if self.exceptions:
-                raise RuntimeError(f"Failed to compute properties: {str(e)}")
+                input_type = args[0]
+                value_1 = args[1]
+                value_2 = args[2]
+                label = INPUT_TYPE_MAP.get(input_type, f"Unknown input type ({input_type})")
+
+                msg = (
+                    f"Thermodynamic property calculations failed:\n"
+                    f"  Input type : {label}\n"
+                    f"  Property 1 : {value_1}\n"
+                    f"  Property 2 : {value_2}\n"
+                    f"  Error      : {str(e)}"
+                )
+                raise RuntimeError(msg)
             return None
     return wrapper
 
@@ -188,6 +201,7 @@ class Fluid:
         name,
         backend="HEOS",
         exceptions=True,
+        identifier=None,
         # initialize_critical=True,
         # initialize_triple=True,
     ):
@@ -198,6 +212,7 @@ class Fluid:
         self.exceptions = exceptions
         self.converged_flag = False
         self._properties = {}
+        self.identifier = identifier if identifier is not None else name
 
         # Initialize variables
         self.sat_liq = None
@@ -293,6 +308,7 @@ class Fluid:
             generalize_quality=generalize_quality,
             supersaturation=supersaturation,
         )
+        self._properties["identifier"] = self.identifier
         return FluidState(self._properties, self.name)
 
     @_handle_computation_exceptions
@@ -493,11 +509,15 @@ class Fluid:
         quality_levels=np.linspace(0.1, 1.0, 10),
         quality_labels=False,
         show_in_legend=False,
+        x_scale="linear",
+        y_scale="linear",
     ):
         if axes is None:
             axes = plt.gca()
             axes.set_xlabel(LABEL_MAPPING.get(x_prop, x_prop))
             axes.set_ylabel(LABEL_MAPPING.get(y_prop, y_prop))
+            axes.set_xscale(x_scale)
+            axes.set_yscale(y_scale)
 
         # Saturation line
         if plot_saturation_line:
@@ -593,8 +613,7 @@ class Fluid:
         else:
             # Remove existing contour lines if they exist
             if "quality_isolines" in self.graphic_elements.get(axes, {}):
-                for coll in self.graphic_elements[axes]["quality_isolines"].collections:
-                    coll.remove()
+                self.graphic_elements[axes]["quality_isolines"].remove()
                 del self.graphic_elements[axes]["quality_isolines"]
 
         # Plot critical point
@@ -662,6 +681,10 @@ class Fluid:
         if axes not in self.graphic_elements:
             self.graphic_elements[axes] = {}
 
+        # Make sure elements are arrays (avoid error when plotting a single point)
+        x_data = np.atleast_1d(x_data)
+        y_data = np.atleast_1d(y_data)
+
         # Check if the line exists for this axes
         if line_name in self.graphic_elements[axes]:
             line = self.graphic_elements[axes][line_name]
@@ -679,19 +702,21 @@ class Fluid:
     def _plot_or_update_contours(
         self, axes, x_data, y_data, z_data, contour_levels, line_name, **contour_params
     ):
+        
         # Ensure there is a dictionary for this axes
         if axes not in self.graphic_elements:
             self.graphic_elements[axes] = {}
 
         # Check if the contour exists for this axes
         if line_name in self.graphic_elements[axes]:
-            for coll in self.graphic_elements[axes][line_name].collections:
-                coll.remove()  # Remove the old contour collections
+            # Remove the old contour
+            self.graphic_elements[axes][line_name].remove()
 
         # Create a new contour
         contour = axes.contour(x_data, y_data, z_data, contour_levels, **contour_params)
         self.graphic_elements[axes][line_name] = contour
         return contour
+
 
     def _set_visibility(self, axes, line_name, visible):
         if axes in self.graphic_elements and line_name in self.graphic_elements[axes]:
@@ -783,7 +808,11 @@ class FluidState:
         return f"{self.__class__.__name__}({self._properties}, '{self.fluid_name}')"
 
     def __str__(self):
-        prop_str = "\n   ".join([f"{k}: {v:6e}" for k, v in self._properties.items()])
+        # Make object print()-able
+        prop_str = "\n   ".join(
+            f"{k}: {v if isinstance(v, str) else f'{v: .6e}'}"
+            for k, v in self._properties.items()
+        )
         return f"FluidState:\n   {prop_str}"
 
     def __iter__(self):
@@ -849,15 +878,17 @@ def states_to_dict_2d(states):
         A dictionary where keys are field names and values are 2D arrays of field values.
     """
     state_dict_2d = {}
+    m, n = len(states), len(states[0])
     for i, row in enumerate(states):
         for j, state in enumerate(row):
-            for field in state.keys():
+            for field, value in state.items():
                 if field not in state_dict_2d:
-                    m, n = len(states), len(row)
-                    state_dict_2d[field] = np.empty((m, n), dtype=np.float64)
-                state_dict_2d[field][i, j] = state[field]
-
+                    dtype = type(value)  # Determine dtype from the first occurrence
+                    state_dict_2d[field] = np.empty((m, n), dtype=dtype)
+                state_dict_2d[field][i, j] = value
     return state_dict_2d
+    
+
 
 # ------------------------------------------------------------------------------------ #
 # ------------------------------------------------------------------------------------ #
@@ -1095,10 +1126,11 @@ def compute_property_grid(
 
     # Initialize dictionary to store properties and pre-allocate storage
     properties_dict = {}
+    m, n = len(range_1), len(range_2)
 
     # Compute properties at each point
-    for i in range(len(range_2)):
-        for j in range(len(range_1)):
+    for i in range(m):
+        for j in range(n):
             # Set state of the fluid
             state = fluid.get_state(
                 input_pair,
@@ -1109,12 +1141,15 @@ def compute_property_grid(
             )
 
             # Store the properties (initialize as empty array if new key)
-            for key in state:
+            for key, value in state.items():
                 if key not in properties_dict.keys():
-                    properties_dict[key] = np.zeros_like(grid1)
+                    dtype = type(value)  # Determine dtype from the first occurrence
+                    properties_dict[key] = np.empty((m, n), dtype=dtype)
+                    # properties_dict[key] = np.zeros_like(grid1)
                 properties_dict[key][i, j] = state[key]
 
     return properties_dict
+   
 
 
 def compute_property_grid_rhoT(

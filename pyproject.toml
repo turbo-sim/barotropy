@@ -20,7 +20,6 @@ PyYAML = "^6.0.1"
 toml = "^0.10.2"
 cycler = "^0.12.1"
 parse = "^1.20.2"
-ansys-fluent-core = "^0.26.1"
 pexpect = "^4.9.0"
 
 [tool.poetry.group.dev.dependencies]
@@ -38,7 +37,11 @@ sphinxawesome-theme = "^5.1.5"
 sphinx-design = "^0.6.0"
 sphinx-togglebutton = "^0.3.2"
 bump2version = "^1.0.1"
+ansys-fluent-core = "^0.26.1"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+# Rememeber to add --tags when publishing a new version
+# git push origin main --tags

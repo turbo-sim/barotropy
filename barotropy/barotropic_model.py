@@ -344,6 +344,7 @@ class BarotropicModel:
             states=self.states,
             variables=self.polynomial_variables,
             degree=self.polynomial_degree,
+            model_type=self.model_type,
             calculation_type=self.calculation_type,
             output_dir=self.output_dir,
         )
@@ -913,6 +914,7 @@ class PolynomialFitter:
         variables,
         degree,
         calculation_type,
+        model_type,
         output_dir="barotropic_model",
     ):
 
@@ -920,6 +922,7 @@ class PolynomialFitter:
         self.states = states
         self.variables = variables
         self.poly_degree = degree
+        self.model_type = model_type
         self.calculation_type = calculation_type
         self.output_dir_default = output_dir
 
@@ -939,7 +942,7 @@ class PolynomialFitter:
             self._fit_equilibrium()
         elif self.calculation_type == "blending":
             self._fit_blending()
-        elif self.calculation_type in ["metastable"]:
+        elif self.calculation_type in ["metastable"] or self.model_type == "two-component":
             self._fit_single_segment()
         else:
             raise ValueError(

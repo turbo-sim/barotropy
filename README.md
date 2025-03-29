@@ -1,6 +1,6 @@
 # Barotropy
 
-Enhance your turbomachinery CFD simulations with **`barotropy`**, a Python package designed to create barotropic fluid property models. The barotropic approximation assumes that fluid properties (e.g., density, viscosity, speed of sound) depend solely on pressure, which is a very accurate assumption for most turbomachinery flows. This simplification reduces computational costs while improving convergence reliability in simulations involving complex fluid property variations, such as supercritical CO₂ compressors or two-phase flows in nozzles and turbines.
+Enhance your two-phase turbomachinery CFD simulations with **`barotropy`**, a Python package designed to create barotropic fluid property models. The barotropic approximation assumes that fluid properties (e.g., density, viscosity, speed of sound) depend solely on pressure, which is a very accurate assumption for most turbomachinery flows. This simplification reduces computational costs while improving convergence reliability in simulations involving complex fluid property variations, such as supercritical CO₂ compressors or two-phase flows in nozzles and turbines.
 
 ## Key Features
 
@@ -19,7 +19,7 @@ Enhance your turbomachinery CFD simulations with **`barotropy`**, a Python packa
 
 
 
-## Getting Started
+## 🚀 User installation (via PyPI)
 
 To begin using `barotropy`, install it via `pip`:
 
@@ -34,6 +34,55 @@ python -c "import barotropy; barotropy.print_package_info()"
 ```
 
 For detailed information and examples, visit the [documentation page](https://turbo-sim.github.io/barotropy/).
+
+
+## 🛠️ Developer installation (from source with Poetry)
+
+This guide walks you through installation for development using `Poetry`, which manages both dependencies and virtual environments automatically.
+
+1. **Install Poetry**  
+   Follow the official guide: [Poetry Installation](https://python-poetry.org/docs/#installation)  
+   Then verify the installation:
+   ```bash
+   poetry --version
+   ```
+
+2. **Clone the repository**
+   ```bash
+   git clone https://github.com/turbo-sim/barotropy
+   cd barotropy
+   ```
+
+3. **Install dependencies and create a virtual environment**  
+   This installs all required packages listed in `pyproject.toml`:
+   ```bash
+   poetry install
+   ```
+
+4. **Activate the virtual environment**
+   ```bash
+   poetry shell
+   ```
+   To deactivate:
+   ```bash
+   exit
+   ```
+
+5. **Verify the installation**  
+   Run the following inside the Poetry shell or with `poetry run`:
+   ```bash
+   poetry run python -c "import barotropy; barotropy.print_package_info()"
+   ```
+
+6. **Install additional packages**  
+   To add a runtime dependency:
+   ```bash
+   poetry add <package-name>
+   ```
+   To add a development-only dependency:
+   ```bash
+   poetry add --dev <package-name>
+   ```
 
 
 
