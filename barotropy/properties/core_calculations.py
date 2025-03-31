@@ -1,9 +1,10 @@
 import numpy as np
+import numbers
 import CoolProp.CoolProp as CP
+import pysolver_view as psv
 
 from .. import math as math
 from .. import utilities as utils
-from .. import pysolver_view as psv
 
 
 # Define property aliases
@@ -914,13 +915,16 @@ def blend_properties(
     # Calculate the blending factor sigma
     sigma = math.sigmoid_smoothstep(x)
     # sigma = math.sigmoid_smootherstep(x)
-
+    
     # Blend properties
     props_blended = {}
     for key in props_equilibrium.keys():
         prop_equilibrium = props_equilibrium.get(key, np.nan)
         prop_metastable = props_metastable.get(key, np.nan)
-        props_blended[key] = prop_equilibrium * (1 - sigma) + prop_metastable * sigma
+        if isinstance(prop_equilibrium, numbers.Real) and isinstance(prop_metastable, numbers.Real):
+            props_blended[key] = prop_equilibrium * (1 - sigma) + prop_metastable * sigma
+        else:
+            props_blended[key] = np.nan
 
     # Add additional properties
     props_blended["x"] = x
@@ -1367,6 +1371,6 @@ def calculate_mixture_properties(props_1, props_2, y_1, y_2):
 
     # Add properties as aliases (if property exists)
     for key, value in PROPERTY_ALIAS.items():
-        props[key] = props.get(value, np.NaN)
+        props[key] = props.get(value, np.nan)
 
     return props

@@ -2,11 +2,12 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 import CoolProp.CoolProp as CP
+import pysolver_view as psv
 
 from functools import wraps
 
 from . import core_calculations as props
-from .. import pysolver_view as psv
+
 
 MEANLINE_PROPERTIES = [
     "p",
@@ -500,7 +501,7 @@ class Fluid:
         plot_triple_point_liquid=False,
         plot_triple_point_vapor=False,
         plot_spinodal_line=False,
-        spinodal_line_color=0.5 * np.array([1, 1, 1]),
+        spinodal_line_color=0.0 * np.array([1, 1, 1]),
         spinodal_line_width=1.25,
         spinodal_line_method="bfgs",  # Alternative is slsqp
         spinodal_line_use_previous=False,  # True is not as robust
@@ -554,6 +555,7 @@ class Fluid:
                 "label": label,
                 "color": spinodal_line_color,
                 "linewidth": spinodal_line_width,
+                "linestyle": "--"
             }
             self._graphic_spinodal_line = self._plot_or_update_line(
                 axes,
@@ -1461,6 +1463,7 @@ class _SpinodalPointProblem(psv.OptimizationProblem):
         self.branch = branch
         self.fluid = fluid
         self.supersaturation = supersaturation
+        self.variable_names = ["density"]
 
         # Compute saturation liquid density (used to determine initial guess)
         state_vap = self.fluid.get_state(CP.QT_INPUTS, 0.00, self.T)

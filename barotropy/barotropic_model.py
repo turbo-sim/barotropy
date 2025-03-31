@@ -3,6 +3,7 @@ import datetime
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
+import pysolver_view as psv
 
 from functools import wraps
 from numpy.polynomial import Polynomial
@@ -11,7 +12,6 @@ from scipy.integrate._ivp.ivp import METHODS as ODE_METHODS
 
 from . import graphics
 from . import utilities as utils
-from . import pysolver_view as psv
 from . import properties as props
 
 COLORS_MATLAB = graphics.COLORS_MATLAB
