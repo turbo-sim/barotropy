@@ -1,0 +1,608 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>barotropy.kaist_postprocessing &#8212; barotropy v0.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=d47532a6"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/barotropy/kaist_postprocessing';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">barotropy v0.1.0 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../source/installation.html">Installation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../source/tutorials.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../source/tutorials/one_component_systems.html">One-component systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/tutorials/two_component_systems.html">Two-component systems</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/barotropic_model.html">Barotropic model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/bibliography.html">Bibliography</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../source/api/barotropy.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.barotropic_model.html">Barotropic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.properties.html">Fluid properties</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.math.html">Math functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.graphics.html">Graphic functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.utilities.html">Utility functions</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../source/api/barotropy.pysolver_view.html">PySolverView</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.pysolver_view.nonlinear_system.html">barotropy.pysolver_view.nonlinear_system module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.pysolver_view.nonlinear_system_problems.html">barotropy.pysolver_view.nonlinear_system_problems module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.pysolver_view.numerical_differentiation.html">barotropy.pysolver_view.numerical_differentiation module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.pysolver_view.optimization.html">barotropy.pysolver_view.optimization module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.pysolver_view.optimization_problems.html">barotropy.pysolver_view.optimization_problems module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.pysolver_view.optimization_wrappers.html">barotropy.pysolver_view.optimization_wrappers module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.pysolver_view.pysolver_utilities.html">barotropy.pysolver_view.pysolver_utilities module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../source/api/barotropy.fluent_automation.html">Fluent automation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.fluent_automation.fluent_automation.html">barotropy.fluent_automation.fluent_automation module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html">barotropy.fluent_automation.fluent_plot_nozzle_data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.fluent_automation.stream_residuals.html">barotropy.fluent_automation.stream_residuals module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.fluent_automation.stream_transcript.html">barotropy.fluent_automation.stream_transcript module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for barotropy.kaist_postprocessing</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">fluid_properties</span> <span class="k">as</span> <span class="n">props</span>
+
+
+<span class="n">DATA_MAPPING</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;DPT-101 (bar)&quot;</span><span class="p">:</span> <span class="s2">&quot;dP_recuperator_hot&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;DPT-102 (bar)&quot;</span><span class="p">:</span> <span class="s2">&quot;dP_cooler_PCHE&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;DPT-103 (bar)&quot;</span><span class="p">:</span> <span class="s2">&quot;dP_cooler_STHE&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;DPT-104 (bar)&quot;</span><span class="p">:</span> <span class="s2">&quot;dP_recuperator_cold&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;DPT-301 (bar)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;DPT-302 (bar)&quot;</span><span class="p">:</span> <span class="s2">&quot;dP_cooler_STHE_water&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;FT-101D (kg/L)&quot;</span><span class="p">:</span> <span class="s2">&quot;D_compressor_in&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;FT-101F (kg/min)&quot;</span><span class="p">:</span> <span class="s2">&quot;MF_compressor_in&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;FT-102D (kg/L)&quot;</span><span class="p">:</span> <span class="s2">&quot;D_compressor_out&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;FT-102F (kg/min)&quot;</span><span class="p">:</span> <span class="s2">&quot;MF_compressor_out&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;FT-103F (kg/min)&quot;</span><span class="p">:</span> <span class="s2">&quot;MF_turbine_in&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;FT-301F (kg/min)&quot;</span><span class="p">:</span> <span class="s2">&quot;MF_chiller_1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;FT-302F (kg/min)&quot;</span><span class="p">:</span> <span class="s2">&quot;MF_chiller_2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;FT-303F (kg/min)&quot;</span><span class="p">:</span> <span class="s2">&quot;MF_coolers&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;FU,1 (hz)&quot;</span><span class="p">:</span> <span class="s2">&quot;angular_speed&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;FU,2 (hz)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;FU,3 (hz)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;FU,SIGM (hz)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;HE-001M (%)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;IRMS,1 (A)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;IRMS,2 (A)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;IRMS,3 (A)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;IRMS,SIGM (A)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;MFC-101M (%)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;MFC-101P (%)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;MFC-102M (%)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;MFC-102P (%)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;MFC-103M (%)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;MFC-103P (%)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;MFC-301M (%)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;MFC-301P (%)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;MFC-VENTM (%)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;MFC-VENTP (%)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;NONE (NONE)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;NONE (NONE) 1&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;NONE (NONE) 2&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;NONE (NONE) 3&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;P,1 (W)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;P,2 (W)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;P,3 (W)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;P,SIGM (W)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;PT-101 (bar)&quot;</span><span class="p">:</span> <span class="s2">&quot;P_turbine_in&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PT-102 (bar)&quot;</span><span class="p">:</span> <span class="s2">&quot;P_turbine_out&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PT-103 (bar)&quot;</span><span class="p">:</span> <span class="s2">&quot;P_recuperator_hot_in&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PT-105 (bar)&quot;</span><span class="p">:</span> <span class="s2">&quot;P_recuperator_hot_out&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PT-107 (bar)&quot;</span><span class="p">:</span> <span class="s2">&quot;P_cooler_PCHE_out&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PT-109 (bar)&quot;</span><span class="p">:</span> <span class="s2">&quot;P_filter_in&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PT-109A (bar)&quot;</span><span class="p">:</span> <span class="s2">&quot;P_compressor_in&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PT-110 (bar)&quot;</span><span class="p">:</span> <span class="s2">&quot;P_compressor_out&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PT-111 (bar)&quot;</span><span class="p">:</span> <span class="s2">&quot;P_recuperator_cold_in&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PT-113 (bar)&quot;</span><span class="p">:</span> <span class="s2">&quot;P_heater_in&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PT-114 (bar)&quot;</span><span class="p">:</span> <span class="s2">&quot;P_heater_out&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PT-201 (bar)&quot;</span><span class="p">:</span> <span class="s2">&quot;P_cooler_PCHE_water_out&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PT-202 (bar)&quot;</span><span class="p">:</span> <span class="s2">&quot;P_cooler_PCHE_water_in&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;S,1 (VA)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;S,2 (VA)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;S,3 (VA)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;S,SIGM (VA)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;TE-101 (degC)&quot;</span><span class="p">:</span> <span class="s2">&quot;T_turbine_in&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TE-102 (degC)&quot;</span><span class="p">:</span> <span class="s2">&quot;T_turbine_out&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TE-103 (degC)&quot;</span><span class="p">:</span> <span class="s2">&quot;T_recuperator_hot_in&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TE-104 (degC)&quot;</span><span class="p">:</span> <span class="s2">&quot;T_recuperator_hot_out&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TE-105 (degC)&quot;</span><span class="p">:</span> <span class="s2">&quot;T_cooler_PCHE_in&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TE-106 (degC)&quot;</span><span class="p">:</span> <span class="s2">&quot;T_cooler_PCHE_out&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TE-107 (degC)&quot;</span><span class="p">:</span> <span class="s2">&quot;T_cooler_STHE_in&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TE-108 (degC)&quot;</span><span class="p">:</span> <span class="s2">&quot;T_cooler_STHE_out&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TE-109 (degC)&quot;</span><span class="p">:</span> <span class="s2">&quot;T_filter_in&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TE-110 (degC)&quot;</span><span class="p">:</span> <span class="s2">&quot;T_compressor_out&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TE-111 (degC)&quot;</span><span class="p">:</span> <span class="s2">&quot;T_recuperator_cold_in&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TE-112 (degC)&quot;</span><span class="p">:</span> <span class="s2">&quot;T_recuperator_cold_out&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TE-113 (degC)&quot;</span><span class="p">:</span> <span class="s2">&quot;T_heater_in&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TE-114 (degC)&quot;</span><span class="p">:</span> <span class="s2">&quot;T_heater_out&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TE-201 (degC)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;TE-202 (degC)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;TE-203 (degC)&quot;</span><span class="p">:</span> <span class="s2">&quot;T_compressor_core&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TE-204 (degC)&quot;</span><span class="p">:</span> <span class="s2">&quot;T_turbine_core&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TE-301 (degC)&quot;</span><span class="p">:</span> <span class="s2">&quot;T_precooler_water_out&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TE-302 (degC)&quot;</span><span class="p">:</span> <span class="s2">&quot;T_precooler_water_in&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TE-303 (degC)&quot;</span><span class="p">:</span> <span class="s2">&quot;T_cooler_water_in&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TE-304 (degC)&quot;</span><span class="p">:</span> <span class="s2">&quot;T_cooler_water_out&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;URMS,1 (V)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;URMS,2 (V)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;URMS,3 (V)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;URMS,SIGM (V)&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+
+
+<div class="viewcode-block" id="load_and_convert_data">
+<a class="viewcode-back" href="../../source/api/barotropy.kaist_postprocessing.html#barotropy.kaist_postprocessing.load_and_convert_data">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_and_convert_data</span><span class="p">(</span><span class="n">data_file</span><span class="p">,</span> <span class="n">data_mapping</span><span class="p">):</span>
+    <span class="c1"># Load the data from the Excel file</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">data_file</span><span class="p">)</span>
+    <span class="n">df_1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="p">{</span><span class="n">col</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; mean&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="s2">&quot; mean&quot;</span> <span class="ow">in</span> <span class="n">col</span><span class="p">}</span>
+    <span class="p">)</span>
+    <span class="n">df_2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="n">col</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; std_dev_mean&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+            <span class="k">if</span> <span class="s2">&quot; std_dev_mean&quot;</span> <span class="ow">in</span> <span class="n">col</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Filter out None values from data_mapping dictionary</span>
+    <span class="n">filtered_mapping</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data_mapping</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span>
+
+    <span class="c1"># Renaming the columns using the filtered mapping</span>
+    <span class="n">df_1</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">filtered_mapping</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df_2</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">filtered_mapping</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Insert the &#39;tag&#39; column as the first column, if it exists</span>
+    <span class="k">if</span> <span class="s2">&quot;tag&quot;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">df_1</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;tag&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;tag&quot;</span><span class="p">])</span>
+        <span class="n">df_2</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;tag&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;tag&quot;</span><span class="p">])</span>
+
+    <span class="c1"># Convert units to SI system</span>
+    <span class="n">df_1</span> <span class="o">=</span> <span class="n">convert_units</span><span class="p">(</span><span class="n">df_1</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;absolute&quot;</span><span class="p">)</span> 
+    <span class="n">df_2</span> <span class="o">=</span> <span class="n">convert_units</span><span class="p">(</span><span class="n">df_2</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;uncertainty&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df_1</span><span class="p">,</span> <span class="n">df_2</span></div>
+
+
+
+<div class="viewcode-block" id="convert_units">
+<a class="viewcode-back" href="../../source/api/barotropy.kaist_postprocessing.html#barotropy.kaist_postprocessing.convert_units">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_units</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;absolute&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert measured quantities to SI units.</span>
+
+<span class="sd">    The function assumes:</span>
+<span class="sd">    - Temperatures are in degrees Celsius and are converted to Kelvin.</span>
+<span class="sd">    - Pressures are in gauge bars and are converted to Pascals (absolute).</span>
+<span class="sd">    - Angular speeds are in Hz and are converted to rad/s.</span>
+<span class="sd">    - Mass flows are in kg/min and are converted to kg/s.</span>
+
+<span class="sd">    For &#39;absolute&#39; mode, multiplicative and additive conversions are applied</span>
+<span class="sd">    For &#39;uncertainty&#39; mode, only multiplicative conversions are applied (typical deviation is a differential quantity)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : DataFrame</span>
+<span class="sd">        The pandas DataFrame containing the data to be converted.</span>
+<span class="sd">    mode : str, optional</span>
+<span class="sd">        Specifies whether the data in the DataFrame are &#39;absolute&#39; measurements or &#39;uncertainty&#39; values.</span>
+<span class="sd">        Default is &#39;absolute&#39;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    DataFrame</span>
+<span class="sd">        The DataFrame with converted units.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Work on a copy</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+    <span class="c1"># Convert temperatures from Celsius to Kelvin (only if dealing with absolute values)</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;absolute&quot;</span><span class="p">:</span>
+        <span class="n">temp_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="s2">&quot;^T_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">temp_cols</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="n">df</span><span class="p">[</span><span class="n">temp_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">temp_cols</span><span class="p">]</span> <span class="o">+</span> <span class="mf">273.15</span>
+
+    <span class="c1"># Convert pressures from gauge bar to Pascal</span>
+    <span class="n">pressure_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="s2">&quot;^P_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">pressure_cols</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;absolute&quot;</span><span class="p">:</span>
+            <span class="n">df</span><span class="p">[</span><span class="n">pressure_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">pressure_cols</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e5</span> <span class="o">+</span> <span class="mi">101325</span>
+        <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;uncertainty&quot;</span><span class="p">:</span>
+            <span class="n">df</span><span class="p">[</span><span class="n">pressure_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">pressure_cols</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e5</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Invalid value for &#39;mode&#39;: </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">. Valid options are &#39;absolute&#39; or &#39;uncertainty&#39;&quot;</span>
+            <span class="p">)</span>
+
+    <span class="c1"># Convert angular speed from Hz to rad/s</span>
+    <span class="n">omega_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="s2">&quot;^angular_speed&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">omega_cols</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="n">df</span><span class="p">[</span><span class="n">omega_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">omega_cols</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+
+    <span class="c1"># Convert mass flow from kg/min to kg/s</span>
+    <span class="n">mass_flow_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="s2">&quot;^MF_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">mass_flow_cols</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="n">df</span><span class="p">[</span><span class="n">mass_flow_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">mass_flow_cols</span><span class="p">]</span> <span class="o">/</span> <span class="mi">60</span>
+
+    <span class="k">return</span> <span class="n">df</span></div>
+
+
+
+<div class="viewcode-block" id="calculate_enthalpy_rise">
+<a class="viewcode-back" href="../../source/api/barotropy.kaist_postprocessing.html#barotropy.kaist_postprocessing.calculate_enthalpy_rise">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">calculate_enthalpy_rise</span><span class="p">(</span>
+    <span class="n">T_filter_in</span><span class="p">,</span> <span class="n">P_filter_in</span><span class="p">,</span> <span class="n">P_filter_out</span><span class="p">,</span> <span class="n">T_out</span><span class="p">,</span> <span class="n">p_out</span><span class="p">,</span> <span class="n">MF_in</span><span class="p">,</span> <span class="n">MF_out</span><span class="p">,</span> <span class="n">angular_speed</span>
+<span class="p">):</span>
+    <span class="c1"># Create fluid object</span>
+    <span class="n">fluid_name</span> <span class="o">=</span> <span class="s2">&quot;CO2&quot;</span>
+    <span class="n">fluid</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">Fluid</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">fluid_name</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;HEOS&quot;</span><span class="p">,</span> <span class="n">exceptions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Assume saturated vapor if point is subcooled liquid due to measurement uncertainty</span>
+    <span class="k">if</span> <span class="n">P_filter_in</span> <span class="o">&lt;</span> <span class="n">fluid</span><span class="o">.</span><span class="n">critical_point</span><span class="o">.</span><span class="n">p</span><span class="p">:</span>
+        <span class="n">state_sat</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">PQ_INPUTS</span><span class="p">,</span> <span class="n">P_filter_in</span><span class="p">,</span> <span class="mf">1.00</span><span class="p">)</span>
+        <span class="n">T_filter_in</span> <span class="o">=</span> <span class="n">state_sat</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="mf">1e-3</span> <span class="k">if</span> <span class="p">(</span><span class="n">T_filter_in</span> <span class="o">&lt;</span> <span class="n">state_sat</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="k">else</span> <span class="n">T_filter_in</span>
+
+    <span class="c1"># Set states</span>
+    <span class="n">state_filter_in</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">PT_INPUTS</span><span class="p">,</span> <span class="n">P_filter_in</span><span class="p">,</span> <span class="n">T_filter_in</span><span class="p">)</span>
+    <span class="n">state_in</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">HmassP_INPUTS</span><span class="p">,</span> <span class="n">state_filter_in</span><span class="o">.</span><span class="n">h</span><span class="p">,</span> <span class="n">P_filter_out</span><span class="p">)</span>
+    <span class="n">state_out</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">PT_INPUTS</span><span class="p">,</span> <span class="n">p_out</span><span class="p">,</span> <span class="n">T_out</span><span class="p">)</span>
+    <span class="n">state_out_s</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">PSmass_INPUTS</span><span class="p">,</span> <span class="n">p_out</span><span class="p">,</span> <span class="n">state_in</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+
+    <span class="c1"># Calculate work and ideal work</span>
+    <span class="n">work</span> <span class="o">=</span> <span class="n">state_out</span><span class="o">.</span><span class="n">h</span> <span class="o">-</span> <span class="n">state_in</span><span class="o">.</span><span class="n">h</span>  <span class="c1">## / state_in.a**2</span>
+    <span class="n">ideal_work</span> <span class="o">=</span> <span class="n">state_out_s</span><span class="o">.</span><span class="n">h</span> <span class="o">-</span> <span class="n">state_in</span><span class="o">.</span><span class="n">h</span>
+    <span class="n">efficiency</span> <span class="o">=</span> <span class="n">ideal_work</span> <span class="o">/</span> <span class="n">work</span>
+
+    <span class="c1"># Reduced mass flow</span>
+    <span class="n">work_eq</span> <span class="o">=</span> <span class="p">(</span><span class="n">state_out</span><span class="o">.</span><span class="n">h</span> <span class="o">-</span> <span class="n">state_in</span><span class="o">.</span><span class="n">h</span><span class="p">)</span> <span class="o">/</span> <span class="n">state_filter_in</span><span class="o">.</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">MF_in_eq</span> <span class="o">=</span> <span class="n">MF_in</span> <span class="o">/</span> <span class="n">state_filter_in</span><span class="o">.</span><span class="n">d</span> <span class="o">/</span> <span class="n">state_filter_in</span><span class="o">.</span><span class="n">a</span>
+
+    <span class="c1"># rho_in = state_in.rho</span>
+    <span class="c1"># a_in = state_in.a</span>
+    <span class="c1"># s_in = state_in.s</span>
+    <span class="c1"># h_in = state_in.h</span>
+    <span class="c1"># T_in = state_in.T</span>
+    <span class="c1"># rho_in = state_in.rho</span>
+    <span class="n">a_in</span> <span class="o">=</span> <span class="n">state_filter_in</span><span class="o">.</span><span class="n">a</span>
+    <span class="n">s_in</span> <span class="o">=</span> <span class="n">state_filter_in</span><span class="o">.</span><span class="n">s</span>
+    <span class="n">h_in</span> <span class="o">=</span> <span class="n">state_filter_in</span><span class="o">.</span><span class="n">h</span>
+    <span class="n">T_in</span> <span class="o">=</span> <span class="n">state_filter_in</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">p_in</span> <span class="o">=</span> <span class="n">state_filter_in</span><span class="o">.</span><span class="n">p</span>
+    <span class="n">rho_in</span> <span class="o">=</span> <span class="n">state_filter_in</span><span class="o">.</span><span class="n">rho</span>
+
+    <span class="k">return</span> <span class="n">work</span><span class="p">,</span> <span class="n">work_eq</span><span class="p">,</span> <span class="n">MF_in_eq</span><span class="p">,</span> <span class="n">h_in</span><span class="p">,</span> <span class="n">T_in</span><span class="p">,</span> <span class="n">p_in</span><span class="p">,</span> <span class="n">rho_in</span><span class="p">,</span> <span class="n">a_in</span><span class="p">,</span> <span class="n">s_in</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor, Simone Parisi, Amit Kumar, Fredrik Haglind
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Sustainable Thermal Power DTU.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

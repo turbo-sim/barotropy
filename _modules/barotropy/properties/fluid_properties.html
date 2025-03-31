@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>barotropy.properties.fluid_properties &#8212; barotropy v0.0.6 documentation</title>
+    <title>barotropy.properties.fluid_properties &#8212; barotropy v0.1.0 documentation</title>
   
   
   
@@ -15,32 +15,29 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
-  <!-- So that users can add custom icons -->
-  <script src="../../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=06460786"></script>
+    <script src="../../../_static/documentation_options.js?v=d47532a6"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>let toggleHintShow = 'Click to show';</script>
@@ -56,7 +53,6 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -72,8 +68,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="../../../search.html"
       method="get">
@@ -81,6 +88,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -88,8 +96,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -107,8 +115,7 @@
       
         
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -133,16 +140,20 @@
   
   
   
-    <p class="title logo__title">barotropy v0.0.6 documentation</p>
+    <p class="title logo__title">barotropy v0.1.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
@@ -240,16 +251,24 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
 
 
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
+  </button>
+`);
+</script>
 
 </div></div>
       
@@ -276,15 +295,16 @@
                 <article class="bd-article">
                   
   <h1>Source code for barotropy.properties.fluid_properties</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">CoolProp.CoolProp</span> <span class="k">as</span> <span class="nn">CP</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">CoolProp.CoolProp</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">CP</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pysolver_view</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">psv</span>
 
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">core_calculations</span> <span class="k">as</span> <span class="n">props</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">pysolver_view</span> <span class="k">as</span> <span class="n">psv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">core_calculations</span> <span class="k">as</span> <span class="n">props</span>
+
 
 <span class="n">MEANLINE_PROPERTIES</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;p&quot;</span><span class="p">,</span>
@@ -300,6 +320,19 @@
     <span class="s2">&quot;cv&quot;</span><span class="p">,</span>
     <span class="s2">&quot;gamma&quot;</span><span class="p">,</span>
 <span class="p">]</span>
+
+<span class="n">LABEL_MAPPING</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="s2">&quot;Density (kg/m$^3$)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;viscosity&quot;</span><span class="p">:</span> <span class="s2">&quot;Viscosity (Pa·s)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;speed_sound&quot;</span><span class="p">:</span> <span class="s2">&quot;Speed of sound (m/s)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;void_fraction&quot;</span><span class="p">:</span> <span class="s2">&quot;Void fraction&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;vapor_quality&quot;</span><span class="p">:</span> <span class="s2">&quot;Vapor quality&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;p&quot;</span><span class="p">:</span> <span class="s2">&quot;Pressure (Pa)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="s2">&quot;Entropy (J/kg/K)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;T&quot;</span><span class="p">:</span> <span class="s2">&quot;Temperature (K)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;h&quot;</span><span class="p">:</span> <span class="s2">&quot;Enthalpy (J/kg)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rho&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;Density (kg/m$^3$)&quot;</span><span class="p">,</span>
+<span class="p">}</span>
 
 <span class="c1"># Dynamically add INPUTS fields to the module</span>
 <span class="c1"># for attr in dir(CP):</span>
@@ -358,10 +391,11 @@
 <span class="n">PHASE_INDEX</span> <span class="o">=</span> <span class="p">{</span><span class="n">attr</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">CP</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">CP</span><span class="p">)</span> <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;iphase&quot;</span><span class="p">)}</span>
 <span class="n">INPUT_PAIRS</span> <span class="o">=</span> <span class="p">{</span><span class="n">attr</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">CP</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">CP</span><span class="p">)</span> <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;_INPUTS&quot;</span><span class="p">)}</span>
 <span class="n">INPUT_PAIRS</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">INPUT_PAIRS</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">INPUT_TYPE_MAP</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">INPUT_PAIRS</span><span class="p">}</span>
 
-<span class="k">def</span> <span class="nf">_handle_computation_exceptions</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_handle_computation_exceptions</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># Perform the computation</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -370,12 +404,24 @@
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">converged_flag</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exceptions</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to compute properties: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">input_type</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">value_1</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">value_2</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="n">INPUT_TYPE_MAP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">input_type</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Unknown input type (</span><span class="si">{</span><span class="n">input_type</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Thermodynamic property calculations failed:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;  Input type : </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;  Property 1 : </span><span class="si">{</span><span class="n">value_1</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;  Property 2 : </span><span class="si">{</span><span class="n">value_2</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;  Error      : </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
     <span class="k">return</span> <span class="n">wrapper</span>
 
     
-<span class="k">def</span> <span class="nf">_generate_coolprop_input_table</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_generate_coolprop_input_table</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create table of input pairs as string to be copy-pasted in Sphinx documentation&quot;&quot;&quot;</span>
     <span class="n">inputs_table</span> <span class="o">=</span> <span class="s2">&quot;.. list-table:: CoolProp input mappings</span><span class="se">\n</span><span class="s2">&quot;</span>
     <span class="n">inputs_table</span> <span class="o">+=</span> <span class="s2">&quot;   :widths: 50 30</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -390,7 +436,7 @@
 
 <div class="viewcode-block" id="Fluid">
 <a class="viewcode-back" href="../../../source/api/barotropy.properties.html#barotropy.properties.fluid_properties.Fluid">[docs]</a>
-<span class="k">class</span> <span class="nc">Fluid</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Fluid</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a fluid with various thermodynamic properties computed via CoolProp.</span>
 
@@ -450,11 +496,12 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">name</span><span class="p">,</span>
         <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;HEOS&quot;</span><span class="p">,</span>
         <span class="n">exceptions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">identifier</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="c1"># initialize_critical=True,</span>
         <span class="c1"># initialize_triple=True,</span>
     <span class="p">):</span>
@@ -465,6 +512,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">exceptions</span> <span class="o">=</span> <span class="n">exceptions</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">converged_flag</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_properties</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">identifier</span> <span class="o">=</span> <span class="n">identifier</span> <span class="k">if</span> <span class="n">identifier</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">name</span>
 
         <span class="c1"># Initialize variables</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sat_liq</span> <span class="o">=</span> <span class="kc">None</span>
@@ -497,23 +545,23 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">T_min</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_AS</span><span class="o">.</span><span class="n">Tmin</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">T_max</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_AS</span><span class="o">.</span><span class="n">Tmax</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">_compute_critical_point</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_compute_critical_point</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the properties at the critical point&quot;&quot;&quot;</span>
         <span class="n">rho_crit</span><span class="p">,</span> <span class="n">T_crit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_AS</span><span class="o">.</span><span class="n">rhomass_critical</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_AS</span><span class="o">.</span><span class="n">T_critical</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">DmassT_INPUTS</span><span class="p">,</span> <span class="n">rho_crit</span><span class="p">,</span> <span class="n">T_crit</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_compute_triple_point_liquid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_compute_triple_point_liquid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the properties at the triple point (liquid state)&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">QT_INPUTS</span><span class="p">,</span> <span class="mf">0.00</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_AS</span><span class="o">.</span><span class="n">Ttriple</span><span class="p">())</span>
 
-    <span class="k">def</span> <span class="nf">_compute_triple_point_vapor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_compute_triple_point_vapor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the properties at the triple point (vapor state)&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">QT_INPUTS</span><span class="p">,</span> <span class="mf">1.00</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_AS</span><span class="o">.</span><span class="n">Ttriple</span><span class="p">())</span>
 
 <div class="viewcode-block" id="Fluid.get_state">
 <a class="viewcode-back" href="../../../source/api/barotropy.properties.html#barotropy.properties.fluid_properties.Fluid.get_state">[docs]</a>
     <span class="nd">@_handle_computation_exceptions</span>
-    <span class="k">def</span> <span class="nf">get_state</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_state</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">input_type</span><span class="p">,</span>
         <span class="n">prop_1</span><span class="p">,</span>
@@ -562,13 +610,14 @@
             <span class="n">generalize_quality</span><span class="o">=</span><span class="n">generalize_quality</span><span class="p">,</span>
             <span class="n">supersaturation</span><span class="o">=</span><span class="n">supersaturation</span><span class="p">,</span>
         <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_properties</span><span class="p">[</span><span class="s2">&quot;identifier&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">identifier</span>
         <span class="k">return</span> <span class="n">FluidState</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_properties</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Fluid.get_state_equilibrium">
 <a class="viewcode-back" href="../../../source/api/barotropy.properties.html#barotropy.properties.fluid_properties.Fluid.get_state_equilibrium">[docs]</a>
     <span class="nd">@_handle_computation_exceptions</span>
-    <span class="k">def</span> <span class="nf">get_state_equilibrium</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_state_equilibrium</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">prop_1</span><span class="p">,</span>
         <span class="n">prop_1_value</span><span class="p">,</span>
@@ -612,7 +661,7 @@
 <div class="viewcode-block" id="Fluid.get_state_metastable">
 <a class="viewcode-back" href="../../../source/api/barotropy.properties.html#barotropy.properties.fluid_properties.Fluid.get_state_metastable">[docs]</a>
     <span class="nd">@_handle_computation_exceptions</span>
-    <span class="k">def</span> <span class="nf">get_state_metastable</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_state_metastable</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">prop_1</span><span class="p">,</span>
         <span class="n">prop_1_value</span><span class="p">,</span>
@@ -673,7 +722,7 @@
 <div class="viewcode-block" id="Fluid.get_state_blending">
 <a class="viewcode-back" href="../../../source/api/barotropy.properties.html#barotropy.properties.fluid_properties.Fluid.get_state_blending">[docs]</a>
     <span class="nd">@_handle_computation_exceptions</span>
-    <span class="k">def</span> <span class="nf">get_state_blending</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_state_blending</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">prop_1</span><span class="p">,</span>
         <span class="n">prop_1_value</span><span class="p">,</span>
@@ -731,7 +780,7 @@
 
 <div class="viewcode-block" id="Fluid.get_property">
 <a class="viewcode-back" href="../../../source/api/barotropy.properties.html#barotropy.properties.fluid_properties.Fluid.get_property">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">propname</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">propname</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the value of a single property&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">propname</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_properties</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_properties</span><span class="p">[</span><span class="n">propname</span><span class="p">]</span>
@@ -744,7 +793,7 @@
 
 <div class="viewcode-block" id="Fluid.compute_properties_meanline">
 <a class="viewcode-back" href="../../../source/api/barotropy.properties.html#barotropy.properties.fluid_properties.Fluid.compute_properties_meanline">[docs]</a>
-    <span class="k">def</span> <span class="nf">compute_properties_meanline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_type</span><span class="p">,</span> <span class="n">prop_1</span><span class="p">,</span> <span class="n">prop_2</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_properties_meanline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_type</span><span class="p">,</span> <span class="n">prop_1</span><span class="p">,</span> <span class="n">prop_2</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract fluid properties for meanline model&quot;&quot;&quot;</span>
 
         <span class="c1"># Compute properties in the normal way</span>
@@ -760,7 +809,7 @@
 
 <div class="viewcode-block" id="Fluid.plot_phase_diagram">
 <a class="viewcode-back" href="../../../source/api/barotropy.properties.html#barotropy.properties.fluid_properties.Fluid.plot_phase_diagram">[docs]</a>
-    <span class="k">def</span> <span class="nf">plot_phase_diagram</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_phase_diagram</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">x_prop</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span>
         <span class="n">y_prop</span><span class="o">=</span><span class="s2">&quot;T&quot;</span><span class="p">,</span>
@@ -771,7 +820,7 @@
         <span class="n">plot_triple_point_liquid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">plot_triple_point_vapor</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">plot_spinodal_line</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">spinodal_line_color</span><span class="o">=</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
+        <span class="n">spinodal_line_color</span><span class="o">=</span><span class="mf">0.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
         <span class="n">spinodal_line_width</span><span class="o">=</span><span class="mf">1.25</span><span class="p">,</span>
         <span class="n">spinodal_line_method</span><span class="o">=</span><span class="s2">&quot;bfgs&quot;</span><span class="p">,</span>  <span class="c1"># Alternative is slsqp</span>
         <span class="n">spinodal_line_use_previous</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># True is not as robust</span>
@@ -780,9 +829,15 @@
         <span class="n">quality_levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
         <span class="n">quality_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">show_in_legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">x_scale</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+        <span class="n">y_scale</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="k">if</span> <span class="n">axes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+            <span class="n">axes</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">LABEL_MAPPING</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x_prop</span><span class="p">,</span> <span class="n">x_prop</span><span class="p">))</span>
+            <span class="n">axes</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">LABEL_MAPPING</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">y_prop</span><span class="p">,</span> <span class="n">y_prop</span><span class="p">))</span>
+            <span class="n">axes</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="n">x_scale</span><span class="p">)</span>
+            <span class="n">axes</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="n">y_scale</span><span class="p">)</span>
 
         <span class="c1"># Saturation line</span>
         <span class="k">if</span> <span class="n">plot_saturation_line</span><span class="p">:</span>
@@ -819,6 +874,7 @@
                 <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span>
                 <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">spinodal_line_color</span><span class="p">,</span>
                 <span class="s2">&quot;linewidth&quot;</span><span class="p">:</span> <span class="n">spinodal_line_width</span><span class="p">,</span>
+                <span class="s2">&quot;linestyle&quot;</span><span class="p">:</span> <span class="s2">&quot;--&quot;</span>
             <span class="p">}</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_graphic_spinodal_line</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plot_or_update_line</span><span class="p">(</span>
                 <span class="n">axes</span><span class="p">,</span>
@@ -878,8 +934,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Remove existing contour lines if they exist</span>
             <span class="k">if</span> <span class="s2">&quot;quality_isolines&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graphic_elements</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="p">{}):</span>
-                <span class="k">for</span> <span class="n">coll</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graphic_elements</span><span class="p">[</span><span class="n">axes</span><span class="p">][</span><span class="s2">&quot;quality_isolines&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">collections</span><span class="p">:</span>
-                    <span class="n">coll</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">graphic_elements</span><span class="p">[</span><span class="n">axes</span><span class="p">][</span><span class="s2">&quot;quality_isolines&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
                 <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">graphic_elements</span><span class="p">[</span><span class="n">axes</span><span class="p">][</span><span class="s2">&quot;quality_isolines&quot;</span><span class="p">]</span>
 
         <span class="c1"># Plot critical point</span>
@@ -939,14 +994,18 @@
         <span class="k">return</span> <span class="n">axes</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_get_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">show_in_legend</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">show_in_legend</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the appropriate label value based on whether it should be shown in the legend.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">label</span> <span class="k">if</span> <span class="n">show_in_legend</span> <span class="k">else</span> <span class="s2">&quot;_no_legend_&quot;</span>
 
-    <span class="k">def</span> <span class="nf">_plot_or_update_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="p">,</span> <span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">,</span> <span class="n">line_name</span><span class="p">,</span> <span class="o">**</span><span class="n">plot_params</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_plot_or_update_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="p">,</span> <span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">,</span> <span class="n">line_name</span><span class="p">,</span> <span class="o">**</span><span class="n">plot_params</span><span class="p">):</span>
         <span class="c1"># Ensure there is a dictionary for this axes</span>
         <span class="k">if</span> <span class="n">axes</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graphic_elements</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">graphic_elements</span><span class="p">[</span><span class="n">axes</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Make sure elements are arrays (avoid error when plotting a single point)</span>
+        <span class="n">x_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">x_data</span><span class="p">)</span>
+        <span class="n">y_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">y_data</span><span class="p">)</span>
 
         <span class="c1"># Check if the line exists for this axes</span>
         <span class="k">if</span> <span class="n">line_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graphic_elements</span><span class="p">[</span><span class="n">axes</span><span class="p">]:</span>
@@ -962,24 +1021,26 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">graphic_elements</span><span class="p">[</span><span class="n">axes</span><span class="p">][</span><span class="n">line_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">line</span>
         <span class="k">return</span> <span class="n">line</span>
 
-    <span class="k">def</span> <span class="nf">_plot_or_update_contours</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_plot_or_update_contours</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="p">,</span> <span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">,</span> <span class="n">z_data</span><span class="p">,</span> <span class="n">contour_levels</span><span class="p">,</span> <span class="n">line_name</span><span class="p">,</span> <span class="o">**</span><span class="n">contour_params</span>
     <span class="p">):</span>
+        
         <span class="c1"># Ensure there is a dictionary for this axes</span>
         <span class="k">if</span> <span class="n">axes</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graphic_elements</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">graphic_elements</span><span class="p">[</span><span class="n">axes</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="c1"># Check if the contour exists for this axes</span>
         <span class="k">if</span> <span class="n">line_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graphic_elements</span><span class="p">[</span><span class="n">axes</span><span class="p">]:</span>
-            <span class="k">for</span> <span class="n">coll</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graphic_elements</span><span class="p">[</span><span class="n">axes</span><span class="p">][</span><span class="n">line_name</span><span class="p">]</span><span class="o">.</span><span class="n">collections</span><span class="p">:</span>
-                <span class="n">coll</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>  <span class="c1"># Remove the old contour collections</span>
+            <span class="c1"># Remove the old contour</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">graphic_elements</span><span class="p">[</span><span class="n">axes</span><span class="p">][</span><span class="n">line_name</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
 
         <span class="c1"># Create a new contour</span>
         <span class="n">contour</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">,</span> <span class="n">z_data</span><span class="p">,</span> <span class="n">contour_levels</span><span class="p">,</span> <span class="o">**</span><span class="n">contour_params</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">graphic_elements</span><span class="p">[</span><span class="n">axes</span><span class="p">][</span><span class="n">line_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">contour</span>
         <span class="k">return</span> <span class="n">contour</span>
 
-    <span class="k">def</span> <span class="nf">_set_visibility</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="p">,</span> <span class="n">line_name</span><span class="p">,</span> <span class="n">visible</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_visibility</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axes</span><span class="p">,</span> <span class="n">line_name</span><span class="p">,</span> <span class="n">visible</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">axes</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graphic_elements</span> <span class="ow">and</span> <span class="n">line_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graphic_elements</span><span class="p">[</span><span class="n">axes</span><span class="p">]:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">graphic_elements</span><span class="p">[</span><span class="n">axes</span><span class="p">][</span><span class="n">line_name</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="n">visible</span><span class="p">)</span></div>
 
@@ -992,7 +1053,7 @@
 
 <div class="viewcode-block" id="FluidState">
 <a class="viewcode-back" href="../../../source/api/barotropy.properties.html#barotropy.properties.fluid_properties.FluidState">[docs]</a>
-<span class="k">class</span> <span class="nc">FluidState</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FluidState</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An immutable class representing the thermodynamic state of a fluid.</span>
 
@@ -1033,7 +1094,7 @@
 
     <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;_properties&quot;</span><span class="p">,</span> <span class="s2">&quot;fluid_name&quot;</span><span class="p">)</span>  <span class="c1"># Define allowed attributes</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="n">fluid_name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="n">fluid_name</span><span class="p">):</span>
         <span class="c1"># Convert keys to strings and store properties in an internal attribute</span>
         <span class="c1"># Ensure the properties dictionary is immutable (e.g., by using a frozendict if modifications are a concern)</span>
         <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
@@ -1041,75 +1102,79 @@
         <span class="p">)</span>
         <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;fluid_name&quot;</span><span class="p">,</span> <span class="n">fluid_name</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="c1"># Allows attribute-style access to the fluid properties. If the property does not exist, raises AttributeError.</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_properties</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; not found in FluidState properties&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="c1"># Allows dictionary-style access to the fluid properties. If the key does not exist, raises KeyError.</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_properties</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; not found in FluidState properties&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="c1"># Prevents modifications to the instance attributes, ensuring immutability.</span>
         <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
             <span class="s2">&quot;Cannot modify properties of an immutable FluidState class&quot;</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="c1"># Prevents modifications to the fluid properties through dictionary-style access, ensuring immutability.</span>
         <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
             <span class="s2">&quot;Cannot modify properties of an immutable FluidState class&quot;</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Returns a string representation of the FluidState instance, including its class name, properties, and fluid name.</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_properties</span><span class="si">}</span><span class="s2">, &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">fluid_name</span><span class="si">}</span><span class="s2">&#39;)&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">prop_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">6e</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_properties</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Make object print()-able</span>
+        <span class="n">prop_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">   &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">v</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="nb">str</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s1"> .6e</span><span class="si">}</span><span class="s1">&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_properties</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;FluidState:</span><span class="se">\n</span><span class="s2">   </span><span class="si">{</span><span class="n">prop_str</span><span class="si">}</span><span class="s2">&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Iterate over the object like a dictionary</span>
         <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_properties</span><span class="p">)</span>
 
 <div class="viewcode-block" id="FluidState.to_dict">
 <a class="viewcode-back" href="../../../source/api/barotropy.properties.html#barotropy.properties.fluid_properties.FluidState.to_dict">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Return a copy of the properties to ensure immutability</span>
         <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_properties</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="FluidState.keys">
 <a class="viewcode-back" href="../../../source/api/barotropy.properties.html#barotropy.properties.fluid_properties.FluidState.keys">[docs]</a>
-    <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Return the keys of the properties</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_properties</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="FluidState.values">
 <a class="viewcode-back" href="../../../source/api/barotropy.properties.html#barotropy.properties.fluid_properties.FluidState.values">[docs]</a>
-    <span class="k">def</span> <span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Return the values of the properties</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_properties</span><span class="o">.</span><span class="n">values</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="FluidState.items">
 <a class="viewcode-back" href="../../../source/api/barotropy.properties.html#barotropy.properties.fluid_properties.FluidState.items">[docs]</a>
-    <span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Return the items of the properties</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_properties</span><span class="o">.</span><span class="n">items</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="FluidState.get">
 <a class="viewcode-back" href="../../../source/api/barotropy.properties.html#barotropy.properties.fluid_properties.FluidState.get">[docs]</a>
-    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_properties</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span></div>
 </div>
 
@@ -1117,7 +1182,7 @@
 
 <div class="viewcode-block" id="states_to_dict">
 <a class="viewcode-back" href="../../../source/api/barotropy.properties.html#barotropy.properties.fluid_properties.states_to_dict">[docs]</a>
-<span class="k">def</span> <span class="nf">states_to_dict</span><span class="p">(</span><span class="n">states</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">states_to_dict</span><span class="p">(</span><span class="n">states</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert a list of state objects into a dictionary.</span>
 
@@ -1142,7 +1207,7 @@
 
 <div class="viewcode-block" id="states_to_dict_2d">
 <a class="viewcode-back" href="../../../source/api/barotropy.properties.html#barotropy.properties.fluid_properties.states_to_dict_2d">[docs]</a>
-<span class="k">def</span> <span class="nf">states_to_dict_2d</span><span class="p">(</span><span class="n">states</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">states_to_dict_2d</span><span class="p">(</span><span class="n">states</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert a 2D list (grid) of state objects into a dictionary.</span>
 
@@ -1159,15 +1224,17 @@
 <span class="sd">        A dictionary where keys are field names and values are 2D arrays of field values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">state_dict_2d</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">states</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">states</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">states</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">state</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">state</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">field</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">state</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="k">if</span> <span class="n">field</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">state_dict_2d</span><span class="p">:</span>
-                    <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">states</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-                    <span class="n">state_dict_2d</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-                <span class="n">state_dict_2d</span><span class="p">[</span><span class="n">field</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="n">field</span><span class="p">]</span>
-
+                    <span class="n">dtype</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>  <span class="c1"># Determine dtype from the first occurrence</span>
+                    <span class="n">state_dict_2d</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+                <span class="n">state_dict_2d</span><span class="p">[</span><span class="n">field</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
     <span class="k">return</span> <span class="n">state_dict_2d</span></div>
+
+    
 
 
 <span class="c1"># ------------------------------------------------------------------------------------ #</span>
@@ -1177,7 +1244,7 @@
 
 <div class="viewcode-block" id="compute_saturation_line">
 <a class="viewcode-back" href="../../../source/api/barotropy.properties.html#barotropy.properties.fluid_properties.compute_saturation_line">[docs]</a>
-<span class="k">def</span> <span class="nf">compute_saturation_line</span><span class="p">(</span><span class="n">fluid</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_saturation_line</span><span class="p">(</span><span class="n">fluid</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the saturation line for a given fluid.</span>
 
@@ -1229,7 +1296,7 @@
 
 <div class="viewcode-block" id="compute_spinodal_line">
 <a class="viewcode-back" href="../../../source/api/barotropy.properties.html#barotropy.properties.fluid_properties.compute_spinodal_line">[docs]</a>
-<span class="k">def</span> <span class="nf">compute_spinodal_line</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_spinodal_line</span><span class="p">(</span>
     <span class="n">fluid</span><span class="p">,</span>
     <span class="n">N</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
     <span class="n">method</span><span class="o">=</span><span class="s2">&quot;bfgs&quot;</span><span class="p">,</span>
@@ -1336,7 +1403,7 @@
 
 <div class="viewcode-block" id="compute_pseudocritical_line">
 <a class="viewcode-back" href="../../../source/api/barotropy.properties.html#barotropy.properties.fluid_properties.compute_pseudocritical_line">[docs]</a>
-<span class="k">def</span> <span class="nf">compute_pseudocritical_line</span><span class="p">(</span><span class="n">fluid</span><span class="p">,</span> <span class="n">N_points</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_pseudocritical_line</span><span class="p">(</span><span class="n">fluid</span><span class="p">,</span> <span class="n">N_points</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
     <span class="c1"># Initialize objects to store properties</span>
     <span class="n">prop_names</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">_properties</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
     <span class="n">pseudocritical_line</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">prop_names</span><span class="p">}</span>
@@ -1357,7 +1424,7 @@
 
 <div class="viewcode-block" id="compute_quality_grid">
 <a class="viewcode-back" href="../../../source/api/barotropy.properties.html#barotropy.properties.fluid_properties.compute_quality_grid">[docs]</a>
-<span class="k">def</span> <span class="nf">compute_quality_grid</span><span class="p">(</span><span class="n">fluid</span><span class="p">,</span> <span class="n">num_points</span><span class="p">,</span> <span class="n">quality_levels</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_quality_grid</span><span class="p">(</span><span class="n">fluid</span><span class="p">,</span> <span class="n">num_points</span><span class="p">,</span> <span class="n">quality_levels</span><span class="p">):</span>
     <span class="c1"># Define temperature levels</span>
     <span class="n">t1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mf">0.9999</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mf">0.1</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">num_points</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
     <span class="n">t2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span>
@@ -1381,7 +1448,7 @@
 
 <div class="viewcode-block" id="compute_property_grid">
 <a class="viewcode-back" href="../../../source/api/barotropy.properties.html#barotropy.properties.fluid_properties.compute_property_grid">[docs]</a>
-<span class="k">def</span> <span class="nf">compute_property_grid</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_property_grid</span><span class="p">(</span>
     <span class="n">fluid</span><span class="p">,</span>
     <span class="n">input_pair</span><span class="p">,</span>
     <span class="n">range_1</span><span class="p">,</span>
@@ -1420,10 +1487,11 @@
 
     <span class="c1"># Initialize dictionary to store properties and pre-allocate storage</span>
     <span class="n">properties_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">m</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">range_1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">range_2</span><span class="p">)</span>
 
     <span class="c1"># Compute properties at each point</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">range_2</span><span class="p">)):</span>
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">range_1</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
             <span class="c1"># Set state of the fluid</span>
             <span class="n">state</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span>
                 <span class="n">input_pair</span><span class="p">,</span>
@@ -1434,18 +1502,21 @@
             <span class="p">)</span>
 
             <span class="c1"># Store the properties (initialize as empty array if new key)</span>
-            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">state</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">state</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">properties_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                    <span class="n">properties_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">grid1</span><span class="p">)</span>
+                    <span class="n">dtype</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>  <span class="c1"># Determine dtype from the first occurrence</span>
+                    <span class="n">properties_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+                    <span class="c1"># properties_dict[key] = np.zeros_like(grid1)</span>
                 <span class="n">properties_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="n">properties_dict</span></div>
 
+   
 
 
 <div class="viewcode-block" id="compute_property_grid_rhoT">
 <a class="viewcode-back" href="../../../source/api/barotropy.properties.html#barotropy.properties.fluid_properties.compute_property_grid_rhoT">[docs]</a>
-<span class="k">def</span> <span class="nf">compute_property_grid_rhoT</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_property_grid_rhoT</span><span class="p">(</span>
     <span class="n">fluid</span><span class="p">,</span>
     <span class="n">rho_array</span><span class="p">,</span>
     <span class="n">T_array</span><span class="p">,</span>
@@ -1473,12 +1544,12 @@
 <span class="c1"># Spinodal point calculations</span>
 <span class="c1"># ------------------------------------------------------------------------------------ #</span>
 
-<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">root_scalar</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">root_scalar</span>
 
 
 <div class="viewcode-block" id="compute_spinodal_point_general">
 <a class="viewcode-back" href="../../../source/api/barotropy.properties.html#barotropy.properties.fluid_properties.compute_spinodal_point_general">[docs]</a>
-<span class="k">def</span> <span class="nf">compute_spinodal_point_general</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_spinodal_point_general</span><span class="p">(</span>
     <span class="n">prop_type</span><span class="p">,</span>
     <span class="n">prop_value</span><span class="p">,</span>
     <span class="n">fluid</span><span class="p">,</span>
@@ -1552,7 +1623,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Define residual to be driven to zero</span>
-    <span class="k">def</span> <span class="nf">residual</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">residual</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
         <span class="n">props</span> <span class="o">=</span> <span class="n">compute_spinodal_point</span><span class="p">(</span>
             <span class="n">T</span><span class="p">,</span>
             <span class="n">fluid</span><span class="p">,</span>
@@ -1575,7 +1646,7 @@
             <span class="sa">f</span><span class="s2">&quot;Failed to find a spinodal point for </span><span class="si">{</span><span class="n">prop_type</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">prop_value</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
             <span class="sa">f</span><span class="s2">&quot;This might be because there is no spinodal point for the given fluid property value.</span><span class="se">\n</span><span class="s2">&quot;</span>
             <span class="sa">f</span><span class="s2">&quot;Check the value of </span><span class="si">{</span><span class="n">prop_type</span><span class="si">}</span><span class="s2"> to ensure there is a matching spinodal point.&quot;</span>
-        <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="o">.</span><span class="n">converged</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Scalar root to determine spinodal point failed&quot;</span><span class="p">)</span>
 
@@ -1606,7 +1677,7 @@
 
 <div class="viewcode-block" id="compute_spinodal_point">
 <a class="viewcode-back" href="../../../source/api/barotropy.properties.html#barotropy.properties.fluid_properties.compute_spinodal_point">[docs]</a>
-<span class="k">def</span> <span class="nf">compute_spinodal_point</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_spinodal_point</span><span class="p">(</span>
     <span class="n">temperature</span><span class="p">,</span>
     <span class="n">fluid</span><span class="p">,</span>
     <span class="n">branch</span><span class="p">,</span>
@@ -1751,16 +1822,17 @@
 
 
 
-<span class="k">class</span> <span class="nc">_SpinodalPointProblem</span><span class="p">(</span><span class="n">psv</span><span class="o">.</span><span class="n">OptimizationProblem</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">_SpinodalPointProblem</span><span class="p">(</span><span class="n">psv</span><span class="o">.</span><span class="n">OptimizationProblem</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Auxiliary class for the determination of the liquid and vapor spinodal points&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temperature</span><span class="p">,</span> <span class="n">fluid</span><span class="p">,</span> <span class="n">branch</span><span class="p">,</span> <span class="n">supersaturation</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temperature</span><span class="p">,</span> <span class="n">fluid</span><span class="p">,</span> <span class="n">branch</span><span class="p">,</span> <span class="n">supersaturation</span><span class="p">):</span>
 
         <span class="c1"># Declare class attributes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="n">temperature</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">branch</span> <span class="o">=</span> <span class="n">branch</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fluid</span> <span class="o">=</span> <span class="n">fluid</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">supersaturation</span> <span class="o">=</span> <span class="n">supersaturation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variable_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;density&quot;</span><span class="p">]</span>
 
         <span class="c1"># Compute saturation liquid density (used to determine initial guess)</span>
         <span class="n">state_vap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fluid</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">CP</span><span class="o">.</span><span class="n">QT_INPUTS</span><span class="p">,</span> <span class="mf">0.00</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
@@ -1770,7 +1842,7 @@
         <span class="n">state_liq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fluid</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">CP</span><span class="o">.</span><span class="n">QT_INPUTS</span><span class="p">,</span> <span class="mf">1.00</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rho_vap</span> <span class="o">=</span> <span class="n">state_liq</span><span class="o">.</span><span class="n">rho</span>
 
-    <span class="k">def</span> <span class="nf">generate_density_guess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_density_guess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate a density initial guess that is close to the first local minima of the absolute value of the bulk modulus&quot;&quot;&quot;</span>
 
         <span class="c1"># Generate candidate densities between saturation and the critical value</span>
@@ -1791,7 +1863,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">rho_guess</span> <span class="o">=</span> <span class="n">rho_array</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho_guess</span>
 
-    <span class="k">def</span> <span class="nf">fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rho</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fitness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rho</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute the objective function of the optimization problem: the absolute value of the isothermal bulk modulus.</span>
 
@@ -1807,7 +1879,7 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s2">&quot;isothermal_bulk_modulus&quot;</span><span class="p">]))</span> <span class="o">/</span> <span class="mf">1e6</span>
 
-    <span class="k">def</span> <span class="nf">get_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the bounds of the optimization problem.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">rho_vap</span><span class="p">,),</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rho_liq</span><span class="p">,)]</span>
         <span class="c1"># rho_limit = self.rho_guess</span>
@@ -1819,10 +1891,10 @@
         <span class="c1"># else:</span>
         <span class="c1">#     raise ValueError(f&quot;Invalid value for branch={self.branch}&quot;)</span>
 
-    <span class="k">def</span> <span class="nf">get_nec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_nec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="mi">0</span>
 
-    <span class="k">def</span> <span class="nf">get_nic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_nic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="mi">0</span>
 
 
@@ -2053,8 +2125,8 @@ By Roberto Agromayor, Simone Parisi, Amit Kumar, Fredrik Haglind
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>

@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; barotropy v0.0.6 documentation</title>
+    <title>Index &#8212; barotropy v0.1.0 documentation</title>
   
   
   
@@ -15,32 +15,29 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
-  <!-- So that users can add custom icons -->
-  <script src="_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=06460786"></script>
+    <script src="_static/documentation_options.js?v=d47532a6"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>let toggleHintShow = 'Click to show';</script>
@@ -56,7 +53,6 @@
     <link rel="search" title="Search" href="search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -72,8 +68,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -81,6 +88,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -88,8 +96,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -107,8 +115,7 @@
       
         
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -133,16 +140,20 @@
   
   
   
-    <p class="title logo__title">barotropy v0.0.6 documentation</p>
+    <p class="title logo__title">barotropy v0.1.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
@@ -240,16 +251,24 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
 
 
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
+  </button>
+`);
+</script>
 
 </div></div>
       
@@ -286,13 +305,10 @@
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
- | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
- | <a href="#N"><strong>N</strong></a>
- | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
@@ -316,15 +332,11 @@
         <li><a href="source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.add_solution_strategy">(in module barotropy.fluent_automation.fluent_automation_old)</a>
 </li>
       </ul></li>
-      <li><a href="source/api/barotropy.math.html#barotropy.math.all_non_negative">all_non_negative() (in module barotropy.math)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.math.html#barotropy.math.all_non_negative">all_non_negative() (in module barotropy.math)</a>
+</li>
       <li><a href="source/api/barotropy.math.html#barotropy.math.all_numeric">all_numeric() (in module barotropy.math)</a>
-</li>
-      <li><a href="source/api/barotropy.pysolver_view.numerical_differentiation.html#barotropy.pysolver_view.numerical_differentiation.approx_gradient">approx_gradient() (in module barotropy.pysolver_view.numerical_differentiation)</a>
-</li>
-      <li><a href="source/api/barotropy.pysolver_view.numerical_differentiation.html#barotropy.pysolver_view.numerical_differentiation.approx_jacobian_hessians">approx_jacobian_hessians() (in module barotropy.pysolver_view.numerical_differentiation)</a>
 </li>
       <li><a href="source/api/barotropy.math.html#barotropy.math.arccosd">arccosd() (in module barotropy.math)</a>
 </li>
@@ -400,11 +412,20 @@
         <li><a href="source/api/barotropy.fluent_automation.stream_transcript.html#module-barotropy.fluent_automation.stream_transcript">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     barotropy.graphics
 
       <ul>
         <li><a href="source/api/barotropy.graphics.html#module-barotropy.graphics">module</a>
+</li>
+      </ul></li>
+      <li>
+    barotropy.kaist_postprocessing
+
+      <ul>
+        <li><a href="source/api/barotropy.kaist_postprocessing.html#module-barotropy.kaist_postprocessing">module</a>
 </li>
       </ul></li>
       <li>
@@ -414,8 +435,20 @@
         <li><a href="source/api/barotropy.math.html#module-barotropy.math">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    barotropy.mcerp.correlate
+
+      <ul>
+        <li><a href="source/api/barotropy.mcerp.correlate.html#module-barotropy.mcerp.correlate">module</a>
+</li>
+      </ul></li>
+      <li>
+    barotropy.mcerp.lhd
+
+      <ul>
+        <li><a href="source/api/barotropy.mcerp.lhd.html#module-barotropy.mcerp.lhd">module</a>
+</li>
+      </ul></li>
       <li>
     barotropy.properties.core_calculations
 
@@ -428,62 +461,6 @@
 
       <ul>
         <li><a href="source/api/barotropy.properties.html#module-barotropy.properties.fluid_properties">module</a>
-</li>
-      </ul></li>
-      <li>
-    barotropy.pysolver_view
-
-      <ul>
-        <li><a href="source/api/barotropy.pysolver_view.html#module-barotropy.pysolver_view">module</a>
-</li>
-      </ul></li>
-      <li>
-    barotropy.pysolver_view.nonlinear_system
-
-      <ul>
-        <li><a href="source/api/barotropy.pysolver_view.nonlinear_system.html#module-barotropy.pysolver_view.nonlinear_system">module</a>
-</li>
-      </ul></li>
-      <li>
-    barotropy.pysolver_view.nonlinear_system_problems
-
-      <ul>
-        <li><a href="source/api/barotropy.pysolver_view.nonlinear_system_problems.html#module-barotropy.pysolver_view.nonlinear_system_problems">module</a>
-</li>
-      </ul></li>
-      <li>
-    barotropy.pysolver_view.numerical_differentiation
-
-      <ul>
-        <li><a href="source/api/barotropy.pysolver_view.numerical_differentiation.html#module-barotropy.pysolver_view.numerical_differentiation">module</a>
-</li>
-      </ul></li>
-      <li>
-    barotropy.pysolver_view.optimization
-
-      <ul>
-        <li><a href="source/api/barotropy.pysolver_view.optimization.html#module-barotropy.pysolver_view.optimization">module</a>
-</li>
-      </ul></li>
-      <li>
-    barotropy.pysolver_view.optimization_problems
-
-      <ul>
-        <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#module-barotropy.pysolver_view.optimization_problems">module</a>
-</li>
-      </ul></li>
-      <li>
-    barotropy.pysolver_view.optimization_wrappers
-
-      <ul>
-        <li><a href="source/api/barotropy.pysolver_view.optimization_wrappers.html#module-barotropy.pysolver_view.optimization_wrappers">module</a>
-</li>
-      </ul></li>
-      <li>
-    barotropy.pysolver_view.pysolver_utilities
-
-      <ul>
-        <li><a href="source/api/barotropy.pysolver_view.pysolver_utilities.html#module-barotropy.pysolver_view.pysolver_utilities">module</a>
 </li>
       </ul></li>
       <li>
@@ -501,6 +478,8 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.kaist_postprocessing.html#barotropy.kaist_postprocessing.calculate_enthalpy_rise">calculate_enthalpy_rise() (in module barotropy.kaist_postprocessing)</a>
+</li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.core_calculations.calculate_generalized_quality">calculate_generalized_quality() (in module barotropy.properties.core_calculations)</a>
 </li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.core_calculations.calculate_mixture_properties">calculate_mixture_properties() (in module barotropy.properties.core_calculations)</a>
@@ -511,13 +490,9 @@
 </li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.core_calculations.calculate_supersaturation">calculate_supersaturation() (in module barotropy.properties.core_calculations)</a>
 </li>
-      <li><a href="source/api/barotropy.pysolver_view.numerical_differentiation.html#barotropy.pysolver_view.numerical_differentiation.central_finite_differences">central_finite_differences() (in module barotropy.pysolver_view.numerical_differentiation)</a>
-</li>
-      <li><a href="source/api/barotropy.pysolver_view.optimization.html#barotropy.pysolver_view.optimization.combine_objective_and_constraints">combine_objective_and_constraints() (in module barotropy.pysolver_view.optimization)</a>
+      <li><a href="source/api/barotropy.mcerp.correlate.html#barotropy.mcerp.correlate.chol">chol() (in module barotropy.mcerp.correlate)</a>
 </li>
       <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.compare_contents_or_files">compare_contents_or_files() (in module barotropy.utilities)</a>
-</li>
-      <li><a href="source/api/barotropy.pysolver_view.numerical_differentiation.html#barotropy.pysolver_view.numerical_differentiation.complex_step_derivative">complex_step_derivative() (in module barotropy.pysolver_view.numerical_differentiation)</a>
 </li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.core_calculations.compute_properties">compute_properties() (in module barotropy.properties.core_calculations)</a>
 </li>
@@ -553,17 +528,15 @@
 </li>
       <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.convert_numpy_to_python">convert_numpy_to_python() (in module barotropy.utilities)</a>
 </li>
-      <li><a href="source/api/barotropy.pysolver_view.optimization_wrappers.html#barotropy.pysolver_view.optimization_wrappers.convert_pygmo_to_scipy_bounds">convert_pygmo_to_scipy_bounds() (in module barotropy.pysolver_view.optimization_wrappers)</a>
+      <li><a href="source/api/barotropy.kaist_postprocessing.html#barotropy.kaist_postprocessing.convert_units">convert_units() (in module barotropy.kaist_postprocessing)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.correlate.html#barotropy.mcerp.correlate.correlate">correlate() (in module barotropy.mcerp.correlate)</a>
 </li>
       <li><a href="source/api/barotropy.math.html#barotropy.math.cosd">cosd() (in module barotropy.math)</a>
-</li>
-      <li><a href="source/api/barotropy.pysolver_view.optimization.html#barotropy.pysolver_view.optimization.count_constraints">count_constraints() (in module barotropy.pysolver_view.optimization)</a>
 </li>
       <li><a href="source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.create_fluent_journal">create_fluent_journal() (in module barotropy.fluent_automation.fluent_automation_old)</a>
 </li>
       <li><a href="source/api/barotropy.graphics.html#barotropy.graphics.create_gif">create_gif() (in module barotropy.graphics)</a>
-</li>
-      <li><a href="source/api/barotropy.pysolver_view.pysolver_utilities.html#barotropy.pysolver_view.pysolver_utilities.create_logger">create_logger() (in module barotropy.pysolver_view.pysolver_utilities)</a>
 </li>
       <li><a href="source/api/barotropy.graphics.html#barotropy.graphics.create_mp4">create_mp4() (in module barotropy.graphics)</a>
 </li>
@@ -623,20 +596,6 @@
         <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.PolynomialFitter.fit_polynomials">(barotropy.barotropic_model.PolynomialFitter method)</a>
 </li>
       </ul></li>
-      <li><a href="source/api/barotropy.pysolver_view.optimization.html#barotropy.pysolver_view.optimization.OptimizationProblem.fitness">fitness() (barotropy.pysolver_view.optimization.OptimizationProblem method)</a>
-
-      <ul>
-        <li><a href="source/api/barotropy.pysolver_view.optimization.html#barotropy.pysolver_view.optimization.OptimizationSolver.fitness">(barotropy.pysolver_view.optimization.OptimizationSolver method)</a>
-</li>
-        <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.HS71Problem.fitness">(barotropy.pysolver_view.optimization_problems.HS71Problem method)</a>
-</li>
-        <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.LorentzEquationsOpt.fitness">(barotropy.pysolver_view.optimization_problems.LorentzEquationsOpt method)</a>
-</li>
-        <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.RosenbrockProblem.fitness">(barotropy.pysolver_view.optimization_problems.RosenbrockProblem method)</a>
-</li>
-        <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.RosenbrockProblemConstrained.fitness">(barotropy.pysolver_view.optimization_problems.RosenbrockProblemConstrained method)</a>
-</li>
-      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.Fluid">Fluid (class in barotropy.properties.fluid_properties)</a>
@@ -644,8 +603,6 @@
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.FluidState.fluid_name">fluid_name (barotropy.properties.fluid_properties.FluidState attribute)</a>
 </li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.FluidState">FluidState (class in barotropy.properties.fluid_properties)</a>
-</li>
-      <li><a href="source/api/barotropy.pysolver_view.numerical_differentiation.html#barotropy.pysolver_view.numerical_differentiation.forward_finite_differences">forward_finite_differences() (in module barotropy.pysolver_view.numerical_differentiation)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -659,46 +616,10 @@
 </li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.FluidState.get">get() (barotropy.properties.fluid_properties.FluidState method)</a>
 </li>
-      <li><a href="source/api/barotropy.pysolver_view.optimization.html#barotropy.pysolver_view.optimization.OptimizationProblem.get_bounds">get_bounds() (barotropy.pysolver_view.optimization.OptimizationProblem method)</a>
-
-      <ul>
-        <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.HS71Problem.get_bounds">(barotropy.pysolver_view.optimization_problems.HS71Problem method)</a>
-</li>
-        <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.LorentzEquationsOpt.get_bounds">(barotropy.pysolver_view.optimization_problems.LorentzEquationsOpt method)</a>
-</li>
-        <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.RosenbrockProblem.get_bounds">(barotropy.pysolver_view.optimization_problems.RosenbrockProblem method)</a>
-</li>
-        <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.RosenbrockProblemConstrained.get_bounds">(barotropy.pysolver_view.optimization_problems.RosenbrockProblemConstrained method)</a>
-</li>
-      </ul></li>
-      <li><a href="source/api/barotropy.pysolver_view.optimization.html#barotropy.pysolver_view.optimization.OptimizationProblem.get_nec">get_nec() (barotropy.pysolver_view.optimization.OptimizationProblem method)</a>
-
-      <ul>
-        <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.HS71Problem.get_nec">(barotropy.pysolver_view.optimization_problems.HS71Problem method)</a>
-</li>
-        <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.LorentzEquationsOpt.get_nec">(barotropy.pysolver_view.optimization_problems.LorentzEquationsOpt method)</a>
-</li>
-        <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.RosenbrockProblem.get_nec">(barotropy.pysolver_view.optimization_problems.RosenbrockProblem method)</a>
-</li>
-        <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.RosenbrockProblemConstrained.get_nec">(barotropy.pysolver_view.optimization_problems.RosenbrockProblemConstrained method)</a>
-</li>
-      </ul></li>
-      <li><a href="source/api/barotropy.pysolver_view.optimization.html#barotropy.pysolver_view.optimization.OptimizationProblem.get_nic">get_nic() (barotropy.pysolver_view.optimization.OptimizationProblem method)</a>
-
-      <ul>
-        <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.HS71Problem.get_nic">(barotropy.pysolver_view.optimization_problems.HS71Problem method)</a>
-</li>
-        <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.LorentzEquationsOpt.get_nic">(barotropy.pysolver_view.optimization_problems.LorentzEquationsOpt method)</a>
-</li>
-        <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.RosenbrockProblem.get_nic">(barotropy.pysolver_view.optimization_problems.RosenbrockProblem method)</a>
-</li>
-        <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.RosenbrockProblemConstrained.get_nic">(barotropy.pysolver_view.optimization_problems.RosenbrockProblemConstrained method)</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.Fluid.get_property">get_property() (barotropy.properties.fluid_properties.Fluid method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.Fluid.get_state">get_state() (barotropy.properties.fluid_properties.Fluid method)</a>
 </li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.Fluid.get_state_blending">get_state_blending() (barotropy.properties.fluid_properties.Fluid method)</a>
@@ -706,34 +627,6 @@
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.Fluid.get_state_equilibrium">get_state_equilibrium() (barotropy.properties.fluid_properties.Fluid method)</a>
 </li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.Fluid.get_state_metastable">get_state_metastable() (barotropy.properties.fluid_properties.Fluid method)</a>
-</li>
-      <li><a href="source/api/barotropy.pysolver_view.nonlinear_system.html#barotropy.pysolver_view.nonlinear_system.NonlinearSystemSolver.gradient">gradient() (barotropy.pysolver_view.nonlinear_system.NonlinearSystemSolver method)</a>
-
-      <ul>
-        <li><a href="source/api/barotropy.pysolver_view.nonlinear_system_problems.html#barotropy.pysolver_view.nonlinear_system_problems.LorentzEquations.gradient">(barotropy.pysolver_view.nonlinear_system_problems.LorentzEquations method)</a>
-</li>
-        <li><a href="source/api/barotropy.pysolver_view.optimization.html#barotropy.pysolver_view.optimization.OptimizationSolver.gradient">(barotropy.pysolver_view.optimization.OptimizationSolver method)</a>
-</li>
-        <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.RosenbrockProblem.gradient">(barotropy.pysolver_view.optimization_problems.RosenbrockProblem method)</a>
-</li>
-        <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.RosenbrockProblemConstrained.gradient">(barotropy.pysolver_view.optimization_problems.RosenbrockProblemConstrained method)</a>
-</li>
-      </ul></li>
-  </ul></td>
-</tr></table>
-
-<h2 id="H">H</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.RosenbrockProblem.hessians">hessians() (barotropy.pysolver_view.optimization_problems.RosenbrockProblem method)</a>
-
-      <ul>
-        <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.RosenbrockProblemConstrained.hessians">(barotropy.pysolver_view.optimization_problems.RosenbrockProblemConstrained method)</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.HS71Problem">HS71Problem (class in barotropy.pysolver_view.optimization_problems)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -743,12 +636,14 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.ExpressionExporter.if_expression">if_expression() (barotropy.barotropic_model.ExpressionExporter method)</a>
 </li>
-      <li><a href="source/api/barotropy.math.html#barotropy.math.is_even">is_even() (in module barotropy.math)</a>
+      <li><a href="source/api/barotropy.mcerp.correlate.html#barotropy.mcerp.correlate.induce_correlations">induce_correlations() (in module barotropy.mcerp.correlate)</a>
 </li>
-      <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.is_float">is_float() (in module barotropy.utilities)</a>
+      <li><a href="source/api/barotropy.math.html#barotropy.math.is_even">is_even() (in module barotropy.math)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.is_float">is_float() (in module barotropy.utilities)</a>
+</li>
       <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.is_numeric">is_numeric() (in module barotropy.utilities)</a>
 </li>
       <li><a href="source/api/barotropy.math.html#barotropy.math.is_odd">is_odd() (in module barotropy.math)</a>
@@ -769,11 +664,11 @@
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.pysolver_view.nonlinear_system_problems.html#barotropy.pysolver_view.nonlinear_system_problems.LorentzEquations">LorentzEquations (class in barotropy.pysolver_view.nonlinear_system_problems)</a>
+      <li><a href="source/api/barotropy.mcerp.lhd.html#barotropy.mcerp.lhd.lhd">lhd() (in module barotropy.mcerp.lhd)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.LorentzEquationsOpt">LorentzEquationsOpt (class in barotropy.pysolver_view.optimization_problems)</a>
+      <li><a href="source/api/barotropy.kaist_postprocessing.html#barotropy.kaist_postprocessing.load_and_convert_data">load_and_convert_data() (in module barotropy.kaist_postprocessing)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -781,12 +676,6 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.pysolver_view.optimization_wrappers.html#barotropy.pysolver_view.optimization_wrappers.minimize_nlopt">minimize_nlopt() (in module barotropy.pysolver_view.optimization_wrappers)</a>
-</li>
-      <li><a href="source/api/barotropy.pysolver_view.optimization_wrappers.html#barotropy.pysolver_view.optimization_wrappers.minimize_pygmo">minimize_pygmo() (in module barotropy.pysolver_view.optimization_wrappers)</a>
-</li>
-      <li><a href="source/api/barotropy.pysolver_view.optimization_wrappers.html#barotropy.pysolver_view.optimization_wrappers.minimize_scipy">minimize_scipy() (in module barotropy.pysolver_view.optimization_wrappers)</a>
-</li>
       <li>
     module
 
@@ -809,57 +698,21 @@
 </li>
         <li><a href="source/api/barotropy.graphics.html#module-barotropy.graphics">barotropy.graphics</a>
 </li>
+        <li><a href="source/api/barotropy.kaist_postprocessing.html#module-barotropy.kaist_postprocessing">barotropy.kaist_postprocessing</a>
+</li>
         <li><a href="source/api/barotropy.math.html#module-barotropy.math">barotropy.math</a>
+</li>
+        <li><a href="source/api/barotropy.mcerp.correlate.html#module-barotropy.mcerp.correlate">barotropy.mcerp.correlate</a>
+</li>
+        <li><a href="source/api/barotropy.mcerp.lhd.html#module-barotropy.mcerp.lhd">barotropy.mcerp.lhd</a>
 </li>
         <li><a href="source/api/barotropy.properties.html#module-barotropy.properties.core_calculations">barotropy.properties.core_calculations</a>
 </li>
         <li><a href="source/api/barotropy.properties.html#module-barotropy.properties.fluid_properties">barotropy.properties.fluid_properties</a>
 </li>
-        <li><a href="source/api/barotropy.pysolver_view.html#module-barotropy.pysolver_view">barotropy.pysolver_view</a>
-</li>
-        <li><a href="source/api/barotropy.pysolver_view.nonlinear_system.html#module-barotropy.pysolver_view.nonlinear_system">barotropy.pysolver_view.nonlinear_system</a>
-</li>
-        <li><a href="source/api/barotropy.pysolver_view.nonlinear_system_problems.html#module-barotropy.pysolver_view.nonlinear_system_problems">barotropy.pysolver_view.nonlinear_system_problems</a>
-</li>
-        <li><a href="source/api/barotropy.pysolver_view.numerical_differentiation.html#module-barotropy.pysolver_view.numerical_differentiation">barotropy.pysolver_view.numerical_differentiation</a>
-</li>
-        <li><a href="source/api/barotropy.pysolver_view.optimization.html#module-barotropy.pysolver_view.optimization">barotropy.pysolver_view.optimization</a>
-</li>
-        <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#module-barotropy.pysolver_view.optimization_problems">barotropy.pysolver_view.optimization_problems</a>
-</li>
-        <li><a href="source/api/barotropy.pysolver_view.optimization_wrappers.html#module-barotropy.pysolver_view.optimization_wrappers">barotropy.pysolver_view.optimization_wrappers</a>
-</li>
-        <li><a href="source/api/barotropy.pysolver_view.pysolver_utilities.html#module-barotropy.pysolver_view.pysolver_utilities">barotropy.pysolver_view.pysolver_utilities</a>
-</li>
         <li><a href="source/api/barotropy.utilities.html#module-barotropy.utilities">barotropy.utilities</a>
 </li>
       </ul></li>
-  </ul></td>
-</tr></table>
-
-<h2 id="N">N</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.pysolver_view.optimization_wrappers.html#barotropy.pysolver_view.optimization_wrappers.NLOPT_SOLVERS">NLOPT_SOLVERS (in module barotropy.pysolver_view.optimization_wrappers)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.pysolver_view.nonlinear_system.html#barotropy.pysolver_view.nonlinear_system.NonlinearSystemProblem">NonlinearSystemProblem (class in barotropy.pysolver_view.nonlinear_system)</a>
-</li>
-      <li><a href="source/api/barotropy.pysolver_view.nonlinear_system.html#barotropy.pysolver_view.nonlinear_system.NonlinearSystemSolver">NonlinearSystemSolver (class in barotropy.pysolver_view.nonlinear_system)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="O">O</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.pysolver_view.optimization.html#barotropy.pysolver_view.optimization.OptimizationProblem">OptimizationProblem (class in barotropy.pysolver_view.optimization)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.pysolver_view.optimization.html#barotropy.pysolver_view.optimization.OptimizationSolver">OptimizationSolver (class in barotropy.pysolver_view.optimization)</a>
-</li>
   </ul></td>
 </tr></table>
 
@@ -878,15 +731,7 @@
         <li><a href="source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.parse_fluent_xy">(in module barotropy.fluent_automation.fluent_automation_old)</a>
 </li>
       </ul></li>
-      <li><a href="source/api/barotropy.pysolver_view.nonlinear_system.html#barotropy.pysolver_view.nonlinear_system.NonlinearSystemSolver.plot_convergence_history">plot_convergence_history() (barotropy.pysolver_view.nonlinear_system.NonlinearSystemSolver method)</a>
-
-      <ul>
-        <li><a href="source/api/barotropy.pysolver_view.optimization.html#barotropy.pysolver_view.optimization.OptimizationSolver.plot_convergence_history">(barotropy.pysolver_view.optimization.OptimizationSolver method)</a>
-</li>
-      </ul></li>
       <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_density_distribution">plot_density_distribution() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
-</li>
-      <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_mass_fraction_distribution">plot_mass_fraction_distribution() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
 </li>
       <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_nozzle_xy_data">plot_nozzle_xy_data() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
 </li>
@@ -918,6 +763,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_vapor_quality_distribution">plot_vapor_quality_distribution() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
+</li>
       <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_velocity_distribution">plot_velocity_distribution() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
 </li>
       <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_viscosity_distribution">plot_viscosity_distribution() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
@@ -928,42 +775,28 @@
 </li>
       <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_yplus_distribution">plot_yplus_distribution() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
 </li>
+      <li><a href="source/api/barotropy.mcerp.correlate.html#barotropy.mcerp.correlate.plotcorr">plotcorr() (in module barotropy.mcerp.correlate)</a>
+</li>
       <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.ExpressionExporter.polynomial_expression">polynomial_expression() (barotropy.barotropic_model.ExpressionExporter method)</a>
 </li>
       <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.PolynomialFitter">PolynomialFitter (class in barotropy.barotropic_model)</a>
 </li>
       <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.postprocess_ode">postprocess_ode() (in module barotropy.utilities)</a>
 </li>
-      <li><a href="source/api/barotropy.pysolver_view.nonlinear_system.html#barotropy.pysolver_view.nonlinear_system.NonlinearSystemSolver.print_convergence_history">print_convergence_history() (barotropy.pysolver_view.nonlinear_system.NonlinearSystemSolver method)</a>
-
-      <ul>
-        <li><a href="source/api/barotropy.pysolver_view.optimization.html#barotropy.pysolver_view.optimization.OptimizationSolver.print_convergence_history">(barotropy.pysolver_view.optimization.OptimizationSolver method)</a>
-</li>
-      </ul></li>
       <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.print_dict">print_dict() (in module barotropy.utilities)</a>
 </li>
       <li><a href="source/api/barotropy.graphics.html#barotropy.graphics.print_installed_fonts">print_installed_fonts() (in module barotropy.graphics)</a>
-
-      <ul>
-        <li><a href="source/api/barotropy.pysolver_view.pysolver_utilities.html#barotropy.pysolver_view.pysolver_utilities.print_installed_fonts">(in module barotropy.pysolver_view.pysolver_utilities)</a>
 </li>
-      </ul></li>
       <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.print_object">print_object() (in module barotropy.utilities)</a>
 </li>
       <li><a href="source/api/barotropy.graphics.html#barotropy.graphics.print_rc_parameters">print_rc_parameters() (in module barotropy.graphics)</a>
-
-      <ul>
-        <li><a href="source/api/barotropy.pysolver_view.pysolver_utilities.html#barotropy.pysolver_view.pysolver_utilities.print_rc_parameters">(in module barotropy.pysolver_view.pysolver_utilities)</a>
 </li>
-      </ul></li>
       <li><a href="source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.print_transcript_real_time">print_transcript_real_time() (in module barotropy.fluent_automation.fluent_automation)</a>
 
       <ul>
         <li><a href="source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.print_transcript_real_time">(in module barotropy.fluent_automation.fluent_automation_old)</a>
 </li>
       </ul></li>
-      <li><a href="source/api/barotropy.pysolver_view.optimization_wrappers.html#barotropy.pysolver_view.optimization_wrappers.PYGMO_SOLVERS">PYGMO_SOLVERS (in module barotropy.pysolver_view.optimization_wrappers)</a>
-</li>
   </ul></td>
 </tr></table>
 
@@ -984,23 +817,11 @@
       </ul></li>
       <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.render_and_evaluate">render_and_evaluate() (in module barotropy.utilities)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.render_fluent_journal">render_fluent_journal() (in module barotropy.fluent_automation.fluent_automation_old)</a>
 </li>
       <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.render_nested_value">render_nested_value() (in module barotropy.utilities)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.pysolver_view.nonlinear_system.html#barotropy.pysolver_view.nonlinear_system.NonlinearSystemProblem.residual">residual() (barotropy.pysolver_view.nonlinear_system.NonlinearSystemProblem method)</a>
-
-      <ul>
-        <li><a href="source/api/barotropy.pysolver_view.nonlinear_system.html#barotropy.pysolver_view.nonlinear_system.NonlinearSystemSolver.residual">(barotropy.pysolver_view.nonlinear_system.NonlinearSystemSolver method)</a>
-</li>
-        <li><a href="source/api/barotropy.pysolver_view.nonlinear_system_problems.html#barotropy.pysolver_view.nonlinear_system_problems.LorentzEquations.residual">(barotropy.pysolver_view.nonlinear_system_problems.LorentzEquations method)</a>
-</li>
-      </ul></li>
-      <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.RosenbrockProblem">RosenbrockProblem (class in barotropy.pysolver_view.optimization_problems)</a>
-</li>
-      <li><a href="source/api/barotropy.pysolver_view.optimization_problems.html#barotropy.pysolver_view.optimization_problems.RosenbrockProblemConstrained">RosenbrockProblemConstrained (class in barotropy.pysolver_view.optimization_problems)</a>
 </li>
       <li><a href="source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.run_cleanup_script">run_cleanup_script() (in module barotropy.fluent_automation.fluent_automation)</a>
 
@@ -1023,8 +844,6 @@
       <li><a href="source/api/barotropy.graphics.html#barotropy.graphics.savefig_in_formats">savefig_in_formats() (in module barotropy.graphics)</a>
 
       <ul>
-        <li><a href="source/api/barotropy.pysolver_view.pysolver_utilities.html#barotropy.pysolver_view.pysolver_utilities.savefig_in_formats">(in module barotropy.pysolver_view.pysolver_utilities)</a>
-</li>
         <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.savefig_in_formats">(in module barotropy.utilities)</a>
 </li>
       </ul></li>
@@ -1032,22 +851,16 @@
 </li>
       <li><a href="source/api/barotropy.graphics.html#barotropy.graphics.scale_graphics_y">scale_graphics_y() (in module barotropy.graphics)</a>
 </li>
-      <li><a href="source/api/barotropy.pysolver_view.optimization_wrappers.html#barotropy.pysolver_view.optimization_wrappers.SCIPY_SOLVERS">SCIPY_SOLVERS (in module barotropy.pysolver_view.optimization_wrappers)</a>
-</li>
       <li><a href="source/api/barotropy.graphics.html#barotropy.graphics.set_plot_options">set_plot_options() (in module barotropy.graphics)</a>
-
-      <ul>
-        <li><a href="source/api/barotropy.pysolver_view.pysolver_utilities.html#barotropy.pysolver_view.pysolver_utilities.set_plot_options">(in module barotropy.pysolver_view.pysolver_utilities)</a>
 </li>
-      </ul></li>
       <li><a href="source/api/barotropy.math.html#barotropy.math.sigmoid_hyperbolic">sigmoid_hyperbolic() (in module barotropy.math)</a>
 </li>
       <li><a href="source/api/barotropy.math.html#barotropy.math.sigmoid_rational">sigmoid_rational() (in module barotropy.math)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/barotropy.math.html#barotropy.math.sigmoid_smootherstep">sigmoid_smootherstep() (in module barotropy.math)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/barotropy.math.html#barotropy.math.sigmoid_smoothstep">sigmoid_smoothstep() (in module barotropy.math)</a>
 </li>
       <li><a href="source/api/barotropy.math.html#barotropy.math.sind">sind() (in module barotropy.math)</a>
@@ -1059,13 +872,7 @@
       <li><a href="source/api/barotropy.math.html#barotropy.math.smooth_minimum">smooth_minimum() (in module barotropy.math)</a>
 </li>
       <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.BarotropicModel.solve">solve() (barotropy.barotropic_model.BarotropicModel method)</a>
-
-      <ul>
-        <li><a href="source/api/barotropy.pysolver_view.nonlinear_system.html#barotropy.pysolver_view.nonlinear_system.NonlinearSystemSolver.solve">(barotropy.pysolver_view.nonlinear_system.NonlinearSystemSolver method)</a>
 </li>
-        <li><a href="source/api/barotropy.pysolver_view.optimization.html#barotropy.pysolver_view.optimization.OptimizationSolver.solve">(barotropy.pysolver_view.optimization.OptimizationSolver method)</a>
-</li>
-      </ul></li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.states_to_dict">states_to_dict() (in module barotropy.properties.fluid_properties)</a>
 </li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.states_to_dict_2d">states_to_dict_2d() (in module barotropy.properties.fluid_properties)</a>
@@ -1171,8 +978,8 @@ By Roberto Agromayor, Simone Parisi, Amit Kumar, Fredrik Haglind
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>

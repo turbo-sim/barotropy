@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>barotropy.pysolver_view.optimization_wrappers module &#8212; barotropy v0.0.6 documentation</title>
+    <title>barotropy.pysolver_view.optimization_wrappers module &#8212; barotropy v0.1.0 documentation</title>
   
   
   
@@ -16,32 +16,29 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
-  <!-- So that users can add custom icons -->
-  <script src="../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=06460786"></script>
+    <script src="../../_static/documentation_options.js?v=d47532a6"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>let toggleHintShow = 'Click to show';</script>
@@ -59,7 +56,6 @@
     <link rel="prev" title="barotropy.pysolver_view.optimization_problems module" href="barotropy.pysolver_view.optimization_problems.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -75,8 +71,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -84,6 +91,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -91,8 +99,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -108,8 +116,7 @@
       
       
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -134,16 +141,20 @@
   
   
   
-    <p class="title logo__title">barotropy v0.0.6 documentation</p>
+    <p class="title logo__title">barotropy v0.1.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
@@ -289,19 +300,25 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
 
 
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</button>
+  </button>
+`);
+</script>
+
 </div></div>
       
     </div>
@@ -317,20 +334,6 @@
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.pysolver_view.optimization_wrappers.NLOPT_SOLVERS"><code class="docutils literal notranslate"><span class="pre">NLOPT_SOLVERS</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.pysolver_view.optimization_wrappers.PYGMO_SOLVERS"><code class="docutils literal notranslate"><span class="pre">PYGMO_SOLVERS</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.pysolver_view.optimization_wrappers.SCIPY_SOLVERS"><code class="docutils literal notranslate"><span class="pre">SCIPY_SOLVERS</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.pysolver_view.optimization_wrappers.convert_pygmo_to_scipy_bounds"><code class="docutils literal notranslate"><span class="pre">convert_pygmo_to_scipy_bounds()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.pysolver_view.optimization_wrappers.minimize_nlopt"><code class="docutils literal notranslate"><span class="pre">minimize_nlopt()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.pysolver_view.optimization_wrappers.minimize_pygmo"><code class="docutils literal notranslate"><span class="pre">minimize_pygmo()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.pysolver_view.optimization_wrappers.minimize_scipy"><code class="docutils literal notranslate"><span class="pre">minimize_scipy()</span></code></a></li>
-</ul>
-            </nav>
         </div>
     </div>
 </div>
@@ -340,142 +343,8 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="module-barotropy.pysolver_view.optimization_wrappers">
-<span id="barotropy-pysolver-view-optimization-wrappers-module"></span><h1>barotropy.pysolver_view.optimization_wrappers module<a class="headerlink" href="#module-barotropy.pysolver_view.optimization_wrappers" title="Link to this heading">#</a></h1>
-<dl class="py data">
-<dt class="sig sig-object py" id="barotropy.pysolver_view.optimization_wrappers.NLOPT_SOLVERS">
-<span class="sig-prename descclassname"><span class="pre">barotropy.pysolver_view.optimization_wrappers.</span></span><span class="sig-name descname"><span class="pre">NLOPT_SOLVERS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['auglag',</span> <span class="pre">'auglag_eq',</span> <span class="pre">'bobyqa',</span> <span class="pre">'ccsaq',</span> <span class="pre">'cobyla',</span> <span class="pre">'lbfgs',</span> <span class="pre">'mma',</span> <span class="pre">'neldermead',</span> <span class="pre">'newuoa',</span> <span class="pre">'newuoa_bound',</span> <span class="pre">'praxis',</span> <span class="pre">'sbplx',</span> <span class="pre">'slsqp',</span> <span class="pre">'tnewton',</span> <span class="pre">'tnewton_precond',</span> <span class="pre">'tnewton_precond_restart',</span> <span class="pre">'tnewton_restart',</span> <span class="pre">'var1',</span> <span class="pre">'var2']</span></em><a class="headerlink" href="#barotropy.pysolver_view.optimization_wrappers.NLOPT_SOLVERS" title="Link to this definition">#</a></dt>
-<dd><p>List of valid NLOpt solvers (interfaced through Pygmo)</p>
-</dd></dl>
-
-<dl class="py data">
-<dt class="sig sig-object py" id="barotropy.pysolver_view.optimization_wrappers.PYGMO_SOLVERS">
-<span class="sig-prename descclassname"><span class="pre">barotropy.pysolver_view.optimization_wrappers.</span></span><span class="sig-name descname"><span class="pre">PYGMO_SOLVERS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['ipopt',</span> <span class="pre">'snopt']</span></em><a class="headerlink" href="#barotropy.pysolver_view.optimization_wrappers.PYGMO_SOLVERS" title="Link to this definition">#</a></dt>
-<dd><p>List of valid Pygmo solvers</p>
-</dd></dl>
-
-<dl class="py data">
-<dt class="sig sig-object py" id="barotropy.pysolver_view.optimization_wrappers.SCIPY_SOLVERS">
-<span class="sig-prename descclassname"><span class="pre">barotropy.pysolver_view.optimization_wrappers.</span></span><span class="sig-name descname"><span class="pre">SCIPY_SOLVERS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['nelder-mead',</span> <span class="pre">'powell',</span> <span class="pre">'cg',</span> <span class="pre">'bfgs',</span> <span class="pre">'newton-cg',</span> <span class="pre">'l-bfgs-b',</span> <span class="pre">'tnc',</span> <span class="pre">'cobyla',</span> <span class="pre">'slsqp',</span> <span class="pre">'trust-constr',</span> <span class="pre">'dogleg',</span> <span class="pre">'trust-ncg',</span> <span class="pre">'trust-krylov',</span> <span class="pre">'trust-exact']</span></em><a class="headerlink" href="#barotropy.pysolver_view.optimization_wrappers.SCIPY_SOLVERS" title="Link to this definition">#</a></dt>
-<dd><p>List of valid Scipy solvers</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="barotropy.pysolver_view.optimization_wrappers.convert_pygmo_to_scipy_bounds">
-<span class="sig-prename descclassname"><span class="pre">barotropy.pysolver_view.optimization_wrappers.</span></span><span class="sig-name descname"><span class="pre">convert_pygmo_to_scipy_bounds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pygmo_bounds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/pysolver_view/optimization_wrappers.html#convert_pygmo_to_scipy_bounds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.pysolver_view.optimization_wrappers.convert_pygmo_to_scipy_bounds" title="Link to this definition">#</a></dt>
-<dd><p>Create a function that converts bounds from Pygmo format to SciPy format.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>pygmo_method</strong><span class="classifier">callable</span></dt><dd><p>A method that, when called, returns a tuple containing two lists: the first list of lower bounds and the second of upper bounds (Pygmo convention).</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt>callable</dt><dd><p>A function that, when called, returns a list of tuples where each tuple contains the lower and upper bound for each decision variable (Scipy convention).</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="barotropy.pysolver_view.optimization_wrappers.minimize_nlopt">
-<span class="sig-prename descclassname"><span class="pre">barotropy.pysolver_view.optimization_wrappers.</span></span><span class="sig-name descname"><span class="pre">minimize_nlopt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/pysolver_view/optimization_wrappers.html#minimize_nlopt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.pysolver_view.optimization_wrappers.minimize_nlopt" title="Link to this definition">#</a></dt>
-<dd><p>Optimize a given problem using the specified NLOpt optimization method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>problem</strong><span class="classifier">OptimizationProblem</span></dt><dd><p>An object representing the problem.</p>
-</dd>
-<dt><strong>x0</strong><span class="classifier">array_like</span></dt><dd><p>Initial guess for the decision variables.</p>
-</dd>
-<dt><strong>method</strong><span class="classifier">str</span></dt><dd><p>The name of the Pygmo solver to use. Must be one of the solvers defined in the NLOPT_SOLVERS list.</p>
-</dd>
-<dt><strong>options</strong><span class="classifier">dict</span></dt><dd><p>Configuration options for the solver. Options vary depending on the solver used.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt>tuple</dt><dd><p>A tuple (success, message) where ‘success’ is a boolean indicating if the optimization was successful, and ‘message’ is a string describing the outcome.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt>ValueError</dt><dd><p>If an invalid solver name is specified.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="barotropy.pysolver_view.optimization_wrappers.minimize_pygmo">
-<span class="sig-prename descclassname"><span class="pre">barotropy.pysolver_view.optimization_wrappers.</span></span><span class="sig-name descname"><span class="pre">minimize_pygmo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/pysolver_view/optimization_wrappers.html#minimize_pygmo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.pysolver_view.optimization_wrappers.minimize_pygmo" title="Link to this definition">#</a></dt>
-<dd><p>Optimize a given problem using the specified Pygmo optimization method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>problem</strong><span class="classifier">OptimizationProblem</span></dt><dd><p>An object representing the problem.</p>
-</dd>
-<dt><strong>x0</strong><span class="classifier">array_like</span></dt><dd><p>Initial guess for the decision variables.</p>
-</dd>
-<dt><strong>method</strong><span class="classifier">str</span></dt><dd><p>The name of the Pygmo solver to use. Must be one of the solvers defined in the PYGMO_SOLVERS list.</p>
-</dd>
-<dt><strong>options</strong><span class="classifier">dict</span></dt><dd><p>Configuration options for the solver. Options vary depending on the solver used.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt>tuple</dt><dd><p>A tuple (success, message) where ‘success’ is a boolean indicating if the optimization was successful, and ‘message’ is a string describing the outcome.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt>ValueError</dt><dd><p>If an invalid solver name is specified.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="barotropy.pysolver_view.optimization_wrappers.minimize_scipy">
-<span class="sig-prename descclassname"><span class="pre">barotropy.pysolver_view.optimization_wrappers.</span></span><span class="sig-name descname"><span class="pre">minimize_scipy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/pysolver_view/optimization_wrappers.html#minimize_scipy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.pysolver_view.optimization_wrappers.minimize_scipy" title="Link to this definition">#</a></dt>
-<dd><p>Optimize a given problem using the specified SciPy method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>problem</strong><span class="classifier">OptimizationProblem</span></dt><dd><p>An object representing the problem.</p>
-</dd>
-<dt><strong>x0</strong><span class="classifier">array_like</span></dt><dd><p>Initial guess for the decision variables.</p>
-</dd>
-<dt><strong>method</strong><span class="classifier">str</span></dt><dd><p>The name of the Scipy solver to use. Must be one of the solvers defined in the SCIPY_SOLVERS list.</p>
-</dd>
-<dt><strong>options</strong><span class="classifier">dict</span></dt><dd><p>Configuration options for the solver. Options vary depending on the solver used.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt>tuple</dt><dd><p>A tuple (success, message) where ‘success’ is a boolean indicating if the optimization was successful, and ‘message’ is a string describing the outcome.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt>ValueError</dt><dd><p>If an invalid solver is specified.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
+  <section id="barotropy-pysolver-view-optimization-wrappers-module">
+<h1>barotropy.pysolver_view.optimization_wrappers module<a class="headerlink" href="#barotropy-pysolver-view-optimization-wrappers-module" title="Link to this heading">#</a></h1>
 </section>
 
 
@@ -513,28 +382,6 @@
             </div>
             
             
-              
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.pysolver_view.optimization_wrappers.NLOPT_SOLVERS"><code class="docutils literal notranslate"><span class="pre">NLOPT_SOLVERS</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.pysolver_view.optimization_wrappers.PYGMO_SOLVERS"><code class="docutils literal notranslate"><span class="pre">PYGMO_SOLVERS</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.pysolver_view.optimization_wrappers.SCIPY_SOLVERS"><code class="docutils literal notranslate"><span class="pre">SCIPY_SOLVERS</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.pysolver_view.optimization_wrappers.convert_pygmo_to_scipy_bounds"><code class="docutils literal notranslate"><span class="pre">convert_pygmo_to_scipy_bounds()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.pysolver_view.optimization_wrappers.minimize_nlopt"><code class="docutils literal notranslate"><span class="pre">minimize_nlopt()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.pysolver_view.optimization_wrappers.minimize_pygmo"><code class="docutils literal notranslate"><span class="pre">minimize_pygmo()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.pysolver_view.optimization_wrappers.minimize_scipy"><code class="docutils literal notranslate"><span class="pre">minimize_scipy()</span></code></a></li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>
@@ -579,8 +426,8 @@ By Roberto Agromayor, Simone Parisi, Amit Kumar, Fredrik Haglind
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>
