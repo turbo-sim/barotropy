@@ -18,7 +18,7 @@ if not os.path.isdir(DIR_OUT):
 # Load cases from Excel
 case_table = pd.read_excel("./simulation_cases.xlsx")
 case_indices = case_table["index"]
-# case_indices = [1]
+case_indices = [1]
 case_table = case_table[case_table["index"].isin(case_indices)]
 
 # Loop over cases
