@@ -1,0 +1,728 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Centrifugal impeller tutorial &#8212; barotropy v0.2.4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=880b6864"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'source/tutorials/centrifugal_impeller_cfx';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Barotropic model" href="../barotropic_model.html" />
+    <link rel="prev" title="Flashing nozzle Fluent" href="flashing_nozzle_fluent.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">barotropy v0.2.4 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../tutorials.html">Tutorials</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="flashing_nozzle_fluent.html">Flashing nozzle Fluent</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Centrifugal impeller tutorial</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../barotropic_model.html">Barotropic model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/barotropy.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/barotropy.barotropic_model.html">Barotropic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/barotropy.properties.html">Fluid properties</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../api/barotropy.math.html">Math functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/barotropy.graphics.html">Graphic functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/barotropy.utilities.html">Utility functions</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/barotropy.fluent_automation.html">Fluent automation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api/barotropy.fluent_automation.fluent_automation.html">barotropy.fluent_automation.fluent_automation module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/barotropy.fluent_automation.fluent_plot_nozzle_data.html">barotropy.fluent_automation.fluent_plot_nozzle_data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/barotropy.fluent_automation.stream_residuals.html">barotropy.fluent_automation.stream_residuals module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/barotropy.fluent_automation.stream_transcript.html">barotropy.fluent_automation.stream_transcript module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/source/tutorials/centrifugal_impeller_cfx.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Centrifugal impeller tutorial</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">1. Installation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#option-1-using-conda">Option 1: Using Conda</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#option-2-using-python-venv">Option 2: Using Python <code class="docutils literal notranslate"><span class="pre">venv</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-the-barotropic-model">2. Generate the barotropic model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-1-define-the-fluid-and-thermodynamic-conditions">Step 2.1: Define the fluid and thermodynamic conditions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-2-set-up-the-barotropic-model">Step 2.2: Set up the barotropic model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-3-solve-export-and-visualize">Step 2.3: Solve, export, and visualize</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-the-barotropic-model-in-ansys-cfx">3. Use the barotropic model in ANSYS CFX</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3. Use the barotropic model in ANSYS CFX</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-2-check-cfx-expressions">Step 3.2: Check CFX expressions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-3-define-custom-named-expressions">Step 3.3: Define custom named expressions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-4-create-a-barotropic-fluid-and-assign-expressions">Step 3.4: Create a barotropic fluid and assign expressions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-5-assign-the-barotropic-fluid-to-the-flow-domain">Step 3.5: Assign the barotropic fluid to the flow domain</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-6-define-boundary-conditions">Step 3.6: Define boundary conditions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-7-set-solver-parameters">Step 3.7: Set solver parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-8-run-the-simulation">Step 3.8: Run the simulation</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="centrifugal-impeller-tutorial">
+<span id="centrifugal-impeller-cfx"></span><h1>Centrifugal impeller tutorial<a class="headerlink" href="#centrifugal-impeller-tutorial" title="Link to this heading">#</a></h1>
+<p>This tutorial shows how to use the <strong>barotropy</strong> Python package to generate barotropic property models and use them in <strong>ANSYS CFX</strong>.</p>
+<p>You can download the CFX files used in this tutorial from this <a class="reference external" href="https://github.com/turbo-sim/barotropy/releases/tag/cfx_tutorial">GitHub release</a>.</p>
+<section id="installation">
+<h2>1. Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
+<p>Create a clean Python environment and install <code class="docutils literal notranslate"><span class="pre">barotropy</span></code>.</p>
+<section id="option-1-using-conda">
+<h3>Option 1: Using Conda<a class="headerlink" href="#option-1-using-conda" title="Link to this heading">#</a></h3>
+<p>If you use miniconda to manage your virtual environemnts</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>barotropy-env<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.10<span class="w"> </span>-y
+conda<span class="w"> </span>activate<span class="w"> </span>barotropy-env
+pip<span class="w"> </span>install<span class="w"> </span>barotropy
+</pre></div>
+</div>
+</section>
+<section id="option-2-using-python-venv">
+<h3>Option 2: Using Python <code class="docutils literal notranslate"><span class="pre">venv</span></code><a class="headerlink" href="#option-2-using-python-venv" title="Link to this heading">#</a></h3>
+<p>If you prefer to avoid conda you can also create a lightweight virtual environmnet using <code class="docutils literal notranslate"><span class="pre">venv</span></code>.
+If you are using git-bash on windows</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>env
+<span class="nb">source</span><span class="w"> </span>env/Scripts/activate
+python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>barotropy
+</pre></div>
+</div>
+<p>Or if you are using Linux or mcOS</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>env
+<span class="nb">source</span><span class="w"> </span>env/bin/activate
+pip<span class="w"> </span>install<span class="w"> </span>barotropy
+</pre></div>
+</div>
+</section>
+</section>
+<section id="generate-the-barotropic-model">
+<h2>2. Generate the barotropic model<a class="headerlink" href="#generate-the-barotropic-model" title="Link to this heading">#</a></h2>
+<p>To generate the barotropic model, simply run the script:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>create_barotropic_model.py
+</pre></div>
+</div>
+<p>This will:</p>
+<ul class="simple">
+<li><p>Simulate a barotropic expansion of <strong>CO₂</strong></p></li>
+<li><p>Fit polynomial expressions for key properties</p></li>
+<li><p>Export CFX-compatible expressions in <code class="docutils literal notranslate"><span class="pre">barotropic_model/CFX_expressions.txt</span></code></p></li>
+<li><p>Save plots and polynomial data in the <code class="docutils literal notranslate"><span class="pre">barotropic_model/</span></code> folder</p></li>
+</ul>
+<p>Below is a breakdown of the main script components.</p>
+<section id="step-2-1-define-the-fluid-and-thermodynamic-conditions">
+<h3>Step 2.1: Define the fluid and thermodynamic conditions<a class="headerlink" href="#step-2-1-define-the-fluid-and-thermodynamic-conditions" title="Link to this heading">#</a></h3>
+<p>We use <strong>CO₂</strong>, compressing from <strong>310 K</strong> and <strong>90 bar</strong>. The maximum (outlet) pressure is set to five times the inlet pressure to cover a broad range of thermodynamic states. The minimum pressure is set to 90 % of the inlet pressure to ensure that properties at slightly lower pressures are available—relevant for modeling fluid acceleration at the impeller inlet.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fluid_name</span> <span class="o">=</span> <span class="s2">&quot;CO2&quot;</span>
+<span class="n">fluid</span> <span class="o">=</span> <span class="n">bpy</span><span class="o">.</span><span class="n">Fluid</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">fluid_name</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;HEOS&quot;</span><span class="p">)</span>
+<span class="n">T_in</span> <span class="o">=</span> <span class="mf">310.0</span>       <span class="c1"># [K]</span>
+<span class="n">p_in</span> <span class="o">=</span> <span class="mf">90.0e5</span>      <span class="c1"># [Pa]</span>
+<span class="n">p_min</span> <span class="o">=</span> <span class="mf">5.0</span><span class="o">*</span><span class="n">p_in</span>   <span class="c1"># [Pa]</span>
+<span class="n">p_max</span> <span class="o">=</span> <span class="mf">0.9</span><span class="o">*</span><span class="n">p_in</span>   <span class="c1"># [Pa]</span>
+</pre></div>
+</div>
+<p>The corresponding expansion is illustrated in the temperature-entropy diagram below</p>
+<img alt="" src="../../_images/barotropic_process_CO2.png" />
+</section>
+<section id="step-2-2-set-up-the-barotropic-model">
+<h3>Step 2.2: Set up the barotropic model<a class="headerlink" href="#step-2-2-set-up-the-barotropic-model" title="Link to this heading">#</a></h3>
+<p>We assume <strong>thermodynamic equilibrium</strong> during compression, which is not an issue for single-phase flow, and specify a <strong>polytropic efficiency of 80 %</strong>. The barotropic model is set up to fit <strong>fifth-degree polynomials</strong> for the variables listed in <code class="docutils literal notranslate"><span class="pre">polynomial_variables</span></code>. Since both <code class="docutils literal notranslate"><span class="pre">p_min</span></code> and <code class="docutils literal notranslate"><span class="pre">p_max</span></code> are provided, we must explicitly specify <code class="docutils literal notranslate"><span class="pre">process_type=&quot;compression&quot;</span></code>, as the direction of the process cannot be inferred from the inlet and outlet pressures.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">bpy</span><span class="o">.</span><span class="n">BarotropicModel</span><span class="p">(</span>
+    <span class="n">fluid_name</span><span class="o">=</span><span class="n">fluid_name</span><span class="p">,</span>
+    <span class="n">T_in</span><span class="o">=</span><span class="n">T_in</span><span class="p">,</span>
+    <span class="n">p_in</span><span class="o">=</span><span class="n">p_in</span><span class="p">,</span>
+    <span class="n">p_min</span><span class="o">=</span><span class="n">p_min</span><span class="p">,</span>
+    <span class="n">p_max</span><span class="o">=</span><span class="n">p_max</span><span class="p">,</span>
+    <span class="n">efficiency</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+    <span class="n">process_type</span><span class="o">=</span><span class="s2">&quot;compression&quot;</span><span class="p">,</span>
+    <span class="n">calculation_type</span><span class="o">=</span><span class="s2">&quot;equilibrium&quot;</span><span class="p">,</span>
+    <span class="n">HEOS_solver</span><span class="o">=</span><span class="s2">&quot;hybr&quot;</span><span class="p">,</span>
+    <span class="n">ODE_solver</span><span class="o">=</span><span class="s2">&quot;LSODA&quot;</span><span class="p">,</span>
+    <span class="n">ODE_tolerance</span><span class="o">=</span><span class="mf">1e-9</span><span class="p">,</span>
+    <span class="n">polynomial_degree</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">polynomial_format</span><span class="o">=</span><span class="s2">&quot;horner&quot;</span><span class="p">,</span>
+    <span class="n">output_dir</span><span class="o">=</span><span class="n">DIR_OUT</span><span class="p">,</span>
+    <span class="n">polynomial_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;density&quot;</span><span class="p">,</span> <span class="s2">&quot;viscosity&quot;</span><span class="p">,</span> <span class="s2">&quot;speed_sound&quot;</span><span class="p">,</span> <span class="s2">&quot;void_fraction&quot;</span><span class="p">,</span> <span class="s2">&quot;vapor_quality&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="step-2-3-solve-export-and-visualize">
+<h3>Step 2.3: Solve, export, and visualize<a class="headerlink" href="#step-2-3-solve-export-and-visualize" title="Link to this heading">#</a></h3>
+<p>We evaluate the expansion, fit the polynomials, export the expressions, and generate plots of the thermodynamic path and fitting error for each variable.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit_polynomials</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">export_expressions_fluent</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="n">DIR_OUT</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">export_expressions_cfx</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="n">DIR_OUT</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">poly_fitter</span><span class="o">.</span><span class="n">plot_phase_diagram</span><span class="p">(</span>
+    <span class="n">fluid</span><span class="o">=</span><span class="n">fluid</span><span class="p">,</span>
+    <span class="n">var_x</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span>
+    <span class="n">var_y</span><span class="o">=</span><span class="s2">&quot;T&quot;</span><span class="p">,</span>
+    <span class="n">savefig</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">showfig</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">plot_spinodal_line</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">poly_fitter</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">poly_fitter</span><span class="o">.</span><span class="n">plot_polynomial_and_error</span><span class="p">(</span>
+        <span class="n">var</span><span class="o">=</span><span class="n">var</span><span class="p">,</span>
+        <span class="n">savefig</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">showfig</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>The output barotropic model for density is illustrated below, note the slop discontinuity when the fluid enters the two-phase region:</p>
+<img alt="" src="../../_images/barotropic_model_error_density.png" />
+</section>
+</section>
+<section id="use-the-barotropic-model-in-ansys-cfx">
+<h2>3. Use the barotropic model in ANSYS CFX<a class="headerlink" href="#use-the-barotropic-model-in-ansys-cfx" title="Link to this heading">#</a></h2>
+<p>Here’s a refined version of the section with your requested introduction:</p>
+</section>
+<hr class="docutils" />
+<section id="id1">
+<h2>3. Use the barotropic model in ANSYS CFX<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>This case is based on a <strong>centrifugal compressor impeller</strong>. The geometry provided should work out of the box, but you can modify it if needed.</p>
+<p>To adjust the geometry or mesh:</p>
+<ol class="arabic">
+<li><p>Open the <code class="docutils literal notranslate"><span class="pre">centrifugal_impeller.wbpj</span></code> Workbench file.</p>
+<p><img alt="Workbench" src="../../_images/ansys_workbench.png" /></p>
+</li>
+<li><p>Use <strong>Ansys BladeGen</strong> to modify the impeller geometry:</p>
+<p><img alt="BladeGen" src="../../_images/ansys_bladegen.png" /></p>
+</li>
+<li><p>Adjust the mesh settings in <strong>Ansys TurboGrid</strong>:</p>
+<p><img alt="TurboGrid" src="../../_images/ansys_turbogrid.png" /></p>
+</li>
+</ol>
+<p>Once the mesh is ready, open <strong>Ansys CFX-Pre</strong> to configure the CFD simulation:</p>
+<p><img alt="CFX-Pre" src="../../_images/ansys_CFX_pre_1.png" /></p>
+<section id="step-3-2-check-cfx-expressions">
+<h3>Step 3.2: Check CFX expressions<a class="headerlink" href="#step-3-2-check-cfx-expressions" title="Link to this heading">#</a></h3>
+<p>Open the file <code class="docutils literal notranslate"><span class="pre">barotropic_model/cfx_expressions.txt</span></code>. It contains CFX-compatible expressions for:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">barotropic_density</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">barotropic_viscosity</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">barotropic_speed_sound</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">barotropic_void_fraction</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">barotropic_vapor_quality</span></code></p></li>
+</ul>
+<p>Each expression is defined as a function of absolute pressure in Pascal. Example snippet:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CFX<span class="w"> </span>expressions<span class="w"> </span><span class="k">for</span><span class="w"> </span>barotropic<span class="w"> </span>properties
+Creation<span class="w"> </span>datetime:<span class="w"> </span><span class="m">2025</span>-04-01<span class="w"> </span><span class="m">21</span>:46:00.584473
+
+barotropic_density
+<span class="o">(</span><span class="k">if</span><span class="o">(</span>Absolute<span class="w"> </span>Pressure<span class="w"> </span>&gt;<span class="o">=</span><span class="w"> </span><span class="m">4</span>.3172602232385412e+07<span class="w"> </span><span class="o">[</span>Pa<span class="o">]</span>,
+<span class="m">7</span>.9029740467060265e+02<span class="w"> </span>+<span class="w"> </span><span class="m">1</span>.5585573580243636e+02<span class="w"> </span>*<span class="w"> </span><span class="o">(</span>Absolute<span class="w"> </span>Pressure<span class="w"> </span>/<span class="w"> </span><span class="m">4</span>.3172602232385412e+07<span class="w"> </span><span class="o">[</span>Pa<span class="o">]</span><span class="w"> </span>-<span class="w"> </span><span class="m">1</span>.0000000000000000e+00<span class="o">)</span>,
+<span class="k">if</span><span class="o">(</span>Absolute<span class="w"> </span>Pressure<span class="w"> </span>&gt;<span class="o">=</span><span class="w"> </span><span class="m">8</span>.1000000000000075e+06<span class="w"> </span><span class="o">[</span>Pa<span class="o">]</span>,
+<span class="m">3</span>.7719286741630594e+02<span class="w"> </span>+<span class="w"> </span><span class="o">(</span>Absolute<span class="w"> </span>Pressure<span class="w"> </span>/<span class="w"> </span><span class="m">4</span>.3172602232385412e+07<span class="w"> </span><span class="o">[</span>Pa<span class="o">])</span><span class="w"> </span>*
+<span class="o">(</span><span class="m">1</span>.9069634173268196e+03<span class="w"> </span>+<span class="w"> </span><span class="o">(</span>Absolute<span class="w"> </span>Pressure<span class="w"> </span>/<span class="w"> </span><span class="m">4</span>.3172602232385412e+07<span class="w"> </span><span class="o">[</span>Pa<span class="o">])</span><span class="w"> </span>*
+<span class="o">(</span>-5.0217902319823761e+03<span class="w"> </span>+<span class="w"> </span><span class="o">(</span>Absolute<span class="w"> </span>Pressure<span class="w"> </span>/<span class="w"> </span><span class="m">4</span>.3172602232385412e+07<span class="w"> </span><span class="o">[</span>Pa<span class="o">])</span><span class="w"> </span>*
+<span class="o">(</span><span class="m">7</span>.5391828666755409e+03<span class="w"> </span>+<span class="w"> </span><span class="o">(</span>Absolute<span class="w"> </span>Pressure<span class="w"> </span>/<span class="w"> </span><span class="m">4</span>.3172602232385412e+07<span class="w"> </span><span class="o">[</span>Pa<span class="o">])</span><span class="w"> </span>*
+<span class="o">(</span>-5.7311817562421811e+03<span class="w"> </span>+<span class="w"> </span><span class="o">(</span>Absolute<span class="w"> </span>Pressure<span class="w"> </span>/<span class="w"> </span><span class="m">4</span>.3172602232385412e+07<span class="w"> </span><span class="o">[</span>Pa<span class="o">])</span><span class="w"> </span>*
+<span class="o">(</span><span class="m">1</span>.7199302414764936e+03<span class="o">)))))</span>,
+<span class="m">6</span>.0129371881930194e+02<span class="w"> </span>*<span class="w"> </span>exp<span class="o">((</span>Absolute<span class="w"> </span>Pressure<span class="w"> </span>/<span class="w"> </span><span class="m">4</span>.3172602232385412e+07<span class="w"> </span><span class="o">[</span>Pa<span class="o">]</span><span class="w"> </span>-<span class="w"> </span><span class="m">0</span>.1876189893859094<span class="o">)</span><span class="w"> </span>/<span class="w"> </span><span class="o">(</span><span class="m">8</span>.8685400882947685e-01<span class="o">)))))</span><span class="w"> </span>*<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">[</span>kg/m^3<span class="o">]</span>
+
+barotropic_viscosity
+<span class="o">(</span><span class="k">if</span><span class="o">(</span>Absolute<span class="w"> </span>Pressure<span class="w"> </span>&gt;<span class="o">=</span><span class="w"> </span><span class="m">4</span>.3172602232385412e+07<span class="w"> </span><span class="o">[</span>Pa<span class="o">]</span>,
+<span class="m">7</span>.2125104547306039e-05<span class="w"> </span>+<span class="w"> </span><span class="m">2</span>.5165884862101540e-05<span class="w"> </span>*<span class="w"> </span><span class="o">(</span>Absolute<span class="w"> </span>Pressure<span class="w"> </span>/<span class="w"> </span><span class="m">4</span>.3172602232385412e+07<span class="w"> </span><span class="o">[</span>Pa<span class="o">]</span><span class="w"> </span>-<span class="w"> </span><span class="m">1</span>.0000000000000000e+00<span class="o">)</span>,
+<span class="k">if</span><span class="o">(</span>Absolute<span class="w"> </span>Pressure<span class="w"> </span>&gt;<span class="o">=</span><span class="w"> </span><span class="m">8</span>.1000000000000075e+06<span class="w"> </span><span class="o">[</span>Pa<span class="o">]</span>,
+<span class="m">2</span>.0001983602077405e-05<span class="w"> </span>+<span class="w"> </span><span class="o">(</span>Absolute<span class="w"> </span>Pressure<span class="w"> </span>/<span class="w"> </span><span class="m">4</span>.3172602232385412e+07<span class="w"> </span><span class="o">[</span>Pa<span class="o">])</span><span class="w"> </span>*
+<span class="o">(</span><span class="m">1</span>.9944217404247922e-04<span class="w"> </span>+<span class="w"> </span><span class="o">(</span>Absolute<span class="w"> </span>Pressure<span class="w"> </span>/<span class="w"> </span><span class="m">4</span>.3172602232385412e+07<span class="w"> </span><span class="o">[</span>Pa<span class="o">])</span><span class="w"> </span>*
+<span class="o">(</span>-4.8758152175582535e-04<span class="w"> </span>+<span class="w"> </span><span class="o">(</span>Absolute<span class="w"> </span>Pressure<span class="w"> </span>/<span class="w"> </span><span class="m">4</span>.3172602232385412e+07<span class="w"> </span><span class="o">[</span>Pa<span class="o">])</span><span class="w"> </span>*
+<span class="o">(</span><span class="m">7</span>.2428379252763341e-04<span class="w"> </span>+<span class="w"> </span><span class="o">(</span>Absolute<span class="w"> </span>Pressure<span class="w"> </span>/<span class="w"> </span><span class="m">4</span>.3172602232385412e+07<span class="w"> </span><span class="o">[</span>Pa<span class="o">])</span><span class="w"> </span>*
+<span class="o">(</span>-5.4814199609366592e-04<span class="w"> </span>+<span class="w"> </span><span class="o">(</span>Absolute<span class="w"> </span>Pressure<span class="w"> </span>/<span class="w"> </span><span class="m">4</span>.3172602232385412e+07<span class="w"> </span><span class="o">[</span>Pa<span class="o">])</span><span class="w"> </span>*
+<span class="o">(</span><span class="m">1</span>.6412067222460730e-04<span class="o">)))))</span>,
+<span class="m">4</span>.4400199113488022e-05<span class="w"> </span>*<span class="w"> </span>exp<span class="o">((</span>Absolute<span class="w"> </span>Pressure<span class="w"> </span>/<span class="w"> </span><span class="m">4</span>.3172602232385412e+07<span class="w"> </span><span class="o">[</span>Pa<span class="o">]</span><span class="w"> </span>-<span class="w"> </span><span class="m">0</span>.1876189893859094<span class="o">)</span><span class="w"> </span>/<span class="w"> </span><span class="o">(</span><span class="m">5</span>.5845319585495468e-01<span class="o">)))))</span><span class="w"> </span>*<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">[</span>Pa*s<span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-3-define-custom-named-expressions">
+<h3>Step 3.3: Define custom named expressions<a class="headerlink" href="#step-3-3-define-custom-named-expressions" title="Link to this heading">#</a></h3>
+<p>Navigate to <strong>“Expressions, Functions and Variables”</strong> in the <em>Outline</em>, then open the <strong>Expressions Editor</strong>.</p>
+<p>Create two expressions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">barotropicDensity</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">barotropicViscosity</span></code></p></li>
+</ul>
+<p>Copy and paste the corresponding content from <code class="docutils literal notranslate"><span class="pre">barotropic_model/cfx_expressions.txt</span></code> into each expression field.</p>
+<p>You can plot the expressions directly in CFX to verify correctness.
+Note that <strong>CFX-Pre uses single-precision arithmetic</strong>, so high-degree or ill-conditioned polynomials may not display correctly. Using <strong>polynomial degrees between 4 and 6</strong> typically gives good results.</p>
+<p><img alt="CFX-Pre-expressions" src="../../_images/ansys_CFX_pre_expressions.svg" /></p>
+</section>
+<section id="step-3-4-create-a-barotropic-fluid-and-assign-expressions">
+<h3>Step 3.4: Create a barotropic fluid and assign expressions<a class="headerlink" href="#step-3-4-create-a-barotropic-fluid-and-assign-expressions" title="Link to this heading">#</a></h3>
+<p>Define a <strong>new fluid</strong> in CFX:</p>
+<ul class="simple">
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">Density</span></code> and <code class="docutils literal notranslate"><span class="pre">Dynamic</span> <span class="pre">Viscosity</span></code> as <strong>Expressions</strong>, using the previously defined functions (e.g., <code class="docutils literal notranslate"><span class="pre">barotropicDensity</span></code>, <code class="docutils literal notranslate"><span class="pre">barotropicViscosity</span></code>)</p></li>
+<li><p>Specify a <strong>dummy value for heat capacity</strong> (this is required by CFX even if not used)</p></li>
+<li><p>Set <strong>minimum and maximum limits</strong> for <strong>Absolute Pressure</strong>. It’s  not clear how CFX handles these limits internally</p></li>
+</ul>
+<p><img alt="CFX-Pre-fluid" src="../../_images/ansys_CFX_pre_barotropic_fluid.svg" /></p>
+</section>
+<section id="step-3-5-assign-the-barotropic-fluid-to-the-flow-domain">
+<h3>Step 3.5: Assign the barotropic fluid to the flow domain<a class="headerlink" href="#step-3-5-assign-the-barotropic-fluid-to-the-flow-domain" title="Link to this heading">#</a></h3>
+<p>Go to the <code class="docutils literal notranslate"><span class="pre">Simulation</span></code> menu and open the settings for the flow domain <code class="docutils literal notranslate"><span class="pre">R1</span></code> (which stands for Rotor 1).</p>
+<ul class="simple">
+<li><p>In the <strong>Basic Settings</strong> tab, select <code class="docutils literal notranslate"><span class="pre">barotropicFluid</span></code> as the <strong>material</strong> and set the <strong>angular velocity</strong> of the domain.</p></li>
+<li><p>In the <strong>Fluid Models</strong> tab, set <strong>Heat Transfer</strong> to <em>Isothermal</em> (this disables the energy equation) and choose your desired <strong>turbulence model</strong>.</p></li>
+</ul>
+<p><img alt="CFX domain material and rotation" src="../../_images/CFX_pre_2.png" />
+<img alt="CFX fluid model settings" src="../../_images/CFX_pre_3.png" /></p>
+</section>
+<section id="step-3-6-define-boundary-conditions">
+<h3>Step 3.6: Define boundary conditions<a class="headerlink" href="#step-3-6-define-boundary-conditions" title="Link to this heading">#</a></h3>
+<p>Open the <strong>“R1 Inlet”</strong> boundary and set the <strong>total pressure</strong>.</p>
+<p><img alt="CFX inlet pressure" src="../../_images/CFX_pre_4_p_in.png" /></p>
+<p>Then open the <strong>“R1 Outlet”</strong> boundary and define the <strong>mass flow rate</strong>.
+A value of <strong>6.0 kg/s</strong> is selected to operate slightly below the choking condition for the given rotational speed, ensuring operation within the surge and choke margins.</p>
+<p><img alt="CFX outlet mass flow" src="../../_images/CFX_pre_4_m_out.png" /></p>
+</section>
+<section id="step-3-7-set-solver-parameters">
+<h3>Step 3.7: Set solver parameters<a class="headerlink" href="#step-3-7-set-solver-parameters" title="Link to this heading">#</a></h3>
+<p>Go to the <code class="docutils literal notranslate"><span class="pre">Solver</span> <span class="pre">Control</span></code> section and open the <strong>Basic Settings</strong> tab.</p>
+<p>Here, you can:</p>
+<ul class="simple">
+<li><p>Select the discretization schemes for the flow and turbulence equations</p></li>
+<li><p>Set the <strong>Timescale Factor</strong> to control the convergence speed toward a steady-state solution</p></li>
+<li><p>Define the <strong>Residual Targ</strong> for the simulation</p></li>
+</ul>
+<p>The timescale should be chosen to ensure stable and efficient convergence.</p>
+<p><img alt="Solver settings in CFX" src="../../_images/CFX_pre_5_timescale.png" /></p>
+</section>
+<section id="step-3-8-run-the-simulation">
+<h3>Step 3.8: Run the simulation<a class="headerlink" href="#step-3-8-run-the-simulation" title="Link to this heading">#</a></h3>
+<p>Save and close <strong>CFX Pre</strong>, then open the <strong>CFX Solver Manager</strong>.</p>
+<p>Select the number of CPU cores and start the simulation.</p>
+<p><img alt="alt text" src="../../_images/cfx_convergence.png" /></p>
+<p>After convergence, open the results in <strong>CFD Post</strong> for visualization.</p>
+<p>Note: The <strong>turbomachinery report</strong> in CFD Post may show errors. This is expected—since the barotropic model does not compute entropy or enthalpy, some predefined macros will fail. It does not affect the validity of the simulation.</p>
+<p><img alt="alt text" src="../../_images/CFX_post_pressure_distribution.png" /></p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="flashing_nozzle_fluent.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Flashing nozzle Fluent</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../barotropic_model.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Barotropic model</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">1. Installation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#option-1-using-conda">Option 1: Using Conda</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#option-2-using-python-venv">Option 2: Using Python <code class="docutils literal notranslate"><span class="pre">venv</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-the-barotropic-model">2. Generate the barotropic model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-1-define-the-fluid-and-thermodynamic-conditions">Step 2.1: Define the fluid and thermodynamic conditions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-2-set-up-the-barotropic-model">Step 2.2: Set up the barotropic model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-3-solve-export-and-visualize">Step 2.3: Solve, export, and visualize</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-the-barotropic-model-in-ansys-cfx">3. Use the barotropic model in ANSYS CFX</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3. Use the barotropic model in ANSYS CFX</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-2-check-cfx-expressions">Step 3.2: Check CFX expressions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-3-define-custom-named-expressions">Step 3.3: Define custom named expressions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-4-create-a-barotropic-fluid-and-assign-expressions">Step 3.4: Create a barotropic fluid and assign expressions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-5-assign-the-barotropic-fluid-to-the-flow-domain">Step 3.5: Assign the barotropic fluid to the flow domain</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-6-define-boundary-conditions">Step 3.6: Define boundary conditions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-7-set-solver-parameters">Step 3.7: Set solver parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-8-run-the-simulation">Step 3.8: Run the simulation</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor, Simone Parisi, Amit Kumar, Fredrik Haglind
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Sustainable Thermal Power DTU.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
