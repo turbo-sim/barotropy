@@ -2,10 +2,10 @@
 
 Enhance your two-phase turbomachinery CFD simulations with **`barotropy`**, a Python package designed to create barotropic fluid property models. The barotropic approximation assumes that fluid properties (e.g., density, viscosity, speed of sound) depend solely on pressure, which is a very accurate assumption for most turbomachinery flows. This simplification reduces computational costs while improving convergence reliability in simulations involving complex fluid property variations, such as supercritical CO₂ compressors or two-phase flows in nozzles and turbines.
 
-
-📚 **Documentation**: [https://turbo-sim.github.io/barotropy/](https://turbo-sim.github.io/barotropy/) *(under construction)*  
 📦 **PyPI package**: [https://pypi.org/project/barotropy/](https://pypi.org/project/barotropy/)
-
+📚 **Documentation**: [https://turbo-sim.github.io/barotropy/](https://turbo-sim.github.io/barotropy/) *(under construction)*  
+🎓 **Tutorials**: [https://turbo-sim.github.io/barotropy/source/tutorials.html](https://turbo-sim.github.io/barotropy/source/tutorials.html)  
+*Step-by-step examples for using the barotropic model in CFD solvers like Ansys Fluent and CFX.*
 
 
 ## Key Features
