@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.abspath(".."))
 project = "barotropy"
 copyright = "2024, Sustainable Thermal Power DTU"
 author = "Roberto Agromayor, Simone Parisi, Amit Kumar, Fredrik Haglind"
-release = "v0.2.2"
+release = "v0.2.3"
 
 # Define extensions
 extensions = [
