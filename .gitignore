@@ -67,8 +67,15 @@ settings.json    # VS Code settings file
 **/output/
 **/results/
 **/barotropic_model/
-*.cas.h5
-*.dat.h5
+
 
 # Fluent cleanup scripts
 .bat
+
+
+# Ansys files
+**/centrifugal_impeller.wbpj
+**/centrifugal_impeller_files/
+**/.centrifugal_impeller_files.backup/
+*.cas.h5
+*.dat.h5

@@ -152,7 +152,7 @@ In Fluent, define the boundary conditions for a high-expansion simulation:
 
 
 
-### Step 3.2: Load Fluent expressions
+### Step 3.2: Check Fluent expressions
 
 Open the file `barotropic_model/fluent_expressions.txt`. It contains Fluent-compatible expressions for:
 
