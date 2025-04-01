@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Centrifugal impeller tutorial &#8212; barotropy v0.2.4 documentation</title>
+    <title>Centrifugal impeller CFX tutorial &#8212; barotropy v0.2.4 documentation</title>
   
   
   
@@ -161,8 +161,8 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="flashing_nozzle_fluent.html">Flashing nozzle Fluent</a></li>
-<li class="toctree-l2"><a class="reference internal" href="centrifugal_impeller_cfx.html">Centrifugal impeller tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashing_nozzle_fluent.html">Flashing nozzle Fluent tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="centrifugal_impeller_cfx.html">Centrifugal impeller CFX tutorial</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../barotropic_model.html">Barotropic model</a></li>
@@ -321,7 +321,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Centrifugal impeller tutorial</h1>
+    <h1>Centrifugal impeller CFX tutorial</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -342,8 +342,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-3-solve-export-and-visualize">Step 2.3: Solve, export, and visualize</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-the-barotropic-model-in-ansys-cfx">3. Use the barotropic model in ANSYS CFX</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3. Use the barotropic model in ANSYS CFX</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-the-barotropic-model-in-cfx">3. Use the barotropic model in CFX</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-2-check-cfx-expressions">Step 3.2: Check CFX expressions</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-3-define-custom-named-expressions">Step 3.3: Define custom named expressions</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-4-create-a-barotropic-fluid-and-assign-expressions">Step 3.4: Create a barotropic fluid and assign expressions</a></li>
@@ -364,8 +363,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="centrifugal-impeller-tutorial">
-<h1>Centrifugal impeller tutorial<a class="headerlink" href="#centrifugal-impeller-tutorial" title="Link to this heading">#</a></h1>
+  <section id="centrifugal-impeller-cfx-tutorial">
+<h1>Centrifugal impeller CFX tutorial<a class="headerlink" href="#centrifugal-impeller-cfx-tutorial" title="Link to this heading">#</a></h1>
 <p>This tutorial shows how to use the <strong>barotropy</strong> Python package to generate barotropic property models and use them in <strong>ANSYS CFX</strong>.</p>
 <p>You can download the CFX files used in this tutorial from this <a class="reference external" href="https://github.com/turbo-sim/barotropy/releases/tag/cfx_tutorial">GitHub release</a>.</p>
 <section id="installation">
@@ -477,13 +476,8 @@ pip<span class="w"> </span>install<span class="w"> </span>barotropy
 <img alt="" src="../../_images/barotropic_model_error_density.png" />
 </section>
 </section>
-<section id="use-the-barotropic-model-in-ansys-cfx">
-<h2>3. Use the barotropic model in ANSYS CFX<a class="headerlink" href="#use-the-barotropic-model-in-ansys-cfx" title="Link to this heading">#</a></h2>
-<p>Here’s a refined version of the section with your requested introduction:</p>
-</section>
-<hr class="docutils" />
-<section id="id1">
-<h2>3. Use the barotropic model in ANSYS CFX<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<section id="use-the-barotropic-model-in-cfx">
+<h2>3. Use the barotropic model in CFX<a class="headerlink" href="#use-the-barotropic-model-in-cfx" title="Link to this heading">#</a></h2>
 <p>This case is based on a <strong>centrifugal compressor impeller</strong>. The geometry provided should work out of the box, but you can modify it if needed.</p>
 <p>To adjust the geometry or mesh:</p>
 <ol class="arabic">
@@ -642,8 +636,7 @@ A value of <strong>6.0 kg/s</strong> is selected to operate slightly below the c
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-3-solve-export-and-visualize">Step 2.3: Solve, export, and visualize</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-the-barotropic-model-in-ansys-cfx">3. Use the barotropic model in ANSYS CFX</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3. Use the barotropic model in ANSYS CFX</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-the-barotropic-model-in-cfx">3. Use the barotropic model in CFX</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-2-check-cfx-expressions">Step 3.2: Check CFX expressions</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-3-define-custom-named-expressions">Step 3.3: Define custom named expressions</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-4-create-a-barotropic-fluid-and-assign-expressions">Step 3.4: Create a barotropic fluid and assign expressions</a></li>

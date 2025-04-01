@@ -1,10 +1,10 @@
 
-# Flashing nozzle Fluent
+# Flashing nozzle Fluent tutorial
 
 
 This tutorial shows how to use the **barotropy** Python package to generate barotropic property models and use them in **ANSYS Fluent**.
 
-You can download the Fluent case and data files used in this tutorial from this [GitHub release](https://github.com/turbo-sim/barotropy/releases/tag/fluent_tutorial).
+You can download the Fluent files used in this tutorial from this [GitHub release](https://github.com/turbo-sim/barotropy/releases/tag/fluent_tutorial).
 
 ## 1. Installation
 
