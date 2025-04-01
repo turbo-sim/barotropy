@@ -24,7 +24,18 @@ extensions = [
     # 'sphinx_tabs.tabs',
     "sphinx_togglebutton",
     "sphinx_design",
+    "myst_parser",
 ]
+
+
+myst_enable_extensions = [
+    "colon_fence",
+    "html_image",
+    "html_admonition",
+]
+
+myst_html_img_enable = True
+
 
 # Avoid warnings when generating the summary table of class methods
 autosummary_generate = True
@@ -42,8 +53,15 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 exclude_patterns.extend(["source/api/barotropy.isentropic_nozzle.rst", "source/api/barotropy.sCO2_utilities.rst"])
 exclude_patterns.extend(["source/api/modules.rst"])
 exclude_patterns.extend(["source/api/barotropy.fluid_properties.fluid_properties.rst", "source/api/barotropy.fluid_properties.core_calculations.rst"])
+exclude_patterns.extend(["dev_notes"])
 
-
+autodoc_mock_imports = [
+    "mcerp",
+    "mcerp.stats",
+    "mcerp.umath",
+    "uncertainties",
+    "uncertainty_utilities",
+]
 # html_theme_options = {
 #     "show_toc_level": 2,  # Level of indentation on side panel TOC
 # }
@@ -53,4 +71,5 @@ html_theme = "sphinx_book_theme"
 # html_theme = 'pydata_sphinx_theme'
 # html_theme = 'sphinx_rtd_theme'
 
+html_static_path = ['_static']
 

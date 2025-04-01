@@ -14,4 +14,5 @@ Additionally, an overview of the various configuration file options is included 
 
    tutorials/one_component_systems
    tutorials/two_component_systems
+   tutorials/flashing_nozzle_fluent
 
