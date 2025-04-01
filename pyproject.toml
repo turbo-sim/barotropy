@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "barotropy"
-version = "0.2.2"
+version = "0.2.1"
 description = "A Python tool for barotropic fluid property modeling."
 authors = ["Roberto Agromayor",  "Amit Kumar", "Simone Parisi"]
 license = "MIT"
@@ -21,7 +21,7 @@ toml = "^0.10.2"
 cycler = "^0.12.1"
 parse = "^1.20.2"
 pexpect = "^4.9.0"
-pysolver_view = "^0.4.6"
+pysolver_view = "^0.4.7"
 # pysolver_view = { path = "../pysolver_view/", develop = true }
 
 [tool.poetry.group.dev.dependencies]
@@ -40,6 +40,7 @@ sphinx-design = "^0.6.0"
 sphinx-togglebutton = "^0.3.2"
 bump2version = "^1.0.1"
 ansys-fluent-core = "^0.30.2"
+myst-parser = "^4.0.1"
 
 [build-system]
 requires = ["poetry-core"]

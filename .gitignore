@@ -45,6 +45,7 @@ _results*/
 
 # Virtual environment
 venv/
+env/
 
 
 
@@ -65,11 +66,9 @@ settings.json    # VS Code settings file
 # Results folders
 **/output/
 **/results/
-
+**/barotropic_model/
+*.cas.h5
+*.dat.h5
 
 # Fluent cleanup scripts
 .bat
-
-
-projects/nakagawa_2009/cases
-projects/elliot_1968/Davood_simulations
