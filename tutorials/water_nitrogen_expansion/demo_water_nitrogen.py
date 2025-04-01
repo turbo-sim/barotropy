@@ -45,6 +45,8 @@ for i, (idx, row) in enumerate(case_table.iterrows()):
         output_dir=dir_out,
     )
 
+    print(row["mixture_ratio"])
+
     # Evaluate barotropic model and export polynomial expressions
     model.solve()
     model.fit_polynomials()

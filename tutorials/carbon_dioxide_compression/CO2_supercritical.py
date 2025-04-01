@@ -25,7 +25,7 @@ fluid = bpy.Fluid(name=fluid_name, backend="HEOS")
 
 # Define inlet state and outlet pressure
 T_in = 310.0
-p_in = 85e5
+p_in = 90e5
 p_out = 5*p_in
 
 # Additional parameters for the barotropic calculations
@@ -37,8 +37,10 @@ model = bpy.BarotropicModel(
     fluid_name=fluid_name,
     T_in=T_in,
     p_in=p_in,
-    p_out=p_out,
+    p_max=5.0*p_in,
+    p_min=0.9*p_in,
     efficiency=polytropic_efficiency,
+    process_type="compression",
     calculation_type=calculation_type,
     HEOS_solver="hybr",
     ODE_solver="LSODA",

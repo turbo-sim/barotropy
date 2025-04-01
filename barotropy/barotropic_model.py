@@ -38,9 +38,17 @@ class BarotropicModel:
     p_in : float
         Inlet pressure of the fluid in Pascals.
 
-    p_out : float
-        Outlet pressure of the fluid in Pascals.
+    rho_in : float
+        Inlet density of the fluid in kilogram per cubic meter.
 
+        .. note::
+            Applicable only to the one-component model.
+
+    p_min: float
+        Minimum pressure for the barotropic process integration in Pascals.
+
+    p_max : float
+        Maximum pressure for the barotropic process integration in Pascals.
 
     efficiency : float
         The efficiency of the polytropic process, dimensionless.
@@ -50,6 +58,9 @@ class BarotropicModel:
 
         .. note::
             Applicable only to the two-component model.
+
+    process_type : str, optional
+        The type of polytropic process that the fluid experiences. Must be 'expansion' or 'compression'.
 
     calculation_type : str, optional
         The type of fluid property calculation for the one-component model. Options include:
@@ -160,11 +171,15 @@ class BarotropicModel:
     def __init__(
         self,
         fluid_name,
-        T_in: float,
         p_in: float,
-        p_out: float,
+        T_in: float = None,
+        rho_in: float = None,
+        p_out: float = None,
+        p_min: float = None,
+        p_max: float = None,
         efficiency: float = 1.00,
         mixture_ratio: float = None,
+        process_type: str = None,
         calculation_type: str = None,
         blending_onset: float = None,
         blending_width: float = None,
@@ -187,7 +202,7 @@ class BarotropicModel:
     ):
 
         # Validate inputs and find the correct model type
-        self.model_type = self._validate_inputs(
+        self.model_type = self._resolve_model_type(
             fluid_name,
             mixture_ratio,
             calculation_type,
@@ -195,11 +210,27 @@ class BarotropicModel:
             blending_width,
         )
 
-        # Rename mandatory arguments
+        # Define inlet state
         self.fluid_name = fluid_name
-        self.T_in = T_in
-        self.p_in = p_in
-        self.p_out = p_out
+
+        if self.model_type == "one-component":
+            state_in = self._resolve_inlet_state(fluid_name, p_in, T_in, rho_in)
+            self.p_in = state_in.p
+            self.T_in = state_in.T
+            self.rho_in = state_in.rho
+        else:
+            self.p_in = p_in
+            self.T_in = T_in
+            self.rho_in = None  # not used for two-component models
+
+        # Define pressure range
+        self.p_min, self.p_max, self.process_type = self._resolve_pressure_range(
+            p_in=self.p_in,
+            p_out=p_out,
+            p_min=p_min,
+            p_max=p_max,
+            process_type=process_type,
+        )
 
         # Assign optional arguments with defaults
         self.mixture_ratio = mixture_ratio
@@ -223,7 +254,8 @@ class BarotropicModel:
         self.ode_solution = None
         self.poly_fitter = None
 
-    def _validate_inputs(
+
+    def _resolve_model_type(
         self,
         fluid_name,
         mixture_ratio,
@@ -277,6 +309,91 @@ class BarotropicModel:
                 f"  2. A list of two strings for the two-component barotropic model."
             )
 
+
+    def _resolve_inlet_state(self, fluid_name, p_in=None, T_in=None, rho_in=None):
+        """
+        Resolves the inlet thermodynamic state from any valid combination of (p_in, T_in, rho_in).
+
+        Returns:
+            state_in
+        Raises:
+            ValueError if input combination is invalid
+        """
+
+        fluid = props.Fluid(name=fluid_name, backend="HEOS")
+        num_given = sum(x is not None for x in [p_in, T_in, rho_in])
+        if num_given < 2:
+            raise ValueError("At least two of (p_in, T_in, rho_in) must be provided.")
+        if num_given > 2:
+            raise ValueError("Only two of (p_in, T_in, rho_in) should be provided. The third will be calculated.")
+
+        # Determine which input pair was provided and compute the missing property
+        if p_in is not None and T_in is not None:
+            state = fluid.get_state(props.PT_INPUTS, p_in, T_in)
+
+        elif p_in is not None and rho_in is not None:
+            state = fluid.get_state(props.DmassP_INPUTS, rho_in, p_in)
+
+        elif T_in is not None and rho_in is not None:
+            state = fluid.get_state(props.DmassT_INPUTS, rho_in, T_in)
+
+        else:
+            raise ValueError("Unexpected error during state resolution.")
+
+        return state
+
+
+    def _resolve_pressure_range(self, p_in, p_out, p_min, p_max, process_type):
+        """
+        Resolve p_min, p_max, and process_type from user input.
+
+        Args:
+            p_in (float): Inlet pressure [Pa]
+            p_out (float or None): Outlet pressure [Pa]
+            p_min (float or None): Minimum pressure [Pa]
+            p_max (float or None): Maximum pressure [Pa]
+            process_type (str or None): "expansion" or "compression"
+
+        Returns:
+            Tuple (p_min, p_max, process_type)
+
+        Raises:
+            ValueError: If input combinations are invalid
+        """
+
+        # Case 1: process_type is explicitly given → p_min and p_max are mandatory
+        if process_type is not None:
+            if process_type not in ("expansion", "compression"):
+                raise ValueError(
+                    f"Invalid process_type='{process_type}'. Must be 'expansion' or 'compression'."
+                )
+            if p_min is None or p_max is None:
+                raise ValueError(
+                    f"When process_type is specified, both p_min and p_max must be provided. "
+                    f"Got p_min={p_min}, p_max={p_max}."
+                )
+            if p_in < p_min or p_in > p_max:
+                raise ValueError(
+                    f"Inlet pressure p_in={p_in:.2e} must lie within p_min={p_min:.2e} and p_max={p_max:.2e}."
+                )
+            return p_min, p_max, process_type
+
+        # Case 2: Infer everything from p_in and p_out
+        if p_out is None:
+            raise ValueError("If process_type is not specified, both p_in and p_out must be provided.")
+
+        if p_min is not None or p_max is not None:
+            raise ValueError(
+                "When using p_in and p_out to infer the process type, both p_min and p_max must be None."
+            )
+
+        process_type = "expansion" if p_out < p_in else "compression"
+        p_min = min(p_in, p_out)
+        p_max = max(p_in, p_out)
+
+        return p_min, p_max, process_type
+
+
     def solve(self):
         """
         Solves the equations for the one-component or two-component barotropic model and stores the fluid properties.
@@ -291,12 +408,15 @@ class BarotropicModel:
         """
         # Manually pass all parameters to the ODE solver function
         if self.model_type == "one-component":
-            self.states, self.ode_solution = barotropic_model_one_component(
+
+            # Integrate upward from p_in to p_max:
+            states_up, ode_solution_up = barotropic_model_one_component(
                 fluid_name=self.fluid_name,
-                T_in=self.T_in,
                 p_in=self.p_in,
-                p_out=self.p_out,
+                rho_in=self.rho_in,
+                p_out=self.p_max,
                 efficiency=self.efficiency,
+                process_type=self.process_type,
                 calculation_type=self.calculation_type,
                 blending_onset=self.blending_onset,
                 blending_width=self.blending_width,
@@ -307,18 +427,69 @@ class BarotropicModel:
                 HEOS_max_iter=self.HEOS_max_iter,
                 HEOS_print_convergence=self.HEOS_print_convergence,
             )
+
+            # Integrate downward from p_in to p_min:
+            states_down, ode_solution_down = barotropic_model_one_component(
+                fluid_name=self.fluid_name,
+                p_in=self.p_in,
+                rho_in=self.rho_in,
+                p_out=self.p_min,
+                efficiency=self.efficiency,
+                process_type=self.process_type,
+                calculation_type=self.calculation_type,
+                blending_onset=self.blending_onset,
+                blending_width=self.blending_width,
+                ODE_solver=self.ODE_solver,
+                ODE_tolerance=self.ODE_tolerance,
+                HEOS_solver=self.HEOS_solver,
+                HEOS_tolerance=self.HEOS_tolerance,
+                HEOS_max_iter=self.HEOS_max_iter,
+                HEOS_print_convergence=self.HEOS_print_convergence,
+            )
+
+            # Store solution
+            self.state_in = {key: value[0] for key, value in states_up.items()}
+            self.states = {
+                key: np.concatenate((np.flipud(states_up[key][:-1]), states_down[key]))
+                for key in states_up
+            }
+            self.ode_solution = (ode_solution_up, ode_solution_down)
+
+
         elif self.model_type == "two-component":
-            self.states, self.ode_solution = barotropic_model_two_component(
+            states_up, ode_solution_up = barotropic_model_two_component(
                 fluid_name_1=self.fluid_name[0],
                 fluid_name_2=self.fluid_name[1],
                 mixture_ratio=self.mixture_ratio,
                 T_in=self.T_in,
                 p_in=self.p_in,
-                p_out=self.p_out,
+                p_out=self.p_max,
                 efficiency=self.efficiency,
+                process_type=self.process_type,
                 ODE_solver=self.ODE_solver,
                 ODE_tolerance=self.ODE_tolerance,
             )
+
+            states_down, ode_solution_down = barotropic_model_two_component(
+                fluid_name_1=self.fluid_name[0],
+                fluid_name_2=self.fluid_name[1],
+                mixture_ratio=self.mixture_ratio,
+                T_in=self.T_in,
+                p_in=self.p_in,
+                p_out=self.p_min,
+                efficiency=self.efficiency,
+                process_type=self.process_type,
+                ODE_solver=self.ODE_solver,
+                ODE_tolerance=self.ODE_tolerance,
+            )
+
+            # Store solution
+            self.state_in = {key: value[0] for key, value in states_up.items()}
+            self.states = {
+                key: np.concatenate((np.flipud(states_up[key][:-1]), states_down[key]))
+                for key in states_up
+            }
+            self.ode_solution = (ode_solution_up, ode_solution_down)
 
         else:
             msg = f"Invalid value for model_type={self.model_type}. Something went wrong during input validation."
@@ -342,6 +513,7 @@ class BarotropicModel:
         # Fit the polynomials
         self.poly_fitter = PolynomialFitter(
             states=self.states,
+            state_in=self.state_in,
             variables=self.polynomial_variables,
             degree=self.polynomial_degree,
             model_type=self.model_type,
@@ -401,10 +573,11 @@ class BarotropicModel:
 
 def barotropic_model_one_component(
     fluid_name,
-    T_in,
     p_in,
+    rho_in,
     p_out,
     efficiency,
+    process_type=None,
     calculation_type=None,
     blending_onset=None,
     blending_width=None,
@@ -443,11 +616,11 @@ def barotropic_model_one_component(
     fluid_name : str
         The name of the fluid to be used in the simulation (e.g., 'Water').
 
-    T_in : float
-        Inlet temperature of the fluid in Kelvin.
-
     p_in : float
-        Inlet pressure of the fluid in Pascals.
+        Inlet pressure of the fluid in Pascal.
+
+    rho_in : float
+        Inlet density of the fluid in kilogram per cubic meter.
 
     p_out : float
         Outlet pressure of the fluid in Pascals.
@@ -547,22 +720,29 @@ def barotropic_model_one_component(
             "Recommended solvers: 'BDF', 'LSODA' or 'Radau' stiff problems involving equilibrium property calculations or blending calculations with a narrow blending width. 'RK45' can be used for non-stiff problems with a wide blending width."
         )
         raise ValueError(error_message)
+    
+    # Pre-process efficiency value
+    if not (0.0 <= efficiency <= 1.0):
+        raise ValueError(f"Efficiency must be between 0 and 1. Provided: {efficiency:.3f}")
+
+    if process_type == "compression":
+        if efficiency == 0.0:
+            raise ValueError("Efficiency cannot be zero for compression (division by zero).")
+        efficiency = 1 / efficiency
+    elif process_type != "expansion":
+        raise ValueError(f"Invalid process_type='{process_type}'. Must be 'expansion' or 'compression'.")
+
 
     # Initialize fluid and compute inlet state
     fluid = props.Fluid(name=fluid_name, backend="HEOS", exceptions=True)
     state_in = fluid.get_state(
-        props.PT_INPUTS, p_in, T_in, supersaturation=True, generalize_quality=True
+        props.DmassP_INPUTS, rho_in, p_in, supersaturation=True, generalize_quality=True
     )
 
     # Determine the type of phase change process
     phase_change_type = (
         "flashing" if state_in.s < fluid.critical_point.s else "condensation"
     )
-
-    # Determine if the process is an expansion or a compression
-    # Invert the efficiency for the case of a compression process
-    if p_out > p_in:
-        efficiency = 1 / efficiency
 
     # Initial guess for the metastable state (is updated at each iteration)
     rhoT_guess_metastable = [state_in.rho, state_in.T]
@@ -744,6 +924,7 @@ def barotropic_model_two_component(
     p_in,
     p_out,
     efficiency,
+    process_type=None,
     ODE_solver="lsoda",
     ODE_tolerance=1e-8,
 ):
@@ -812,6 +993,17 @@ def barotropic_model_two_component(
             f"Valid solver are: {', '.join(valid_solvers_ode)}."
         )
         raise ValueError(error_message)
+
+    # Pre-process efficiency value
+    if not (0.0 <= efficiency <= 1.0):
+        raise ValueError(f"Efficiency must be between 0 and 1. Provided: {efficiency:.3f}")
+
+    if process_type == "compression":
+        if efficiency == 0.0:
+            raise ValueError("Efficiency cannot be zero for compression (division by zero).")
+        efficiency = 1 / efficiency
+    elif process_type != "expansion":
+        raise ValueError(f"Invalid process_type='{process_type}'. Must be 'expansion' or 'compression'.")
 
     # Calculate mass fractions of each component (constant values)
     y_1 = mixture_ratio / (1 + mixture_ratio)
@@ -888,6 +1080,7 @@ def _ensure_data_available(method):
 
 class PolynomialFitter:
     """
+    # TODO update docstring
     Fits polynomials to the thermodynamic properties of a fluid across various states.
 
     polynomial_degree : int
@@ -911,6 +1104,7 @@ class PolynomialFitter:
     def __init__(
         self,
         states,
+        state_in,
         variables,
         degree,
         calculation_type,
@@ -920,6 +1114,7 @@ class PolynomialFitter:
 
         # Rename arguments
         self.states = states
+        self.state_in = state_in
         self.variables = variables
         self.poly_degree = degree
         self.model_type = model_type
@@ -1339,7 +1534,7 @@ class PolynomialFitter:
         )
 
         # Plot polynomial and data segments for each breakpoint
-        extrap_lower = [0.8 * self.poly_breakpoints[-1]]
+        extrap_lower = [0.0 * self.poly_breakpoints[-1]]
         extrap_upper = [1.2 * self.poly_breakpoints[0]]
         breakpoints = extrap_upper + self.poly_breakpoints + extrap_lower
 
@@ -1368,8 +1563,26 @@ class PolynomialFitter:
             linestyle="none",
             color=COLORS_MATLAB[0],
         )
+        ax1.plot(
+            self.state_in["p"],
+            self.state_in[var],
+            color="k",
+            linewidth=1.25,
+            marker="o",
+            markersize=2.5,
+            markerfacecolor="w",
+        )
         ax1.set_ylabel(y_label)
         ax1.legend(loc="lower right")
+
+        # Automatically adjust y-limits if data is nearly constant
+        ymin, ymax = np.min(prop_states), np.max(prop_states)
+        yrange = ymax - ymin
+        if yrange < 1e-6 or yrange / np.abs(np.mean(prop_states)) < 0.01:
+            ycenter = np.mean(prop_states)
+            ymargin = 0.1 * np.abs(ycenter)
+            ax1.set_ylim(ycenter - ymargin, ycenter + ymargin)
+
 
         # Plot relative error
         ax2.plot(
@@ -1377,6 +1590,14 @@ class PolynomialFitter:
             relative_error,
             label="Relative Error",
             linestyle="-",
+            marker="none",
+            markersize=2.5,
+            color=COLORS_MATLAB[1],
+        )
+        ax2.plot(
+            p_states,
+            relative_error,
+            linestyle="none",
             marker="o",
             markersize=2.5,
             color=COLORS_MATLAB[0],
@@ -1484,13 +1705,13 @@ class PolynomialFitter:
         ax.plot(
             self.states[var_x],
             self.states[var_y],
-            color=graphics.COLORS_MATLAB[0],
+            color=graphics.COLORS_MATLAB[1],
             linewidth=1.25,
         )
         ax.plot(
             self.states[var_x][0],
             self.states[var_y][0],
-            color=graphics.COLORS_MATLAB[0],
+            color=graphics.COLORS_MATLAB[1],
             linewidth=1.25,
             marker="o",
             markerfacecolor="w",
@@ -1498,7 +1719,15 @@ class PolynomialFitter:
         ax.plot(
             self.states[var_x][-1],
             self.states[var_y][-1],
-            color=graphics.COLORS_MATLAB[0],
+            color=graphics.COLORS_MATLAB[1],
+            linewidth=1.25,
+            marker="o",
+            markerfacecolor="w",
+        )
+        ax.plot(
+            self.state_in[var_x],
+            self.state_in[var_y],
+            color="k",
             linewidth=1.25,
             marker="o",
             markerfacecolor="w",

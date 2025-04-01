@@ -1321,7 +1321,7 @@ def calculate_mixture_properties(props_1, props_2, y_1, y_2):
     rho = 1 / (y_1 / props_1['rho'] + y_2 / props_2['rho'])
     vol_1 = y_1 * rho/props_1['rhomass']
     vol_2 = y_2 * rho/props_2['rhomass']
-    quality_mass = y_1 if props_1['rho'] < props_2['rho'] else vol_2
+    quality_mass = y_1 if props_1['rho'] < props_2['rho'] else y_2
     quality_volume = vol_1 if props_1['rho'] < props_2['rho'] else vol_2
     
     # Isothermal compressibility
