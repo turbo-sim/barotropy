@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>barotropy.barotropic_model &#8212; barotropy v0.1.1 documentation</title>
+    <title>barotropy.barotropic_model &#8212; barotropy v0.2.0 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=6f89b0bb"></script>
+    <script src="../../_static/documentation_options.js?v=0a6a6ad3"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>let toggleHintShow = 'Click to show';</script>
@@ -140,7 +140,7 @@
   
   
   
-    <p class="title logo__title">barotropy v0.1.1 documentation</p>
+    <p class="title logo__title">barotropy v0.2.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -337,9 +337,17 @@ document.write(`
 <span class="sd">    p_in : float</span>
 <span class="sd">        Inlet pressure of the fluid in Pascals.</span>
 
-<span class="sd">    p_out : float</span>
-<span class="sd">        Outlet pressure of the fluid in Pascals.</span>
+<span class="sd">    rho_in : float</span>
+<span class="sd">        Inlet density of the fluid in kilogram per cubic meter.</span>
 
+<span class="sd">        .. note::</span>
+<span class="sd">            Applicable only to the one-component model.</span>
+
+<span class="sd">    p_min: float</span>
+<span class="sd">        Minimum pressure for the barotropic process integration in Pascals.</span>
+
+<span class="sd">    p_max : float</span>
+<span class="sd">        Maximum pressure for the barotropic process integration in Pascals.</span>
 
 <span class="sd">    efficiency : float</span>
 <span class="sd">        The efficiency of the polytropic process, dimensionless.</span>
@@ -349,6 +357,9 @@ document.write(`
 
 <span class="sd">        .. note::</span>
 <span class="sd">            Applicable only to the two-component model.</span>
+
+<span class="sd">    process_type : str, optional</span>
+<span class="sd">        The type of polytropic process that the fluid experiences. Must be &#39;expansion&#39; or &#39;compression&#39;.</span>
 
 <span class="sd">    calculation_type : str, optional</span>
 <span class="sd">        The type of fluid property calculation for the one-component model. Options include:</span>
@@ -459,11 +470,15 @@ document.write(`
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">fluid_name</span><span class="p">,</span>
-        <span class="n">T_in</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">p_in</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-        <span class="n">p_out</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">T_in</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">rho_in</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">p_out</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">p_min</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">p_max</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">efficiency</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.00</span><span class="p">,</span>
         <span class="n">mixture_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">process_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">calculation_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">blending_onset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">blending_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -486,7 +501,7 @@ document.write(`
     <span class="p">):</span>
 
         <span class="c1"># Validate inputs and find the correct model type</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_inputs</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_model_type</span><span class="p">(</span>
             <span class="n">fluid_name</span><span class="p">,</span>
             <span class="n">mixture_ratio</span><span class="p">,</span>
             <span class="n">calculation_type</span><span class="p">,</span>
@@ -494,11 +509,27 @@ document.write(`
             <span class="n">blending_width</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="c1"># Rename mandatory arguments</span>
+        <span class="c1"># Define inlet state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fluid_name</span> <span class="o">=</span> <span class="n">fluid_name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">T_in</span> <span class="o">=</span> <span class="n">T_in</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">p_in</span> <span class="o">=</span> <span class="n">p_in</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">p_out</span> <span class="o">=</span> <span class="n">p_out</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_type</span> <span class="o">==</span> <span class="s2">&quot;one-component&quot;</span><span class="p">:</span>
+            <span class="n">state_in</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_inlet_state</span><span class="p">(</span><span class="n">fluid_name</span><span class="p">,</span> <span class="n">p_in</span><span class="p">,</span> <span class="n">T_in</span><span class="p">,</span> <span class="n">rho_in</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">p_in</span> <span class="o">=</span> <span class="n">state_in</span><span class="o">.</span><span class="n">p</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">T_in</span> <span class="o">=</span> <span class="n">state_in</span><span class="o">.</span><span class="n">T</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rho_in</span> <span class="o">=</span> <span class="n">state_in</span><span class="o">.</span><span class="n">rho</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">p_in</span> <span class="o">=</span> <span class="n">p_in</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">T_in</span> <span class="o">=</span> <span class="n">T_in</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rho_in</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># not used for two-component models</span>
+
+        <span class="c1"># Define pressure range</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p_min</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_max</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_pressure_range</span><span class="p">(</span>
+            <span class="n">p_in</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_in</span><span class="p">,</span>
+            <span class="n">p_out</span><span class="o">=</span><span class="n">p_out</span><span class="p">,</span>
+            <span class="n">p_min</span><span class="o">=</span><span class="n">p_min</span><span class="p">,</span>
+            <span class="n">p_max</span><span class="o">=</span><span class="n">p_max</span><span class="p">,</span>
+            <span class="n">process_type</span><span class="o">=</span><span class="n">process_type</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="c1"># Assign optional arguments with defaults</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mixture_ratio</span> <span class="o">=</span> <span class="n">mixture_ratio</span>
@@ -522,7 +553,8 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">ode_solution</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">poly_fitter</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_inputs</span><span class="p">(</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_model_type</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">fluid_name</span><span class="p">,</span>
         <span class="n">mixture_ratio</span><span class="p">,</span>
@@ -576,6 +608,91 @@ document.write(`
                 <span class="sa">f</span><span class="s2">&quot;  2. A list of two strings for the two-component barotropic model.&quot;</span>
             <span class="p">)</span>
 
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_inlet_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fluid_name</span><span class="p">,</span> <span class="n">p_in</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">T_in</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rho_in</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Resolves the inlet thermodynamic state from any valid combination of (p_in, T_in, rho_in).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            state_in</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError if input combination is invalid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">fluid</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">Fluid</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">fluid_name</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;HEOS&quot;</span><span class="p">)</span>
+        <span class="n">num_given</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="n">p_in</span><span class="p">,</span> <span class="n">T_in</span><span class="p">,</span> <span class="n">rho_in</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">num_given</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least two of (p_in, T_in, rho_in) must be provided.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">num_given</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Only two of (p_in, T_in, rho_in) should be provided. The third will be calculated.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Determine which input pair was provided and compute the missing property</span>
+        <span class="k">if</span> <span class="n">p_in</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">T_in</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">PT_INPUTS</span><span class="p">,</span> <span class="n">p_in</span><span class="p">,</span> <span class="n">T_in</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">p_in</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">rho_in</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">DmassP_INPUTS</span><span class="p">,</span> <span class="n">rho_in</span><span class="p">,</span> <span class="n">p_in</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">T_in</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">rho_in</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">DmassT_INPUTS</span><span class="p">,</span> <span class="n">rho_in</span><span class="p">,</span> <span class="n">T_in</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unexpected error during state resolution.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">state</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_pressure_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p_in</span><span class="p">,</span> <span class="n">p_out</span><span class="p">,</span> <span class="n">p_min</span><span class="p">,</span> <span class="n">p_max</span><span class="p">,</span> <span class="n">process_type</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Resolve p_min, p_max, and process_type from user input.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            p_in (float): Inlet pressure [Pa]</span>
+<span class="sd">            p_out (float or None): Outlet pressure [Pa]</span>
+<span class="sd">            p_min (float or None): Minimum pressure [Pa]</span>
+<span class="sd">            p_max (float or None): Maximum pressure [Pa]</span>
+<span class="sd">            process_type (str or None): &quot;expansion&quot; or &quot;compression&quot;</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple (p_min, p_max, process_type)</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If input combinations are invalid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Case 1: process_type is explicitly given → p_min and p_max are mandatory</span>
+        <span class="k">if</span> <span class="n">process_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">process_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;expansion&quot;</span><span class="p">,</span> <span class="s2">&quot;compression&quot;</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Invalid process_type=&#39;</span><span class="si">{</span><span class="n">process_type</span><span class="si">}</span><span class="s2">&#39;. Must be &#39;expansion&#39; or &#39;compression&#39;.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">p_min</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">p_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;When process_type is specified, both p_min and p_max must be provided. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Got p_min=</span><span class="si">{</span><span class="n">p_min</span><span class="si">}</span><span class="s2">, p_max=</span><span class="si">{</span><span class="n">p_max</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">p_in</span> <span class="o">&lt;</span> <span class="n">p_min</span> <span class="ow">or</span> <span class="n">p_in</span> <span class="o">&gt;</span> <span class="n">p_max</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Inlet pressure p_in=</span><span class="si">{</span><span class="n">p_in</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2"> must lie within p_min=</span><span class="si">{</span><span class="n">p_min</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2"> and p_max=</span><span class="si">{</span><span class="n">p_max</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">return</span> <span class="n">p_min</span><span class="p">,</span> <span class="n">p_max</span><span class="p">,</span> <span class="n">process_type</span>
+
+        <span class="c1"># Case 2: Infer everything from p_in and p_out</span>
+        <span class="k">if</span> <span class="n">p_out</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;If process_type is not specified, both p_in and p_out must be provided.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">p_min</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">p_max</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;When using p_in and p_out to infer the process type, both p_min and p_max must be None.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">process_type</span> <span class="o">=</span> <span class="s2">&quot;expansion&quot;</span> <span class="k">if</span> <span class="n">p_out</span> <span class="o">&lt;</span> <span class="n">p_in</span> <span class="k">else</span> <span class="s2">&quot;compression&quot;</span>
+        <span class="n">p_min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">p_in</span><span class="p">,</span> <span class="n">p_out</span><span class="p">)</span>
+        <span class="n">p_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">p_in</span><span class="p">,</span> <span class="n">p_out</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">p_min</span><span class="p">,</span> <span class="n">p_max</span><span class="p">,</span> <span class="n">process_type</span>
+
+
 <div class="viewcode-block" id="BarotropicModel.solve">
 <a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.BarotropicModel.solve">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -592,12 +709,15 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Manually pass all parameters to the ODE solver function</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_type</span> <span class="o">==</span> <span class="s2">&quot;one-component&quot;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ode_solution</span> <span class="o">=</span> <span class="n">barotropic_model_one_component</span><span class="p">(</span>
+
+            <span class="c1"># Integrate upward from p_in to p_max:</span>
+            <span class="n">states_up</span><span class="p">,</span> <span class="n">ode_solution_up</span> <span class="o">=</span> <span class="n">barotropic_model_one_component</span><span class="p">(</span>
                 <span class="n">fluid_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fluid_name</span><span class="p">,</span>
-                <span class="n">T_in</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">T_in</span><span class="p">,</span>
                 <span class="n">p_in</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_in</span><span class="p">,</span>
-                <span class="n">p_out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_out</span><span class="p">,</span>
+                <span class="n">rho_in</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rho_in</span><span class="p">,</span>
+                <span class="n">p_out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_max</span><span class="p">,</span>
                 <span class="n">efficiency</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">efficiency</span><span class="p">,</span>
+                <span class="n">process_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">process_type</span><span class="p">,</span>
                 <span class="n">calculation_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">calculation_type</span><span class="p">,</span>
                 <span class="n">blending_onset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">blending_onset</span><span class="p">,</span>
                 <span class="n">blending_width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">blending_width</span><span class="p">,</span>
@@ -608,18 +728,69 @@ document.write(`
                 <span class="n">HEOS_max_iter</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">HEOS_max_iter</span><span class="p">,</span>
                 <span class="n">HEOS_print_convergence</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">HEOS_print_convergence</span><span class="p">,</span>
             <span class="p">)</span>
+
+            <span class="c1"># Integrate downward from p_in to p_min:</span>
+            <span class="n">states_down</span><span class="p">,</span> <span class="n">ode_solution_down</span> <span class="o">=</span> <span class="n">barotropic_model_one_component</span><span class="p">(</span>
+                <span class="n">fluid_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fluid_name</span><span class="p">,</span>
+                <span class="n">p_in</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_in</span><span class="p">,</span>
+                <span class="n">rho_in</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rho_in</span><span class="p">,</span>
+                <span class="n">p_out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_min</span><span class="p">,</span>
+                <span class="n">efficiency</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">efficiency</span><span class="p">,</span>
+                <span class="n">process_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">process_type</span><span class="p">,</span>
+                <span class="n">calculation_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">calculation_type</span><span class="p">,</span>
+                <span class="n">blending_onset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">blending_onset</span><span class="p">,</span>
+                <span class="n">blending_width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">blending_width</span><span class="p">,</span>
+                <span class="n">ODE_solver</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ODE_solver</span><span class="p">,</span>
+                <span class="n">ODE_tolerance</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ODE_tolerance</span><span class="p">,</span>
+                <span class="n">HEOS_solver</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">HEOS_solver</span><span class="p">,</span>
+                <span class="n">HEOS_tolerance</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">HEOS_tolerance</span><span class="p">,</span>
+                <span class="n">HEOS_max_iter</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">HEOS_max_iter</span><span class="p">,</span>
+                <span class="n">HEOS_print_convergence</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">HEOS_print_convergence</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Store solution</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state_in</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">states_up</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">states</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">key</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">states_up</span><span class="p">[</span><span class="n">key</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">states_down</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span>
+                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">states_up</span>
+            <span class="p">}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ode_solution</span> <span class="o">=</span> <span class="p">(</span><span class="n">ode_solution_up</span><span class="p">,</span> <span class="n">ode_solution_down</span><span class="p">)</span>
+
+
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_type</span> <span class="o">==</span> <span class="s2">&quot;two-component&quot;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ode_solution</span> <span class="o">=</span> <span class="n">barotropic_model_two_component</span><span class="p">(</span>
+            <span class="n">states_up</span><span class="p">,</span> <span class="n">ode_solution_up</span> <span class="o">=</span> <span class="n">barotropic_model_two_component</span><span class="p">(</span>
                 <span class="n">fluid_name_1</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fluid_name</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                 <span class="n">fluid_name_2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fluid_name</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                 <span class="n">mixture_ratio</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mixture_ratio</span><span class="p">,</span>
                 <span class="n">T_in</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">T_in</span><span class="p">,</span>
                 <span class="n">p_in</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_in</span><span class="p">,</span>
-                <span class="n">p_out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_out</span><span class="p">,</span>
+                <span class="n">p_out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_max</span><span class="p">,</span>
                 <span class="n">efficiency</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">efficiency</span><span class="p">,</span>
+                <span class="n">process_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">process_type</span><span class="p">,</span>
                 <span class="n">ODE_solver</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ODE_solver</span><span class="p">,</span>
                 <span class="n">ODE_tolerance</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ODE_tolerance</span><span class="p">,</span>
             <span class="p">)</span>
+
+            <span class="n">states_down</span><span class="p">,</span> <span class="n">ode_solution_down</span> <span class="o">=</span> <span class="n">barotropic_model_two_component</span><span class="p">(</span>
+                <span class="n">fluid_name_1</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fluid_name</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">fluid_name_2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fluid_name</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">mixture_ratio</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mixture_ratio</span><span class="p">,</span>
+                <span class="n">T_in</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">T_in</span><span class="p">,</span>
+                <span class="n">p_in</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_in</span><span class="p">,</span>
+                <span class="n">p_out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_min</span><span class="p">,</span>
+                <span class="n">efficiency</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">efficiency</span><span class="p">,</span>
+                <span class="n">process_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">process_type</span><span class="p">,</span>
+                <span class="n">ODE_solver</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ODE_solver</span><span class="p">,</span>
+                <span class="n">ODE_tolerance</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ODE_tolerance</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Store solution</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state_in</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">states_up</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">states</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">key</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">states_up</span><span class="p">[</span><span class="n">key</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">states_down</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span>
+                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">states_up</span>
+            <span class="p">}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ode_solution</span> <span class="o">=</span> <span class="p">(</span><span class="n">ode_solution_up</span><span class="p">,</span> <span class="n">ode_solution_down</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Invalid value for model_type=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_type</span><span class="si">}</span><span class="s2">. Something went wrong during input validation.&quot;</span>
@@ -646,6 +817,7 @@ document.write(`
         <span class="c1"># Fit the polynomials</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">poly_fitter</span> <span class="o">=</span> <span class="n">PolynomialFitter</span><span class="p">(</span>
             <span class="n">states</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">,</span>
+            <span class="n">state_in</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">state_in</span><span class="p">,</span>
             <span class="n">variables</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">polynomial_variables</span><span class="p">,</span>
             <span class="n">degree</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">polynomial_degree</span><span class="p">,</span>
             <span class="n">model_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model_type</span><span class="p">,</span>
@@ -715,10 +887,11 @@ document.write(`
 <a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.barotropic_model_one_component">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">barotropic_model_one_component</span><span class="p">(</span>
     <span class="n">fluid_name</span><span class="p">,</span>
-    <span class="n">T_in</span><span class="p">,</span>
     <span class="n">p_in</span><span class="p">,</span>
+    <span class="n">rho_in</span><span class="p">,</span>
     <span class="n">p_out</span><span class="p">,</span>
     <span class="n">efficiency</span><span class="p">,</span>
+    <span class="n">process_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">calculation_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">blending_onset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">blending_width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -757,11 +930,11 @@ document.write(`
 <span class="sd">    fluid_name : str</span>
 <span class="sd">        The name of the fluid to be used in the simulation (e.g., &#39;Water&#39;).</span>
 
-<span class="sd">    T_in : float</span>
-<span class="sd">        Inlet temperature of the fluid in Kelvin.</span>
-
 <span class="sd">    p_in : float</span>
-<span class="sd">        Inlet pressure of the fluid in Pascals.</span>
+<span class="sd">        Inlet pressure of the fluid in Pascal.</span>
+
+<span class="sd">    rho_in : float</span>
+<span class="sd">        Inlet density of the fluid in kilogram per cubic meter.</span>
 
 <span class="sd">    p_out : float</span>
 <span class="sd">        Outlet pressure of the fluid in Pascals.</span>
@@ -861,22 +1034,29 @@ document.write(`
             <span class="s2">&quot;Recommended solvers: &#39;BDF&#39;, &#39;LSODA&#39; or &#39;Radau&#39; stiff problems involving equilibrium property calculations or blending calculations with a narrow blending width. &#39;RK45&#39; can be used for non-stiff problems with a wide blending width.&quot;</span>
         <span class="p">)</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_message</span><span class="p">)</span>
+    
+    <span class="c1"># Pre-process efficiency value</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mf">0.0</span> <span class="o">&lt;=</span> <span class="n">efficiency</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Efficiency must be between 0 and 1. Provided: </span><span class="si">{</span><span class="n">efficiency</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">process_type</span> <span class="o">==</span> <span class="s2">&quot;compression&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">efficiency</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Efficiency cannot be zero for compression (division by zero).&quot;</span><span class="p">)</span>
+        <span class="n">efficiency</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">efficiency</span>
+    <span class="k">elif</span> <span class="n">process_type</span> <span class="o">!=</span> <span class="s2">&quot;expansion&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid process_type=&#39;</span><span class="si">{</span><span class="n">process_type</span><span class="si">}</span><span class="s2">&#39;. Must be &#39;expansion&#39; or &#39;compression&#39;.&quot;</span><span class="p">)</span>
+
 
     <span class="c1"># Initialize fluid and compute inlet state</span>
     <span class="n">fluid</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">Fluid</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">fluid_name</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;HEOS&quot;</span><span class="p">,</span> <span class="n">exceptions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">state_in</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span>
-        <span class="n">props</span><span class="o">.</span><span class="n">PT_INPUTS</span><span class="p">,</span> <span class="n">p_in</span><span class="p">,</span> <span class="n">T_in</span><span class="p">,</span> <span class="n">supersaturation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">generalize_quality</span><span class="o">=</span><span class="kc">True</span>
+        <span class="n">props</span><span class="o">.</span><span class="n">DmassP_INPUTS</span><span class="p">,</span> <span class="n">rho_in</span><span class="p">,</span> <span class="n">p_in</span><span class="p">,</span> <span class="n">supersaturation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">generalize_quality</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
 
     <span class="c1"># Determine the type of phase change process</span>
     <span class="n">phase_change_type</span> <span class="o">=</span> <span class="p">(</span>
         <span class="s2">&quot;flashing&quot;</span> <span class="k">if</span> <span class="n">state_in</span><span class="o">.</span><span class="n">s</span> <span class="o">&lt;</span> <span class="n">fluid</span><span class="o">.</span><span class="n">critical_point</span><span class="o">.</span><span class="n">s</span> <span class="k">else</span> <span class="s2">&quot;condensation&quot;</span>
     <span class="p">)</span>
-
-    <span class="c1"># Determine if the process is an expansion or a compression</span>
-    <span class="c1"># Invert the efficiency for the case of a compression process</span>
-    <span class="k">if</span> <span class="n">p_out</span> <span class="o">&gt;</span> <span class="n">p_in</span><span class="p">:</span>
-        <span class="n">efficiency</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">efficiency</span>
 
     <span class="c1"># Initial guess for the metastable state (is updated at each iteration)</span>
     <span class="n">rhoT_guess_metastable</span> <span class="o">=</span> <span class="p">[</span><span class="n">state_in</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">state_in</span><span class="o">.</span><span class="n">T</span><span class="p">]</span>
@@ -1061,6 +1241,7 @@ document.write(`
     <span class="n">p_in</span><span class="p">,</span>
     <span class="n">p_out</span><span class="p">,</span>
     <span class="n">efficiency</span><span class="p">,</span>
+    <span class="n">process_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">ODE_solver</span><span class="o">=</span><span class="s2">&quot;lsoda&quot;</span><span class="p">,</span>
     <span class="n">ODE_tolerance</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
 <span class="p">):</span>
@@ -1129,6 +1310,17 @@ document.write(`
             <span class="sa">f</span><span class="s2">&quot;Valid solver are: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">valid_solvers_ode</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
         <span class="p">)</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_message</span><span class="p">)</span>
+
+    <span class="c1"># Pre-process efficiency value</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mf">0.0</span> <span class="o">&lt;=</span> <span class="n">efficiency</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Efficiency must be between 0 and 1. Provided: </span><span class="si">{</span><span class="n">efficiency</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">process_type</span> <span class="o">==</span> <span class="s2">&quot;compression&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">efficiency</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Efficiency cannot be zero for compression (division by zero).&quot;</span><span class="p">)</span>
+        <span class="n">efficiency</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">efficiency</span>
+    <span class="k">elif</span> <span class="n">process_type</span> <span class="o">!=</span> <span class="s2">&quot;expansion&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid process_type=&#39;</span><span class="si">{</span><span class="n">process_type</span><span class="si">}</span><span class="s2">&#39;. Must be &#39;expansion&#39; or &#39;compression&#39;.&quot;</span><span class="p">)</span>
 
     <span class="c1"># Calculate mass fractions of each component (constant values)</span>
     <span class="n">y_1</span> <span class="o">=</span> <span class="n">mixture_ratio</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">mixture_ratio</span><span class="p">)</span>
@@ -1208,6 +1400,7 @@ document.write(`
 <a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.PolynomialFitter">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PolynomialFitter</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    # TODO update docstring</span>
 <span class="sd">    Fits polynomials to the thermodynamic properties of a fluid across various states.</span>
 
 <span class="sd">    polynomial_degree : int</span>
@@ -1231,6 +1424,7 @@ document.write(`
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">states</span><span class="p">,</span>
+        <span class="n">state_in</span><span class="p">,</span>
         <span class="n">variables</span><span class="p">,</span>
         <span class="n">degree</span><span class="p">,</span>
         <span class="n">calculation_type</span><span class="p">,</span>
@@ -1240,6 +1434,7 @@ document.write(`
 
         <span class="c1"># Rename arguments</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">states</span> <span class="o">=</span> <span class="n">states</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state_in</span> <span class="o">=</span> <span class="n">state_in</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">variables</span> <span class="o">=</span> <span class="n">variables</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">poly_degree</span> <span class="o">=</span> <span class="n">degree</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model_type</span> <span class="o">=</span> <span class="n">model_type</span>
@@ -1670,7 +1865,7 @@ document.write(`
         <span class="p">)</span>
 
         <span class="c1"># Plot polynomial and data segments for each breakpoint</span>
-        <span class="n">extrap_lower</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.8</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">poly_breakpoints</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="n">extrap_lower</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">poly_breakpoints</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
         <span class="n">extrap_upper</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">poly_breakpoints</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
         <span class="n">breakpoints</span> <span class="o">=</span> <span class="n">extrap_upper</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">poly_breakpoints</span> <span class="o">+</span> <span class="n">extrap_lower</span>
 
@@ -1699,8 +1894,26 @@ document.write(`
             <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
             <span class="n">color</span><span class="o">=</span><span class="n">COLORS_MATLAB</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
         <span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state_in</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state_in</span><span class="p">[</span><span class="n">var</span><span class="p">],</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.25</span><span class="p">,</span>
+            <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
+            <span class="n">markersize</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span>
+            <span class="n">markerfacecolor</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">y_label</span><span class="p">)</span>
         <span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Automatically adjust y-limits if data is nearly constant</span>
+        <span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">prop_states</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">prop_states</span><span class="p">)</span>
+        <span class="n">yrange</span> <span class="o">=</span> <span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span>
+        <span class="k">if</span> <span class="n">yrange</span> <span class="o">&lt;</span> <span class="mf">1e-6</span> <span class="ow">or</span> <span class="n">yrange</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">prop_states</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mf">0.01</span><span class="p">:</span>
+            <span class="n">ycenter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">prop_states</span><span class="p">)</span>
+            <span class="n">ymargin</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">ycenter</span><span class="p">)</span>
+            <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ycenter</span> <span class="o">-</span> <span class="n">ymargin</span><span class="p">,</span> <span class="n">ycenter</span> <span class="o">+</span> <span class="n">ymargin</span><span class="p">)</span>
+
 
         <span class="c1"># Plot relative error</span>
         <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
@@ -1708,6 +1921,14 @@ document.write(`
             <span class="n">relative_error</span><span class="p">,</span>
             <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Relative Error&quot;</span><span class="p">,</span>
             <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+            <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+            <span class="n">markersize</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">COLORS_MATLAB</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+            <span class="n">p_states</span><span class="p">,</span>
+            <span class="n">relative_error</span><span class="p">,</span>
+            <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
             <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
             <span class="n">markersize</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span>
             <span class="n">color</span><span class="o">=</span><span class="n">COLORS_MATLAB</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
@@ -1818,13 +2039,13 @@ document.write(`
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="n">var_x</span><span class="p">],</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="n">var_y</span><span class="p">],</span>
-            <span class="n">color</span><span class="o">=</span><span class="n">graphics</span><span class="o">.</span><span class="n">COLORS_MATLAB</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">graphics</span><span class="o">.</span><span class="n">COLORS_MATLAB</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
             <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.25</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="n">var_x</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="n">var_y</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
-            <span class="n">color</span><span class="o">=</span><span class="n">graphics</span><span class="o">.</span><span class="n">COLORS_MATLAB</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">graphics</span><span class="o">.</span><span class="n">COLORS_MATLAB</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
             <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.25</span><span class="p">,</span>
             <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
             <span class="n">markerfacecolor</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span>
@@ -1832,7 +2053,15 @@ document.write(`
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="n">var_x</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="n">var_y</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-            <span class="n">color</span><span class="o">=</span><span class="n">graphics</span><span class="o">.</span><span class="n">COLORS_MATLAB</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">graphics</span><span class="o">.</span><span class="n">COLORS_MATLAB</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.25</span><span class="p">,</span>
+            <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
+            <span class="n">markerfacecolor</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state_in</span><span class="p">[</span><span class="n">var_x</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state_in</span><span class="p">[</span><span class="n">var_y</span><span class="p">],</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
             <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.25</span><span class="p">,</span>
             <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
             <span class="n">markerfacecolor</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span>
