@@ -1,5 +1,5 @@
 
-# Centrifugal impeller tutorial
+# Centrifugal impeller CFX tutorial
 
 This tutorial shows how to use the **barotropy** Python package to generate barotropic property models and use them in **ANSYS CFX**.
 
@@ -138,13 +138,7 @@ The output barotropic model for density is illustrated below, note the slop disc
 
 
 
-## 3. Use the barotropic model in ANSYS CFX
-
-Here’s a refined version of the section with your requested introduction:
-
----
-
-## 3. Use the barotropic model in ANSYS CFX
+## 3. Use the barotropic model in CFX
 
 This case is based on a **centrifugal compressor impeller**. The geometry provided should work out of the box, but you can modify it if needed.
 
