@@ -21,5 +21,4 @@ Subpackages
 .. toctree::
    :maxdepth: 1
 
-   barotropy.pysolver_view
    barotropy.fluent_automation

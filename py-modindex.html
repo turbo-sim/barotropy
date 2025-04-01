@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Python Module Index &#8212; barotropy v0.2.2 documentation</title>
+    <title>Python Module Index &#8212; barotropy v0.2.3 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=a6e268a8"></script>
+    <script src="_static/documentation_options.js?v=1d1eeab5"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>let toggleHintShow = 'Click to show';</script>
@@ -143,7 +143,7 @@
   
   
   
-    <p class="title logo__title">barotropy v0.2.2 documentation</p>
+    <p class="title logo__title">barotropy v0.2.3 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -165,6 +165,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="source/tutorials.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="source/tutorials/one_component_systems.html">One-component systems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/tutorials/two_component_systems.html">Two-component systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source/tutorials/flashing_nozzle_fluent.html">Flashing nozzle Fluent</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="source/barotropic_model.html">Barotropic model</a></li>
@@ -176,16 +177,6 @@
 <li class="toctree-l2"><a class="reference internal" href="source/api/barotropy.math.html">Math functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/barotropy.graphics.html">Graphic functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/barotropy.utilities.html">Utility functions</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="source/api/barotropy.pysolver_view.html">PySolverView</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.pysolver_view.nonlinear_system.html">barotropy.pysolver_view.nonlinear_system module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.pysolver_view.nonlinear_system_problems.html">barotropy.pysolver_view.nonlinear_system_problems module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.pysolver_view.numerical_differentiation.html">barotropy.pysolver_view.numerical_differentiation module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.pysolver_view.optimization.html">barotropy.pysolver_view.optimization module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.pysolver_view.optimization_problems.html">barotropy.pysolver_view.optimization_problems module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.pysolver_view.optimization_wrappers.html">barotropy.pysolver_view.optimization_wrappers module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.pysolver_view.pysolver_utilities.html">barotropy.pysolver_view.pysolver_utilities module</a></li>
-</ul>
-</details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="source/api/barotropy.fluent_automation.html">Fluent automation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.fluent_automation.fluent_automation.html">barotropy.fluent_automation.fluent_automation module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html">barotropy.fluent_automation.fluent_plot_nozzle_data module</a></li>
@@ -367,6 +358,11 @@ document.write(`
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
+       <a href="source/api/barotropy.mcerp.html#module-barotropy.mcerp"><code class="xref">barotropy.mcerp</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
        <a href="source/api/barotropy.mcerp.correlate.html#module-barotropy.mcerp.correlate"><code class="xref">barotropy.mcerp.correlate</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
@@ -377,12 +373,27 @@ document.write(`
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
+       <a href="source/api/barotropy.mcerp.stats.html#module-barotropy.mcerp.stats"><code class="xref">barotropy.mcerp.stats</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="source/api/barotropy.mcerp.umath.html#module-barotropy.mcerp.umath"><code class="xref">barotropy.mcerp.umath</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
        <a href="source/api/barotropy.properties.html#module-barotropy.properties.core_calculations"><code class="xref">barotropy.properties.core_calculations</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
        <a href="source/api/barotropy.properties.html#module-barotropy.properties.fluid_properties"><code class="xref">barotropy.properties.fluid_properties</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="source/api/barotropy.uncertainty_utilities.html#module-barotropy.uncertainty_utilities"><code class="xref">barotropy.uncertainty_utilities</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>

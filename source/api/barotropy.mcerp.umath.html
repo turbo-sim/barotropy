@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>barotropy.mcerp.umath module &#8212; barotropy v0.2.2 documentation</title>
+    <title>barotropy.mcerp.umath module &#8212; barotropy v0.2.3 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=a6e268a8"></script>
+    <script src="../../_static/documentation_options.js?v=1d1eeab5"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>let toggleHintShow = 'Click to show';</script>
@@ -139,7 +139,7 @@
   
   
   
-    <p class="title logo__title">barotropy v0.2.2 documentation</p>
+    <p class="title logo__title">barotropy v0.2.3 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -161,6 +161,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/one_component_systems.html">One-component systems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/two_component_systems.html">Two-component systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/flashing_nozzle_fluent.html">Flashing nozzle Fluent</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../barotropic_model.html">Barotropic model</a></li>
@@ -172,16 +173,6 @@
 <li class="toctree-l2"><a class="reference internal" href="barotropy.math.html">Math functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="barotropy.graphics.html">Graphic functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="barotropy.utilities.html">Utility functions</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="barotropy.pysolver_view.html">PySolverView</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="barotropy.pysolver_view.nonlinear_system.html">barotropy.pysolver_view.nonlinear_system module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="barotropy.pysolver_view.nonlinear_system_problems.html">barotropy.pysolver_view.nonlinear_system_problems module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="barotropy.pysolver_view.numerical_differentiation.html">barotropy.pysolver_view.numerical_differentiation module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="barotropy.pysolver_view.optimization.html">barotropy.pysolver_view.optimization module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="barotropy.pysolver_view.optimization_problems.html">barotropy.pysolver_view.optimization_problems module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="barotropy.pysolver_view.optimization_wrappers.html">barotropy.pysolver_view.optimization_wrappers module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="barotropy.pysolver_view.pysolver_utilities.html">barotropy.pysolver_view.pysolver_utilities module</a></li>
-</ul>
-</details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="barotropy.fluent_automation.html">Fluent automation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="barotropy.fluent_automation.fluent_automation.html">barotropy.fluent_automation.fluent_automation module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="barotropy.fluent_automation.fluent_plot_nozzle_data.html">barotropy.fluent_automation.fluent_plot_nozzle_data module</a></li>
@@ -316,7 +307,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -332,6 +325,41 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mcerp-real-time-latin-hypercube-sampling-based-monte-carlo-error-propagation">mcerp: Real-time latin-hypercube-sampling-based Monte Carlo Error Propagation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.abs"><code class="docutils literal notranslate"><span class="pre">abs()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.acos"><code class="docutils literal notranslate"><span class="pre">acos()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.acosh"><code class="docutils literal notranslate"><span class="pre">acosh()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.asin"><code class="docutils literal notranslate"><span class="pre">asin()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.asinh"><code class="docutils literal notranslate"><span class="pre">asinh()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.atan"><code class="docutils literal notranslate"><span class="pre">atan()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.atanh"><code class="docutils literal notranslate"><span class="pre">atanh()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.ceil"><code class="docutils literal notranslate"><span class="pre">ceil()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.cos"><code class="docutils literal notranslate"><span class="pre">cos()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.cosh"><code class="docutils literal notranslate"><span class="pre">cosh()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.degrees"><code class="docutils literal notranslate"><span class="pre">degrees()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.exp"><code class="docutils literal notranslate"><span class="pre">exp()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.expm1"><code class="docutils literal notranslate"><span class="pre">expm1()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.fabs"><code class="docutils literal notranslate"><span class="pre">fabs()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.floor"><code class="docutils literal notranslate"><span class="pre">floor()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.hypot"><code class="docutils literal notranslate"><span class="pre">hypot()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.ln"><code class="docutils literal notranslate"><span class="pre">ln()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.log"><code class="docutils literal notranslate"><span class="pre">log()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.log10"><code class="docutils literal notranslate"><span class="pre">log10()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.log1p"><code class="docutils literal notranslate"><span class="pre">log1p()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.radians"><code class="docutils literal notranslate"><span class="pre">radians()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.sin"><code class="docutils literal notranslate"><span class="pre">sin()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.sinh"><code class="docutils literal notranslate"><span class="pre">sinh()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.sqrt"><code class="docutils literal notranslate"><span class="pre">sqrt()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.tan"><code class="docutils literal notranslate"><span class="pre">tan()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.tanh"><code class="docutils literal notranslate"><span class="pre">tanh()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.trunc"><code class="docutils literal notranslate"><span class="pre">trunc()</span></code></a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -341,8 +369,177 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="barotropy-mcerp-umath-module">
-<h1>barotropy.mcerp.umath module<a class="headerlink" href="#barotropy-mcerp-umath-module" title="Link to this heading">#</a></h1>
+  <section id="module-barotropy.mcerp.umath">
+<span id="barotropy-mcerp-umath-module"></span><h1>barotropy.mcerp.umath module<a class="headerlink" href="#module-barotropy.mcerp.umath" title="Link to this heading">#</a></h1>
+<section id="mcerp-real-time-latin-hypercube-sampling-based-monte-carlo-error-propagation">
+<h2>mcerp: Real-time latin-hypercube-sampling-based Monte Carlo Error Propagation<a class="headerlink" href="#mcerp-real-time-latin-hypercube-sampling-based-monte-carlo-error-propagation" title="Link to this heading">#</a></h2>
+<p>Generalizes mathematical operators that work on numeric objects (from the math
+module or numpy) compatible with objects with uncertainty distributions</p>
+<p>Author: Abraham Lee
+Copyright: 2013</p>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.abs">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">abs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#abs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.abs" title="Link to this definition">#</a></dt>
+<dd><p>Absolute value</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.acos">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">acos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#acos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.acos" title="Link to this definition">#</a></dt>
+<dd><p>Inverse cosine</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.acosh">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">acosh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#acosh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.acosh" title="Link to this definition">#</a></dt>
+<dd><p>Inverse hyperbolic cosine</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.asin">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">asin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#asin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.asin" title="Link to this definition">#</a></dt>
+<dd><p>Inverse sine</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.asinh">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">asinh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#asinh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.asinh" title="Link to this definition">#</a></dt>
+<dd><p>Inverse hyperbolic sine</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.atan">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">atan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#atan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.atan" title="Link to this definition">#</a></dt>
+<dd><p>Inverse tangent</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.atanh">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">atanh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#atanh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.atanh" title="Link to this definition">#</a></dt>
+<dd><p>Inverse hyperbolic tangent</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.ceil">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">ceil</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#ceil"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.ceil" title="Link to this definition">#</a></dt>
+<dd><p>Ceiling function (round towards positive infinity)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.cos">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">cos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#cos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.cos" title="Link to this definition">#</a></dt>
+<dd><p>Cosine</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.cosh">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">cosh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#cosh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.cosh" title="Link to this definition">#</a></dt>
+<dd><p>Hyperbolic cosine</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.degrees">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">degrees</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#degrees"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.degrees" title="Link to this definition">#</a></dt>
+<dd><p>Convert radians to degrees</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.exp">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">exp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#exp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.exp" title="Link to this definition">#</a></dt>
+<dd><p>Exponential function</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.expm1">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">expm1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#expm1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.expm1" title="Link to this definition">#</a></dt>
+<dd><p>Calculate exp(x) - 1</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.fabs">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">fabs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#fabs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.fabs" title="Link to this definition">#</a></dt>
+<dd><p>Absolute value function</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.floor">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">floor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#floor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.floor" title="Link to this definition">#</a></dt>
+<dd><p>Floor function (round towards negative infinity)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.hypot">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">hypot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#hypot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.hypot" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the hypotenuse given two “legs” of a right triangle</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.ln">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">ln</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#ln"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.ln" title="Link to this definition">#</a></dt>
+<dd><p>Natural logarithm (same as “log(x)”)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.log">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.log" title="Link to this definition">#</a></dt>
+<dd><p>Natural logarithm</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.log10">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">log10</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#log10"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.log10" title="Link to this definition">#</a></dt>
+<dd><p>Base-10 logarithm</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.log1p">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">log1p</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#log1p"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.log1p" title="Link to this definition">#</a></dt>
+<dd><p>Natural logarithm of (1 + x)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.radians">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">radians</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#radians"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.radians" title="Link to this definition">#</a></dt>
+<dd><p>Convert degrees to radians</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.sin">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">sin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#sin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.sin" title="Link to this definition">#</a></dt>
+<dd><p>Sine</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.sinh">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">sinh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#sinh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.sinh" title="Link to this definition">#</a></dt>
+<dd><p>Hyperbolic sine</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.sqrt">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">sqrt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#sqrt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.sqrt" title="Link to this definition">#</a></dt>
+<dd><p>Square-root function</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.tan">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">tan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#tan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.tan" title="Link to this definition">#</a></dt>
+<dd><p>Tangent</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.tanh">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">tanh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#tanh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.tanh" title="Link to this definition">#</a></dt>
+<dd><p>Hyperbolic tangent</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.mcerp.umath.trunc">
+<span class="sig-prename descclassname"><span class="pre">barotropy.mcerp.umath.</span></span><span class="sig-name descname"><span class="pre">trunc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/mcerp/umath.html#trunc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.mcerp.umath.trunc" title="Link to this definition">#</a></dt>
+<dd><p>Truncate the values to the integer value without rounding</p>
+</dd></dl>
+
 </section>
 
 
@@ -362,6 +559,48 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mcerp-real-time-latin-hypercube-sampling-based-monte-carlo-error-propagation">mcerp: Real-time latin-hypercube-sampling-based Monte Carlo Error Propagation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.abs"><code class="docutils literal notranslate"><span class="pre">abs()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.acos"><code class="docutils literal notranslate"><span class="pre">acos()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.acosh"><code class="docutils literal notranslate"><span class="pre">acosh()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.asin"><code class="docutils literal notranslate"><span class="pre">asin()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.asinh"><code class="docutils literal notranslate"><span class="pre">asinh()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.atan"><code class="docutils literal notranslate"><span class="pre">atan()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.atanh"><code class="docutils literal notranslate"><span class="pre">atanh()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.ceil"><code class="docutils literal notranslate"><span class="pre">ceil()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.cos"><code class="docutils literal notranslate"><span class="pre">cos()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.cosh"><code class="docutils literal notranslate"><span class="pre">cosh()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.degrees"><code class="docutils literal notranslate"><span class="pre">degrees()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.exp"><code class="docutils literal notranslate"><span class="pre">exp()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.expm1"><code class="docutils literal notranslate"><span class="pre">expm1()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.fabs"><code class="docutils literal notranslate"><span class="pre">fabs()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.floor"><code class="docutils literal notranslate"><span class="pre">floor()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.hypot"><code class="docutils literal notranslate"><span class="pre">hypot()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.ln"><code class="docutils literal notranslate"><span class="pre">ln()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.log"><code class="docutils literal notranslate"><span class="pre">log()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.log10"><code class="docutils literal notranslate"><span class="pre">log10()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.log1p"><code class="docutils literal notranslate"><span class="pre">log1p()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.radians"><code class="docutils literal notranslate"><span class="pre">radians()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.sin"><code class="docutils literal notranslate"><span class="pre">sin()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.sinh"><code class="docutils literal notranslate"><span class="pre">sinh()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.sqrt"><code class="docutils literal notranslate"><span class="pre">sqrt()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.tan"><code class="docutils literal notranslate"><span class="pre">tan()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.tanh"><code class="docutils literal notranslate"><span class="pre">tanh()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.mcerp.umath.trunc"><code class="docutils literal notranslate"><span class="pre">trunc()</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

@@ -1,0 +1,1803 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>barotropy.mcerp &#8212; barotropy v0.2.3 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=1d1eeab5"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/barotropy/mcerp';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">barotropy v0.2.3 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../source/installation.html">Installation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../source/tutorials.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../source/tutorials/one_component_systems.html">One-component systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/tutorials/two_component_systems.html">Two-component systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/tutorials/flashing_nozzle_fluent.html">Flashing nozzle Fluent</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/barotropic_model.html">Barotropic model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/bibliography.html">Bibliography</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../source/api/barotropy.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.barotropic_model.html">Barotropic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.properties.html">Fluid properties</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.math.html">Math functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.graphics.html">Graphic functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/api/barotropy.utilities.html">Utility functions</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../source/api/barotropy.fluent_automation.html">Fluent automation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.fluent_automation.fluent_automation.html">barotropy.fluent_automation.fluent_automation module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html">barotropy.fluent_automation.fluent_plot_nozzle_data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.fluent_automation.stream_residuals.html">barotropy.fluent_automation.stream_residuals module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api/barotropy.fluent_automation.stream_transcript.html">barotropy.fluent_automation.stream_transcript module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for barotropy.mcerp</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">================================================================================</span>
+<span class="sd">mcerp: Real-time latin-hypercube-sampling-based Monte Carlo Error Propagation</span>
+<span class="sd">================================================================================</span>
+
+<span class="sd">Author: Abraham Lee</span>
+<span class="sd">Copyright: 2013 - 2014</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pkg_resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_distribution</span><span class="p">,</span> <span class="n">DistributionNotFound</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ss</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.lhd</span><span class="w"> </span><span class="kn">import</span> <span class="n">lhd</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">__version__</span> <span class="o">=</span> <span class="n">get_distribution</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span><span class="o">.</span><span class="n">version</span>
+<span class="k">except</span> <span class="n">DistributionNotFound</span><span class="p">:</span>
+    <span class="c1"># package is not installed</span>
+    <span class="k">pass</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Abraham Lee&quot;</span>
+
+<span class="n">npts</span> <span class="o">=</span> <span class="mi">10000</span>
+
+<span class="n">CONSTANT_TYPES</span> <span class="o">=</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="NotUpcast">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.NotUpcast">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NotUpcast</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raised when an object cannot be converted to a number with uncertainty&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="to_uncertain_func">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.to_uncertain_func">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_uncertain_func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transforms x into an UncertainFunction-compatible object,</span>
+<span class="sd">    unless it is already an UncertainFunction (in which case x is returned </span>
+<span class="sd">    unchanged).</span>
+
+<span class="sd">    Raises an exception unless &#39;x&#39; belongs to some specific classes of</span>
+<span class="sd">    objects that are known not to depend on UncertainFunction objects</span>
+<span class="sd">    (which then cannot be considered as constants).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">UncertainFunction</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+    <span class="c1"># ! In Python 2.6+, numbers.Number could be used instead, here:</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">CONSTANT_TYPES</span><span class="p">):</span>
+        <span class="c1"># No variable =&gt; no derivative to define:</span>
+        <span class="k">return</span> <span class="n">UncertainFunction</span><span class="p">([</span><span class="n">x</span><span class="p">]</span> <span class="o">*</span> <span class="n">npts</span><span class="p">)</span>
+
+    <span class="k">raise</span> <span class="n">NotUpcast</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> cannot be converted to a number with&quot;</span> <span class="s2">&quot; uncertainty&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="UncertainFunction">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.UncertainFunction">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">UncertainFunction</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    UncertainFunction objects represent the uncertainty of a result of </span>
+<span class="sd">    calculations with uncertain variables. Nearly all basic mathematical</span>
+<span class="sd">    operations are supported.</span>
+<span class="sd">    </span>
+<span class="sd">    This class is mostly intended for internal use.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mcpts</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mcpts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">mcpts</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Mean value as a result of an uncertainty calculation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mcpts</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mn</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">var</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Variance value as a result of an uncertainty calculation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span>
+        <span class="n">vr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_mcpts</span> <span class="o">-</span> <span class="n">mn</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">vr</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">std</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Standard deviation value as a result of an uncertainty calculation, </span>
+<span class="sd">        defined as::</span>
+<span class="sd">            </span>
+<span class="sd">                    ________</span>
+<span class="sd">            std = \/variance</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">**</span> <span class="mf">0.5</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">skew</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Skewness coefficient value as a result of an uncertainty calculation,</span>
+<span class="sd">        defined as::</span>
+<span class="sd">            </span>
+<span class="sd">              _____     m3</span>
+<span class="sd">            \/beta1 = ------</span>
+<span class="sd">                      std**3</span>
+<span class="sd">        </span>
+<span class="sd">        where m3 is the third central moment and std is the standard deviation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span>
+        <span class="n">sd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">std</span>
+        <span class="n">sk</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sd</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">1e-8</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_mcpts</span> <span class="o">-</span> <span class="n">mn</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="n">sd</span> <span class="o">**</span> <span class="mi">3</span>
+        <span class="k">return</span> <span class="n">sk</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">kurt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Kurtosis coefficient value as a result of an uncertainty calculation,</span>
+<span class="sd">        defined as::</span>
+<span class="sd">            </span>
+<span class="sd">                      m4</span>
+<span class="sd">            beta2 = ------</span>
+<span class="sd">                    std**4</span>
+
+<span class="sd">        where m4 is the fourth central moment and std is the standard deviation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span>
+        <span class="n">sd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">std</span>
+        <span class="n">kt</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sd</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">1e-8</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_mcpts</span> <span class="o">-</span> <span class="n">mn</span><span class="p">)</span> <span class="o">**</span> <span class="mi">4</span><span class="p">)</span> <span class="o">/</span> <span class="n">sd</span> <span class="o">**</span> <span class="mi">4</span>
+        <span class="k">return</span> <span class="n">kt</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stats</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The first four standard moments of a distribution: mean, variance, and</span>
+<span class="sd">        standardized skewness and kurtosis coefficients.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span>
+        <span class="n">vr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span>
+        <span class="n">sk</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">skew</span>
+        <span class="n">kt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kurt</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">mn</span><span class="p">,</span> <span class="n">vr</span><span class="p">,</span> <span class="n">sk</span><span class="p">,</span> <span class="n">kt</span><span class="p">]</span>
+
+<div class="viewcode-block" id="UncertainFunction.percentile">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.UncertainFunction.percentile">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">percentile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the distribution value at a given percentile or set of percentiles.</span>
+<span class="sd">        This follows the NIST method for calculating percentiles.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        val : scalar or array</span>
+<span class="sd">            Either a single value or an array of values between 0 and 1.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : scalar or array</span>
+<span class="sd">            The actual distribution value that appears at the requested</span>
+<span class="sd">            percentile value or values</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># test to see if an input is given as an array</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">vi</span><span class="p">)</span> <span class="k">for</span> <span class="n">vi</span> <span class="ow">in</span> <span class="n">val</span><span class="p">]</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mcpts</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">val</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mcpts</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mcpts</span><span class="p">)</span>
+                <span class="n">n</span> <span class="o">=</span> <span class="n">val</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">k</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">n</span> <span class="o">-</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">d</span> <span class="o">*</span> <span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">tmp</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_to_general_representation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">str_func</span><span class="p">):</span>
+        <span class="n">mn</span><span class="p">,</span> <span class="n">vr</span><span class="p">,</span> <span class="n">sk</span><span class="p">,</span> <span class="n">kt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stats</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="s2">&quot;uv(</span><span class="si">{:}</span><span class="s2">, </span><span class="si">{:}</span><span class="s2">, </span><span class="si">{:}</span><span class="s2">, </span><span class="si">{:}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">str_func</span><span class="p">(</span><span class="n">mn</span><span class="p">),</span> <span class="n">str_func</span><span class="p">(</span><span class="n">vr</span><span class="p">),</span> <span class="n">str_func</span><span class="p">(</span><span class="n">sk</span><span class="p">),</span> <span class="n">str_func</span><span class="p">(</span><span class="n">kt</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">([</span><span class="n">vr</span><span class="p">,</span> <span class="n">sk</span><span class="p">,</span> <span class="n">kt</span><span class="p">])</span>
+            <span class="k">else</span> <span class="n">str_func</span><span class="p">(</span><span class="n">mn</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_general_representation</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1">#        return self._to_general_representation(repr)</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<div class="viewcode-block" id="UncertainFunction.describe">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.UncertainFunction.describe">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">describe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Cleanly show what the four displayed distribution moments are:</span>
+<span class="sd">            - Mean</span>
+<span class="sd">            - Variance</span>
+<span class="sd">            - Standardized Skewness Coefficient</span>
+<span class="sd">            - Standardized Kurtosis Coefficient</span>
+<span class="sd">        </span>
+<span class="sd">        For a standard Normal distribution, these are [0, 1, 0, 3].</span>
+<span class="sd">        </span>
+<span class="sd">        If the object has an associated tag, this is presented. If the optional</span>
+<span class="sd">        ``name`` kwarg is utilized, this is presented as with the moments.</span>
+<span class="sd">        Otherwise, no unique name is presented.</span>
+<span class="sd">        </span>
+<span class="sd">        Example</span>
+<span class="sd">        =======</span>
+<span class="sd">        ::</span>
+<span class="sd">        </span>
+<span class="sd">            &gt;&gt;&gt; x = N(0, 1, &#39;x&#39;)</span>
+<span class="sd">            &gt;&gt;&gt; x.describe()  # print tag since assigned</span>
+<span class="sd">            MCERP Uncertain Value (x):</span>
+<span class="sd">            ...</span>
+
+<span class="sd">            &gt;&gt;&gt; x.describe(&#39;foobar&#39;)  # &#39;name&#39; kwarg takes precedence</span>
+<span class="sd">            MCERP Uncertain Value (foobar):</span>
+<span class="sd">            ...</span>
+<span class="sd">            </span>
+<span class="sd">            &gt;&gt;&gt; y = x**2</span>
+<span class="sd">            &gt;&gt;&gt; y.describe(&#39;y&#39;)  # print name since assigned</span>
+<span class="sd">            MCERP Uncertain Value (y):</span>
+<span class="sd">            ...</span>
+
+<span class="sd">            &gt;&gt;&gt; y.describe()  # print nothing since no tag</span>
+<span class="sd">            MCERP Uncertain Value:</span>
+<span class="sd">            ...</span>
+
+<span class="sd">         &quot;&quot;&quot;</span>
+        <span class="n">mn</span><span class="p">,</span> <span class="n">vr</span><span class="p">,</span> <span class="n">sk</span><span class="p">,</span> <span class="n">kt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stats</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;MCERP Uncertain Value (&quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;):</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;MCERP Uncertain Value (&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="o">+</span> <span class="s2">&quot;):</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;MCERP Uncertain Value:</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot; &gt; Mean................... </span><span class="si">{: }</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mn</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot; &gt; Variance............... </span><span class="si">{: }</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">vr</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot; &gt; Skewness Coefficient... </span><span class="si">{: }</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sk</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot; &gt; Kurtosis Coefficient... </span><span class="si">{: }</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">kt</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="UncertainFunction.plot">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.UncertainFunction.plot">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hist</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot the distribution of the UncertainFunction. By default, the</span>
+<span class="sd">        distribution is shown with a kernel density estimate (kde).</span>
+<span class="sd">        </span>
+<span class="sd">        Optional</span>
+<span class="sd">        --------</span>
+<span class="sd">        hist : bool</span>
+<span class="sd">            If true, a density histogram is displayed (histtype=&#39;stepfilled&#39;)</span>
+<span class="sd">        show : bool</span>
+<span class="sd">            If ``True``, the figure will be displayed after plotting the </span>
+<span class="sd">            distribution. If ``False``, an explicit call to ``plt.show()`` is</span>
+<span class="sd">            required to display the figure.</span>
+<span class="sd">        kwargs : any valid matplotlib.pyplot.plot or .hist kwarg</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+        <span class="n">vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mcpts</span>
+        <span class="n">low</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
+        <span class="n">high</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
+
+        <span class="n">p</span> <span class="o">=</span> <span class="n">ss</span><span class="o">.</span><span class="n">kde</span><span class="o">.</span><span class="n">gaussian_kde</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
+        <span class="n">xp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">hist</span><span class="p">:</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span>
+                <span class="n">vals</span><span class="p">,</span>
+                <span class="n">bins</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vals</span><span class="p">))</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">),</span>
+                <span class="n">histtype</span><span class="o">=</span><span class="s2">&quot;stepfilled&quot;</span><span class="p">,</span>
+                <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.1</span> <span class="o">*</span> <span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xp</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">xp</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">low</span> <span class="o">-</span> <span class="p">(</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">high</span> <span class="o">+</span> <span class="p">(</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="UncertainFunction.show">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.UncertainFunction.show">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">uf</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">to_uncertain_func</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">]))</span>
+        <span class="n">mcpts</span> <span class="o">=</span> <span class="n">uf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_mcpts</span> <span class="o">+</span> <span class="n">uf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">_mcpts</span>
+        <span class="k">return</span> <span class="n">UncertainFunction</span><span class="p">(</span><span class="n">mcpts</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">uf</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">to_uncertain_func</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">]))</span>
+        <span class="n">mcpts</span> <span class="o">=</span> <span class="n">uf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_mcpts</span> <span class="o">+</span> <span class="n">uf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">_mcpts</span>
+        <span class="k">return</span> <span class="n">UncertainFunction</span><span class="p">(</span><span class="n">mcpts</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">uf</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">to_uncertain_func</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">]))</span>
+        <span class="n">mcpts</span> <span class="o">=</span> <span class="n">uf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_mcpts</span> <span class="o">*</span> <span class="n">uf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">_mcpts</span>
+        <span class="k">return</span> <span class="n">UncertainFunction</span><span class="p">(</span><span class="n">mcpts</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__rmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">uf</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">to_uncertain_func</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">]))</span>
+        <span class="n">mcpts</span> <span class="o">=</span> <span class="n">uf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_mcpts</span> <span class="o">*</span> <span class="n">uf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">_mcpts</span>
+        <span class="k">return</span> <span class="n">UncertainFunction</span><span class="p">(</span><span class="n">mcpts</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">uf</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">to_uncertain_func</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">]))</span>
+        <span class="n">mcpts</span> <span class="o">=</span> <span class="n">uf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_mcpts</span> <span class="o">-</span> <span class="n">uf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">_mcpts</span>
+        <span class="k">return</span> <span class="n">UncertainFunction</span><span class="p">(</span><span class="n">mcpts</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__rsub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">uf</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">to_uncertain_func</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">]))</span>
+        <span class="n">mcpts</span> <span class="o">=</span> <span class="n">uf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">_mcpts</span> <span class="o">-</span> <span class="n">uf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_mcpts</span>
+        <span class="k">return</span> <span class="n">UncertainFunction</span><span class="p">(</span><span class="n">mcpts</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__div__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">uf</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">to_uncertain_func</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">]))</span>
+        <span class="n">mcpts</span> <span class="o">=</span> <span class="n">uf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_mcpts</span> <span class="o">/</span> <span class="n">uf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">_mcpts</span>
+        <span class="k">return</span> <span class="n">UncertainFunction</span><span class="p">(</span><span class="n">mcpts</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__rdiv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">uf</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">to_uncertain_func</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">]))</span>
+        <span class="n">mcpts</span> <span class="o">=</span> <span class="n">uf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">_mcpts</span> <span class="o">/</span> <span class="n">uf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_mcpts</span>
+        <span class="k">return</span> <span class="n">UncertainFunction</span><span class="p">(</span><span class="n">mcpts</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">uf</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">to_uncertain_func</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">]))</span>
+        <span class="n">mcpts</span> <span class="o">=</span> <span class="n">uf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_mcpts</span> <span class="o">/</span> <span class="n">uf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">_mcpts</span>
+        <span class="k">return</span> <span class="n">UncertainFunction</span><span class="p">(</span><span class="n">mcpts</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__rtruediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">uf</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">to_uncertain_func</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">]))</span>
+        <span class="n">mcpts</span> <span class="o">=</span> <span class="n">uf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">_mcpts</span> <span class="o">/</span> <span class="n">uf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_mcpts</span>
+        <span class="k">return</span> <span class="n">UncertainFunction</span><span class="p">(</span><span class="n">mcpts</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__pow__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">uf</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">to_uncertain_func</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">]))</span>
+        <span class="n">mcpts</span> <span class="o">=</span> <span class="n">uf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_mcpts</span> <span class="o">**</span> <span class="n">uf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">_mcpts</span>
+        <span class="k">return</span> <span class="n">UncertainFunction</span><span class="p">(</span><span class="n">mcpts</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__rpow__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="n">uf</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">to_uncertain_func</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">]))</span>
+        <span class="n">mcpts</span> <span class="o">=</span> <span class="n">uf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">_mcpts</span> <span class="o">**</span> <span class="n">uf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_mcpts</span>
+        <span class="k">return</span> <span class="n">UncertainFunction</span><span class="p">(</span><span class="n">mcpts</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__neg__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">mcpts</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">_mcpts</span>
+        <span class="k">return</span> <span class="n">UncertainFunction</span><span class="p">(</span><span class="n">mcpts</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__pos__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">mcpts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mcpts</span>
+        <span class="k">return</span> <span class="n">UncertainFunction</span><span class="p">(</span><span class="n">mcpts</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__abs__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">mcpts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mcpts</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">UncertainFunction</span><span class="p">(</span><span class="n">mcpts</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If we are comparing two distributions, check the resulting moments. If</span>
+<span class="sd">        they are the same distribution, then the moments will all be zero and</span>
+<span class="sd">        we can know that it is actually the same distribution we are comparing</span>
+<span class="sd">        ``self`` to, otherwise, at least one statistical moment will be non-</span>
+<span class="sd">        zero.</span>
+<span class="sd">        </span>
+<span class="sd">        If we are comparing ``self`` to a scalar, just do a normal comparison</span>
+<span class="sd">        so that if the underlying distribution looks like a PMF, a meaningful</span>
+<span class="sd">        probability of self==val is returned. This can still work quite safely</span>
+<span class="sd">        for PDF distributions since the likelihood of comparing self to an</span>
+<span class="sd">        actual sampled value is negligible when mcerp.npts is large.</span>
+<span class="sd">        </span>
+<span class="sd">        Examples:</span>
+<span class="sd">        </span>
+<span class="sd">            &gt;&gt;&gt; h = H(50, 5, 10)  # Hypergeometric distribution (PMF)</span>
+<span class="sd">            &gt;&gt;&gt; h==4  # what&#39;s the probability of getting 4 of the 5?</span>
+<span class="sd">            0.004</span>
+<span class="sd">            &gt;&gt;&gt; sum([h==i for i in (0, 1, 2, 3, 4, 5)])  # sum of all discrete probabilities</span>
+<span class="sd">            1.0</span>
+<span class="sd">            </span>
+<span class="sd">            &gt;&gt;&gt; n = N(0, 1)  # Normal distribution (PDF)</span>
+<span class="sd">            &gt;&gt;&gt; n==0  # what&#39;s the probability of being exactly 0.0?</span>
+<span class="sd">            0.0</span>
+<span class="sd">            &gt;&gt;&gt; n&gt;0  # greater than 0.0?</span>
+<span class="sd">            0.5</span>
+<span class="sd">            &gt;&gt;&gt; n&lt;0  # less than 0.0?</span>
+<span class="sd">            0.5</span>
+<span class="sd">            &gt;&gt;&gt; n==1  # exactly 1.0?</span>
+<span class="sd">            0.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">UncertainFunction</span><span class="p">):</span>
+            <span class="n">diff</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">-</span> <span class="n">val</span>
+            <span class="k">return</span> <span class="ow">not</span> <span class="p">(</span><span class="n">diff</span><span class="o">.</span><span class="n">mean</span> <span class="ow">or</span> <span class="n">diff</span><span class="o">.</span><span class="n">var</span> <span class="ow">or</span> <span class="n">diff</span><span class="o">.</span><span class="n">skew</span> <span class="ow">or</span> <span class="n">diff</span><span class="o">.</span><span class="n">kurt</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mcpts</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_mcpts</span> <span class="o">==</span> <span class="n">val</span><span class="p">])</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">npts</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">UncertainFunction</span><span class="p">):</span>
+            <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">val</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span> <span class="o">==</span> <span class="n">val</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If we are comparing two distributions, perform statistical tests,</span>
+<span class="sd">        otherwise, calculate the probability that the distribution is</span>
+<span class="sd">        less than val</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">UncertainFunction</span><span class="p">):</span>
+            <span class="n">tstat</span><span class="p">,</span> <span class="n">pval</span> <span class="o">=</span> <span class="n">ss</span><span class="o">.</span><span class="n">ttest_rel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mcpts</span><span class="p">,</span> <span class="n">val</span><span class="o">.</span><span class="n">_mcpts</span><span class="p">)</span>
+            <span class="n">sgn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">tstat</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">pval</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">:</span>  <span class="c1"># Since, statistically, we can&#39;t really tell</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span> <span class="k">if</span> <span class="n">sgn</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="k">else</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mcpts</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_mcpts</span> <span class="o">&lt;</span> <span class="n">val</span><span class="p">])</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">npts</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__le__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">UncertainFunction</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span> <span class="o">&lt;</span> <span class="n">val</span>  <span class="c1"># since it doesn&#39;t matter to the test</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mcpts</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_mcpts</span> <span class="o">&lt;=</span> <span class="n">val</span><span class="p">])</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">npts</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If we are comparing two distributions, perform statistical tests,</span>
+<span class="sd">        otherwise, calculate the probability that the distribution is</span>
+<span class="sd">        greater than val</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">UncertainFunction</span><span class="p">):</span>
+            <span class="n">tstat</span><span class="p">,</span> <span class="n">pval</span> <span class="o">=</span> <span class="n">ss</span><span class="o">.</span><span class="n">ttest_rel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mcpts</span><span class="p">,</span> <span class="n">val</span><span class="o">.</span><span class="n">_mcpts</span><span class="p">)</span>
+            <span class="n">sgn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">tstat</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">pval</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">:</span>  <span class="c1"># Since, statistically, we can&#39;t really tell</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span> <span class="k">if</span> <span class="n">sgn</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span> <span class="o">&lt;=</span> <span class="n">val</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__ge__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">UncertainFunction</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span> <span class="o">&gt;</span> <span class="n">val</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span> <span class="o">&lt;</span> <span class="n">val</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">((</span><span class="bp">self</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)))</span></div>
+
+
+
+<div class="viewcode-block" id="UncertainVariable">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.UncertainVariable">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">UncertainVariable</span><span class="p">(</span><span class="n">UncertainFunction</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    UncertainVariable objects track the effects of uncertainty, characterized </span>
+<span class="sd">    in terms of the first four standard moments of statistical distributions </span>
+<span class="sd">    (mean, variance, skewness and kurtosis coefficients). Monte Carlo simulation,</span>
+<span class="sd">    in conjunction with Latin-hypercube based sampling performs the calculations.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rv : scipy.stats.distribution</span>
+<span class="sd">        A distribution to characterize the uncertainty</span>
+<span class="sd">    </span>
+<span class="sd">    tag : str, optional</span>
+<span class="sd">        A string identifier when information about this variable is printed to</span>
+<span class="sd">        the screen</span>
+<span class="sd">        </span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    </span>
+<span class="sd">    The ``scipy.stats`` module contains many distributions which we can use to</span>
+<span class="sd">    perform any necessary uncertainty calculation. It is important to follow</span>
+<span class="sd">    the initialization syntax for creating any kind of distribution object:</span>
+<span class="sd">        </span>
+<span class="sd">        - *Location* and *Scale* values must use the kwargs ``loc`` and </span>
+<span class="sd">          ``scale``</span>
+<span class="sd">        - *Shape* values are passed in as non-keyword arguments before the </span>
+<span class="sd">          location and scale, (see below for syntax examples)..</span>
+<span class="sd">        </span>
+<span class="sd">    The mathematical operations that can be performed on uncertain objects will </span>
+<span class="sd">    work for any distribution supplied, but may be misleading if the supplied </span>
+<span class="sd">    moments or distribution is not accurately defined. Here are some guidelines </span>
+<span class="sd">    for creating UncertainVariable objects using some of the most common </span>
+<span class="sd">    statistical distributions:</span>
+<span class="sd">    </span>
+<span class="sd">    +---------------------------+-------------+-------------------+-----+---------+</span>
+<span class="sd">    | Distribution              | scipy.stats |  args             | loc | scale   |</span>
+<span class="sd">    |                           | class name  | (shape params)    |     |         |</span>
+<span class="sd">    +===========================+=============+===================+=====+=========+</span>
+<span class="sd">    | Normal(mu, sigma)         | norm        |                   | mu  | sigma   | </span>
+<span class="sd">    +---------------------------+-------------+-------------------+-----+---------+</span>
+<span class="sd">    | Uniform(a, b)             | uniform     |                   | a   | b-a     |</span>
+<span class="sd">    +---------------------------+-------------+-------------------+-----+---------+</span>
+<span class="sd">    | Exponential(lamda)        | expon       |                   |     | 1/lamda |</span>
+<span class="sd">    +---------------------------+-------------+-------------------+-----+---------+</span>
+<span class="sd">    | Gamma(k, theta)           | gamma       | k                 |     | theta   |</span>
+<span class="sd">    +---------------------------+-------------+-------------------+-----+---------+</span>
+<span class="sd">    | Beta(alpha, beta, [a, b]) | beta        | alpha, beta       | a   | b-a     |</span>
+<span class="sd">    +---------------------------+-------------+-------------------+-----+---------+</span>
+<span class="sd">    | Log-Normal(mu, sigma)     | lognorm     | sigma             | mu  |         |</span>
+<span class="sd">    +---------------------------+-------------+-------------------+-----+---------+</span>
+<span class="sd">    | Chi-Square(k)             | chi2        | k                 |     |         |</span>
+<span class="sd">    +---------------------------+-------------+-------------------+-----+---------+</span>
+<span class="sd">    | F(d1, d2)                 | f           | d1, d2            |     |         |</span>
+<span class="sd">    +---------------------------+-------------+-------------------+-----+---------+</span>
+<span class="sd">    | Triangular(a, b, c)       | triang      | c                 | a   | b-a     |</span>
+<span class="sd">    +---------------------------+-------------+-------------------+-----+---------+</span>
+<span class="sd">    | Student-T(v)              | t           | v                 |     |         |</span>
+<span class="sd">    +---------------------------+-------------+-------------------+-----+---------+</span>
+<span class="sd">    | Weibull(lamda, k)         | exponweib   | lamda, k          |     |         |</span>
+<span class="sd">    +---------------------------+-------------+-------------------+-----+---------+</span>
+<span class="sd">    | Bernoulli(p)              | bernoulli   | p                 |     |         |</span>
+<span class="sd">    +---------------------------+-------------+-------------------+-----+---------+</span>
+<span class="sd">    | Binomial(n, p)            | binomial    | n, p              |     |         |</span>
+<span class="sd">    +---------------------------+-------------+-------------------+-----+---------+</span>
+<span class="sd">    | Geometric(p)              | geom        | p                 |     |         |</span>
+<span class="sd">    +---------------------------+-------------+-------------------+-----+---------+</span>
+<span class="sd">    | Hypergeometric(N, n, K)   | hypergeom   | N, n, K           |     |         |</span>
+<span class="sd">    +---------------------------+-------------+-------------------+-----+---------+</span>
+<span class="sd">    | Poisson(lamda)            | poisson     | lamda             |     |         |</span>
+<span class="sd">    +---------------------------+-------------+-------------------+-----+---------+</span>
+<span class="sd">    </span>
+<span class="sd">    Thus, each distribution above would have the same call signature::</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; import scipy.stats as ss</span>
+<span class="sd">        &gt;&gt;&gt; ss.your_dist_here(args, loc=loc, scale=scale)</span>
+<span class="sd">        </span>
+<span class="sd">    ANY SCIPY.STATS.DISTRIBUTION SHOULD WORK! IF ONE DOESN&#39;T, PLEASE LET ME</span>
+<span class="sd">    KNOW!</span>
+<span class="sd">    </span>
+<span class="sd">    Convenient constructors have been created to make assigning these </span>
+<span class="sd">    distributions easier. They follow the parameter notation found in the</span>
+<span class="sd">    respective Wikipedia articles:</span>
+<span class="sd">    </span>
+<span class="sd">    +---------------------------+---------------------------------------------------------------+</span>
+<span class="sd">    | MCERP Distibution         | Wikipedia page                                                |</span>
+<span class="sd">    +===========================+===============================================================+</span>
+<span class="sd">    | N(mu, sigma)              | http://en.wikipedia.org/wiki/Normal_distribution              |</span>
+<span class="sd">    +---------------------------+---------------------------------------------------------------+</span>
+<span class="sd">    | U(a, b)                   | http://en.wikipedia.org/wiki/Uniform_distribution_(continuous)|</span>
+<span class="sd">    +---------------------------+---------------------------------------------------------------+</span>
+<span class="sd">    | Exp(lamda, [mu])          | http://en.wikipedia.org/wiki/Exponential_distribution         |</span>
+<span class="sd">    +---------------------------+---------------------------------------------------------------+</span>
+<span class="sd">    | Gamma(k, theta)           | http://en.wikipedia.org/wiki/Gamma_distribution               |</span>
+<span class="sd">    +---------------------------+---------------------------------------------------------------+</span>
+<span class="sd">    | Beta(alpha, beta, [a, b]) | http://en.wikipedia.org/wiki/Beta_distribution                |</span>
+<span class="sd">    +---------------------------+---------------------------------------------------------------+</span>
+<span class="sd">    | LogN(mu, sigma)           | http://en.wikipedia.org/wiki/Log-normal_distribution          |</span>
+<span class="sd">    +---------------------------+---------------------------------------------------------------+</span>
+<span class="sd">    | X2(df)                    | http://en.wikipedia.org/wiki/Chi-squared_distribution         |</span>
+<span class="sd">    +---------------------------+---------------------------------------------------------------+</span>
+<span class="sd">    | F(dfn, dfd)               | http://en.wikipedia.org/wiki/F-distribution                   |</span>
+<span class="sd">    +---------------------------+---------------------------------------------------------------+</span>
+<span class="sd">    | Tri(a, b, c)              | http://en.wikipedia.org/wiki/Triangular_distribution          |</span>
+<span class="sd">    +---------------------------+---------------------------------------------------------------+</span>
+<span class="sd">    | T(df)                     | http://en.wikipedia.org/wiki/Student&#39;s_t-distribution         |</span>
+<span class="sd">    +---------------------------+---------------------------------------------------------------+</span>
+<span class="sd">    | Weib(lamda, k)            | http://en.wikipedia.org/wiki/Weibull_distribution             |</span>
+<span class="sd">    +---------------------------+---------------------------------------------------------------+</span>
+<span class="sd">    | Bern(p)                   | http://en.wikipedia.org/wiki/Bernoulli_distribution           |</span>
+<span class="sd">    +---------------------------+---------------------------------------------------------------+</span>
+<span class="sd">    | B(n, p)                   | http://en.wikipedia.org/wiki/Binomial_distribution            |</span>
+<span class="sd">    +---------------------------+---------------------------------------------------------------+</span>
+<span class="sd">    | G(p)                      | http://en.wikipedia.org/wiki/Geometric_distribution           |</span>
+<span class="sd">    +---------------------------+---------------------------------------------------------------+</span>
+<span class="sd">    | H(M, n, N)                | http://en.wikipedia.org/wiki/Hypergeometric_distribution      |</span>
+<span class="sd">    +---------------------------+---------------------------------------------------------------+</span>
+<span class="sd">    | Pois(lamda)               | http://en.wikipedia.org/wiki/Poisson_distribution             |</span>
+<span class="sd">    +---------------------------+---------------------------------------------------------------+</span>
+
+<span class="sd">    Thus, the following are equivalent::</span>
+
+<span class="sd">        &gt;&gt;&gt; x = N(10, 1)</span>
+<span class="sd">        &gt;&gt;&gt; x = uv(ss.norm(loc=10, scale=1))</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    A three-part assembly</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; x1 = N(24, 1)</span>
+<span class="sd">        &gt;&gt;&gt; x2 = N(37, 4)</span>
+<span class="sd">        &gt;&gt;&gt; x3 = Exp(2)  # Exp(mu=0.5) works too</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; Z = (x1*x2**2)/(15*(1.5 + x3))</span>
+<span class="sd">        &gt;&gt;&gt; Z</span>
+<span class="sd">        uv(1161.46231679, 116646.762981, 0.345533974771, 3.00791101068)</span>
+
+<span class="sd">    The result shows the mean, variance, and standardized skewness and kurtosis</span>
+<span class="sd">    of the output variable Z, which will vary from use to use due to the random</span>
+<span class="sd">    nature of Monte Carlo simulation and latin-hypercube sampling techniques.</span>
+<span class="sd">    </span>
+<span class="sd">    Basic math operations may be applied to distributions, where all </span>
+<span class="sd">    statistical calculations are performed using latin-hypercube enhanced Monte</span>
+<span class="sd">    Carlo simulation. Nearly all of the built-in trigonometric-, logarithm-, </span>
+<span class="sd">    etc. functions of the ``math`` module have uncertainty-compatible </span>
+<span class="sd">    counterparts that should be used when possible since they support both </span>
+<span class="sd">    scalar values and uncertain objects. These can be used after importing the </span>
+<span class="sd">    ``umath`` module::</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; from mcerp.umath import * # sin(), sqrt(), etc.</span>
+<span class="sd">        &gt;&gt;&gt; sqrt(x1)</span>
+<span class="sd">        uv(4.89791765647, 0.0104291897681, -0.0614940614672, 3.00264937735)</span>
+<span class="sd">    </span>
+<span class="sd">    At any time, the standardized statistics can be retrieved using::</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; x1.mean</span>
+<span class="sd">        &gt;&gt;&gt; x1.var  # x1.std (standard deviation) is also available</span>
+<span class="sd">        &gt;&gt;&gt; x1.skew</span>
+<span class="sd">        &gt;&gt;&gt; x1.kurt</span>
+<span class="sd">    </span>
+<span class="sd">    or all four together with::</span>
+<span class="sd">    </span>
+<span class="sd">        &gt;&gt;&gt; x1.stats</span>
+<span class="sd">    </span>
+<span class="sd">    By default, the Monte Carlo simulation uses 10000 samples, but this can be</span>
+<span class="sd">    changed at any time with::</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; mcerp.npts = number_of_samples</span>
+<span class="sd">    </span>
+<span class="sd">    Any value from 1,000 to 1,000,000 is recommended (more samples means more</span>
+<span class="sd">    accurate, but also means more time required to perform the calculations). </span>
+<span class="sd">    Although it can be changed, since variables retain their samples from one</span>
+<span class="sd">    calculation to the next, this parameter should be changed before any </span>
+<span class="sd">    calculations are performed to ensure parameter compatibility (this may </span>
+<span class="sd">    change to be more dynamic in the future, but for now this is how it is).</span>
+<span class="sd">    </span>
+<span class="sd">    Also, to see the underlying distribution of the variable, and if matplotlib</span>
+<span class="sd">    is installed, simply call its plot method::</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; x1.plot()</span>
+<span class="sd">    </span>
+<span class="sd">    Optional kwargs can be any valid kwarg used by matplotlib.pyplot.plot</span>
+<span class="sd">    </span>
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    N, U, Exp, Gamma, Beta, LogN, X2, F, Tri, PERT, T, Weib, Bern, B, G, H, </span>
+<span class="sd">    Pois</span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rv</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="k">assert</span> <span class="nb">hasattr</span><span class="p">(</span>
+            <span class="n">rv</span><span class="p">,</span> <span class="s2">&quot;dist&quot;</span>
+        <span class="p">),</span> <span class="s2">&quot;Input must be a  distribution from the scipy.stats module.&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rv</span> <span class="o">=</span> <span class="n">rv</span>
+
+        <span class="c1"># generate the latin-hypercube points</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mcpts</span> <span class="o">=</span> <span class="n">lhd</span><span class="p">(</span><span class="n">dist</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rv</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">npts</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="n">tag</span>
+
+<div class="viewcode-block" id="UncertainVariable.plot">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.UncertainVariable.plot">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hist</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot the distribution of the UncertainVariable. Continuous </span>
+<span class="sd">        distributions are plotted with a line plot and discrete distributions</span>
+<span class="sd">        are plotted with discrete circles.</span>
+<span class="sd">        </span>
+<span class="sd">        Optional</span>
+<span class="sd">        --------</span>
+<span class="sd">        hist : bool</span>
+<span class="sd">            If true, a histogram is displayed</span>
+<span class="sd">        show : bool</span>
+<span class="sd">            If ``True``, the figure will be displayed after plotting the </span>
+<span class="sd">            distribution. If ``False``, an explicit call to ``plt.show()`` is</span>
+<span class="sd">            required to display the figure.</span>
+<span class="sd">        kwargs : any valid matplotlib.pyplot.plot kwarg</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+        <span class="k">if</span> <span class="n">hist</span><span class="p">:</span>
+            <span class="n">vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mcpts</span>
+            <span class="n">low</span> <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+            <span class="n">high</span> <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span>
+                <span class="n">vals</span><span class="p">,</span>
+                <span class="n">bins</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vals</span><span class="p">))</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">),</span>
+                <span class="n">histtype</span><span class="o">=</span><span class="s2">&quot;stepfilled&quot;</span><span class="p">,</span>
+                <span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.1</span> <span class="o">*</span> <span class="n">h</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bound</span> <span class="o">=</span> <span class="mf">0.0001</span>
+            <span class="n">low</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rv</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="n">bound</span><span class="p">)</span>
+            <span class="n">high</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rv</span><span class="o">.</span><span class="n">ppf</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">bound</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rv</span><span class="o">.</span><span class="n">dist</span><span class="p">,</span> <span class="s2">&quot;pmf&quot;</span><span class="p">):</span>
+                <span class="n">low</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">low</span><span class="p">)</span>
+                <span class="n">high</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">high</span><span class="p">)</span>
+                <span class="n">vals</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">low</span><span class="p">,</span> <span class="n">high</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rv</span><span class="o">.</span><span class="n">pmf</span><span class="p">(</span><span class="n">vals</span><span class="p">),</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rv</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">vals</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">low</span> <span class="o">-</span> <span class="p">(</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">high</span> <span class="o">+</span> <span class="p">(</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+</div>
+
+
+
+<span class="n">uv</span> <span class="o">=</span> <span class="n">UncertainVariable</span>  <span class="c1"># a nicer form for the user</span>
+
+<span class="c1"># DON&#39;T MOVE THIS IMPORT!!! The prior definitions must be in place before</span>
+<span class="c1"># importing the correlation-related functions</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.correlate</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">umath</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
+
+
+<span class="c1">###############################################################################</span>
+<span class="c1"># Define some convenience constructors for common statistical distributions.</span>
+<span class="c1"># Hopefully these are a little easier/more intuitive to use than the</span>
+<span class="c1"># scipy.stats.distributions.</span>
+<span class="c1">###############################################################################</span>
+
+<span class="c1">###############################################################################</span>
+<span class="c1"># CONTINUOUS DISTRIBUTIONS</span>
+<span class="c1">###############################################################################</span>
+
+
+<div class="viewcode-block" id="Beta">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.Beta">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Beta</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Beta random variate</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    alpha : scalar</span>
+<span class="sd">        The first shape parameter</span>
+<span class="sd">    beta : scalar</span>
+<span class="sd">        The second shape parameter</span>
+<span class="sd">    </span>
+<span class="sd">    Optional</span>
+<span class="sd">    --------</span>
+<span class="sd">    low : scalar</span>
+<span class="sd">        Lower bound of the distribution support (default=0)</span>
+<span class="sd">    high : scalar</span>
+<span class="sd">        Upper bound of the distribution support (default=1)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="n">alpha</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">beta</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="p">),</span> <span class="s1">&#39;Beta &quot;alpha&quot; and &quot;beta&quot; parameters must be greater than zero&#39;</span>
+    <span class="k">assert</span> <span class="n">low</span> <span class="o">&lt;</span> <span class="n">high</span><span class="p">,</span> <span class="s1">&#39;Beta &quot;low&quot; must be less than &quot;high&quot;&#39;</span>
+    <span class="k">return</span> <span class="n">uv</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">beta</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">low</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="BetaPrime">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.BetaPrime">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">BetaPrime</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A BetaPrime random variate</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    alpha : scalar</span>
+<span class="sd">        The first shape parameter</span>
+<span class="sd">    beta : scalar</span>
+<span class="sd">        The second shape parameter</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="n">alpha</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">beta</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="p">),</span> <span class="s1">&#39;BetaPrime &quot;alpha&quot; and &quot;beta&quot; parameters must be greater than zero&#39;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Beta</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Bradford">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.Bradford">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Bradford</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Bradford random variate</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    q : scalar</span>
+<span class="sd">        The shape parameter</span>
+<span class="sd">    low : scalar</span>
+<span class="sd">        The lower bound of the distribution (default=0)</span>
+<span class="sd">    high : scalar</span>
+<span class="sd">        The upper bound of the distribution (default=1)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">q</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Bradford &quot;q&quot; parameter must be greater than zero&#39;</span>
+    <span class="k">assert</span> <span class="n">low</span> <span class="o">&lt;</span> <span class="n">high</span><span class="p">,</span> <span class="s1">&#39;Bradford &quot;low&quot; parameter must be less than &quot;high&quot;&#39;</span>
+    <span class="k">return</span> <span class="n">uv</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">bradford</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">low</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Burr">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.Burr">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Burr</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Burr random variate</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    c : scalar</span>
+<span class="sd">        The first shape parameter</span>
+<span class="sd">    k : scalar</span>
+<span class="sd">        The second shape parameter</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Burr &quot;c&quot; and &quot;k&quot; parameters must be greater than zero&#39;</span>
+    <span class="k">return</span> <span class="n">uv</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">burr</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ChiSquared">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.ChiSquared">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ChiSquared</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Chi-Squared random variate</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    k : int</span>
+<span class="sd">        The degrees of freedom of the distribution (must be greater than one)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">==</span> <span class="n">k</span> <span class="ow">and</span> <span class="n">k</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Chi-Squared &quot;k&quot; must be an integer greater than 0&#39;</span>
+    <span class="k">return</span> <span class="n">uv</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">chi2</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span></div>
+
+
+
+<span class="n">Chi2</span> <span class="o">=</span> <span class="n">ChiSquared</span>  <span class="c1"># for more concise use</span>
+
+
+<div class="viewcode-block" id="Erf">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.Erf">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Erf</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An Error Function random variate. </span>
+<span class="sd">    </span>
+<span class="sd">    This distribution is derived from a normal distribution by setting </span>
+<span class="sd">    m = 0 and s = 1/(h*sqrt(2)), and thus is used in similar situations </span>
+<span class="sd">    as the normal distribution.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    h : scalar</span>
+<span class="sd">        The scale parameter.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">h</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Erf &quot;h&quot; must be greater than zero&#39;</span>
+    <span class="k">return</span> <span class="n">Normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">h</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">**</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Erlang">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.Erlang">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Erlang</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">lamda</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An Erlang random variate.</span>
+<span class="sd">    </span>
+<span class="sd">    This distribution is the same as a Gamma(k, theta) distribution, but </span>
+<span class="sd">    with the restriction that k must be a positive integer. This</span>
+<span class="sd">    is provided for greater compatibility with other simulation tools, but</span>
+<span class="sd">    provides no advantage over the Gamma distribution in its applications.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    k : int</span>
+<span class="sd">        The shape parameter (must be a positive integer)</span>
+<span class="sd">    lamda : scalar</span>
+<span class="sd">        The scale parameter (must be greater than zero)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">==</span> <span class="n">k</span> <span class="ow">and</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Erlang &quot;k&quot; must be a positive integer&#39;</span>
+    <span class="k">assert</span> <span class="n">lamda</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Erlang &quot;lamda&quot; must be greater than zero&#39;</span>
+    <span class="k">return</span> <span class="n">Gamma</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">lamda</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Exponential">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.Exponential">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Exponential</span><span class="p">(</span><span class="n">lamda</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An Exponential random variate</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lamda : scalar</span>
+<span class="sd">        The inverse scale (as shown on Wikipedia). (FYI: mu = 1/lamda.)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">lamda</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Exponential &quot;lamda&quot; must be greater than zero&#39;</span>
+    <span class="k">return</span> <span class="n">uv</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">expon</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">lamda</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span></div>
+
+
+
+<span class="n">Exp</span> <span class="o">=</span> <span class="n">Exponential</span>  <span class="c1"># for more concise use</span>
+
+
+<div class="viewcode-block" id="ExtValueMax">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.ExtValueMax">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ExtValueMax</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An Extreme Value Maximum random variate.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mu : scalar</span>
+<span class="sd">        The location parameter</span>
+<span class="sd">    sigma : scalar</span>
+<span class="sd">        The scale parameter (must be greater than zero)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">sigma</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;ExtremeValueMax &quot;sigma&quot; must be greater than zero&#39;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">U</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">_mcpts</span><span class="p">[:]</span>
+    <span class="k">return</span> <span class="n">UncertainFunction</span><span class="p">(</span><span class="n">mu</span> <span class="o">-</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">p</span><span class="p">)),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span></div>
+
+
+
+<span class="n">EVMax</span> <span class="o">=</span> <span class="n">ExtValueMax</span>  <span class="c1"># for more concise use</span>
+
+
+<div class="viewcode-block" id="ExtValueMin">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.ExtValueMin">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ExtValueMin</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An Extreme Value Minimum random variate.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mu : scalar</span>
+<span class="sd">        The location parameter</span>
+<span class="sd">    sigma : scalar</span>
+<span class="sd">        The scale parameter (must be greater than zero)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">sigma</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;ExtremeValueMin &quot;sigma&quot; must be greater than zero&#39;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">U</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">_mcpts</span><span class="p">[:]</span>
+    <span class="k">return</span> <span class="n">UncertainFunction</span><span class="p">(</span><span class="n">mu</span> <span class="o">+</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p</span><span class="p">)),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span></div>
+
+
+
+<span class="n">EVMin</span> <span class="o">=</span> <span class="n">ExtValueMin</span>  <span class="c1"># for more concise use</span>
+
+
+<div class="viewcode-block" id="Fisher">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.Fisher">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Fisher</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An F (fisher) random variate</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    d1 : int</span>
+<span class="sd">        Numerator degrees of freedom</span>
+<span class="sd">    d2 : int</span>
+<span class="sd">        Denominator degrees of freedom</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="nb">int</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span> <span class="o">==</span> <span class="n">d1</span> <span class="ow">and</span> <span class="n">d1</span> <span class="o">&gt;=</span> <span class="mi">1</span>
+    <span class="p">),</span> <span class="s1">&#39;Fisher (F) &quot;d1&quot; must be an integer greater than 0&#39;</span>
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="nb">int</span><span class="p">(</span><span class="n">d2</span><span class="p">)</span> <span class="o">==</span> <span class="n">d2</span> <span class="ow">and</span> <span class="n">d2</span> <span class="o">&gt;=</span> <span class="mi">1</span>
+    <span class="p">),</span> <span class="s1">&#39;Fisher (F) &quot;d2&quot; must be an integer greater than 0&#39;</span>
+    <span class="k">return</span> <span class="n">uv</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span></div>
+
+
+
+<span class="n">F</span> <span class="o">=</span> <span class="n">Fisher</span>  <span class="c1"># for more concise use</span>
+
+
+<div class="viewcode-block" id="Gamma">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.Gamma">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Gamma</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Gamma random variate</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    k : scalar</span>
+<span class="sd">        The shape parameter (must be positive and non-zero)</span>
+<span class="sd">    theta : scalar</span>
+<span class="sd">        The scale parameter (must be positive and non-zero)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="n">k</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">theta</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="p">),</span> <span class="s1">&#39;Gamma &quot;k&quot; and &quot;theta&quot; parameters must be greater than zero&#39;</span>
+    <span class="k">return</span> <span class="n">uv</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">gamma</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">theta</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="LogNormal">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.LogNormal">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">LogNormal</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Log-Normal random variate</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mu : scalar</span>
+<span class="sd">        The location parameter</span>
+<span class="sd">    sigma : scalar</span>
+<span class="sd">        The scale parameter (must be positive and non-zero)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">sigma</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Log-Normal &quot;sigma&quot; must be positive&#39;</span>
+    <span class="k">return</span> <span class="n">uv</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">lognorm</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">mu</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span></div>
+
+
+
+<span class="n">LogN</span> <span class="o">=</span> <span class="n">LogNormal</span>  <span class="c1"># for more concise use</span>
+
+
+<div class="viewcode-block" id="Normal">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.Normal">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Normal</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Normal (or Gaussian) random variate</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mu : scalar</span>
+<span class="sd">        The mean value of the distribution</span>
+<span class="sd">    sigma : scalar</span>
+<span class="sd">        The standard deviation (must be positive and non-zero)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">sigma</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Normal &quot;sigma&quot; must be greater than zero&#39;</span>
+    <span class="k">return</span> <span class="n">uv</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">sigma</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span></div>
+
+
+
+<span class="n">N</span> <span class="o">=</span> <span class="n">Normal</span>  <span class="c1"># for more concise use</span>
+
+
+<div class="viewcode-block" id="Pareto">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.Pareto">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Pareto</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Pareto random variate (first kind)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    q : scalar</span>
+<span class="sd">        The scale parameter</span>
+<span class="sd">    a : scalar</span>
+<span class="sd">        The shape parameter (the minimum possible value)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">q</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Pareto &quot;q&quot; and &quot;a&quot; must be positive scalars&#39;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">Uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">q</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Pareto2">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.Pareto2">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Pareto2</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Pareto random variate (second kind). This form always starts at the</span>
+<span class="sd">    origin.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    q : scalar</span>
+<span class="sd">        The scale parameter</span>
+<span class="sd">    b : scalar</span>
+<span class="sd">        The shape parameter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">q</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">b</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Pareto2 &quot;q&quot; and &quot;b&quot; must be positive scalars&#39;</span>
+    <span class="k">return</span> <span class="n">Pareto</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span> <span class="o">-</span> <span class="n">b</span></div>
+
+
+
+<div class="viewcode-block" id="PERT">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.PERT">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">PERT</span><span class="p">(</span><span class="n">low</span><span class="p">,</span> <span class="n">peak</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">g</span><span class="o">=</span><span class="mf">4.0</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A PERT random variate</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    low : scalar</span>
+<span class="sd">        Lower bound of the distribution support</span>
+<span class="sd">    peak : scalar</span>
+<span class="sd">        The location of the distribution&#39;s peak (low &lt;= peak &lt;= high)</span>
+<span class="sd">    high : scalar</span>
+<span class="sd">        Upper bound of the distribution support</span>
+<span class="sd">    </span>
+<span class="sd">    Optional</span>
+<span class="sd">    --------</span>
+<span class="sd">    g : scalar</span>
+<span class="sd">        Controls the uncertainty of the distribution around the peak. Smaller</span>
+<span class="sd">        values make the distribution flatter and more uncertain around the </span>
+<span class="sd">        peak while larger values make it focused and less uncertain around</span>
+<span class="sd">        the peak. (Default: 4)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="n">low</span><span class="p">,</span> <span class="n">peak</span><span class="p">,</span> <span class="n">high</span><span class="p">]]</span>
+    <span class="k">assert</span> <span class="n">a</span> <span class="o">&lt;=</span> <span class="n">b</span> <span class="o">&lt;=</span> <span class="n">c</span><span class="p">,</span> <span class="s1">&#39;PERT &quot;peak&quot; must be greater than &quot;low&quot; and less than &quot;high&quot;&#39;</span>
+    <span class="k">assert</span> <span class="n">g</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;PERT &quot;g&quot; must be non-negative&#39;</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">g</span> <span class="o">*</span> <span class="n">b</span> <span class="o">+</span> <span class="n">c</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">g</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">mu</span> <span class="o">==</span> <span class="n">b</span><span class="p">:</span>
+        <span class="n">a1</span> <span class="o">=</span> <span class="n">a2</span> <span class="o">=</span> <span class="mf">3.0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">a1</span> <span class="o">=</span> <span class="p">((</span><span class="n">mu</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">b</span> <span class="o">-</span> <span class="n">a</span> <span class="o">-</span> <span class="n">c</span><span class="p">))</span> <span class="o">/</span> <span class="p">((</span><span class="n">b</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="n">a</span><span class="p">))</span>
+        <span class="n">a2</span> <span class="o">=</span> <span class="n">a1</span> <span class="o">*</span> <span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">mu</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Beta</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="StudentT">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.StudentT">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">StudentT</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Student-T random variate</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    v : int</span>
+<span class="sd">        The degrees of freedom of the distribution (must be greater than one)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">==</span> <span class="n">v</span> <span class="ow">and</span> <span class="n">v</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Student-T &quot;v&quot; must be an integer greater than 0&#39;</span>
+    <span class="k">return</span> <span class="n">uv</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span></div>
+
+
+
+<span class="n">T</span> <span class="o">=</span> <span class="n">StudentT</span>  <span class="c1"># for more concise use</span>
+
+
+<div class="viewcode-block" id="Triangular">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.Triangular">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Triangular</span><span class="p">(</span><span class="n">low</span><span class="p">,</span> <span class="n">peak</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A triangular random variate</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    low : scalar</span>
+<span class="sd">        Lower bound of the distribution support</span>
+<span class="sd">    peak : scalar</span>
+<span class="sd">        The location of the triangle&#39;s peak (low &lt;= peak &lt;= high)</span>
+<span class="sd">    high : scalar</span>
+<span class="sd">        Upper bound of the distribution support</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">low</span> <span class="o">&lt;=</span> <span class="n">peak</span> <span class="o">&lt;=</span> <span class="n">high</span><span class="p">,</span> <span class="s1">&#39;Triangular &quot;peak&quot; must lie between &quot;low&quot; and &quot;high&quot;&#39;</span>
+    <span class="n">low</span><span class="p">,</span> <span class="n">peak</span><span class="p">,</span> <span class="n">high</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="n">low</span><span class="p">,</span> <span class="n">peak</span><span class="p">,</span> <span class="n">high</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="n">uv</span><span class="p">(</span>
+        <span class="n">ss</span><span class="o">.</span><span class="n">triang</span><span class="p">((</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">peak</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="n">low</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="p">(</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span><span class="p">)),</span>
+        <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="n">Tri</span> <span class="o">=</span> <span class="n">Triangular</span>  <span class="c1"># for more concise use</span>
+
+
+<div class="viewcode-block" id="Uniform">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.Uniform">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Uniform</span><span class="p">(</span><span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Uniform random variate</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    low : scalar</span>
+<span class="sd">        Lower bound of the distribution support.</span>
+<span class="sd">    high : scalar</span>
+<span class="sd">        Upper bound of the distribution support.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">low</span> <span class="o">&lt;</span> <span class="n">high</span><span class="p">,</span> <span class="s1">&#39;Uniform &quot;low&quot; must be less than &quot;high&quot;&#39;</span>
+    <span class="k">return</span> <span class="n">uv</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">low</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span></div>
+
+
+
+<span class="n">U</span> <span class="o">=</span> <span class="n">Uniform</span>  <span class="c1"># for more concise use</span>
+
+
+<div class="viewcode-block" id="Weibull">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.Weibull">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Weibull</span><span class="p">(</span><span class="n">lamda</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Weibull random variate</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lamda : scalar</span>
+<span class="sd">        The scale parameter</span>
+<span class="sd">    k : scalar</span>
+<span class="sd">        The shape parameter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="n">lamda</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="p">),</span> <span class="s1">&#39;Weibull &quot;lamda&quot; and &quot;k&quot; parameters must be greater than zero&#39;</span>
+    <span class="k">return</span> <span class="n">uv</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">exponweib</span><span class="p">(</span><span class="n">lamda</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span></div>
+
+
+
+<span class="n">Weib</span> <span class="o">=</span> <span class="n">Weibull</span>  <span class="c1"># for more concise use</span>
+
+
+<span class="c1">###############################################################################</span>
+<span class="c1"># DISCRETE DISTRIBUTIONS</span>
+<span class="c1">###############################################################################</span>
+
+
+<div class="viewcode-block" id="Bernoulli">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.Bernoulli">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Bernoulli</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Bernoulli random variate</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    p : scalar</span>
+<span class="sd">        The probability of success</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="mi">1</span>
+    <span class="p">),</span> <span class="s1">&#39;Bernoulli probability &quot;p&quot; must be between zero and one, non-inclusive&#39;</span>
+    <span class="k">return</span> <span class="n">uv</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">bernoulli</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span></div>
+
+
+
+<span class="n">Bern</span> <span class="o">=</span> <span class="n">Bernoulli</span>  <span class="c1"># for more concise use</span>
+
+
+<div class="viewcode-block" id="Binomial">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.Binomial">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Binomial</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Binomial random variate</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n : int</span>
+<span class="sd">        The number of trials</span>
+<span class="sd">    p : scalar</span>
+<span class="sd">        The probability of success</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="n">n</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="p">),</span> <span class="s1">&#39;Binomial number of trials &quot;n&quot; must be an integer greater than zero&#39;</span>
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="mi">1</span>
+    <span class="p">),</span> <span class="s1">&#39;Binomial probability &quot;p&quot; must be between zero and one, non-inclusive&#39;</span>
+    <span class="k">return</span> <span class="n">uv</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">binom</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span></div>
+
+
+
+<span class="n">B</span> <span class="o">=</span> <span class="n">Binomial</span>  <span class="c1"># for more concise use</span>
+
+
+<div class="viewcode-block" id="Geometric">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.Geometric">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Geometric</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Geometric random variate</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    p : scalar</span>
+<span class="sd">        The probability of success</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="mi">1</span>
+    <span class="p">),</span> <span class="s1">&#39;Geometric probability &quot;p&quot; must be between zero and one, non-inclusive&#39;</span>
+    <span class="k">return</span> <span class="n">uv</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">geom</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span></div>
+
+
+
+<span class="n">G</span> <span class="o">=</span> <span class="n">Geometric</span>  <span class="c1"># for more concise use</span>
+
+
+<div class="viewcode-block" id="Hypergeometric">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.Hypergeometric">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Hypergeometric</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Hypergeometric random variate</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    N : int</span>
+<span class="sd">        The total population size</span>
+<span class="sd">    n : int</span>
+<span class="sd">        The number of individuals of interest in the population</span>
+<span class="sd">    K : int</span>
+<span class="sd">        The number of individuals that will be chosen from the population</span>
+<span class="sd">        </span>
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    (Taken from the wikipedia page) Assume we have an urn with two types of</span>
+<span class="sd">    marbles, 45 black ones and 5 white ones. Standing next to the urn, you</span>
+<span class="sd">    close your eyes and draw 10 marbles without replacement. What is the</span>
+<span class="sd">    probability that exactly 4 of the 10 are white?</span>
+<span class="sd">    ::</span>
+<span class="sd">    </span>
+<span class="sd">        &gt;&gt;&gt; black = 45</span>
+<span class="sd">        &gt;&gt;&gt; white = 5</span>
+<span class="sd">        &gt;&gt;&gt; draw = 10</span>
+<span class="sd">        </span>
+<span class="sd">        # Now we create the distribution</span>
+<span class="sd">        &gt;&gt;&gt; h = H(black + white, white, draw)</span>
+<span class="sd">        </span>
+<span class="sd">        # To check the probability, in this case, we can use the underlying</span>
+<span class="sd">        #  scipy.stats object</span>
+<span class="sd">        &gt;&gt;&gt; h.rv.pmf(4)  # What is the probability that white count = 4?</span>
+<span class="sd">        0.0039645830580151975</span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="nb">int</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">==</span> <span class="n">N</span> <span class="ow">and</span> <span class="n">N</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="p">),</span> <span class="s1">&#39;Hypergeometric total population size &quot;N&quot; must be an integer greater than zero.&#39;</span>
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="n">n</span> <span class="ow">and</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="n">N</span>
+    <span class="p">),</span> <span class="s1">&#39;Hypergeometric interest population size &quot;n&quot; must be an integer greater than zero and no more than the total population size.&#39;</span>
+    <span class="k">assert</span> <span class="p">(</span>
+        <span class="nb">int</span><span class="p">(</span><span class="n">K</span><span class="p">)</span> <span class="o">==</span> <span class="n">K</span> <span class="ow">and</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">K</span> <span class="o">&lt;=</span> <span class="n">N</span>
+    <span class="p">),</span> <span class="s1">&#39;Hypergeometric chosen population size &quot;K&quot; must be an integer greater than zero and no more than the total population size.&#39;</span>
+    <span class="k">return</span> <span class="n">uv</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">hypergeom</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span></div>
+
+
+
+<span class="n">H</span> <span class="o">=</span> <span class="n">Hypergeometric</span>  <span class="c1"># for more concise use</span>
+
+
+<div class="viewcode-block" id="Poisson">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.Poisson">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Poisson</span><span class="p">(</span><span class="n">lamda</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Poisson random variate</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lamda : scalar</span>
+<span class="sd">        The rate of an occurance within a specified interval of time or space.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">lamda</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;Poisson &quot;lamda&quot; must be greater than zero.&#39;</span>
+    <span class="k">return</span> <span class="n">uv</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">poisson</span><span class="p">(</span><span class="n">lamda</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span></div>
+
+
+
+<span class="n">Pois</span> <span class="o">=</span> <span class="n">Poisson</span>  <span class="c1"># for more concise use</span>
+
+
+<span class="c1">###############################################################################</span>
+<span class="c1"># STATISTICAL FUNCTIONS</span>
+<span class="c1">###############################################################################</span>
+
+
+<div class="viewcode-block" id="covariance_matrix">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.covariance_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">covariance_matrix</span><span class="p">(</span><span class="n">nums_with_uncert</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the covariance matrix of uncertain variables, oriented by the</span>
+<span class="sd">    order of the inputs</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    nums_with_uncert : array-like</span>
+<span class="sd">        A list of variables that have an associated uncertainty</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    cov_matrix : 2d-array-like</span>
+<span class="sd">        A nested list containing covariance values</span>
+<span class="sd">    </span>
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    </span>
+<span class="sd">        &gt;&gt;&gt; x = N(1, 0.1)</span>
+<span class="sd">        &gt;&gt;&gt; y = N(10, 0.1)</span>
+<span class="sd">        &gt;&gt;&gt; z = x + 2*y</span>
+<span class="sd">        &gt;&gt;&gt; covariance_matrix([x,y,z])</span>
+<span class="sd">        [[  9.99694861e-03   2.54000840e-05   1.00477488e-02]</span>
+<span class="sd">         [  2.54000840e-05   9.99823207e-03   2.00218642e-02]</span>
+<span class="sd">         [  1.00477488e-02   2.00218642e-02   5.00914772e-02]]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ufuncs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">to_uncertain_func</span><span class="p">,</span> <span class="n">nums_with_uncert</span><span class="p">))</span>
+    <span class="n">cov_matrix</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i1</span><span class="p">,</span> <span class="n">expr1</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ufuncs</span><span class="p">):</span>
+        <span class="n">coefs_expr1</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">mean1</span> <span class="o">=</span> <span class="n">expr1</span><span class="o">.</span><span class="n">mean</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">i2</span><span class="p">,</span> <span class="n">expr2</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ufuncs</span><span class="p">[:</span> <span class="n">i1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]):</span>
+            <span class="n">mean2</span> <span class="o">=</span> <span class="n">expr2</span><span class="o">.</span><span class="n">mean</span>
+            <span class="n">coef</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">expr1</span><span class="o">.</span><span class="n">_mcpts</span> <span class="o">-</span> <span class="n">mean1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">expr2</span><span class="o">.</span><span class="n">_mcpts</span> <span class="o">-</span> <span class="n">mean2</span><span class="p">))</span>
+            <span class="n">coefs_expr1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coef</span><span class="p">)</span>
+        <span class="n">cov_matrix</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coefs_expr1</span><span class="p">)</span>
+
+    <span class="c1"># We symmetrize the matrix:</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">covariance_coefs</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cov_matrix</span><span class="p">):</span>
+        <span class="n">covariance_coefs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">cov_matrix</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">cov_matrix</span><span class="p">)))</span>
+
+    <span class="k">return</span> <span class="n">cov_matrix</span></div>
+
+
+
+<div class="viewcode-block" id="correlation_matrix">
+<a class="viewcode-back" href="../../source/api/barotropy.mcerp.html#barotropy.mcerp.correlation_matrix">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">correlation_matrix</span><span class="p">(</span><span class="n">nums_with_uncert</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the correlation matrix of uncertain variables, oriented by the</span>
+<span class="sd">    order of the inputs</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    nums_with_uncert : array-like</span>
+<span class="sd">        A list of variables that have an associated uncertainty</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    corr_matrix : 2d-array-like</span>
+<span class="sd">        A nested list containing covariance values</span>
+<span class="sd">    </span>
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    </span>
+<span class="sd">        &gt;&gt;&gt; x = N(1, 0.1)</span>
+<span class="sd">        &gt;&gt;&gt; y = N(10, 0.1)</span>
+<span class="sd">        &gt;&gt;&gt; z = x + 2*y</span>
+<span class="sd">        &gt;&gt;&gt; correlation_matrix([x,y,z])</span>
+<span class="sd">        [[ 0.99969486  0.00254001  0.4489385 ]</span>
+<span class="sd">         [ 0.00254001  0.99982321  0.89458702]</span>
+<span class="sd">         [ 0.4489385   0.89458702  1.        ]]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ufuncs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">to_uncertain_func</span><span class="p">,</span> <span class="n">nums_with_uncert</span><span class="p">))</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">ufunc</span><span class="o">.</span><span class="n">_mcpts</span> <span class="k">for</span> <span class="n">ufunc</span> <span class="ow">in</span> <span class="n">ufuncs</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">rowvar</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor, Simone Parisi, Amit Kumar, Fredrik Haglind
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Sustainable Thermal Power DTU.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>barotropy.uncertainty_utilities module &#8212; barotropy v0.2.2 documentation</title>
+    <title>barotropy.uncertainty_utilities module &#8212; barotropy v0.2.3 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=a6e268a8"></script>
+    <script src="../../_static/documentation_options.js?v=1d1eeab5"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>let toggleHintShow = 'Click to show';</script>
@@ -141,7 +141,7 @@
   
   
   
-    <p class="title logo__title">barotropy v0.2.2 documentation</p>
+    <p class="title logo__title">barotropy v0.2.3 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -163,6 +163,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/one_component_systems.html">One-component systems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/two_component_systems.html">Two-component systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/flashing_nozzle_fluent.html">Flashing nozzle Fluent</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../barotropic_model.html">Barotropic model</a></li>
@@ -174,16 +175,6 @@
 <li class="toctree-l2"><a class="reference internal" href="barotropy.math.html">Math functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="barotropy.graphics.html">Graphic functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="barotropy.utilities.html">Utility functions</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="barotropy.pysolver_view.html">PySolverView</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="barotropy.pysolver_view.nonlinear_system.html">barotropy.pysolver_view.nonlinear_system module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="barotropy.pysolver_view.nonlinear_system_problems.html">barotropy.pysolver_view.nonlinear_system_problems module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="barotropy.pysolver_view.numerical_differentiation.html">barotropy.pysolver_view.numerical_differentiation module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="barotropy.pysolver_view.optimization.html">barotropy.pysolver_view.optimization module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="barotropy.pysolver_view.optimization_problems.html">barotropy.pysolver_view.optimization_problems module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="barotropy.pysolver_view.optimization_wrappers.html">barotropy.pysolver_view.optimization_wrappers module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="barotropy.pysolver_view.pysolver_utilities.html">barotropy.pysolver_view.pysolver_utilities module</a></li>
-</ul>
-</details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="barotropy.fluent_automation.html">Fluent automation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="barotropy.fluent_automation.fluent_automation.html">barotropy.fluent_automation.fluent_automation module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="barotropy.fluent_automation.fluent_plot_nozzle_data.html">barotropy.fluent_automation.fluent_plot_nozzle_data module</a></li>
@@ -318,7 +309,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -334,6 +327,19 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.uncertainty_utilities.compute_confidence_interval"><code class="docutils literal notranslate"><span class="pre">compute_confidence_interval()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.uncertainty_utilities.plot_distribution"><code class="docutils literal notranslate"><span class="pre">plot_distribution()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.uncertainty_utilities.print_uncertainty"><code class="docutils literal notranslate"><span class="pre">print_uncertainty()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.uncertainty_utilities.wrap_function_mcepr"><code class="docutils literal notranslate"><span class="pre">wrap_function_mcepr()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.uncertainty_utilities.wrap_function_uncertainties"><code class="docutils literal notranslate"><span class="pre">wrap_function_uncertainties()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.uncertainty_utilities.z_score_for_confidence_level"><code class="docutils literal notranslate"><span class="pre">z_score_for_confidence_level()</span></code></a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -343,8 +349,136 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="barotropy-uncertainty-utilities-module">
-<h1>barotropy.uncertainty_utilities module<a class="headerlink" href="#barotropy-uncertainty-utilities-module" title="Link to this heading">#</a></h1>
+  <section id="module-barotropy.uncertainty_utilities">
+<span id="barotropy-uncertainty-utilities-module"></span><h1>barotropy.uncertainty_utilities module<a class="headerlink" href="#module-barotropy.uncertainty_utilities" title="Link to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.uncertainty_utilities.compute_confidence_interval">
+<span class="sig-prename descclassname"><span class="pre">barotropy.uncertainty_utilities.</span></span><span class="sig-name descname"><span class="pre">compute_confidence_interval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence_level</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/uncertainty_utilities.html#compute_confidence_interval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.uncertainty_utilities.compute_confidence_interval" title="Link to this definition">#</a></dt>
+<dd><p>Calculate confidence interval for a given uncertain variable and confidence level.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.uncertainty_utilities.plot_distribution">
+<span class="sig-prename descclassname"><span class="pre">barotropy.uncertainty_utilities.</span></span><span class="sig-name descname"><span class="pre">plot_distribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spec_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/uncertainty_utilities.html#plot_distribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.uncertainty_utilities.plot_distribution" title="Link to this definition">#</a></dt>
+<dd><p>Plot uncertainty distributions from spec dictionary</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.uncertainty_utilities.print_uncertainty">
+<span class="sig-prename descclassname"><span class="pre">barotropy.uncertainty_utilities.</span></span><span class="sig-name descname"><span class="pre">print_uncertainty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.95</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'0.3f'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/uncertainty_utilities.html#print_uncertainty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.uncertainty_utilities.print_uncertainty" title="Link to this definition">#</a></dt>
+<dd><p>Print the uncertainty analysis results for a given variable.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.uncertainty_utilities.wrap_function_mcepr">
+<span class="sig-prename descclassname"><span class="pre">barotropy.uncertainty_utilities.</span></span><span class="sig-name descname"><span class="pre">wrap_function_mcepr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/uncertainty_utilities.html#wrap_function_mcepr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.uncertainty_utilities.wrap_function_mcepr" title="Link to this definition">#</a></dt>
+<dd><p>Wraps a given function to allow it to operate on Monte Carlo samples of UncertainVariables, even if
+the function does not natively support these types. It validates inputs, broadcasts arguments to the
+correct number of Monte Carlo samples, and constructs an UncertainFunction from the results.</p>
+<p>This wrapper function first validates that there are no UncertainFunctions nested within collection-type
+arguments using <cite>validate_inputs_MC</cite>. It then uses <cite>broadcast_arg</cite> to ensure all arguments are replicated
+to match the number of Monte Carlo samples specified by <cite>mcerp.npts</cite>. After processing, it checks that the
+output of the first sample is numeric to prevent type errors in further computations. If <cite>func</cite> returns
+arrays, each column of the array is treated as a separate set of results, enabling simulations with multiple outputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>func</strong><span class="classifier">callable</span></dt><dd><p>The function to be applied. It should accept floats and return one or more floats (or a numpy array)</p>
+</dd>
+<dt><strong>*args</strong><span class="classifier">tuple</span></dt><dd><p>Positional arguments for <cite>func</cite>. These can be any Python object, including
+<cite>UncertainVariables</cite>. The only constraints is that arguments of type <cite>list</cite>,
+<cite>tuple</cite>, and <cite>dictionary</cite> must not contain any <cite>UncertainVariables</cite></p>
+</dd>
+<dt><strong>**kwargs</strong><span class="classifier">dict</span></dt><dd><p>Keyword arguments for <cite>func</cite>. These can be any Python object, including
+<cite>UncertainVariables</cite>. The only constraints is that arguments of type <cite>list</cite>,
+<cite>tuple</cite>, and <cite>dictionary</cite> must not contain any <cite>UncertainVariables</cite></p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>mcerp.UncertainFunction or list of mcerp.UncertainFunction</dt><dd><p>The result of applying <cite>func</cite> to the Monte Carlo samples. If the function returns multidimensional
+results, each dimension (column of the resulting array) is converted into a separate UncertainFunction.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>RuntimeError</dt><dd><p>If the function fails to execute for any of the Monte Carlo samples, encapsulating any underlying
+exception that occurs within the wrapped function call.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.uncertainty_utilities.wrap_function_uncertainties">
+<span class="sig-prename descclassname"><span class="pre">barotropy.uncertainty_utilities.</span></span><span class="sig-name descname"><span class="pre">wrap_function_uncertainties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">np.float64(1.4901161193847656e-08)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'2-point'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/uncertainty_utilities.html#wrap_function_uncertainties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.uncertainty_utilities.wrap_function_uncertainties" title="Link to this definition">#</a></dt>
+<dd><p>Wraps a given function to evaluate both its nominal output and the uncertainty propagated through it,
+when the inputs (arguments and keyword arguments) have uncertainties.</p>
+<p>This function propagates the uncertainty across an arbitraty function using finite differences to
+estimate the Jacobian matrix of the code.</p>
+<p>This wrapper is particularly useful when the underying code is not pure Python (e.g., C++ libraries) so that
+the uncertainties package cannot be used to propagate the uncertainty.</p>
+<p>This wrapper can process function with positional and keyword arguments. The only constraints is that arguments
+of type “list”, “tuple”, or “dict” must not contain any <cite>uncertainties.ufloat</cite> object. Instead, collections of
+<cite>uncertainties.ufloat</cite> objects should be given as <cite>uncertainties.unumpy.uarray</cite> objects.</p>
+<p>The output of the wrapper function can be a scalar or a numpy array. No other output arguments are allowed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>func</strong><span class="classifier">callable</span></dt><dd><p>The function to be wrapped. This function must accept the same number and types of arguments
+as specified in <cite>args</cite> and <cite>kwargs</cite>. It should return a scalar value or numpy array.</p>
+</dd>
+<dt><strong>args</strong><span class="classifier">tuple</span></dt><dd><p>A tuple of the positional arguments to pass to <cite>func</cite>. These can be any Python object, including
+<cite>ufloat</cite> and arrays of <cite>ufloat</cite> objects. The only constraints is that arguments of type <cite>list</cite>,
+<cite>tuple</cite>, and <cite>dictionary</cite> must not contain any <cite>ufloat</cite> (directly or in nested items)</p>
+</dd>
+<dt><strong>kwargs</strong><span class="classifier">dict, optional</span></dt><dd><p>A dictionary of keyword arguments to pass to <cite>func</cite>. These can be any Python object, including
+<cite>ufloat</cite> and arrays of <cite>ufloat</cite> objects. The only constraints is that arguments of type <cite>list</cite>,
+<cite>tuple</cite>, and <cite>dictionary</cite> must not contain any <cite>ufloat</cite> (directly or in nested items)</p>
+</dd>
+<dt><strong>step</strong><span class="classifier">float, optional</span></dt><dd><p>The step size to use for numerical derivative calculation via finite differences. Default is
+the square root of the machine epsilon for float64, which provides a balance between numerical
+precision and stability.</p>
+</dd>
+<dt><strong>method</strong><span class="classifier">str, optional</span></dt><dd><p>Method to use for numerical derivative calculation via finite differences. Default is <cite>2-point</cite>,
+corresponding to forward finite differences.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>uncertainties.ufloat</dt><dd><p>An <cite>uncertainties.ufloat</cite> object representing the evaluated function output (nominal value)
+and its uncertainty.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.uncertainty_utilities.z_score_for_confidence_level">
+<span class="sig-prename descclassname"><span class="pre">barotropy.uncertainty_utilities.</span></span><span class="sig-name descname"><span class="pre">z_score_for_confidence_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">confidence_level</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/uncertainty_utilities.html#z_score_for_confidence_level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.uncertainty_utilities.z_score_for_confidence_level" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the number of standard deviations (Z-scores) from the mean
+that correspond to a given confidence interval in a normal distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>confidence_level</strong><span class="classifier">float</span></dt><dd><p>The confidence level as a decimal (e.g., 0.95 for 95% confidence interval).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>float</dt><dd><p>The Z-score corresponding to the specified confidence level.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 
@@ -364,6 +498,26 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.uncertainty_utilities.compute_confidence_interval"><code class="docutils literal notranslate"><span class="pre">compute_confidence_interval()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.uncertainty_utilities.plot_distribution"><code class="docutils literal notranslate"><span class="pre">plot_distribution()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.uncertainty_utilities.print_uncertainty"><code class="docutils literal notranslate"><span class="pre">print_uncertainty()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.uncertainty_utilities.wrap_function_mcepr"><code class="docutils literal notranslate"><span class="pre">wrap_function_mcepr()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.uncertainty_utilities.wrap_function_uncertainties"><code class="docutils literal notranslate"><span class="pre">wrap_function_uncertainties()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.uncertainty_utilities.z_score_for_confidence_level"><code class="docutils literal notranslate"><span class="pre">z_score_for_confidence_level()</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

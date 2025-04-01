@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; barotropy v0.2.2 documentation</title>
+    <title>Index &#8212; barotropy v0.2.3 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=a6e268a8"></script>
+    <script src="_static/documentation_options.js?v=1d1eeab5"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>let toggleHintShow = 'Click to show';</script>
@@ -140,7 +140,7 @@
   
   
   
-    <p class="title logo__title">barotropy v0.2.2 documentation</p>
+    <p class="title logo__title">barotropy v0.2.3 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -162,6 +162,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="source/tutorials.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="source/tutorials/one_component_systems.html">One-component systems</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/tutorials/two_component_systems.html">Two-component systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="source/tutorials/flashing_nozzle_fluent.html">Flashing nozzle Fluent</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="source/barotropic_model.html">Barotropic model</a></li>
@@ -173,16 +174,6 @@
 <li class="toctree-l2"><a class="reference internal" href="source/api/barotropy.math.html">Math functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/barotropy.graphics.html">Graphic functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="source/api/barotropy.utilities.html">Utility functions</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="source/api/barotropy.pysolver_view.html">PySolverView</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.pysolver_view.nonlinear_system.html">barotropy.pysolver_view.nonlinear_system module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.pysolver_view.nonlinear_system_problems.html">barotropy.pysolver_view.nonlinear_system_problems module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.pysolver_view.numerical_differentiation.html">barotropy.pysolver_view.numerical_differentiation module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.pysolver_view.optimization.html">barotropy.pysolver_view.optimization module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.pysolver_view.optimization_problems.html">barotropy.pysolver_view.optimization_problems module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.pysolver_view.optimization_wrappers.html">barotropy.pysolver_view.optimization_wrappers module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.pysolver_view.pysolver_utilities.html">barotropy.pysolver_view.pysolver_utilities module</a></li>
-</ul>
-</details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="source/api/barotropy.fluent_automation.html">Fluent automation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.fluent_automation.fluent_automation.html">barotropy.fluent_automation.fluent_automation module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html">barotropy.fluent_automation.fluent_plot_nozzle_data module</a></li>
@@ -305,21 +296,31 @@ document.write(`
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
  | <a href="#W"><strong>W</strong></a>
+ | <a href="#Z"><strong>Z</strong></a>
  
 </div>
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.abs">abs() (in module barotropy.mcerp.umath)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.acos">acos() (in module barotropy.mcerp.umath)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.acosh">acosh() (in module barotropy.mcerp.umath)</a>
+</li>
       <li><a href="source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.add_barotropic_expressions">add_barotropic_expressions() (in module barotropy.fluent_automation.fluent_automation_old)</a>
 </li>
       <li><a href="source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.add_export_variables">add_export_variables() (in module barotropy.fluent_automation.fluent_automation_old)</a>
@@ -332,11 +333,15 @@ document.write(`
         <li><a href="source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.add_solution_strategy">(in module barotropy.fluent_automation.fluent_automation_old)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/barotropy.math.html#barotropy.math.all_non_negative">all_non_negative() (in module barotropy.math)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/barotropy.math.html#barotropy.math.all_numeric">all_numeric() (in module barotropy.math)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.anderson">anderson() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.ansari">ansari() (in module barotropy.mcerp.stats)</a>
 </li>
       <li><a href="source/api/barotropy.math.html#barotropy.math.arccosd">arccosd() (in module barotropy.math)</a>
 </li>
@@ -344,12 +349,22 @@ document.write(`
 </li>
       <li><a href="source/api/barotropy.math.html#barotropy.math.arctand">arctand() (in module barotropy.math)</a>
 </li>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.asin">asin() (in module barotropy.mcerp.umath)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.asinh">asinh() (in module barotropy.mcerp.umath)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.atan">atan() (in module barotropy.mcerp.umath)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.atanh">atanh() (in module barotropy.mcerp.umath)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.B">B() (in module barotropy.mcerp)</a>
+</li>
       <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.barotropic_model_one_component">barotropic_model_one_component() (in module barotropy.barotropic_model)</a>
 </li>
       <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.barotropic_model_two_component">barotropic_model_two_component() (in module barotropy.barotropic_model)</a>
@@ -412,8 +427,6 @@ document.write(`
         <li><a href="source/api/barotropy.fluent_automation.stream_transcript.html#module-barotropy.fluent_automation.stream_transcript">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     barotropy.graphics
 
@@ -436,6 +449,15 @@ document.write(`
 </li>
       </ul></li>
       <li>
+    barotropy.mcerp
+
+      <ul>
+        <li><a href="source/api/barotropy.mcerp.html#module-barotropy.mcerp">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
     barotropy.mcerp.correlate
 
       <ul>
@@ -447,6 +469,20 @@ document.write(`
 
       <ul>
         <li><a href="source/api/barotropy.mcerp.lhd.html#module-barotropy.mcerp.lhd">module</a>
+</li>
+      </ul></li>
+      <li>
+    barotropy.mcerp.stats
+
+      <ul>
+        <li><a href="source/api/barotropy.mcerp.stats.html#module-barotropy.mcerp.stats">module</a>
+</li>
+      </ul></li>
+      <li>
+    barotropy.mcerp.umath
+
+      <ul>
+        <li><a href="source/api/barotropy.mcerp.umath.html#module-barotropy.mcerp.umath">module</a>
 </li>
       </ul></li>
       <li>
@@ -464,13 +500,40 @@ document.write(`
 </li>
       </ul></li>
       <li>
+    barotropy.uncertainty_utilities
+
+      <ul>
+        <li><a href="source/api/barotropy.uncertainty_utilities.html#module-barotropy.uncertainty_utilities">module</a>
+</li>
+      </ul></li>
+      <li>
     barotropy.utilities
 
       <ul>
         <li><a href="source/api/barotropy.utilities.html#module-barotropy.utilities">module</a>
 </li>
       </ul></li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.bartlett">bartlett() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.bayes_mvs">bayes_mvs() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Bern">Bern() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Bernoulli">Bernoulli() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Beta">Beta() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.BetaPrime">BetaPrime() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.binom_test">binom_test() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Binomial">Binomial() (in module barotropy.mcerp)</a>
+</li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.core_calculations.blend_properties">blend_properties() (in module barotropy.properties.core_calculations)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Bradford">Bradford() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Burr">Burr() (in module barotropy.mcerp)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -490,9 +553,19 @@ document.write(`
 </li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.core_calculations.calculate_supersaturation">calculate_supersaturation() (in module barotropy.properties.core_calculations)</a>
 </li>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.ceil">ceil() (in module barotropy.mcerp.umath)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Chi2">Chi2() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.chisquare">chisquare() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.ChiSquared">ChiSquared() (in module barotropy.mcerp)</a>
+</li>
       <li><a href="source/api/barotropy.mcerp.correlate.html#barotropy.mcerp.correlate.chol">chol() (in module barotropy.mcerp.correlate)</a>
 </li>
       <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.compare_contents_or_files">compare_contents_or_files() (in module barotropy.utilities)</a>
+</li>
+      <li><a href="source/api/barotropy.uncertainty_utilities.html#barotropy.uncertainty_utilities.compute_confidence_interval">compute_confidence_interval() (in module barotropy.uncertainty_utilities)</a>
 </li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.core_calculations.compute_properties">compute_properties() (in module barotropy.properties.core_calculations)</a>
 </li>
@@ -506,10 +579,10 @@ document.write(`
 </li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.core_calculations.compute_properties_metastable_rhoT">compute_properties_metastable_rhoT() (in module barotropy.properties.core_calculations)</a>
 </li>
-      <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.compute_property_grid">compute_property_grid() (in module barotropy.properties.fluid_properties)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.compute_property_grid">compute_property_grid() (in module barotropy.properties.fluid_properties)</a>
+</li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.compute_property_grid_rhoT">compute_property_grid_rhoT() (in module barotropy.properties.fluid_properties)</a>
 </li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.compute_pseudocritical_line">compute_pseudocritical_line() (in module barotropy.properties.fluid_properties)</a>
@@ -532,7 +605,15 @@ document.write(`
 </li>
       <li><a href="source/api/barotropy.mcerp.correlate.html#barotropy.mcerp.correlate.correlate">correlate() (in module barotropy.mcerp.correlate)</a>
 </li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.correlation_matrix">correlation_matrix() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.cos">cos() (in module barotropy.mcerp.umath)</a>
+</li>
       <li><a href="source/api/barotropy.math.html#barotropy.math.cosd">cosd() (in module barotropy.math)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.cosh">cosh() (in module barotropy.mcerp.umath)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.covariance_matrix">covariance_matrix() (in module barotropy.mcerp)</a>
 </li>
       <li><a href="source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.create_fluent_journal">create_fluent_journal() (in module barotropy.fluent_automation.fluent_automation_old)</a>
 </li>
@@ -546,10 +627,18 @@ document.write(`
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.read_expression_file.description">description() (barotropy.fluent_automation.fluent_automation_old.read_expression_file method)</a>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.degrees">degrees() (in module barotropy.mcerp.umath)</a>
 </li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.UncertainFunction.describe">describe() (barotropy.mcerp.UncertainFunction method)</a>
+
+      <ul>
+        <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.describe">(in module barotropy.mcerp.stats)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.read_expression_file.description">description() (barotropy.fluent_automation.fluent_automation_old.read_expression_file method)</a>
+</li>
       <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.DictionaryValidationError">DictionaryValidationError</a>
 </li>
   </ul></td>
@@ -560,11 +649,29 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.ensure_iterable">ensure_iterable() (in module barotropy.utilities)</a>
 </li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Erf">Erf() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Erlang">Erlang() (in module barotropy.mcerp)</a>
+</li>
       <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.evaluate_constraints">evaluate_constraints() (in module barotropy.utilities)</a>
 </li>
       <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.evaluate_objective_function">evaluate_objective_function() (in module barotropy.utilities)</a>
 </li>
       <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.PolynomialFitter.evaluate_polynomial">evaluate_polynomial() (barotropy.barotropic_model.PolynomialFitter method)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.EVMax">EVMax() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.EVMin">EVMin() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Exp">Exp() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.exp">exp() (in module barotropy.mcerp.umath)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.expm1">expm1() (in module barotropy.mcerp.umath)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Exponential">Exponential() (in module barotropy.mcerp)</a>
 </li>
       <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.BarotropicModel.export_expressions_cfx">export_expressions_cfx() (barotropy.barotropic_model.BarotropicModel method)</a>
 
@@ -572,8 +679,6 @@ document.write(`
         <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.ExpressionExporter.export_expressions_cfx">(barotropy.barotropic_model.ExpressionExporter method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.BarotropicModel.export_expressions_fluent">export_expressions_fluent() (barotropy.barotropic_model.BarotropicModel method)</a>
 
       <ul>
@@ -584,12 +689,24 @@ document.write(`
 </li>
       <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.ExpressionExporter">ExpressionExporter (class in barotropy.barotropic_model)</a>
 </li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.ExtValueMax">ExtValueMax() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.ExtValueMin">ExtValueMin() (in module barotropy.mcerp)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.F">F() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.f_oneway">f_oneway() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.fabs">fabs() (in module barotropy.mcerp.umath)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Fisher">Fisher() (in module barotropy.mcerp)</a>
+</li>
       <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.BarotropicModel.fit_polynomials">fit_polynomials() (barotropy.barotropic_model.BarotropicModel method)</a>
 
       <ul>
@@ -598,11 +715,17 @@ document.write(`
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.fligner">fligner() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.floor">floor() (in module barotropy.mcerp.umath)</a>
+</li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.Fluid">Fluid (class in barotropy.properties.fluid_properties)</a>
 </li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.FluidState.fluid_name">fluid_name (barotropy.properties.fluid_properties.FluidState attribute)</a>
 </li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.FluidState">FluidState (class in barotropy.properties.fluid_properties)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.friedmanchisquare">friedmanchisquare() (in module barotropy.mcerp.stats)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -610,16 +733,22 @@ document.write(`
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.G">G() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Gamma">Gamma() (in module barotropy.mcerp)</a>
+</li>
       <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.ExpressionExporter.generate_expressions">generate_expressions() (barotropy.barotropic_model.ExpressionExporter method)</a>
 </li>
       <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.generic_plot_distribution">generic_plot_distribution() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
 </li>
-      <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.FluidState.get">get() (barotropy.properties.fluid_properties.FluidState method)</a>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Geometric">Geometric() (in module barotropy.mcerp)</a>
 </li>
-      <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.Fluid.get_property">get_property() (barotropy.properties.fluid_properties.Fluid method)</a>
+      <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.FluidState.get">get() (barotropy.properties.fluid_properties.FluidState method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.Fluid.get_property">get_property() (barotropy.properties.fluid_properties.Fluid method)</a>
+</li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.Fluid.get_state">get_state() (barotropy.properties.fluid_properties.Fluid method)</a>
 </li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.Fluid.get_state_blending">get_state_blending() (barotropy.properties.fluid_properties.Fluid method)</a>
@@ -627,6 +756,24 @@ document.write(`
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.Fluid.get_state_equilibrium">get_state_equilibrium() (barotropy.properties.fluid_properties.Fluid method)</a>
 </li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.Fluid.get_state_metastable">get_state_metastable() (barotropy.properties.fluid_properties.Fluid method)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.gmean">gmean() (in module barotropy.mcerp.stats)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.H">H() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.hmean">hmean() (in module barotropy.mcerp.stats)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Hypergeometric">Hypergeometric() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.hypot">hypot() (in module barotropy.mcerp.umath)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -656,7 +803,23 @@ document.write(`
 <h2 id="K">K</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.kendalltau">kendalltau() (in module barotropy.mcerp.stats)</a>
+</li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.FluidState.keys">keys() (barotropy.properties.fluid_properties.FluidState method)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.kruskal">kruskal() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.ks_2samp">ks_2samp() (in module barotropy.mcerp.stats)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.kstest">kstest() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.UncertainFunction.kurt">kurt (barotropy.mcerp.UncertainFunction property)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.kurtosis">kurtosis() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.kurtosistest">kurtosistest() (in module barotropy.mcerp.stats)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -664,11 +827,27 @@ document.write(`
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.levene">levene() (in module barotropy.mcerp.stats)</a>
+</li>
       <li><a href="source/api/barotropy.mcerp.lhd.html#barotropy.mcerp.lhd.lhd">lhd() (in module barotropy.mcerp.lhd)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.linregress">linregress() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.ln">ln() (in module barotropy.mcerp.umath)</a>
+</li>
+      <li><a href="source/api/barotropy.kaist_postprocessing.html#barotropy.kaist_postprocessing.load_and_convert_data">load_and_convert_data() (in module barotropy.kaist_postprocessing)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.kaist_postprocessing.html#barotropy.kaist_postprocessing.load_and_convert_data">load_and_convert_data() (in module barotropy.kaist_postprocessing)</a>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.log">log() (in module barotropy.mcerp.umath)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.log10">log10() (in module barotropy.mcerp.umath)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.log1p">log1p() (in module barotropy.mcerp.umath)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.LogN">LogN() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.LogNormal">LogNormal() (in module barotropy.mcerp)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -676,6 +855,12 @@ document.write(`
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.mannwhitneyu">mannwhitneyu() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.UncertainFunction.mean">mean (barotropy.mcerp.UncertainFunction property)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.mode">mode() (in module barotropy.mcerp.stats)</a>
+</li>
       <li>
     module
 
@@ -702,23 +887,57 @@ document.write(`
 </li>
         <li><a href="source/api/barotropy.math.html#module-barotropy.math">barotropy.math</a>
 </li>
+        <li><a href="source/api/barotropy.mcerp.html#module-barotropy.mcerp">barotropy.mcerp</a>
+</li>
         <li><a href="source/api/barotropy.mcerp.correlate.html#module-barotropy.mcerp.correlate">barotropy.mcerp.correlate</a>
 </li>
         <li><a href="source/api/barotropy.mcerp.lhd.html#module-barotropy.mcerp.lhd">barotropy.mcerp.lhd</a>
+</li>
+        <li><a href="source/api/barotropy.mcerp.stats.html#module-barotropy.mcerp.stats">barotropy.mcerp.stats</a>
+</li>
+        <li><a href="source/api/barotropy.mcerp.umath.html#module-barotropy.mcerp.umath">barotropy.mcerp.umath</a>
 </li>
         <li><a href="source/api/barotropy.properties.html#module-barotropy.properties.core_calculations">barotropy.properties.core_calculations</a>
 </li>
         <li><a href="source/api/barotropy.properties.html#module-barotropy.properties.fluid_properties">barotropy.properties.fluid_properties</a>
 </li>
+        <li><a href="source/api/barotropy.uncertainty_utilities.html#module-barotropy.uncertainty_utilities">barotropy.uncertainty_utilities</a>
+</li>
         <li><a href="source/api/barotropy.utilities.html#module-barotropy.utilities">barotropy.utilities</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.moment">moment() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.mood">mood() (in module barotropy.mcerp.stats)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.N">N() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Normal">Normal() (in module barotropy.mcerp)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.normaltest">normaltest() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.NotUpcast">NotUpcast</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Pareto">Pareto() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Pareto2">Pareto2() (in module barotropy.mcerp)</a>
+</li>
       <li><a href="source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.parse_fluent_out">parse_fluent_out() (in module barotropy.fluent_automation.fluent_automation)</a>
 
       <ul>
@@ -731,7 +950,23 @@ document.write(`
         <li><a href="source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.parse_fluent_xy">(in module barotropy.fluent_automation.fluent_automation_old)</a>
 </li>
       </ul></li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.pearsonr">pearsonr() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.UncertainFunction.percentile">percentile() (barotropy.mcerp.UncertainFunction method)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.percentileofscore">percentileofscore() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.PERT">PERT() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.UncertainFunction.plot">plot() (barotropy.mcerp.UncertainFunction method)</a>
+
+      <ul>
+        <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.UncertainVariable.plot">(barotropy.mcerp.UncertainVariable method)</a>
+</li>
+      </ul></li>
       <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_density_distribution">plot_density_distribution() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
+</li>
+      <li><a href="source/api/barotropy.uncertainty_utilities.html#barotropy.uncertainty_utilities.plot_distribution">plot_distribution() (in module barotropy.uncertainty_utilities)</a>
 </li>
       <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_nozzle_xy_data">plot_nozzle_xy_data() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
 </li>
@@ -753,6 +988,8 @@ document.write(`
         <li><a href="source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.plot_residuals">(in module barotropy.fluent_automation.fluent_automation_old)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.plot_residuals_real_time">plot_residuals_real_time() (in module barotropy.fluent_automation.fluent_automation)</a>
 
       <ul>
@@ -761,8 +998,6 @@ document.write(`
       </ul></li>
       <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_speed_sound_distribution">plot_speed_sound_distribution() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_vapor_quality_distribution">plot_vapor_quality_distribution() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
 </li>
       <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_velocity_distribution">plot_velocity_distribution() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
@@ -776,6 +1011,12 @@ document.write(`
       <li><a href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html#barotropy.fluent_automation.fluent_plot_nozzle_data.plot_yplus_distribution">plot_yplus_distribution() (in module barotropy.fluent_automation.fluent_plot_nozzle_data)</a>
 </li>
       <li><a href="source/api/barotropy.mcerp.correlate.html#barotropy.mcerp.correlate.plotcorr">plotcorr() (in module barotropy.mcerp.correlate)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.pointbiserialr">pointbiserialr() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Pois">Pois() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Poisson">Poisson() (in module barotropy.mcerp)</a>
 </li>
       <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.ExpressionExporter.polynomial_expression">polynomial_expression() (barotropy.barotropic_model.ExpressionExporter method)</a>
 </li>
@@ -797,12 +1038,20 @@ document.write(`
         <li><a href="source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.print_transcript_real_time">(in module barotropy.fluent_automation.fluent_automation_old)</a>
 </li>
       </ul></li>
+      <li><a href="source/api/barotropy.uncertainty_utilities.html#barotropy.uncertainty_utilities.print_uncertainty">print_uncertainty() (in module barotropy.uncertainty_utilities)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.radians">radians() (in module barotropy.mcerp.umath)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.rankdata">rankdata() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.ranksums">ranksums() (in module barotropy.mcerp.stats)</a>
+</li>
       <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.read_configuration_file">read_configuration_file() (in module barotropy.utilities)</a>
 </li>
       <li><a href="source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.read_expression_file">read_expression_file (class in barotropy.fluent_automation.fluent_automation_old)</a>
@@ -815,10 +1064,10 @@ document.write(`
         <li><a href="source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.read_residual_file">(in module barotropy.fluent_automation.fluent_automation_old)</a>
 </li>
       </ul></li>
-      <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.render_and_evaluate">render_and_evaluate() (in module barotropy.utilities)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.render_and_evaluate">render_and_evaluate() (in module barotropy.utilities)</a>
+</li>
       <li><a href="source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.render_fluent_journal">render_fluent_journal() (in module barotropy.fluent_automation.fluent_automation_old)</a>
 </li>
       <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.render_nested_value">render_nested_value() (in module barotropy.utilities)</a>
@@ -851,7 +1100,15 @@ document.write(`
 </li>
       <li><a href="source/api/barotropy.graphics.html#barotropy.graphics.scale_graphics_y">scale_graphics_y() (in module barotropy.graphics)</a>
 </li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.scoreatpercentile">scoreatpercentile() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.sem">sem() (in module barotropy.mcerp.stats)</a>
+</li>
       <li><a href="source/api/barotropy.graphics.html#barotropy.graphics.set_plot_options">set_plot_options() (in module barotropy.graphics)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.shapiro">shapiro() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.UncertainFunction.show">show() (barotropy.mcerp.UncertainFunction method)</a>
 </li>
       <li><a href="source/api/barotropy.math.html#barotropy.math.sigmoid_hyperbolic">sigmoid_hyperbolic() (in module barotropy.math)</a>
 </li>
@@ -859,11 +1116,21 @@ document.write(`
 </li>
       <li><a href="source/api/barotropy.math.html#barotropy.math.sigmoid_smootherstep">sigmoid_smootherstep() (in module barotropy.math)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/barotropy.math.html#barotropy.math.sigmoid_smoothstep">sigmoid_smoothstep() (in module barotropy.math)</a>
 </li>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.sin">sin() (in module barotropy.mcerp.umath)</a>
+</li>
       <li><a href="source/api/barotropy.math.html#barotropy.math.sind">sind() (in module barotropy.math)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.sinh">sinh() (in module barotropy.mcerp.umath)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.UncertainFunction.skew">skew (barotropy.mcerp.UncertainFunction property)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.skew">skew() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.skewtest">skewtest() (in module barotropy.mcerp.stats)</a>
 </li>
       <li><a href="source/api/barotropy.math.html#barotropy.math.smooth_abs">smooth_abs() (in module barotropy.math)</a>
 </li>
@@ -873,9 +1140,19 @@ document.write(`
 </li>
       <li><a href="source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.BarotropicModel.solve">solve() (barotropy.barotropic_model.BarotropicModel method)</a>
 </li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.spearmanr">spearmanr() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.sqrt">sqrt() (in module barotropy.mcerp.umath)</a>
+</li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.states_to_dict">states_to_dict() (in module barotropy.properties.fluid_properties)</a>
 </li>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.states_to_dict_2d">states_to_dict_2d() (in module barotropy.properties.fluid_properties)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.UncertainFunction.stats">stats (barotropy.mcerp.UncertainFunction property)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.UncertainFunction.std">std (barotropy.mcerp.UncertainFunction property)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.StudentT">StudentT() (in module barotropy.mcerp)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -883,13 +1160,63 @@ document.write(`
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.T">T() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.tan">tan() (in module barotropy.mcerp.umath)</a>
+</li>
       <li><a href="source/api/barotropy.math.html#barotropy.math.tand">tand() (in module barotropy.math)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.tanh">tanh() (in module barotropy.mcerp.umath)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.tmax">tmax() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.tmean">tmean() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.tmin">tmin() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.FluidState.to_dict">to_dict() (barotropy.properties.fluid_properties.FluidState method)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.to_uncertain_func">to_uncertain_func() (in module barotropy.mcerp)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.FluidState.to_dict">to_dict() (barotropy.properties.fluid_properties.FluidState method)</a>
-</li>
       <li><a href="source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.TranscriptFileMissingError">TranscriptFileMissingError</a>, <a href="source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.TranscriptFileMissingError">[1]</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Tri">Tri() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Triangular">Triangular() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.umath.html#barotropy.mcerp.umath.trunc">trunc() (in module barotropy.mcerp.umath)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.tsem">tsem() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.tstd">tstd() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.ttest_1samp">ttest_1samp() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.ttest_ind">ttest_ind() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.ttest_rel">ttest_rel() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.tvar">tvar() (in module barotropy.mcerp.stats)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.U">U() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.UncertainFunction">UncertainFunction (class in barotropy.mcerp)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.UncertainVariable">UncertainVariable (class in barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Uniform">Uniform() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.uv">uv (in module barotropy.mcerp)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -899,11 +1226,15 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/barotropy.fluent_automation.fluent_automation_old.html#barotropy.fluent_automation.fluent_automation_old.validate_journal">validate_journal() (in module barotropy.fluent_automation.fluent_automation_old)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.validate_keys">validate_keys() (in module barotropy.utilities)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/barotropy.properties.html#barotropy.properties.fluid_properties.FluidState.values">values() (barotropy.properties.fluid_properties.FluidState method)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.UncertainFunction.var">var (barotropy.mcerp.UncertainFunction property)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.variation">variation() (in module barotropy.mcerp.stats)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -912,6 +1243,34 @@ document.write(`
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/barotropy.utilities.html#barotropy.utilities.wait_for_file">wait_for_file() (in module barotropy.utilities)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Weib">Weib() (in module barotropy.mcerp)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.html#barotropy.mcerp.Weibull">Weibull() (in module barotropy.mcerp)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.wilcoxon">wilcoxon() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.wrap">wrap() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.uncertainty_utilities.html#barotropy.uncertainty_utilities.wrap_function_mcepr">wrap_function_mcepr() (in module barotropy.uncertainty_utilities)</a>
+</li>
+      <li><a href="source/api/barotropy.uncertainty_utilities.html#barotropy.uncertainty_utilities.wrap_function_uncertainties">wrap_function_uncertainties() (in module barotropy.uncertainty_utilities)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Z">Z</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.uncertainty_utilities.html#barotropy.uncertainty_utilities.z_score_for_confidence_level">z_score_for_confidence_level() (in module barotropy.uncertainty_utilities)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.zmap">zmap() (in module barotropy.mcerp.stats)</a>
+</li>
+      <li><a href="source/api/barotropy.mcerp.stats.html#barotropy.mcerp.stats.zscore">zscore() (in module barotropy.mcerp.stats)</a>
 </li>
   </ul></td>
 </tr></table>
