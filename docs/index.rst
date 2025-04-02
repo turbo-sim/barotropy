@@ -40,7 +40,7 @@ about extrapolating the equation of state beyond the saturation line and its lim
     </p>
 
     <p align="center">
-      <img src="_static/sCO2_compressor.jpg"  width="85%" />
+      <img src="_static/sCO2_compressor.jpg"  width="95%" />
     </p>
 
 

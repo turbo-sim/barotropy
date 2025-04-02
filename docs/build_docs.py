@@ -1,6 +1,7 @@
 import os
 import shutil
 import subprocess
+import argparse
 
 def delete_build(build_dir="_build"):
     """
@@ -96,10 +97,18 @@ EXCLUDE_MODULES = [
 ]
 
 if __name__ == "__main__":
+    
+    parser = argparse.ArgumentParser(description="Build or preview Sphinx documentation.")
+    parser.add_argument("--no-autobuild", action="store_true", help="Disable live preview (sphinx-autobuild) and use sphinx-build instead.")
+    args = parser.parse_args()
+
+    delete_build()
     # run_script("build_nomenclature.py")
     # run_script("build_bibliography.py")
     # run_script("build_configuration.py")
-    delete_build()
-    run_sphinx_apidoc(output_dir="source/api/", src_dir="../barotropy", exclude=EXCLUDE_MODULES)
-    # run_sphinx_build(docs_dir=".", build_dir="_build")
-    run_sphinx_autobuild(docs_dir=".", build_dir="_build")
+    if args.no_autobuild:
+        run_sphinx_apidoc(output_dir="source/api/", src_dir="../barotropy", exclude=EXCLUDE_MODULES)
+        run_sphinx_build(docs_dir=".", build_dir="_build")
+    else:
+        run_sphinx_apidoc(output_dir="source/api/", src_dir="../barotropy", exclude=EXCLUDE_MODULES)
+        run_sphinx_autobuild(docs_dir=".", build_dir="_build")
