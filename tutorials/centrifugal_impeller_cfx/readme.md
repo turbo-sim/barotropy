@@ -1,5 +1,5 @@
 
-# Centrifugal impeller tutorial
+# Centrifugal impeller CFX tutorial
 
 This tutorial shows how to use the **barotropy** Python package to generate barotropic property models and use them in **ANSYS CFX**.
 
@@ -35,7 +35,7 @@ Or if you are using Linux or mcOS
 ```bash
 python3 -m venv env
 source env/bin/activate
-pip install barotropy
+python3 -m pip install barotropy
 ```
 
 
@@ -131,20 +131,14 @@ for var in model.poly_fitter.variables:
     )
 ```
 
-The output barotropic model for density is illustrated below, note the slop discontinuity when the fluid enters the two-phase region:
+The barotropic model for density is shown below. For pressures below `p_min`, an exponential extrapolation ensures that the density remains positive and decreases monotonically. This safeguard is important during internal CFD iterations, where unphysical negative pressures may temporarily arise and require physically plausible density values to support convergence.
 
 
 <img src="images_cfx/barotropic_model_error_density.png" alt="" style="width: 60%;">
 
 
 
-## 3. Use the barotropic model in ANSYS CFX
-
-Here’s a refined version of the section with your requested introduction:
-
----
-
-## 3. Use the barotropic model in ANSYS CFX
+## 3. Use the barotropic model in CFX
 
 This case is based on a **centrifugal compressor impeller**. The geometry provided should work out of the box, but you can modify it if needed.
 
@@ -276,7 +270,7 @@ Here, you can:
 
 - Select the discretization schemes for the flow and turbulence equations  
 - Set the **Timescale Factor** to control the convergence speed toward a steady-state solution  
-- Define the **Residual Targ** for the simulation
+- Define the **Residual Target** for the simulation
 
 The timescale should be chosen to ensure stable and efficient convergence.
 

@@ -1,6 +1,19 @@
+import os
+import shutil
 import subprocess
 
-def run_sphinx_apidoc(output_dir, src_dir,exclude = None, force = False):
+def delete_build(build_dir="_build"):
+    """
+    Deletes previously generated documentation folders.
+
+    Parameters:
+    - build_dir (str): Directory where the built docs are stored.
+    """
+    if os.path.exists(build_dir):
+        shutil.rmtree(build_dir)
+        print(f"Deleted build directory: {build_dir}")
+
+def run_sphinx_apidoc(output_dir, src_dir, exclude=None, force=False):
     """
     Run the sphinx-apidoc command to generate API documentation.
 
@@ -27,7 +40,7 @@ def run_sphinx_apidoc(output_dir, src_dir,exclude = None, force = False):
     cmd.append("-M") # Module first
 
     if force:
-        cmd.append("-f") # Force overwriting oN any existing generated files
+        cmd.append("-f") # Force overwriting on any existing generated files
 
     subprocess.check_call(cmd)
     print("Sphinx apidoc completed successfully.")
@@ -48,6 +61,25 @@ def run_sphinx_build(docs_dir=".", build_dir="_build", builder="html"):
     subprocess.check_call(cmd)
     print(f"Sphinx build ({builder} format) completed successfully.")
 
+def run_sphinx_autobuild(docs_dir=".", build_dir="_build", port=8000):
+    """
+    Run sphinx-autobuild to serve and auto-rebuild docs on changes.
+
+    Parameters:
+    - docs_dir (str): Directory with documentation source files.
+    - build_dir (str): Output directory.
+    - port (int): Port to serve HTML.
+    """
+    cmd = [
+        "sphinx-autobuild",
+        docs_dir,
+        build_dir,
+        "--open-browser",
+        "--port", str(port),
+    ]
+    subprocess.check_call(cmd)
+
+
 
 def run_script(script_path):
     """Run the nomenclature generation script."""
@@ -55,9 +87,19 @@ def run_script(script_path):
     subprocess.check_call(cmd)
 
 
+
+EXCLUDE_MODULES = [
+    "../barotropy/mcerp",
+    "../barotropy/matlab",
+    "../barotropy/uncertainty_utilities.py",
+    "../barotropy/kaist_postprocessing.py",
+]
+
 if __name__ == "__main__":
     # run_script("build_nomenclature.py")
     # run_script("build_bibliography.py")
     # run_script("build_configuration.py")
-    run_sphinx_apidoc(output_dir="source/api/", src_dir="../barotropy")
-    run_sphinx_build(docs_dir=".", build_dir="_build")#, builder="html")
+    delete_build()
+    run_sphinx_apidoc(output_dir="source/api/", src_dir="../barotropy", exclude=EXCLUDE_MODULES)
+    # run_sphinx_build(docs_dir=".", build_dir="_build")
+    run_sphinx_autobuild(docs_dir=".", build_dir="_build")

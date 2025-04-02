@@ -131,7 +131,7 @@ for var in model.poly_fitter.variables:
     )
 ```
 
-The output barotropic model for density is illustrated below, note the slop discontinuity when the fluid enters the two-phase region:
+The barotropic model for density is shown below. For pressures below `p_min`, an exponential extrapolation ensures that the density remains positive and decreases monotonically. This safeguard is important during internal CFD iterations, where unphysical negative pressures may temporarily arise and require physically plausible density values to support convergence.
 
 
 <img src="images_cfx/barotropic_model_error_density.png" alt="" style="width: 60%;">
@@ -270,7 +270,7 @@ Here, you can:
 
 - Select the discretization schemes for the flow and turbulence equations  
 - Set the **Timescale Factor** to control the convergence speed toward a steady-state solution  
-- Define the **Residual Targ** for the simulation
+- Define the **Residual Target** for the simulation
 
 The timescale should be chosen to ensure stable and efficient convergence.
 

@@ -176,7 +176,7 @@ def parse_fluent_out(filename):
     
     try:
         # Load file using Pandas
-        df = pd.read_csv(filename, skiprows=2, sep='\s+', header=0)
+        df = pd.read_csv(filename, skiprows=2, sep=r'\s+', header=0)
 
         # Process the column names
         cleaned_columns = [

@@ -205,7 +205,7 @@ def plot_ps_diagram(fluid, ax, range_x, range_y, range_z):
     )
     sm.set_array([])  # This line is necessary for ScalarMappable
     cbar = plt.colorbar(sm, ax=ax)
-    cbar.ax.set_ylabel("Temperature [$^\circ$C]", rotation=90, labelpad=20)
+    cbar.ax.set_ylabel(r"Temperature [$^\circ$C]", rotation=90, labelpad=20)
     cbar.set_ticks(range_z)  # Set tick positions
     cbar.set_ticklabels([f"{level-273.15:.0f}" for level in range_z])
 

@@ -130,7 +130,7 @@ for var in model.poly_fitter.variables:
     )
 ```
 
-The output barotropic model for density is illustrated below, note the slop discontinuity when the fluid enters the two-phase region:
+The output barotropic model for density is illustrated below, note the slope discontinuity when the fluid enters the two-phase region:
 
 
 <img src="images/barotropic_model_error_density.png" alt="" style="width: 60%;">
@@ -232,7 +232,7 @@ You can plot each expression directly in Fluent to verify correctness.
 Define a **new fluid** in Fluent:
 
 - Set `density` and `viscosity` as functions using your previously defined expressions (e.g., `barotropic_density`, `barotropic_viscosity`)
-- **Disable the energy equation**, as the barotropic model assumes isentropic behavior and does not solve for temperature
+- **Disable the energy equation**, as the barotropic model assumes a polytropic process and does not solve for temperature
 
 
 

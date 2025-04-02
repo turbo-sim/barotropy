@@ -55,13 +55,13 @@ exclude_patterns.extend(["source/api/modules.rst"])
 exclude_patterns.extend(["source/api/barotropy.fluid_properties.fluid_properties.rst", "source/api/barotropy.fluid_properties.core_calculations.rst"])
 exclude_patterns.extend(["dev_notes"])
 
-autodoc_mock_imports = [
-    "mcerp",
-    "mcerp.stats",
-    "mcerp.umath",
-    "uncertainties",
-    "uncertainty_utilities",
-]
+# autodoc_mock_imports = [
+#     "mcerp",
+#     "mcerp.stats",
+#     "mcerp.umath",
+#     "uncertainties",
+#     "uncertainty_utilities",
+# ]
 # html_theme_options = {
 #     "show_toc_level": 2,  # Level of indentation on side panel TOC
 # }
