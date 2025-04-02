@@ -2,7 +2,7 @@
 .. _tutorials:
 
 
-Tutorials
+Guided tutorials
 ===============
 
 Welcome to the Tutorial Guide. This guide offers step-by-step instructions for using ``barotropy`` to generate barotropic fluid models.

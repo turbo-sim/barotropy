@@ -52,6 +52,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'source/developer_guide';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Bibliography" href="bibliography.html" />
+    <link rel="prev" title="Barotropic model" href="barotropic_model.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -114,8 +116,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -157,15 +157,15 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="tutorials.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tutorials.html">Guided tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/flashing_nozzle_fluent.html">Flashing nozzle Fluent tutorial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/centrifugal_impeller_cfx.html">Centrifugal impeller CFX tutorial</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="barotropic_model.html">Barotropic model</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Developer guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api/barotropy.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/barotropy.barotropic_model.html">Barotropic model</a></li>
@@ -331,8 +331,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#developer-installation-guide">Developer Installation Guide</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pull-request-guidelines">Pull request guidelines</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-from-source">Installation from source</a></li>
 </ul>
             </nav>
         </div>
@@ -347,102 +346,54 @@ document.write(`
   <section id="developer-guide">
 <span id="id1"></span><h1>Developer guide<a class="headerlink" href="#developer-guide" title="Link to this heading">#</a></h1>
 <p>Thank you for considering contributing to this project! Here are some guidelines to help you get started:</p>
-<section id="developer-installation-guide">
-<h2>Developer Installation Guide<a class="headerlink" href="#developer-installation-guide" title="Link to this heading">#</a></h2>
-<p>This installation guide is intended for developers who wish to contribute to or modify the barotropy source code. It assumes that the developer is using a Linux distribution or Windows with Git Bash terminal to have access to Git and Linux-like commands.</p>
+<section id="installation-from-source">
+<h2>Installation from source<a class="headerlink" href="#installation-from-source" title="Link to this heading">#</a></h2>
+<p>This installation guide is intended for developers who wish to contribute to or modify the <code class="docutils literal notranslate"><span class="pre">barotropy</span></code> source code. It assumes that the developer is using a Linux distribution or Windows with Git Bash terminal to have access to Git and Linux-like commands.</p>
 <ol class="arabic">
-<li><p><strong>Fork the repository:</strong></p>
-<ul class="simple">
-<li><p>Navigate to the <a class="reference external" href="https://github.com/turbo-sim/barotropy">project’s GitHub page</a>.</p></li>
-<li><p>Click the “Fork” button in the upper right corner of the repository page to create a copy of the repository under your own GitHub account.</p></li>
-</ul>
+<li><p><strong>Fork the repository</strong></p>
+<p>Go to the <a class="reference external" href="https://github.com/turbo-sim/barotropy">project’s GitHub page</a> and click the <strong>“Fork”</strong> button in the upper right corner to create your own copy of the repository.</p>
 </li>
-<li><p><strong>Clone the forked repository:</strong></p>
-<ul class="simple">
-<li><p>Open your terminal.</p></li>
-<li><p>Run the following command, replacing <cite>&lt;your-username&gt;</cite> with your GitHub username:</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/&lt;your-username&gt;/&lt;repository-name&gt;.git
-</pre></div>
-</div>
-<ul class="simple">
-<li><p>Navigate into the cloned repository:</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>&lt;repository-name&gt;
+<li><p><strong>Clone the forked repository</strong></p>
+<p>In your terminal, run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/&lt;your-username&gt;/barotropy.git
+<span class="nb">cd</span><span class="w"> </span>barotropy
 </pre></div>
 </div>
 </li>
-<li><p><strong>Create a dedicated Conda virtual environment for barotropy development</strong>:</p>
-<ul class="simple">
-<li><p>Check that conda is installed:</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>list
-</pre></div>
-</div>
-<ul class="simple">
-<li><p>If not conda is installed, <a class="reference external" href="https://conda.io/projects/conda/en/latest/user-guide/install/index.html">install conda</a>.</p></li>
-<li><p>Create dedicated virtual environment for barotropy package:</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span>barotropy_env<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.11
-</pre></div>
-</div>
-</li>
-<li><p><strong>Activate the newly created virtual environment</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>barotropy_env
-</pre></div>
-</div>
-</li>
-<li><p><strong>Install Poetry to manage dependencies</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>poetry
-</pre></div>
-</div>
-<p>Poetry is a powerful dependency manager that offers separation of user and developer dependencies, ensuring that only the necessary packages are installed based on the user’s intent. Additionally, it simplifies the process of adding, updating, and removing dependencies, making it easier to maintain the project’s requirements.</p>
-</li>
-<li><p><strong>Use Poetry to install the required dependencies for barotropy development</strong>:</p>
+<li><p><strong>Create a development environment</strong></p>
+<p>You can choose between two options:</p>
+<p><strong>Option A: Use Poetry directly</strong></p>
+<p>If you already have Poetry installed on your system, run:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>install
 </pre></div>
 </div>
-</li>
-<li><p><strong>Verify the installation by running the following command</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import barotropy; barotropy.print_package_info()&quot;</span>
+<p>Poetry will automatically create a virtual environment and install the required dependencies.</p>
+<p><strong>Option B: Use Conda to manage the environment</strong></p>
+<p>If you prefer Conda for environment management, run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span>barotropy_env<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.13<span class="w"> </span>pip<span class="w"> </span>poetry
+conda<span class="w"> </span>activate<span class="w"> </span>barotropy_env
+poetry<span class="w"> </span>install
 </pre></div>
 </div>
-<p>If the installation was successful, you should see the barotropy banner and package information displayed in the console output.</p>
+<p>This sets up a Conda environment and installs Poetry inside it to manage dependencies.</p>
 </li>
-</ol>
-</section>
-<section id="pull-request-guidelines">
-<h2>Pull request guidelines<a class="headerlink" href="#pull-request-guidelines" title="Link to this heading">#</a></h2>
-<p>Please follow these steps to submit a pull request.</p>
-<ol class="arabic">
-<li><p><strong>Create a branch in your forked repository</strong>:</p>
-<ul class="simple">
-<li><p>Open your terminal in the projects root.</p></li>
-<li><p>Create branch:</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>&lt;feature-name&gt;
+<li><p><strong>Verify the installation</strong></p>
+<p>Run the following to confirm the package is working:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import barotropy; barotropy.print_package_info()&quot;</span>
 </pre></div>
 </div>
+<p>If the installation was successful, you will see the <code class="docutils literal notranslate"><span class="pre">barotropy</span></code> banner and package details printed in the terminal.</p>
 </li>
-<li><p><strong>Make your changes</strong>:</p>
-<ul class="simple">
-<li><p>Implement your feature or bugfix.</p></li>
-</ul>
-</li>
-<li><p><strong>Commit your changes</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Description of changes&quot;</span>
+<li><p><strong>Install additional packages</strong></p>
+<p>To add a runtime dependency:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>add<span class="w"> </span>&lt;package-name&gt;
 </pre></div>
 </div>
-</li>
-<li><p><strong>Push to your fork</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>feature-name
+<p>To add a development-only dependency (e.g., for testing or docs):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poetry<span class="w"> </span>add<span class="w"> </span>--dev<span class="w"> </span>&lt;package-name&gt;
 </pre></div>
 </div>
-</li>
-<li><p><strong>Open a pull request</strong>:</p>
-<ul class="simple">
-<li><p>Go to your fork on GitHub and click the “New pull request” button.</p></li>
-</ul>
+<p>This will update both <cite>pyproject.toml</cite> and <cite>poetry.lock</cite> accordingly.</p>
 </li>
 </ol>
 </section>
@@ -459,6 +410,24 @@ document.write(`
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="barotropic_model.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Barotropic model</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="bibliography.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Bibliography</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -475,8 +444,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#developer-installation-guide">Developer Installation Guide</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pull-request-guidelines">Pull request guidelines</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-from-source">Installation from source</a></li>
 </ul>
   </nav></div>
 

@@ -157,15 +157,15 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Getting started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials.html">Guided tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="flashing_nozzle_fluent.html">Flashing nozzle Fluent tutorial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="centrifugal_impeller_cfx.html">Centrifugal impeller CFX tutorial</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../barotropic_model.html">Barotropic model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_guide.html">Developer guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api/barotropy.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/barotropy.barotropic_model.html">Barotropic model</a></li>
@@ -470,7 +470,7 @@ pip<span class="w"> </span>install<span class="w"> </span>barotropy
     <span class="p">)</span>
 </pre></div>
 </div>
-<p>The output barotropic model for density is illustrated below, note the slop discontinuity when the fluid enters the two-phase region:</p>
+<p>The output barotropic model for density is illustrated below, note the slope discontinuity when the fluid enters the two-phase region:</p>
 <img alt="" src="../../_images/barotropic_model_error_density1.png" />
 </section>
 </section>
@@ -556,7 +556,7 @@ IF<span class="o">(</span>AbsolutePressure<span class="w"> </span>&gt;<span clas
 <p>Define a <strong>new fluid</strong> in Fluent:</p>
 <ul class="simple">
 <li><p>Set <code class="docutils literal notranslate"><span class="pre">density</span></code> and <code class="docutils literal notranslate"><span class="pre">viscosity</span></code> as functions using your previously defined expressions (e.g., <code class="docutils literal notranslate"><span class="pre">barotropic_density</span></code>, <code class="docutils literal notranslate"><span class="pre">barotropic_viscosity</span></code>)</p></li>
-<li><p><strong>Disable the energy equation</strong>, as the barotropic model assumes isentropic behavior and does not solve for temperature</p></li>
+<li><p><strong>Disable the energy equation</strong>, as the barotropic model assumes a polytropic process and does not solve for temperature</p></li>
 </ul>
 <img alt="" src="../../_images/tutorial_fluent_3.png" />
 </section>

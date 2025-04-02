@@ -5,110 +5,116 @@ Developer guide
 
 Thank you for considering contributing to this project! Here are some guidelines to help you get started:
 
-Developer Installation Guide
+
+Installation from source
 ----------------------------
 
-This installation guide is intended for developers who wish to contribute to or modify the barotropy source code. It assumes that the developer is using a Linux distribution or Windows with Git Bash terminal to have access to Git and Linux-like commands.
+This installation guide is intended for developers who wish to contribute to or modify the ``barotropy`` source code. It assumes that the developer is using a Linux distribution or Windows with Git Bash terminal to have access to Git and Linux-like commands.
 
-1. **Fork the repository:**
+1. **Fork the repository**
 
-   - Navigate to the `project's GitHub page <https://github.com/turbo-sim/barotropy>`_.
-   - Click the "Fork" button in the upper right corner of the repository page to create a copy of the repository under your own GitHub account.
+   Go to the `project’s GitHub page <https://github.com/turbo-sim/barotropy>`_ and click the **"Fork"** button in the upper right corner to create your own copy of the repository.
 
 
-2. **Clone the forked repository:**
+2. **Clone the forked repository**
 
-   - Open your terminal.
-   - Run the following command, replacing `<your-username>` with your GitHub username:
+   In your terminal, run:
 
    .. code-block:: bash
 
-      git clone https://github.com/<your-username>/<repository-name>.git
+      git clone https://github.com/<your-username>/barotropy.git
+      cd barotropy
 
-   - Navigate into the cloned repository:
 
-   .. code-block:: bash
+3. **Create a development environment**
 
-      cd <repository-name>
+   You can choose between two options:
 
-3. **Create a dedicated Conda virtual environment for barotropy development**:
+   **Option A: Use Poetry directly**
 
-   - Check that conda is installed:
-
-   .. code-block:: bash
-
-      conda list
-
-   - If not conda is installed, `install conda <https://conda.io/projects/conda/en/latest/user-guide/install/index.html>`_.
-   - Create dedicated virtual environment for barotropy package:
-
-   .. code-block:: bash
-
-      conda env create --name barotropy_env python=3.11
-
-4. **Activate the newly created virtual environment**:
-
-   .. code-block:: bash
-
-      conda activate barotropy_env
-
-5. **Install Poetry to manage dependencies**:
-
-   .. code-block:: bash
-
-      conda install poetry
-
-   Poetry is a powerful dependency manager that offers separation of user and developer dependencies, ensuring that only the necessary packages are installed based on the user's intent. Additionally, it simplifies the process of adding, updating, and removing dependencies, making it easier to maintain the project's requirements.
-
-6. **Use Poetry to install the required dependencies for barotropy development**:
+   If you already have Poetry installed on your system, run:
 
    .. code-block:: bash
 
       poetry install
 
-7. **Verify the installation by running the following command**:
+   Poetry will automatically create a virtual environment and install the required dependencies.
+
+   **Option B: Use Conda to manage the environment**
+
+   If you prefer Conda for environment management, run:
 
    .. code-block:: bash
 
-      python -c "import barotropy; barotropy.print_package_info()"
+      conda create --name barotropy_env python=3.13 pip poetry
+      conda activate barotropy_env
+      poetry install
 
-   If the installation was successful, you should see the barotropy banner and package information displayed in the console output.
+   This sets up a Conda environment and installs Poetry inside it to manage dependencies.
 
+4. **Verify the installation**
 
-Pull request guidelines
--------------------------
-
-Please follow these steps to submit a pull request.
-
-1. **Create a branch in your forked repository**:
-
-   - Open your terminal in the projects root.
-   - Create branch:
+   Run the following to confirm the package is working:
 
    .. code-block:: bash
 
-      git checkout -b <feature-name>
+      poetry run python -c "import barotropy; barotropy.print_package_info()"
 
-2. **Make your changes**:
-
-   - Implement your feature or bugfix.
+   If the installation was successful, you will see the ``barotropy`` banner and package details printed in the terminal.
 
 
-3. **Commit your changes**:
+5. **Install additional packages**
 
-   .. code-block:: bash 
-
-      git commit -m "Description of changes"
-
-4. **Push to your fork**: 
+   To add a runtime dependency:
 
    .. code-block:: bash
 
-      git push origin feature-name
+      poetry add <package-name>
 
-5. **Open a pull request**: 
+   To add a development-only dependency (e.g., for testing or docs):
 
-   - Go to your fork on GitHub and click the "New pull request" button.
+   .. code-block:: bash
+
+      poetry add --dev <package-name>
+
+   This will update both `pyproject.toml` and `poetry.lock` accordingly.
+
+
+.. 
+   Pull request guidelines
+   -------------------------
+
+   Please follow these steps to submit a pull request.
+
+   1. **Create a branch in your forked repository**:
+
+      - Open your terminal in the projects root.
+      - Create branch:
+
+      .. code-block:: bash
+
+         git checkout -b <feature-name>
+
+   2. **Make your changes**:
+
+      - Implement your feature or bugfix.
+
+
+   3. **Commit your changes**:
+
+      .. code-block:: bash 
+
+         git commit -m "Description of changes"
+
+   4. **Push to your fork**: 
+
+      .. code-block:: bash
+
+         git push origin feature-name
+
+   5. **Open a pull request**: 
+
+      - Go to your fork on GitHub and click the "New pull request" button.
 
 
 .. 
