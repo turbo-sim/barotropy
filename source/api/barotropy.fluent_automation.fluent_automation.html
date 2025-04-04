@@ -333,6 +333,8 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.TranscriptFileMissingError"><code class="docutils literal notranslate"><span class="pre">TranscriptFileMissingError</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.add_solution_strategy"><code class="docutils literal notranslate"><span class="pre">add_solution_strategy()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.contains_any_error_ignore_spaces"><code class="docutils literal notranslate"><span class="pre">contains_any_error_ignore_spaces()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.kill_fluent"><code class="docutils literal notranslate"><span class="pre">kill_fluent()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.parse_fluent_out"><code class="docutils literal notranslate"><span class="pre">parse_fluent_out()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.parse_fluent_xy"><code class="docutils literal notranslate"><span class="pre">parse_fluent_xy()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.plot_residuals"><code class="docutils literal notranslate"><span class="pre">plot_residuals()</span></code></a></li>
@@ -418,6 +420,21 @@ provided in the <cite>strategy</cite> dictionary right after the comment:
 <span class="gp">&gt;&gt;&gt; </span><span class="n">new_journal</span> <span class="o">=</span> <span class="n">add_solution_strategy_to_journal</span><span class="p">(</span><span class="n">journal_content</span><span class="p">,</span> <span class="n">strategy</span><span class="p">)</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent_automation.fluent_automation.contains_any_error_ignore_spaces">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">contains_any_error_ignore_spaces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error_messages</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lines</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent_automation/fluent_automation.html#contains_any_error_ignore_spaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.fluent_automation.contains_any_error_ignore_spaces" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent_automation.fluent_automation.kill_fluent">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">kill_fluent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcript_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fluent_pid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent_automation/fluent_automation.html#kill_fluent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.fluent_automation.kill_fluent" title="Link to this definition">#</a></dt>
+<dd><p>Check if the simulation has converged, 
+if not kill fluent process
+Input:
+transcript_file: str, path to the transcript
+fluent_pid: int, pid of fluent process</p>
 </dd></dl>
 
 <dl class="py function">
@@ -570,7 +587,7 @@ The expression file is needed as input</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.fluent_automation.fluent_automation.read_residual_file">
-<span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">read_residual_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Error:</span> <span class="pre">floating</span> <span class="pre">point</span> <span class="pre">exception'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent_automation/fluent_automation.html#read_residual_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.fluent_automation.read_residual_file" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">read_residual_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_messages</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['Error</span> <span class="pre">object:</span> <span class="pre">#f',</span> <span class="pre">'Error</span> <span class="pre">Object:</span> <span class="pre">#f',</span> <span class="pre">'Error</span> <span class="pre">Object:</span> <span class="pre">()',</span> <span class="pre">'ERROR:</span> <span class="pre">floating</span> <span class="pre">point</span> <span class="pre">exception']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent_automation/fluent_automation.html#read_residual_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.fluent_automation.read_residual_file" title="Link to this definition">#</a></dt>
 <dd><p>Reads a transcript file to extract the residual history and returns it as a Pandas DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -705,6 +722,8 @@ Mandatory if either <cite>plot_residuals</cite> or <cite>print_transcript</cite>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.TranscriptFileMissingError"><code class="docutils literal notranslate"><span class="pre">TranscriptFileMissingError</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.add_solution_strategy"><code class="docutils literal notranslate"><span class="pre">add_solution_strategy()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.contains_any_error_ignore_spaces"><code class="docutils literal notranslate"><span class="pre">contains_any_error_ignore_spaces()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.kill_fluent"><code class="docutils literal notranslate"><span class="pre">kill_fluent()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.parse_fluent_out"><code class="docutils literal notranslate"><span class="pre">parse_fluent_out()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.parse_fluent_xy"><code class="docutils literal notranslate"><span class="pre">parse_fluent_xy()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.plot_residuals"><code class="docutils literal notranslate"><span class="pre">plot_residuals()</span></code></a></li>

@@ -326,6 +326,21 @@ document.write(`
     <span class="s2">&quot;barotropic_vapor_quality&quot;</span><span class="p">:</span> <span class="s2">&quot;expr:barotropic_vapor_quality&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
+<span class="n">EXPORT_VARS_2</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;pressure&quot;</span><span class="p">:</span> <span class="s2">&quot;pressure&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="s2">&quot;density&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;viscosity&quot;</span><span class="p">:</span> <span class="s2">&quot;viscosity-lam&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;speed_sound&quot;</span><span class="p">:</span> <span class="s2">&quot;sound-speed&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;velocity&quot;</span><span class="p">:</span> <span class="s2">&quot;velocity-magnitude&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;y_plus&quot;</span><span class="p">:</span> <span class="s2">&quot;y-plus&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;barotropic_density&quot;</span><span class="p">:</span> <span class="s2">&quot;expr:barotropic_density&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;barotropic_speed_sound&quot;</span><span class="p">:</span> <span class="s2">&quot;expr:barotropic_speed_sound&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;barotropic_viscosity&quot;</span><span class="p">:</span> <span class="s2">&quot;expr:barotropic_viscosity&quot;</span><span class="p">,</span>
+    <span class="c1"># &quot;barotropic_void_fraction&quot;: &quot;expr:barotropic_void_fraction&quot;,</span>
+    <span class="c1"># &quot;barotropic_vapor_quality&quot;: &quot;expr:barotropic_vapor_quality&quot;,</span>
+<span class="p">}</span>
+
+
 <div class="viewcode-block" id="read_expression_file">
 <a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.read_expression_file">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">read_expression_file</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
@@ -767,7 +782,7 @@ document.write(`
 
 <div class="viewcode-block" id="read_residual_file">
 <a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.read_residual_file">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">read_residual_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">line_start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">error_message</span><span class="o">=</span><span class="s1">&#39;Error: floating point exception&#39;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_residual_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">line_start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">error_messages</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Error object: #f&quot;</span> <span class="p">,</span> <span class="s2">&quot;Error Object: #f&quot;</span><span class="p">,</span> <span class="s2">&quot;Error Object: ()&quot;</span><span class="p">,</span><span class="s2">&quot;ERROR: floating point exception&quot;</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reads a transcript file to extract the residual history and returns it as a Pandas DataFrame.</span>
 
@@ -833,13 +848,28 @@ document.write(`
     <span class="n">df</span><span class="p">[</span><span class="n">header</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">header</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
 
     <span class="c1"># Check if there is an error</span>
-    <span class="k">if</span> <span class="n">error_message</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">contains_any_error_ignore_spaces</span><span class="p">(</span><span class="n">error_messages</span><span class="p">,</span> <span class="n">lines</span><span class="p">):</span>
+    <span class="c1"># if error_message in lines:</span>
         <span class="c1"># print(&quot;Error in the simulation...&quot;)</span>
         <span class="n">simulation_finished</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">simulation_finished</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">return</span> <span class="n">df</span><span class="p">,</span> <span class="n">simulation_finished</span></div>
+
+
+<div class="viewcode-block" id="contains_any_error_ignore_spaces">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.contains_any_error_ignore_spaces">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">contains_any_error_ignore_spaces</span><span class="p">(</span><span class="n">error_messages</span><span class="p">,</span> <span class="n">lines</span><span class="p">):</span>
+    <span class="c1"># Remove spaces from all error messages once</span>
+    <span class="n">cleaned_errors</span> <span class="o">=</span> <span class="p">[</span><span class="n">msg</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">error_messages</span><span class="p">]</span>
+
+    <span class="c1"># Check each line, ignoring spaces</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+        <span class="n">cleaned_line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">error</span> <span class="ow">in</span> <span class="n">cleaned_line</span> <span class="k">for</span> <span class="n">error</span> <span class="ow">in</span> <span class="n">cleaned_errors</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
 
     
 
@@ -1078,18 +1108,23 @@ document.write(`
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed to find cleanup script after&quot;</span><span class="p">,</span> <span class="n">max_retries</span><span class="p">,</span> <span class="s2">&quot;retries.&quot;</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="kill_fluent">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.kill_fluent">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">kill_fluent</span><span class="p">(</span><span class="n">transcript_file</span><span class="p">,</span> <span class="n">fluent_pid</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if the simulation has converged, </span>
+<span class="sd">    if not kill fluent process</span>
+<span class="sd">    Input:</span>
+<span class="sd">    transcript_file: str, path to the transcript</span>
+<span class="sd">    fluent_pid: int, pid of fluent process</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">sim_converged</span> <span class="o">=</span> <span class="n">read_residual_file</span><span class="p">(</span><span class="n">transcript_file</span><span class="p">)</span>
 
+    <span class="k">if</span> <span class="n">sim_converged</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Simulation did not converged, forcing fluent closing&quot;</span><span class="p">)</span>
 
-
-
-
-
-
-
-
-
-
-
+        <span class="c1"># Need to relunch fluent becuase the simulation crashed and it is stuck</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">kill</span><span class="p">(</span><span class="n">fluent_pid</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span></div>
 
 </pre></div>
 
