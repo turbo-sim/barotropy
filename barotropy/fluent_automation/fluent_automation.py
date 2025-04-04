@@ -39,6 +39,21 @@ EXPORT_VARS = {
     "barotropic_vapor_quality": "expr:barotropic_vapor_quality",
 }
 
+EXPORT_VARS_2 = {
+    "pressure": "pressure",
+    "density": "density",
+    "viscosity": "viscosity-lam",
+    "speed_sound": "sound-speed",
+    "velocity": "velocity-magnitude",
+    "y_plus": "y-plus",
+    "barotropic_density": "expr:barotropic_density",
+    "barotropic_speed_sound": "expr:barotropic_speed_sound",
+    "barotropic_viscosity": "expr:barotropic_viscosity",
+    # "barotropic_void_fraction": "expr:barotropic_void_fraction",
+    # "barotropic_vapor_quality": "expr:barotropic_vapor_quality",
+}
+
+
 def read_expression_file(filename):
     
     '''
@@ -463,7 +478,7 @@ def plot_residuals(transcript_file, fig=None, ax=None, savefig=False, fullpath=N
 
 
 
-def read_residual_file(filename, line_start=0, error_message='Error: floating point exception'):
+def read_residual_file(filename, line_start=0, error_messages=["Error object: #f" , "Error Object: #f", "Error Object: ()","ERROR: floating point exception"]):
     """
     Reads a transcript file to extract the residual history and returns it as a Pandas DataFrame.
 
@@ -529,13 +544,25 @@ def read_residual_file(filename, line_start=0, error_message='Error: floating po
     df[header[1:-1]] = df[header[1:-1]].astype(float)
 
     # Check if there is an error
-    if error_message in lines:
+    if contains_any_error_ignore_spaces(error_messages, lines):
+    # if error_message in lines:
         # print("Error in the simulation...")
         simulation_finished = False
     else:
         simulation_finished = True
 
     return df, simulation_finished
+
+def contains_any_error_ignore_spaces(error_messages, lines):
+    # Remove spaces from all error messages once
+    cleaned_errors = [msg.replace(" ", "") for msg in error_messages]
+
+    # Check each line, ignoring spaces
+    for line in lines:
+        cleaned_line = line.replace(" ", "")
+        if any(error in cleaned_line for error in cleaned_errors):
+            return True
+    return False
     
 
 def print_transcript_real_time(transcript_file):
@@ -758,16 +785,18 @@ def run_cleanup_script(max_retries=5, wait_interval=5):
 
     print("Failed to find cleanup script after", max_retries, "retries.")
 
+def kill_fluent(transcript_file, fluent_pid):
+    """
+    Check if the simulation has converged, 
+    if not kill fluent process
+    Input:
+    transcript_file: str, path to the transcript
+    fluent_pid: int, pid of fluent process
+    """
+    _, sim_converged = read_residual_file(transcript_file)
 
+    if sim_converged == False:
+        print(f"Simulation did not converged, forcing fluent closing")
 
-
-
-
-
-
-
-
-
-
-
-
+        # Need to relunch fluent becuase the simulation crashed and it is stuck
+        os.kill(fluent_pid, 9)
