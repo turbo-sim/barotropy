@@ -333,7 +333,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.TranscriptFileMissingError"><code class="docutils literal notranslate"><span class="pre">TranscriptFileMissingError</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.add_solution_strategy"><code class="docutils literal notranslate"><span class="pre">add_solution_strategy()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.contains_any_error_ignore_spaces"><code class="docutils literal notranslate"><span class="pre">contains_any_error_ignore_spaces()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.compare_dicts"><code class="docutils literal notranslate"><span class="pre">compare_dicts()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.kill_fluent"><code class="docutils literal notranslate"><span class="pre">kill_fluent()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.parse_fluent_out"><code class="docutils literal notranslate"><span class="pre">parse_fluent_out()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.parse_fluent_xy"><code class="docutils literal notranslate"><span class="pre">parse_fluent_xy()</span></code></a></li>
@@ -423,18 +423,57 @@ provided in the <cite>strategy</cite> dictionary right after the comment:
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="barotropy.fluent_automation.fluent_automation.contains_any_error_ignore_spaces">
-<span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">contains_any_error_ignore_spaces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error_messages</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lines</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent_automation/fluent_automation.html#contains_any_error_ignore_spaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.fluent_automation.contains_any_error_ignore_spaces" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="barotropy.fluent_automation.fluent_automation.compare_dicts">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">compare_dicts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys_to_skip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nested_skips</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'barotropy_options':</span> <span class="pre">['save_fig',</span> <span class="pre">'ODE_tolerance'],</span> <span class="pre">'fluent_options':</span> <span class="pre">['processor_count',</span> <span class="pre">'show_gui',</span> <span class="pre">'plot_realtime_residuals',</span> <span class="pre">'res_settings',</span> <span class="pre">'relaxation',</span> <span class="pre">'solution_strategy',</span> <span class="pre">'stop_simulation']}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent_automation/fluent_automation.html#compare_dicts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.fluent_automation.compare_dicts" title="Link to this definition">#</a></dt>
+<dd><p>Compare two dictionaries for equality, with options to skip specific keys.</p>
+<p>This function checks if two dictionaries are equal, allowing for the exclusion 
+of specified top-level and nested keys during the comparison.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>d1</strong><span class="classifier">dict</span></dt><dd><p>The first dictionary to compare.</p>
+</dd>
+<dt><strong>d2</strong><span class="classifier">dict</span></dt><dd><p>The second dictionary to compare.</p>
+</dd>
+<dt><strong>keys_to_skip</strong><span class="classifier">list</span></dt><dd><p>A list of top-level keys to ignore during comparison.</p>
+</dd>
+<dt><strong>nested_skips</strong><span class="classifier">dict</span></dt><dd><p>A dictionary specifying nested keys to skip for certain top-level keys 
+(e.g., {‘barotropy_options’: [‘save_fig’]}).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>bool</dt><dd><p>True if the dictionaries are equal after applying the skip rules; 
+False otherwise.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.fluent_automation.fluent_automation.kill_fluent">
 <span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">kill_fluent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcript_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fluent_pid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent_automation/fluent_automation.html#kill_fluent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.fluent_automation.kill_fluent" title="Link to this definition">#</a></dt>
-<dd><p>Check if the simulation has converged, 
-if not kill fluent process
-Input:
-transcript_file: str, path to the transcript
-fluent_pid: int, pid of fluent process</p>
+<dd><p>Check if the simulation has converged; if not, terminate the Fluent process.</p>
+<p>This function examines the transcript file to determine whether the simulation 
+has successfully converged. If convergence has not been reached, the associated 
+Fluent process is forcefully terminated using its process ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>transcript_file</strong><span class="classifier">str</span></dt><dd><p>Path to the transcript file containing simulation output.</p>
+</dd>
+<dt><strong>fluent_pid</strong><span class="classifier">int</span></dt><dd><p>Process ID of the running Fluent simulation to be terminated if not converged.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None</dt><dd></dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -474,9 +513,9 @@ fluent_pid: int, pid of fluent process</p>
 <dt class="sig sig-object py" id="barotropy.fluent_automation.fluent_automation.parse_fluent_xy">
 <span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">parse_fluent_xy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent_automation/fluent_automation.html#parse_fluent_xy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.fluent_automation.parse_fluent_xy" title="Link to this definition">#</a></dt>
 <dd><p>Parse a Fluent .xy file and return its contents as a dictionary of DataFrames.</p>
-<p>Fluent’s .xy files contain datasets, each representing XY plot data for some solution data 
-(like pressure or velocity) across a specific domain or region (like wall, axis, etc.). 
-This function reads such files and outputs a structured dictionary where the keys are dataset 
+<p>Fluent’s .xy files contain datasets, each representing XY plot data for some solution data
+(like pressure or velocity) across a specific domain or region (like wall, axis, etc.).
+This function reads such files and outputs a structured dictionary where the keys are dataset
 labels (like “wall”, “axis”) and values are corresponding pandas DataFrames.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -489,7 +528,7 @@ labels (like “wall”, “axis”) and values are corresponding pandas DataFra
 <dd class="field-even"><dl class="simple">
 <dt><strong>data_out</strong><span class="classifier">dict</span></dt><dd><p>A dictionary where:
 - The keys are dataset labels from the .xy file, e.g., “wall”, “axis”.
-- The values are pandas DataFrames containing the XY data. Each DataFrame has two columns 
+- The values are pandas DataFrames containing the XY data. Each DataFrame has two columns
 representing the X and Y axis data, labeled as per the .xy file’s axis labels.</p>
 </dd>
 </dl>
@@ -528,9 +567,9 @@ representing the X and Y axis data, labeled as per the .xy file’s axis labels.
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>The function reads the residuals from the given transcript file using <cite>read_residual_file</cite> 
-and then plots them on a semi-log scale. If <cite>fig</cite> and <cite>ax</cite> are not provided, 
-it creates a new figure and axis. The residuals are mapped to readable labels 
+<p>The function reads the residuals from the given transcript file using <cite>read_residual_file</cite>
+and then plots them on a semi-log scale. If <cite>fig</cite> and <cite>ax</cite> are not provided,
+it creates a new figure and axis. The residuals are mapped to readable labels
 using a predefined name_map.</p>
 </dd></dl>
 
@@ -538,7 +577,7 @@ using a predefined name_map.</p>
 <dt class="sig sig-object py" id="barotropy.fluent_automation.fluent_automation.plot_residuals_real_time">
 <span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">plot_residuals_real_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcript_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent_automation/fluent_automation.html#plot_residuals_real_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.fluent_automation.plot_residuals_real_time" title="Link to this definition">#</a></dt>
 <dd><p>Plot the residual history contained in the transcript_file.trn in real time.</p>
-<p>This function launches the <cite>stream_residuals.py</cite> script as a subprocess 
+<p>This function launches the <cite>stream_residuals.py</cite> script as a subprocess
 to plot the residual history of the given transcript file in real time.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -560,7 +599,7 @@ to plot the residual history of the given transcript file in real time.</p>
 <dt class="sig sig-object py" id="barotropy.fluent_automation.fluent_automation.print_transcript_real_time">
 <span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">print_transcript_real_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transcript_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent_automation/fluent_automation.html#print_transcript_real_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.fluent_automation.print_transcript_real_time" title="Link to this definition">#</a></dt>
 <dd><p>Print the content of transcript_file.trn in real time.</p>
-<p>This function launches the <cite>stream_transcript.py</cite> script as a subprocess 
+<p>This function launches the <cite>stream_transcript.py</cite> script as a subprocess
 to print the content of the given transcript file in real time.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -581,8 +620,24 @@ to print the content of the given transcript file in real time.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="barotropy.fluent_automation.fluent_automation.read_expression_file">
 <span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">read_expression_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent_automation/fluent_automation.html#read_expression_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.fluent_automation.read_expression_file" title="Link to this definition">#</a></dt>
-<dd><p>Read all the expressions contained in the output file of the barotropic model and store them in a dictionary with the name of the variable as “barotropic_{variable_name}”
-The expression file is needed as input</p>
+<dd><p>Read expressions from the output file of the barotropic model.</p>
+<p>This function parses the output expression file from the barotropic model 
+and stores each expression in a dictionary. Each variable is stored with a 
+key formatted as “barotropic_{variable_name}”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>filename</strong><span class="classifier">str</span></dt><dd><p>Path to the expression file generated by the barotropic model.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>dict</dt><dd><p>A dictionary containing the parsed expressions named as “barotropic_{variable_name}”.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -613,20 +668,20 @@ The expression file is needed as input</p>
 <dt class="sig sig-object py" id="barotropy.fluent_automation.fluent_automation.run_cleanup_script">
 <span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">run_cleanup_script</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_retries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent_automation/fluent_automation.html#run_cleanup_script"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.fluent_automation.run_cleanup_script" title="Link to this definition">#</a></dt>
 <dd><p>Execute the cleanup script found in the current working directory.</p>
-<p>This function repeatedly attempts to find and execute files with a prefix 
-of “cleanup-fluent” in the current directory. If the script isn’t found 
-immediately, the function will wait for a short interval and try again, 
+<p>This function repeatedly attempts to find and execute files with a prefix
+of “cleanup-fluent” in the current directory. If the script isn’t found
+immediately, the function will wait for a short interval and try again,
 up to a specified maximum number of retries.</p>
 <dl class="simple">
 <dt>Parameters:</dt><dd><dl class="simple">
-<dt>max_retries (int): Maximum number of times the function will attempt </dt><dd><p>to find and execute the cleanup script.</p>
+<dt>max_retries (int): Maximum number of times the function will attempt</dt><dd><p>to find and execute the cleanup script.</p>
 </dd>
-<dt>wait_interval (int): Time in seconds to wait between consecutive </dt><dd><p>retries.</p>
+<dt>wait_interval (int): Time in seconds to wait between consecutive</dt><dd><p>retries.</p>
 </dd>
 </dl>
 </dd>
-<dt>Note:</dt><dd><p>The function is used to ensure that necessary cleanup operations are 
-performed after the simulation, especially when the creation of the 
+<dt>Note:</dt><dd><p>The function is used to ensure that necessary cleanup operations are
+performed after the simulation, especially when the creation of the
 cleanup script might be delayed.</p>
 </dd>
 </dl>
@@ -636,8 +691,8 @@ cleanup script might be delayed.</p>
 <dt class="sig sig-object py" id="barotropy.fluent_automation.fluent_automation.run_fluent_simulation">
 <span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">run_fluent_simulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">journal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_proc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3600</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_residuals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_transcript</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transcript_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/fluent_automation/fluent_automation.html#run_fluent_simulation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.fluent_automation.run_fluent_simulation" title="Link to this definition">#</a></dt>
 <dd><p>Orchestrates the execution of a Fluent simulation using the commands from the provided journal file.</p>
-<p>The function manages the entire simulation process from initiating Fluent, sending it the right 
-commands, visualizing output, to cleaning up post-simulation resources. It offers functionalities 
+<p>The function manages the entire simulation process from initiating Fluent, sending it the right
+commands, visualizing output, to cleaning up post-simulation resources. It offers functionalities
 to both visualize the Fluent console output in Python and plot the residual history in real time.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -652,7 +707,7 @@ to both visualize the Fluent console output in Python and plot the residual hist
 </dd>
 <dt><strong>print_transcript</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, the Fluent console output will be displayed in Python. Requires <cite>transcript_file</cite> to be provided. Default is False.</p>
 </dd>
-<dt><strong>transcript_file</strong><span class="classifier">str, optional</span></dt><dd><p>Path to the transcript file which contains the residuals and other output data from Fluent. 
+<dt><strong>transcript_file</strong><span class="classifier">str, optional</span></dt><dd><p>Path to the transcript file which contains the residuals and other output data from Fluent.
 Mandatory if either <cite>plot_residuals</cite> or <cite>print_transcript</cite> are set to True.</p>
 </dd>
 </dl>
@@ -722,7 +777,7 @@ Mandatory if either <cite>plot_residuals</cite> or <cite>print_transcript</cite>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.TranscriptFileMissingError"><code class="docutils literal notranslate"><span class="pre">TranscriptFileMissingError</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.add_solution_strategy"><code class="docutils literal notranslate"><span class="pre">add_solution_strategy()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.contains_any_error_ignore_spaces"><code class="docutils literal notranslate"><span class="pre">contains_any_error_ignore_spaces()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.compare_dicts"><code class="docutils literal notranslate"><span class="pre">compare_dicts()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.kill_fluent"><code class="docutils literal notranslate"><span class="pre">kill_fluent()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.parse_fluent_out"><code class="docutils literal notranslate"><span class="pre">parse_fluent_out()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.parse_fluent_xy"><code class="docutils literal notranslate"><span class="pre">parse_fluent_xy()</span></code></a></li>
