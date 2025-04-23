@@ -1,6 +1,8 @@
 
 ## ✅ **Poetry installation steps (Git Bash)**
 
+Use the following command block to install Poetry in Windows using Git Bash:
+
 ```bash
 curl -sSL https://install.python-poetry.org | python -
 echo '' >> ~/.bashrc

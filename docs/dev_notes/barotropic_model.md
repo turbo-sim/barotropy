@@ -17,8 +17,6 @@ As we will explore below, this definition can be formulated as an ordinary diffe
 
 ### Computational advantages
 
-
-
 Utilizing the barotropic fluid model for homogeneous multiphase flows presents distinct computational benefits. Foremost, it streamlines the computational models. Instead of dealing with multifaceted multiphase equations, researchers only need to tackle the Reynolds Averaged Navier Stokes equations tailored for a single-phase system. This requires solving just the mass and momentum equations of the mixture, which are further enhanced by a turbulence model. 
 
 There's no necessity to introduce additional transport equations or incorporate source terms that reflect the dynamics of individual phases. Instead, the entire flow is represented as a single-phase system, leveraging the thermodynamic and transport properties of the mixture. Impressively, the outcomes remain illustrative of the multiphase flow dynamics. 
