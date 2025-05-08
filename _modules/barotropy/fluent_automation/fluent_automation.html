@@ -1245,6 +1245,74 @@ document.write(`
 
     <span class="k">return</span> <span class="n">filter_dict</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span> <span class="o">==</span> <span class="n">filter_dict</span><span class="p">(</span><span class="n">d2</span><span class="p">)</span></div>
 
+
+
+<div class="viewcode-block" id="get_fluent_zone_table">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.fluent_automation.html#barotropy.fluent_automation.fluent_automation.get_fluent_zone_table">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_fluent_zone_table</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reads the current mesh from a running Fluent solver and extracts zone information.</span>
+
+<span class="sd">    This function calls `solver.mesh.modify_zones.list_zones()` to retrieve a list of all</span>
+<span class="sd">    mesh zones defined in the Fluent session. It parses the raw text output and returns it</span>
+<span class="sd">    as a structured pandas DataFrame with zone-level metadata.</span>
+
+<span class="sd">    The DataFrame includes the following columns:</span>
+<span class="sd">        - id       : Zone ID (integer)</span>
+<span class="sd">        - name     : Zone name (string, e.g., &#39;wall-5&#39;, &#39;solid-1&#39;)</span>
+<span class="sd">        - type     : Zone type (e.g., &#39;wall&#39;, &#39;solid&#39;, &#39;interior&#39;)</span>
+<span class="sd">        - material : Assigned material name if applicable (e.g., &#39;aluminum&#39;); may be empty</span>
+<span class="sd">        - kind     : Zone category (&#39;cell&#39; or &#39;face&#39;)</span>
+
+<span class="sd">    Example output:</span>
+<span class="sd">        id                name      type  material   kind</span>
+<span class="sd">         1             solid-1     solid  aluminum   cell</span>
+<span class="sd">         2             solid-2     solid  aluminum   cell</span>
+<span class="sd">         3              wall-5      wall  aluminum   face</span>
+<span class="sd">         4  default_interior-1  interior            face</span>
+<span class="sd">         ...</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    solver : pyfluent.fluent.Solver</span>
+<span class="sd">        A running Fluent solver instance launched via pyfluent.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        A table of zone information with one row per zone.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">redirect_stdout</span>
+
+    <span class="n">f</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">redirect_stdout</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+        <span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">modify_zones</span><span class="o">.</span><span class="n">list_zones</span><span class="p">()</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Step 1: find the header line and column names</span>
+    <span class="n">header_line</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span> <span class="k">if</span> <span class="s2">&quot;name&quot;</span> <span class="ow">in</span> <span class="n">line</span> <span class="ow">and</span> <span class="s2">&quot;type&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">)</span>
+    <span class="n">col_names</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\s{2,}&#39;</span><span class="p">,</span> <span class="n">header_line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+    <span class="c1"># Step 2: skip headers and separators</span>
+    <span class="n">data_lines</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;----&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;name&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">line</span>
+    <span class="p">]</span>
+
+    <span class="c1"># Step 3: parse each line</span>
+    <span class="n">parsed</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">data_lines</span><span class="p">:</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\s{2,}&#39;</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">col_names</span><span class="p">):</span>
+            <span class="n">fields</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">col_names</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">fields</span><span class="p">))</span>
+        <span class="n">parsed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">col_names</span><span class="p">,</span> <span class="n">fields</span><span class="p">)))</span>
+
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">parsed</span><span class="p">)</span></div>
+
 </pre></div>
 
                 </article>

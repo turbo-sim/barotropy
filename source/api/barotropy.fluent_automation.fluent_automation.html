@@ -334,6 +334,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.TranscriptFileMissingError"><code class="docutils literal notranslate"><span class="pre">TranscriptFileMissingError</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.add_solution_strategy"><code class="docutils literal notranslate"><span class="pre">add_solution_strategy()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.compare_dicts"><code class="docutils literal notranslate"><span class="pre">compare_dicts()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.get_fluent_zone_table"><code class="docutils literal notranslate"><span class="pre">get_fluent_zone_table()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.kill_fluent"><code class="docutils literal notranslate"><span class="pre">kill_fluent()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.parse_fluent_out"><code class="docutils literal notranslate"><span class="pre">parse_fluent_out()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.parse_fluent_xy"><code class="docutils literal notranslate"><span class="pre">parse_fluent_xy()</span></code></a></li>
@@ -446,6 +447,48 @@ of specified top-level and nested keys during the comparison.</p>
 <dd class="field-even"><dl class="simple">
 <dt>bool</dt><dd><p>True if the dictionaries are equal after applying the skip rules; 
 False otherwise.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent_automation.fluent_automation.get_fluent_zone_table">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.fluent_automation.</span></span><span class="sig-name descname"><span class="pre">get_fluent_zone_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solver</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="../../_modules/barotropy/fluent_automation/fluent_automation.html#get_fluent_zone_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.fluent_automation.get_fluent_zone_table" title="Link to this definition">#</a></dt>
+<dd><p>Reads the current mesh from a running Fluent solver and extracts zone information.</p>
+<p>This function calls <cite>solver.mesh.modify_zones.list_zones()</cite> to retrieve a list of all
+mesh zones defined in the Fluent session. It parses the raw text output and returns it
+as a structured pandas DataFrame with zone-level metadata.</p>
+<dl class="simple">
+<dt>The DataFrame includes the following columns:</dt><dd><ul class="simple">
+<li><p>id       : Zone ID (integer)</p></li>
+<li><p>name     : Zone name (string, e.g., ‘wall-5’, ‘solid-1’)</p></li>
+<li><p>type     : Zone type (e.g., ‘wall’, ‘solid’, ‘interior’)</p></li>
+<li><p>material : Assigned material name if applicable (e.g., ‘aluminum’); may be empty</p></li>
+<li><p>kind     : Zone category (‘cell’ or ‘face’)</p></li>
+</ul>
+</dd>
+<dt>Example output:</dt><dd><dl class="simple">
+<dt>id                name      type  material   kind</dt><dd><p>1             solid-1     solid  aluminum   cell
+2             solid-2     solid  aluminum   cell
+3              wall-5      wall  aluminum   face
+4  default_interior-1  interior            face
+…</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>solver</strong><span class="classifier">pyfluent.fluent.Solver</span></dt><dd><p>A running Fluent solver instance launched via pyfluent.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>pd.DataFrame</dt><dd><p>A table of zone information with one row per zone.</p>
 </dd>
 </dl>
 </dd>
@@ -778,6 +821,7 @@ Mandatory if either <cite>plot_residuals</cite> or <cite>print_transcript</cite>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.TranscriptFileMissingError"><code class="docutils literal notranslate"><span class="pre">TranscriptFileMissingError</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.add_solution_strategy"><code class="docutils literal notranslate"><span class="pre">add_solution_strategy()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.compare_dicts"><code class="docutils literal notranslate"><span class="pre">compare_dicts()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.get_fluent_zone_table"><code class="docutils literal notranslate"><span class="pre">get_fluent_zone_table()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.kill_fluent"><code class="docutils literal notranslate"><span class="pre">kill_fluent()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.parse_fluent_out"><code class="docutils literal notranslate"><span class="pre">parse_fluent_out()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.fluent_automation.parse_fluent_xy"><code class="docutils literal notranslate"><span class="pre">parse_fluent_xy()</span></code></a></li>
