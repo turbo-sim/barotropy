@@ -1,0 +1,51 @@
+model_name: parametric_nozzle
+
+
+
+upper_side:
+  type: explicit
+  segments:
+    - order: 3
+      control_points:
+        - [0.0, 0.7]
+        - [1.0, 0.7]
+        - [1.0, 0.3]
+        - [2.0, 0.3]
+    - order: 3
+      control_points:
+        - [2.0, 0.3]
+        - [2.5, 0.3]
+        - [3.0, 0.8]
+        - [4.0, 1.0]
+        - [5.0, 1.0]
+
+lower_side:
+  type: mirror    # or mirror, or symmetry
+  segments:             # only required when type: explicit
+    - order: 1
+      control_points:
+        - [0.0, -1.0]
+        - [2.0, -0.5]
+    - order: 1
+      control_points:
+        - [2.0, -0.5]
+        - [5.0, -1.0]
+
+# boundary_layer:
+#   t0: 0.01
+#   r: 1.2
+#   layers: 10
+#   n_samples: 21
+
+mesh:
+
+  Nx: 10
+  Ny: 10
+  inflation_ratio: 1
+  first_cell_height: 0.001
+  length_scale: 0.10  # Used for off-setting inflation layer
+
+
+
+
+

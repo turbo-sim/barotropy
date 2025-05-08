@@ -919,3 +919,68 @@ def compare_dicts(
         return filtered
 
     return filter_dict(d1) == filter_dict(d2)
+
+
+def get_fluent_zone_table(solver) -> pd.DataFrame:
+    """
+    Reads the current mesh from a running Fluent solver and extracts zone information.
+
+    This function calls `solver.mesh.modify_zones.list_zones()` to retrieve a list of all
+    mesh zones defined in the Fluent session. It parses the raw text output and returns it
+    as a structured pandas DataFrame with zone-level metadata.
+
+    The DataFrame includes the following columns:
+        - id       : Zone ID (integer)
+        - name     : Zone name (string, e.g., 'wall-5', 'solid-1')
+        - type     : Zone type (e.g., 'wall', 'solid', 'interior')
+        - material : Assigned material name if applicable (e.g., 'aluminum'); may be empty
+        - kind     : Zone category ('cell' or 'face')
+
+    Example output:
+        id                name      type  material   kind
+         1             solid-1     solid  aluminum   cell
+         2             solid-2     solid  aluminum   cell
+         3              wall-5      wall  aluminum   face
+         4  default_interior-1  interior            face
+         ...
+
+    Parameters
+    ----------
+    solver : pyfluent.fluent.Solver
+        A running Fluent solver instance launched via pyfluent.
+
+    Returns
+    -------
+    pd.DataFrame
+        A table of zone information with one row per zone.
+    """
+    import io
+    import re
+    from contextlib import redirect_stdout
+
+    f = io.StringIO()
+    with redirect_stdout(f):
+        solver.mesh.modify_zones.list_zones()
+    output = f.getvalue()
+
+    lines = output.strip().split("\n")
+
+    # Step 1: find the header line and column names
+    header_line = next(line for line in lines if "name" in line and "type" in line)
+    col_names = re.split(r'\s{2,}', header_line.strip())
+
+    # Step 2: skip headers and separators
+    data_lines = [
+        line for line in lines
+        if line.strip() and not line.startswith("----") and "name" not in line
+    ]
+
+    # Step 3: parse each line
+    parsed = []
+    for line in data_lines:
+        fields = re.split(r'\s{2,}', line.strip())
+        if len(fields) < len(col_names):
+            fields += [""] * (len(col_names) - len(fields))
+        parsed.append(dict(zip(col_names, fields)))
+
+    return pd.DataFrame(parsed)
