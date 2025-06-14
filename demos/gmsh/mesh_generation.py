@@ -30,8 +30,10 @@ import ansys.fluent.core as pyfluent
 
 
 # Load the configuration file
-with open("mesh_config.yaml", "r") as f:
+with open("simmoneau_nozzle.yaml", "r") as f:
     config = yaml.safe_load(f)
+
+
 
 # Generate the mesh
 out_filename = "nozzle.bdf"
@@ -40,28 +42,28 @@ mesher.create_mesh()
 mesher.show_mesh()
 mesher.write_mesh(filename=out_filename)
 
-# Launch Fluent
-print("Launching Fluent...")
-solver = pyfluent.launch_fluent(
-    product_version=pyfluent.FluentVersion.v242,
-    mode=pyfluent.FluentMode.SOLVER,
-    ui_mode=pyfluent.UIMode.NO_GUI,
-    dimension=pyfluent.Dimension.TWO,
-    precision=pyfluent.Precision.DOUBLE,
-    processor_count=1,
-)
-print("Fluent launched successfully.")
+# # Launch Fluent
+# print("Launching Fluent...")
+# solver = pyfluent.launch_fluent(
+#     product_version=pyfluent.FluentVersion.v242,
+#     mode=pyfluent.FluentMode.SOLVER,
+#     ui_mode=pyfluent.UIMode.NO_GUI,
+#     dimension=pyfluent.Dimension.TWO,
+#     precision=pyfluent.Precision.DOUBLE,
+#     processor_count=1,
+# )
+# print("Fluent launched successfully.")
 
-# Import mesh file
-solver.file.import_.read(file_type="nastran-bulkdata", file_name=out_filename)
+# # Import mesh file
+# solver.file.import_.read(file_type="nastran-bulkdata", file_name=out_filename)
 
-# solver.mesh.mesh_info(print_level=0)
-# solver.mesh.modify_zones.list_zones()
+# # solver.mesh.mesh_info(print_level=0)
+# # solver.mesh.modify_zones.list_zones()
 
 
-df_zones = bpy.get_fluent_zone_table(solver)
+# df_zones = bpy.get_fluent_zone_table(solver)
 
-print("Dataframe with zones info:")
-print(df_zones)
+# print("Dataframe with zones info:")
+# print(df_zones)
 
 

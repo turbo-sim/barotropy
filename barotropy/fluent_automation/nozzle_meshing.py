@@ -182,16 +182,16 @@ class NozzleMesher:
         # Create the structured mesh
         gmsh.model.mesh.generate(2)
 
-        # Extrude all fluid surfaces to create a 3D mesh
-        extruded_volumes = []
-        for name, surf_tag in self.surfaces.items():
-            if "domain" in name:
-                # Extrude 1.0 m in Z-direction, structured hex mesh
-                out = gmsh.model.occ.extrude([(2, surf_tag)], 0, 0, 1.0, numElements=[1], recombine=True)
-                extruded_volumes.extend(out)
+        # # Extrude all fluid surfaces to create a 3D mesh
+        # extruded_volumes = []
+        # for name, surf_tag in self.surfaces.items():
+        #     if "domain" in name:
+        #         # Extrude 1.0 m in Z-direction, structured hex mesh
+        #         out = gmsh.model.occ.extrude([(2, surf_tag)], 0, 0, 1.0, numElements=[1], recombine=True)
+        #         extruded_volumes.extend(out)
 
-        gmsh.model.occ.synchronize()
-        gmsh.model.mesh.generate(3)
+        # gmsh.model.occ.synchronize()
+        # gmsh.model.mesh.generate(3)
 
 
         self.create_physical_groups()

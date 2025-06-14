@@ -20,7 +20,7 @@ upper_side:
         - [5.0, 1.0]
 
 lower_side:
-  type: mirror    # or mirror, or symmetry
+  type: symmetry    # or mirror, or symmetry
   segments:             # only required when type: explicit
     - order: 1
       control_points:
@@ -38,10 +38,9 @@ lower_side:
 #   n_samples: 21
 
 mesh:
-
-  Nx: 10
-  Ny: 10
-  inflation_ratio: 1
+  Nx: 100
+  Ny: 100
+  inflation_ratio: 1.2
   first_cell_height: 0.001
   length_scale: 0.10  # Used for off-setting inflation layer
 
