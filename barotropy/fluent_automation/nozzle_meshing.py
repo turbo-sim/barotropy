@@ -1,4 +1,3 @@
-import gmsh
 import copy
 import numpy as np
 import scipy.integrate
