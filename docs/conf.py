@@ -55,6 +55,9 @@ exclude_patterns.extend(["source/api/modules.rst"])
 exclude_patterns.extend(["source/api/barotropy.fluid_properties.fluid_properties.rst", "source/api/barotropy.fluid_properties.core_calculations.rst"])
 exclude_patterns.extend(["dev_notes"])
 
+# Avoid runtime errors when building documentation with GitHub actions
+autodoc_mock_imports = ["gmsh"]
+
 # autodoc_mock_imports = [
 #     "mcerp",
 #     "mcerp.stats",
