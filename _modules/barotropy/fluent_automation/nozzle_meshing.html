@@ -1,0 +1,1339 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>barotropy.fluent_automation.nozzle_meshing &#8212; barotropy v0.2.7 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../_static/documentation_options.js?v=9f7fe802"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/barotropy/fluent_automation/nozzle_meshing';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">barotropy v0.2.7 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../source/introduction.html">Getting started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../source/tutorials.html">Guided tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/tutorials/flashing_nozzle_fluent.html">Flashing nozzle Fluent tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/tutorials/centrifugal_impeller_cfx.html">Centrifugal impeller CFX tutorial</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/barotropic_model.html">Barotropic model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/developer_guide.html">Developer guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/bibliography.html">Bibliography</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../source/api/barotropy.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/barotropy.barotropic_model.html">Barotropic model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/barotropy.properties.html">Fluid properties</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/barotropy.math.html">Math functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/barotropy.graphics.html">Graphic functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source/api/barotropy.utilities.html">Utility functions</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../source/api/barotropy.fluent_automation.html">Fluent automation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../source/api/barotropy.fluent_automation.fluent_automation.html">barotropy.fluent_automation.fluent_automation module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html">barotropy.fluent_automation.fluent_plot_nozzle_data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../source/api/barotropy.fluent_automation.stream_residuals.html">barotropy.fluent_automation.stream_residuals module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../source/api/barotropy.fluent_automation.stream_transcript.html">barotropy.fluent_automation.stream_transcript module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for barotropy.fluent_automation.nozzle_meshing</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">gmsh</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.integrate</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.optimize</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..utilities</span><span class="w"> </span><span class="kn">import</span> <span class="n">print_dict</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">gmsh</span>
+
+    <span class="n">GMSH_AVAILABLE</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">gmsh</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">GMSH_AVAILABLE</span> <span class="o">=</span> <span class="kc">False</span>
+
+
+<div class="viewcode-block" id="check_gmsh">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.nozzle_meshing.html#barotropy.fluent_automation.nozzle_meshing.check_gmsh">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_gmsh</span><span class="p">():</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">GMSH_AVAILABLE</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;gmsh is not installed. Run `pip install gmsh`.&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="NozzleMesher">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.nozzle_meshing.html#barotropy.fluent_automation.nozzle_meshing.NozzleMesher">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NozzleMesher</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+
+        <span class="c1"># Check gmsh is installed</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+        <span class="c1"># Validate upper side</span>
+        <span class="n">us</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;upper_side&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">us</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;explicit&quot;</span> <span class="ow">or</span> <span class="s2">&quot;segments&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">us</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;upper_side must be explicit and define one or several B-spline segments&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Validate lower side</span>
+        <span class="n">ls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;lower_side&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">ls</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;explicit&quot;</span><span class="p">,</span> <span class="s2">&quot;mirror&quot;</span><span class="p">,</span> <span class="s2">&quot;symmetry&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;lower_side.type must be explicit, mirror, or symmetry&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ls</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;explicit&quot;</span> <span class="ow">and</span> <span class="s2">&quot;segments&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;lower_side explicit requires segments&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Unpack geometry and mesh settings</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lc</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;mesh&quot;</span><span class="p">][</span><span class="s2">&quot;length_scale&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">upper_segments</span> <span class="o">=</span> <span class="n">us</span><span class="p">[</span><span class="s2">&quot;segments&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lower_type</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;symmetry&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lower_segments</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;segments&quot;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh_cfg</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;mesh&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Nx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh_cfg</span><span class="p">[</span><span class="s2">&quot;Nx&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Ny</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh_cfg</span><span class="p">[</span><span class="s2">&quot;Ny&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">has_inflation_layers</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mesh_cfg</span><span class="p">[</span><span class="s2">&quot;inflation_ratio&quot;</span><span class="p">],</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-6</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Storage for Gmsh tags</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">curves</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">surfaces</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">corners</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Normalize lower segments (mirror, symmetry, or explicit)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lower_segments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepare_lower_segments</span><span class="p">()</span>
+
+        <span class="c1"># Initialize Gmsh engine</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialize</span><span class="p">()</span>
+
+
+
+<div class="viewcode-block" id="NozzleMesher.create_mesh">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.nozzle_meshing.html#barotropy.fluent_automation.nozzle_meshing.NozzleMesher.create_mesh">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_mesh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create full nozzle mesh (geometry + structured meshing).&quot;&quot;&quot;</span>
+        
+        <span class="c1"># If not symmetry, then split the number of nodes among upper nad lower sides</span>
+        <span class="n">Ny_upper</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Ny</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_type</span> <span class="o">!=</span> <span class="s2">&quot;symmetry&quot;</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ny</span>
+        <span class="n">Ny_lower</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Ny</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_type</span> <span class="o">!=</span> <span class="s2">&quot;symmetry&quot;</span> <span class="k">else</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_inflation_layers</span><span class="p">:</span>
+            
+            <span class="c1"># Create geometry</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_build_upper_side</span><span class="p">(</span><span class="n">with_inflation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_build_lower_side</span><span class="p">(</span><span class="n">with_inflation</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            
+            <span class="c1"># Upper core block</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">surfaces</span><span class="p">[</span><span class="s2">&quot;domain_upper&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">create_structured_surface</span><span class="p">(</span>
+                <span class="n">curves_1</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;centerline&quot;</span><span class="p">],</span>
+                <span class="n">curves_2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;outflow_core_upper&quot;</span><span class="p">],</span>
+                <span class="n">curves_3</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;wall_upper&quot;</span><span class="p">])),</span>  <span class="c1"># CCW</span>
+                <span class="n">curves_4</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;inflow_core_upper&quot;</span><span class="p">],</span>
+                <span class="n">corner_12</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;outflow_centerline&quot;</span><span class="p">],</span>
+                <span class="n">corner_23</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;outflow_wall_upper&quot;</span><span class="p">],</span>
+                <span class="n">corner_34</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_wall_upper&quot;</span><span class="p">],</span>
+                <span class="n">corner_41</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_centerline&quot;</span><span class="p">],</span>
+                <span class="n">N_horizontal</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Nx</span><span class="p">,</span>
+                <span class="n">N_vertical</span><span class="o">=</span><span class="n">Ny_upper</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Lower core block</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_type</span> <span class="o">!=</span> <span class="s2">&quot;symmetry&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">surfaces</span><span class="p">[</span><span class="s2">&quot;domain_lower&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">create_structured_surface</span><span class="p">(</span>
+                    <span class="n">curves_1</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;wall_lower&quot;</span><span class="p">],</span>
+                    <span class="n">curves_2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;outflow_core_lower&quot;</span><span class="p">],</span>
+                    <span class="n">curves_3</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;centerline&quot;</span><span class="p">],</span>
+                    <span class="n">curves_4</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;inflow_core_lower&quot;</span><span class="p">],</span>
+                    <span class="n">corner_12</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;outflow_wall_lower&quot;</span><span class="p">],</span>
+                    <span class="n">corner_23</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;outflow_centerline&quot;</span><span class="p">],</span>
+                    <span class="n">corner_34</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_centerline&quot;</span><span class="p">],</span>
+                    <span class="n">corner_41</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_wall_lower&quot;</span><span class="p">],</span>
+                    <span class="n">N_horizontal</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Nx</span><span class="p">,</span>
+                    <span class="n">N_vertical</span><span class="o">=</span><span class="n">Ny_lower</span><span class="p">,</span>
+                <span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_build_upper_side</span><span class="p">(</span><span class="n">with_inflation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">N_vertical</span><span class="o">=</span><span class="n">Ny_upper</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_build_lower_side</span><span class="p">(</span><span class="n">with_inflation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">N_vertical</span><span class="o">=</span><span class="n">Ny_lower</span><span class="p">)</span>
+
+            <span class="c1"># Upper core block</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">surfaces</span><span class="p">[</span><span class="s2">&quot;domain_upper_core&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">create_structured_surface</span><span class="p">(</span>
+                <span class="n">curves_1</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;centerline&quot;</span><span class="p">],</span>
+                <span class="n">curves_2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;outflow_core_upper&quot;</span><span class="p">],</span>
+                <span class="n">curves_3</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;inflation_upper&quot;</span><span class="p">],</span> 
+                <span class="n">curves_4</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;inflow_core_upper&quot;</span><span class="p">],</span>
+                <span class="n">corner_12</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;outflow_centerline&quot;</span><span class="p">],</span>
+                <span class="n">corner_23</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;outflow_inflation_upper&quot;</span><span class="p">],</span>
+                <span class="n">corner_34</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_inflation_upper&quot;</span><span class="p">],</span>
+                <span class="n">corner_41</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_centerline&quot;</span><span class="p">],</span>
+                <span class="n">N_horizontal</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Nx</span><span class="p">,</span>
+                <span class="n">N_vertical</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inflation_data_upper</span><span class="p">[</span><span class="s2">&quot;N_core&quot;</span><span class="p">],</span>
+                <span class="n">progression_horizontal</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">progression_vertical</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Upper inflation block</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">surfaces</span><span class="p">[</span><span class="s2">&quot;domain_upper_inflation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">create_structured_surface</span><span class="p">(</span>
+                <span class="n">curves_1</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;inflation_upper&quot;</span><span class="p">],</span>
+                <span class="n">curves_2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;outflow_inflation_upper&quot;</span><span class="p">],</span>
+                <span class="n">curves_3</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;wall_upper&quot;</span><span class="p">])),</span>  <span class="c1"># CCW</span>
+                <span class="n">curves_4</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;inflow_inflation_upper&quot;</span><span class="p">],</span>
+                <span class="n">corner_12</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;outflow_inflation_upper&quot;</span><span class="p">],</span>
+                <span class="n">corner_23</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;outflow_wall_upper&quot;</span><span class="p">],</span>
+                <span class="n">corner_34</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_wall_upper&quot;</span><span class="p">],</span>
+                <span class="n">corner_41</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_inflation_upper&quot;</span><span class="p">],</span>
+                <span class="n">N_horizontal</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Nx</span><span class="p">,</span>
+                <span class="n">N_vertical</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inflation_data_upper</span><span class="p">[</span><span class="s2">&quot;N_inflation&quot;</span><span class="p">],</span>
+                <span class="n">progression_horizontal</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                <span class="n">progression_vertical</span><span class="o">=-</span><span class="bp">self</span><span class="o">.</span><span class="n">inflation_data_upper</span><span class="p">[</span><span class="s2">&quot;inflation_ratio&quot;</span><span class="p">],</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_type</span> <span class="o">!=</span> <span class="s2">&quot;symmetry&quot;</span><span class="p">:</span>
+                <span class="c1"># Lower core block</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">surfaces</span><span class="p">[</span><span class="s2">&quot;domain_lower_core&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">create_structured_surface</span><span class="p">(</span>
+                    <span class="n">curves_1</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;centerline&quot;</span><span class="p">],</span>
+                    <span class="n">curves_2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;outflow_core_lower&quot;</span><span class="p">],</span>
+                    <span class="n">curves_3</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;inflation_lower&quot;</span><span class="p">],</span> 
+                    <span class="n">curves_4</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;inflow_core_lower&quot;</span><span class="p">],</span>
+                    <span class="n">corner_12</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;outflow_centerline&quot;</span><span class="p">],</span>
+                    <span class="n">corner_23</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;outflow_inflation_lower&quot;</span><span class="p">],</span>
+                    <span class="n">corner_34</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_inflation_lower&quot;</span><span class="p">],</span>
+                    <span class="n">corner_41</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_centerline&quot;</span><span class="p">],</span>
+                    <span class="n">N_horizontal</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Nx</span><span class="p">,</span>
+                    <span class="n">N_vertical</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inflation_data_lower</span><span class="p">[</span><span class="s2">&quot;N_core&quot;</span><span class="p">],</span>
+                    <span class="n">progression_horizontal</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                    <span class="n">progression_vertical</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="p">)</span>
+
+                <span class="c1"># Lower inflation block</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">surfaces</span><span class="p">[</span><span class="s2">&quot;domain_lower_inflation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">create_structured_surface</span><span class="p">(</span>
+                    <span class="n">curves_1</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;inflation_lower&quot;</span><span class="p">],</span>
+                    <span class="n">curves_2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;outflow_inflation_lower&quot;</span><span class="p">],</span>
+                    <span class="n">curves_3</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;wall_lower&quot;</span><span class="p">])),</span>  <span class="c1"># CCW</span>
+                    <span class="n">curves_4</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;inflow_inflation_lower&quot;</span><span class="p">],</span>
+                    <span class="n">corner_12</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;outflow_inflation_lower&quot;</span><span class="p">],</span>
+                    <span class="n">corner_23</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;outflow_wall_lower&quot;</span><span class="p">],</span>
+                    <span class="n">corner_34</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_wall_lower&quot;</span><span class="p">],</span>
+                    <span class="n">corner_41</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_inflation_lower&quot;</span><span class="p">],</span>
+                    <span class="n">N_horizontal</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">Nx</span><span class="p">,</span>
+                    <span class="n">N_vertical</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inflation_data_lower</span><span class="p">[</span><span class="s2">&quot;N_inflation&quot;</span><span class="p">],</span>
+                    <span class="n">progression_horizontal</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                    <span class="n">progression_vertical</span><span class="o">=-</span><span class="bp">self</span><span class="o">.</span><span class="n">inflation_data_lower</span><span class="p">[</span><span class="s2">&quot;inflation_ratio&quot;</span><span class="p">],</span>
+                <span class="p">)</span>
+
+        <span class="c1"># Create the structured mesh</span>
+        <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="c1"># # Extrude all fluid surfaces to create a 3D mesh</span>
+        <span class="c1"># extruded_volumes = []</span>
+        <span class="c1"># for name, surf_tag in self.surfaces.items():</span>
+        <span class="c1">#     if &quot;domain&quot; in name:</span>
+        <span class="c1">#         # Extrude 1.0 m in Z-direction, structured hex mesh</span>
+        <span class="c1">#         out = gmsh.model.occ.extrude([(2, surf_tag)], 0, 0, 1.0, numElements=[1], recombine=True)</span>
+        <span class="c1">#         extruded_volumes.extend(out)</span>
+
+        <span class="c1"># gmsh.model.occ.synchronize()</span>
+        <span class="c1"># gmsh.model.mesh.generate(3)</span>
+
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_physical_groups</span><span class="p">()</span></div>
+
+                  
+    
+<div class="viewcode-block" id="NozzleMesher.write_mesh">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.nozzle_meshing.html#barotropy.fluent_automation.nozzle_meshing.NozzleMesher.write_mesh">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_mesh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;nozzle.msh&quot;</span><span class="p">):</span>
+        <span class="c1"># gmsh.option.setNumber(&quot;Mesh.MshFileVersion&quot;, 4.2)</span>
+        <span class="c1"># gmsh.option.setNumber(&quot;Mesh.Binary&quot;, 0)  # ASCII output</span>
+        <span class="n">gmsh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span></div>
+
+
+
+
+<div class="viewcode-block" id="NozzleMesher.show_mesh">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.nozzle_meshing.html#barotropy.fluent_automation.nozzle_meshing.NozzleMesher.show_mesh">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">show_mesh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">black</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># Always check what is defined</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="s2">&quot;domain_upper&quot;</span><span class="p">,</span> <span class="s2">&quot;domain_lower&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;domain_upper_core&quot;</span><span class="p">,</span> <span class="s2">&quot;domain_lower_core&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;domain_upper_inflation&quot;</span><span class="p">,</span> <span class="s2">&quot;domain_lower_inflation&quot;</span>
+        <span class="p">]:</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">surfaces</span><span class="p">:</span>
+                <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">setColor</span><span class="p">([(</span><span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">surfaces</span><span class="p">[</span><span class="n">name</span><span class="p">])],</span> <span class="o">*</span><span class="n">black</span><span class="p">)</span>
+                
+        <span class="n">gmsh</span><span class="o">.</span><span class="n">fltk</span><span class="o">.</span><span class="n">run</span><span class="p">()</span></div>
+
+        <span class="c1"># gmsh.finalize()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the Gmsh model.&quot;&quot;&quot;</span>
+        <span class="n">check_gmsh</span><span class="p">()</span>
+        <span class="n">gmsh</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+        <span class="n">gmsh</span><span class="o">.</span><span class="n">option</span><span class="o">.</span><span class="n">setNumber</span><span class="p">(</span><span class="s2">&quot;General.Terminal&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;model_name&quot;</span><span class="p">])</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_upper_side</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">with_inflation</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">N_vertical</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build the upper half geometry (with optional inflation region).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        with_inflation : bool</span>
+<span class="sd">            Whether to include inflation layer geometry between wall and core.</span>
+<span class="sd">        N_vertical : int, optional</span>
+<span class="sd">            Number of cells in the vertical direction (required if with_inflation=True).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># 1. Upper wall</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_build_streamwise_curves</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">upper_segments</span><span class="p">,</span> <span class="s2">&quot;wall_upper&quot;</span><span class="p">)</span>
+
+        <span class="c1"># 2. Centerline</span>
+        <span class="n">x_last</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper_segments</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;control_points&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">centerline</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;order&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;control_points&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="n">x_last</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)]}]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_build_streamwise_curves</span><span class="p">(</span><span class="n">centerline</span><span class="p">,</span> <span class="s2">&quot;centerline&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">with_inflation</span><span class="p">:</span>
+            <span class="c1"># Direct connection between center and upper wall</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;inflow_core_upper&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occ</span><span class="o">.</span><span class="n">addLine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_centerline&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_wall_upper&quot;</span><span class="p">])</span>
+            <span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;outflow_core_upper&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occ</span><span class="o">.</span><span class="n">addLine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;outflow_centerline&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;outflow_wall_upper&quot;</span><span class="p">])</span>
+            <span class="p">]</span>
+            <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occ</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+            <span class="k">return</span>
+
+        <span class="c1"># --- Inflation layer logic ---</span>
+        <span class="k">assert</span> <span class="n">N_vertical</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;N_vertical must be provided when with_inflation=True&quot;</span>
+
+        <span class="c1"># 3. Generate 1D mesh for node extraction</span>
+        <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occ</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+        <span class="n">set_transfinite_curves</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;wall_upper&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">set_transfinite_curves</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;centerline&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># 4. Compute inflation distribution</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getValue</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_wall_upper&quot;</span><span class="p">],</span> <span class="p">[])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inflation_data_upper</span> <span class="o">=</span> <span class="n">find_optimal_inflation_layer</span><span class="p">(</span>
+            <span class="n">H_total</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+            <span class="n">inflation_ratio</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh_cfg</span><span class="p">[</span><span class="s2">&quot;inflation_ratio&quot;</span><span class="p">],</span>
+            <span class="n">h_wall</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh_cfg</span><span class="p">[</span><span class="s2">&quot;first_cell_height&quot;</span><span class="p">],</span>
+            <span class="n">N_total</span><span class="o">=</span><span class="n">N_vertical</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inflation_data_upper</span><span class="p">[</span><span class="s2">&quot;H_core&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">inflation_data_upper</span><span class="p">[</span><span class="s2">&quot;H_total&quot;</span><span class="p">]</span>
+
+        <span class="c1"># 5. Build B-spline curve for the inflation interface</span>
+        <span class="n">center_pts</span> <span class="o">=</span> <span class="n">sample_meshed_curves</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;centerline&quot;</span><span class="p">])</span>
+        <span class="n">upper_pts</span> <span class="o">=</span> <span class="n">sample_meshed_curves</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;wall_upper&quot;</span><span class="p">])</span>
+        <span class="n">CPs</span> <span class="o">=</span> <span class="p">[(</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">v</span><span class="p">)</span> <span class="o">*</span> <span class="n">x0</span> <span class="o">+</span> <span class="n">v</span> <span class="o">*</span> <span class="n">x1</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">v</span><span class="p">)</span> <span class="o">*</span> <span class="n">y0</span> <span class="o">+</span> <span class="n">v</span> <span class="o">*</span> <span class="n">y1</span> <span class="p">)</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">_</span><span class="p">),</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">center_pts</span><span class="p">,</span> <span class="n">upper_pts</span><span class="p">)]</span>
+        <span class="n">segments</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;order&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;control_points&quot;</span><span class="p">:</span> <span class="n">CPs</span><span class="p">}]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_build_streamwise_curves</span><span class="p">(</span><span class="n">segments</span><span class="p">,</span> <span class="s2">&quot;inflation_upper&quot;</span><span class="p">)</span>
+
+        <span class="c1"># 6. Create vertical connections</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;inflow_core_upper&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occ</span><span class="o">.</span><span class="n">addLine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_centerline&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_inflation_upper&quot;</span><span class="p">])</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;outflow_core_upper&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occ</span><span class="o">.</span><span class="n">addLine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;outflow_centerline&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;outflow_inflation_upper&quot;</span><span class="p">])</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;inflow_inflation_upper&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occ</span><span class="o">.</span><span class="n">addLine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_inflation_upper&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_wall_upper&quot;</span><span class="p">])</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;outflow_inflation_upper&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occ</span><span class="o">.</span><span class="n">addLine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;outflow_inflation_upper&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;outflow_wall_upper&quot;</span><span class="p">])</span>
+        <span class="p">]</span>
+
+        <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occ</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_lower_side</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">with_inflation</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">N_vertical</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build the lower half geometry (with optional inflation region).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        with_inflation : bool</span>
+<span class="sd">            Whether to include inflation layer geometry between wall and core.</span>
+<span class="sd">        N_vertical : int, optional</span>
+<span class="sd">            Number of cells in the vertical direction (required if with_inflation=True).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_type</span> <span class="o">==</span> <span class="s2">&quot;symmetry&quot;</span><span class="p">:</span>
+            <span class="k">return</span>  <span class="c1"># No lower wall to define</span>
+
+        <span class="c1"># 1. Lower wall</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_build_streamwise_curves</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lower_segments</span><span class="p">,</span> <span class="s2">&quot;wall_lower&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">with_inflation</span><span class="p">:</span>
+            <span class="c1"># Direct connection between center and lower wall</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;inflow_core_lower&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occ</span><span class="o">.</span><span class="n">addLine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_wall_lower&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_centerline&quot;</span><span class="p">])</span>
+            <span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;outflow_core_lower&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occ</span><span class="o">.</span><span class="n">addLine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;outflow_wall_lower&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;outflow_centerline&quot;</span><span class="p">])</span>
+            <span class="p">]</span>
+            <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occ</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+            <span class="k">return</span>
+
+        <span class="c1"># --- Inflation layer logic ---</span>
+        <span class="k">assert</span> <span class="n">N_vertical</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;N_vertical must be provided when with_inflation=True&quot;</span>
+
+        <span class="c1"># 2. Generate 1D mesh for node extraction</span>
+        <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occ</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+        <span class="n">set_transfinite_curves</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;wall_lower&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">set_transfinite_curves</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;centerline&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">Nx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># 3. Compute inflation distribution</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getValue</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_wall_lower&quot;</span><span class="p">],</span> <span class="p">[])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inflation_data_lower</span> <span class="o">=</span> <span class="n">find_optimal_inflation_layer</span><span class="p">(</span>
+            <span class="n">H_total</span><span class="o">=</span><span class="nb">abs</span><span class="p">(</span><span class="n">y</span><span class="p">),</span>
+            <span class="n">inflation_ratio</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh_cfg</span><span class="p">[</span><span class="s2">&quot;inflation_ratio&quot;</span><span class="p">],</span>
+            <span class="n">h_wall</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh_cfg</span><span class="p">[</span><span class="s2">&quot;first_cell_height&quot;</span><span class="p">],</span>
+            <span class="n">N_total</span><span class="o">=</span><span class="n">N_vertical</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inflation_data_lower</span><span class="p">[</span><span class="s2">&quot;H_core&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">inflation_data_lower</span><span class="p">[</span><span class="s2">&quot;H_total&quot;</span><span class="p">]</span>
+
+        <span class="c1"># 4. Build B-spline curve for the inflation interface (below centerline)</span>
+        <span class="n">center_pts</span> <span class="o">=</span> <span class="n">sample_meshed_curves</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;centerline&quot;</span><span class="p">])</span>
+        <span class="n">lower_pts</span> <span class="o">=</span> <span class="n">sample_meshed_curves</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;wall_lower&quot;</span><span class="p">])</span>
+        <span class="n">CPs</span> <span class="o">=</span> <span class="p">[(</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">v</span><span class="p">)</span> <span class="o">*</span> <span class="n">x0</span> <span class="o">+</span> <span class="n">v</span> <span class="o">*</span> <span class="n">x1</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">v</span><span class="p">)</span> <span class="o">*</span> <span class="n">y0</span> <span class="o">+</span> <span class="n">v</span> <span class="o">*</span> <span class="n">y1</span> <span class="p">)</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">_</span><span class="p">),</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">center_pts</span><span class="p">,</span> <span class="n">lower_pts</span><span class="p">)]</span>
+        <span class="n">segments</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;order&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;control_points&quot;</span><span class="p">:</span> <span class="n">CPs</span><span class="p">}]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_build_streamwise_curves</span><span class="p">(</span><span class="n">segments</span><span class="p">,</span> <span class="s2">&quot;inflation_lower&quot;</span><span class="p">)</span>
+
+        <span class="c1"># 5. Create vertical connections</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;inflow_core_lower&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occ</span><span class="o">.</span><span class="n">addLine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_centerline&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_inflation_lower&quot;</span><span class="p">])</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;outflow_core_lower&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occ</span><span class="o">.</span><span class="n">addLine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;outflow_centerline&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;outflow_inflation_lower&quot;</span><span class="p">])</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;inflow_inflation_lower&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occ</span><span class="o">.</span><span class="n">addLine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_inflation_lower&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;inflow_wall_lower&quot;</span><span class="p">])</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="s2">&quot;outflow_inflation_lower&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occ</span><span class="o">.</span><span class="n">addLine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;outflow_inflation_lower&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="s2">&quot;outflow_wall_lower&quot;</span><span class="p">])</span>
+        <span class="p">]</span>
+
+        <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occ</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_streamwise_curves</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">segments</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build a list of streamwise curves from a sequence of B-spline segments.</span>
+
+<span class="sd">        Each segment is a dictionary with:</span>
+<span class="sd">            - &#39;order&#39;: degree of the B-spline (int)</span>
+<span class="sd">            - &#39;control_points&#39;: list of (x, y) tuples</span>
+
+<span class="sd">        If two consecutive segments share a control point at the junction</span>
+<span class="sd">        (within a small absolute tolerance), the OCC point is reused</span>
+<span class="sd">        to ensure geometric continuity and avoid duplication.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        segments : list of dict</span>
+<span class="sd">            Wall definition as a list of spline segments.</span>
+
+<span class="sd">        name : str</span>
+<span class="sd">            Base name under which to store the generated curve tags and point tags</span>
+<span class="sd">            in self.curves and self.points, respectively.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        (first_point_tag, last_point_tag) : tuple of int</span>
+<span class="sd">            OCC point tags of the first and last control points in the wall.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">points_close</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-9</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">p1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">p2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">tol</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">p1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">p2</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">tol</span>
+
+        <span class="n">curve_tags</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">prev_pt_tag</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">prev_coords</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">first_pt_tag</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">segment</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">segments</span><span class="p">):</span>
+            <span class="n">ctrl_pts</span> <span class="o">=</span> <span class="n">segment</span><span class="p">[</span><span class="s2">&quot;control_points&quot;</span><span class="p">]</span>
+            <span class="n">degree</span> <span class="o">=</span> <span class="n">segment</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;order&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ctrl_pts</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">gmsh_pts</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ctrl_pts</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">points_close</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">prev_coords</span><span class="p">):</span>
+                    <span class="c1"># Reuse point at segment junction if coordinates match</span>
+                    <span class="n">gmsh_pts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prev_pt_tag</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">pt_tag</span> <span class="o">=</span> <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occ</span><span class="o">.</span><span class="n">addPoint</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lc</span><span class="p">)</span>
+                    <span class="n">gmsh_pts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pt_tag</span><span class="p">)</span>
+
+            <span class="c1"># Add B-spline curve for the current segment</span>
+            <span class="n">curve_tag</span> <span class="o">=</span> <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occ</span><span class="o">.</span><span class="n">addBSpline</span><span class="p">(</span><span class="n">gmsh_pts</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="n">degree</span><span class="p">)</span>
+            <span class="n">curve_tags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curve_tag</span><span class="p">)</span>
+
+            <span class="c1"># Store first and last point tags</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">first_pt_tag</span> <span class="o">=</span> <span class="n">gmsh_pts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">prev_pt_tag</span> <span class="o">=</span> <span class="n">gmsh_pts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">prev_coords</span> <span class="o">=</span> <span class="n">ctrl_pts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># Store results in geometry containers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">curve_tags</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;inflow_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">first_pt_tag</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;outflow_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">prev_pt_tag</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_prepare_lower_segments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate the list of B-spline segment definitions for the lower wall.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of dict</span>
+<span class="sd">            Each segment is a dictionary with keys:</span>
+<span class="sd">                - &#39;order&#39;: spline order (int)</span>
+<span class="sd">                - &#39;control_points&#39;: list of (x, y) tuples</span>
+
+<span class="sd">        Behavior depends on self.lower_type:</span>
+<span class="sd">        - &quot;explicit&quot; : Use self.lower_segments directly.</span>
+<span class="sd">        - &quot;mirror&quot;   : Mirror upper segments across y=0 (negate y of control points).</span>
+<span class="sd">        - &quot;symmetry&quot; : Generate a single straight segment along y=0 spanning x-range of upper wall.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_type</span> <span class="o">==</span> <span class="s2">&quot;explicit&quot;</span><span class="p">:</span>
+            <span class="c1"># Use explicitly defined lower wall segments</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_segments</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_type</span> <span class="o">==</span> <span class="s2">&quot;mirror&quot;</span><span class="p">:</span>
+            <span class="c1"># Mirror upper wall across the x-axis (negate y)</span>
+            <span class="n">mirrored</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">seg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper_segments</span><span class="p">:</span>
+                <span class="n">cps</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">seg</span><span class="p">[</span><span class="s2">&quot;control_points&quot;</span><span class="p">]]</span>
+                <span class="n">mirrored</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">{</span><span class="s2">&quot;order&quot;</span><span class="p">:</span> <span class="n">seg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;order&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">cps</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;control_points&quot;</span><span class="p">:</span> <span class="n">cps</span><span class="p">}</span>
+                <span class="p">)</span>
+            <span class="k">return</span> <span class="n">mirrored</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_type</span> <span class="o">==</span> <span class="s2">&quot;symmetry&quot;</span><span class="p">:</span>
+            <span class="c1"># Create a single flat lower wall from (0, 0) to (x_last, 0)</span>
+            <span class="n">x_last</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper_segments</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;control_points&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="p">[{</span><span class="s2">&quot;order&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;control_points&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="n">x_last</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)]}]</span>
+
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown lower_type: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">lower_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+
+<div class="viewcode-block" id="NozzleMesher.create_physical_groups">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.nozzle_meshing.html#barotropy.fluent_automation.nozzle_meshing.NozzleMesher.create_physical_groups">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_physical_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Define physical groups for Fluent boundary conditions based on self.curves.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        symmetry : bool</span>
+<span class="sd">            Whether the geometry includes a centerline symmetry boundary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">inlet_lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">outlet_lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">wall_lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">symmetry_lines</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">tags</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">lname</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s2">&quot;inflow&quot;</span> <span class="ow">in</span> <span class="n">lname</span><span class="p">:</span>
+                <span class="n">inlet_lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;outflow&quot;</span> <span class="ow">in</span> <span class="n">lname</span><span class="p">:</span>
+                <span class="n">outlet_lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;wall&quot;</span> <span class="ow">in</span> <span class="n">lname</span><span class="p">:</span>
+                <span class="n">wall_lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;centerline&quot;</span> <span class="ow">in</span> <span class="n">lname</span><span class="p">:</span>
+                <span class="n">symmetry_lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">inlet_lines</span><span class="p">:</span>
+            <span class="n">pg</span> <span class="o">=</span> <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">addPhysicalGroup</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">inlet_lines</span><span class="p">)</span>
+            <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">setPhysicalName</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">pg</span><span class="p">,</span> <span class="s2">&quot;inlet&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">outlet_lines</span><span class="p">:</span>
+            <span class="n">pg</span> <span class="o">=</span> <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">addPhysicalGroup</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">outlet_lines</span><span class="p">)</span>
+            <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">setPhysicalName</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">pg</span><span class="p">,</span> <span class="s2">&quot;outlet&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">wall_lines</span><span class="p">:</span>
+            <span class="n">pg</span> <span class="o">=</span> <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">addPhysicalGroup</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">wall_lines</span><span class="p">)</span>
+            <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">setPhysicalName</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">pg</span><span class="p">,</span> <span class="s2">&quot;wall&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_type</span> <span class="o">==</span> <span class="s2">&quot;symmetry&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">symmetry_lines</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Symmetry is enabled but no &#39;centerline&#39; boundary found in self.curves.&quot;</span><span class="p">)</span>
+            <span class="n">pg</span> <span class="o">=</span> <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">addPhysicalGroup</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">symmetry_lines</span><span class="p">)</span>
+            <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">setPhysicalName</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">pg</span><span class="p">,</span> <span class="s2">&quot;symmetry&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Handle fluid domain tagging</span>
+        <span class="n">fluid_surfaces</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">tags</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">surfaces</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="s2">&quot;domain&quot;</span> <span class="ow">in</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                <span class="n">fluid_surfaces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">fluid_surfaces</span><span class="p">:</span>
+            <span class="n">pg</span> <span class="o">=</span> <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">addPhysicalGroup</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">fluid_surfaces</span><span class="p">)</span>
+            <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">setPhysicalName</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">pg</span><span class="p">,</span> <span class="s2">&quot;fluid&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;No surface with &#39;domain&#39; found in self.surfaces. Cannot define &#39;fluid&#39; region.&quot;</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="set_transfinite_curves">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.nozzle_meshing.html#barotropy.fluent_automation.nozzle_meshing.set_transfinite_curves">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_transfinite_curves</span><span class="p">(</span><span class="n">curve_tags</span><span class="p">,</span> <span class="n">total_nodes</span><span class="p">,</span> <span class="n">meshType</span><span class="o">=</span><span class="s2">&quot;Progression&quot;</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Assign transfinite meshing to a sequence of connected curves,</span>
+<span class="sd">    distributing the given number of *points* (not elements) according to the</span>
+<span class="sd">    arc length of each segment.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    ----------</span>
+<span class="sd">    curve_tags : list of int</span>
+<span class="sd">        Tags of the OCC curves forming a continuous chain (e.g., lower or upper wall).</span>
+<span class="sd">        Each curve is treated as a segment between two mesh nodes.</span>
+
+<span class="sd">    total_nodes : int</span>
+<span class="sd">        Total number of mesh nodes along the full chain (including endpoints).</span>
+<span class="sd">        This implies total_nodes - 1 mesh elements will be distributed.</span>
+
+<span class="sd">    Behavior:</span>
+<span class="sd">    --------</span>
+<span class="sd">    - If the chain has only one curve, assigns total_nodes directly to it.</span>
+<span class="sd">    - If the chain has multiple curves, it:</span>
+<span class="sd">        * Computes each curve’s arc length.</span>
+<span class="sd">        * Distributes total_nodes - 1 elements proportionally to segment length.</span>
+<span class="sd">        * Rounds to integers and ensures the sum matches exactly.</span>
+<span class="sd">        * Applies `setTransfiniteCurve` to each segment with (elements + 1) points.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">num_curves</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">curve_tags</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">total_nodes</span> <span class="o">&lt;</span> <span class="n">num_curves</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;total_nodes=</span><span class="si">{</span><span class="n">total_nodes</span><span class="si">}</span><span class="s2"> must be at least number of segments+1 (</span><span class="si">{</span><span class="n">num_curves</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Handle simple case: only one curve in the chain</span>
+    <span class="k">if</span> <span class="n">num_curves</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">setTransfiniteCurve</span><span class="p">(</span>
+            <span class="n">curve_tags</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">total_nodes</span><span class="p">,</span> <span class="n">meshType</span><span class="o">=</span><span class="n">meshType</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="n">coef</span>
+        <span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="c1"># Step 1: compute arc lengths for all segments</span>
+    <span class="n">lengths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">get_arclength_occ</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span> <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">curve_tags</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">total_length</span> <span class="o">=</span> <span class="n">lengths</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">total_length</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;curve chain has zero total length&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Step 2: distribute elements proportionally to arc length</span>
+    <span class="n">total_elems</span> <span class="o">=</span> <span class="n">total_nodes</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">raw_elems</span> <span class="o">=</span> <span class="n">total_elems</span> <span class="o">*</span> <span class="n">lengths</span> <span class="o">/</span> <span class="n">total_length</span>
+    <span class="n">elems</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">raw_elems</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="c1"># ensure at least 1 per segment</span>
+
+    <span class="c1"># Step 3: correct any rounding error to exactly match total_elems</span>
+    <span class="n">elems</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">total_elems</span> <span class="o">-</span> <span class="n">elems</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">elems</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">==</span> <span class="n">total_elems</span><span class="p">,</span> <span class="s2">&quot;element count mismatch after correction&quot;</span>
+
+    <span class="c1"># Step 4: assign transfinite points for each curve (elements + 1 points)</span>
+    <span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">n_elem</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">curve_tags</span><span class="p">,</span> <span class="n">elems</span><span class="p">):</span>
+        <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">setTransfiniteCurve</span><span class="p">(</span>
+            <span class="n">tag</span><span class="p">,</span> <span class="n">n_elem</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">meshType</span><span class="o">=</span><span class="n">meshType</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="n">coef</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="sample_meshed_curves">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.nozzle_meshing.html#barotropy.fluent_automation.nozzle_meshing.sample_meshed_curves">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_meshed_curves</span><span class="p">(</span><span class="n">curve_tags</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts ordered XYZ points from one or more curve tags,</span>
+<span class="sd">    avoiding duplicated nodes at segment joints.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    curve_tags : int or list of int</span>
+<span class="sd">        A single curve tag or a list of curve tags.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list of tuple</span>
+<span class="sd">        Ordered list of (x, y, z) points along the concatenated curves.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># ensure we have a list</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">curve_tags</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">curve_tags</span> <span class="o">=</span> <span class="p">[</span><span class="n">curve_tags</span><span class="p">]</span>
+    <span class="n">pts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">curve_tags</span><span class="p">):</span>
+        <span class="c1"># get mesh nodes for this 1D curve</span>
+        <span class="n">node_tags</span><span class="p">,</span> <span class="n">coords</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">getNodes</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+        <span class="c1"># sort by param to get ordering along curve</span>
+        <span class="n">triples</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+            <span class="nb">zip</span><span class="p">(</span><span class="n">node_tags</span><span class="p">,</span> <span class="nb">zip</span><span class="p">(</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="mi">3</span><span class="p">],</span> <span class="n">coords</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">3</span><span class="p">],</span> <span class="n">coords</span><span class="p">[</span><span class="mi">2</span><span class="p">::</span><span class="mi">3</span><span class="p">]),</span> <span class="n">params</span><span class="p">),</span>
+            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="n">local_pts</span> <span class="o">=</span> <span class="p">[</span><span class="n">xyz</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">xyz</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">triples</span><span class="p">]</span>
+
+        <span class="c1"># get start and end vertex coords</span>
+        <span class="n">bnds</span> <span class="o">=</span> <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getBoundary</span><span class="p">([(</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="p">)],</span> <span class="n">oriented</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">start_tag</span> <span class="o">=</span> <span class="n">bnds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">end_tag</span> <span class="o">=</span> <span class="n">bnds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">z0</span> <span class="o">=</span> <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getValue</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">start_tag</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="n">xf</span><span class="p">,</span> <span class="n">yf</span><span class="p">,</span> <span class="n">zf</span> <span class="o">=</span> <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getValue</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">end_tag</span><span class="p">,</span> <span class="p">[])</span>
+
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># add the first curve’s start point</span>
+            <span class="n">pts</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">z0</span><span class="p">))</span>
+        <span class="c1"># append interior points and curve end</span>
+        <span class="n">pts</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">local_pts</span><span class="p">)</span>
+        <span class="n">pts</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">xf</span><span class="p">,</span> <span class="n">yf</span><span class="p">,</span> <span class="n">zf</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">pts</span></div>
+
+
+
+<div class="viewcode-block" id="create_structured_surface">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.nozzle_meshing.html#barotropy.fluent_automation.nozzle_meshing.create_structured_surface">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_structured_surface</span><span class="p">(</span>
+    <span class="n">curves_1</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+    <span class="n">curves_2</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+    <span class="n">curves_3</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+    <span class="n">curves_4</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+    <span class="n">corner_12</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">corner_23</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">corner_34</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">corner_41</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">N_horizontal</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">N_vertical</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">progression_horizontal</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">progression_vertical</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create and mesh a structured quadrilateral surface with transfinite constraints.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : str</span>
+<span class="sd">        Optional surface name for user reference or debugging.</span>
+
+<span class="sd">    curves_1 to curves_4 : list of int</span>
+<span class="sd">        OCC curve tags forming the four sides of the surface,</span>
+<span class="sd">        ordered counter-clockwise: bottom, right, top, left.</span>
+
+<span class="sd">    corner_12, corner_23, corner_34, corner_41 : int</span>
+<span class="sd">        OCC point tags at the surface corners in CCW order.</span>
+<span class="sd">        These are used for transfinite meshing.</span>
+
+<span class="sd">    N_horizontal : int</span>
+<span class="sd">        Number of mesh divisions along curves_1 and curves_3.</span>
+
+<span class="sd">    N_vertical : int</span>
+<span class="sd">        Number of mesh divisions along curves_2 and curves_4.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    int</span>
+<span class="sd">        The Gmsh surface tag of the created structured surface.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">loop</span> <span class="o">=</span> <span class="n">curves_1</span> <span class="o">+</span> <span class="n">curves_2</span> <span class="o">+</span> <span class="n">curves_3</span> <span class="o">+</span> <span class="n">curves_4</span>
+    <span class="n">loop_tag</span> <span class="o">=</span> <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occ</span><span class="o">.</span><span class="n">addCurveLoop</span><span class="p">(</span><span class="n">loop</span><span class="p">)</span>
+    <span class="n">surf_tag</span> <span class="o">=</span> <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occ</span><span class="o">.</span><span class="n">addPlaneSurface</span><span class="p">([</span><span class="n">loop_tag</span><span class="p">])</span>
+    <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">occ</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+
+    <span class="n">set_transfinite_curves</span><span class="p">(</span><span class="n">curves_1</span><span class="p">,</span> <span class="n">N_horizontal</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="n">progression_horizontal</span><span class="p">)</span>
+    <span class="n">set_transfinite_curves</span><span class="p">(</span><span class="n">curves_3</span><span class="p">,</span> <span class="n">N_horizontal</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="n">progression_horizontal</span><span class="p">)</span>
+    <span class="n">set_transfinite_curves</span><span class="p">(</span><span class="n">curves_2</span><span class="p">,</span> <span class="n">N_vertical</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="n">progression_vertical</span><span class="p">)</span>
+    <span class="n">set_transfinite_curves</span><span class="p">(</span><span class="n">curves_4</span><span class="p">,</span> <span class="n">N_vertical</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="n">progression_vertical</span><span class="p">)</span>
+
+    <span class="n">corners</span> <span class="o">=</span> <span class="p">[</span><span class="n">corner_12</span><span class="p">,</span> <span class="n">corner_23</span><span class="p">,</span> <span class="n">corner_34</span><span class="p">,</span> <span class="n">corner_41</span><span class="p">]</span>
+    <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">setTransfiniteSurface</span><span class="p">(</span><span class="n">surf_tag</span><span class="p">,</span> <span class="n">cornerTags</span><span class="o">=</span><span class="n">corners</span><span class="p">)</span>
+    <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">setRecombine</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">surf_tag</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">surf_tag</span></div>
+
+
+
+<div class="viewcode-block" id="get_arclength_occ">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.nozzle_meshing.html#barotropy.fluent_automation.nozzle_meshing.get_arclength_occ">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_arclength_occ</span><span class="p">(</span><span class="n">curveTag</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the arc length of a Gmsh OCC curve using numerical integration.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    curveTag : int</span>
+<span class="sd">        Tag of the OCC curve entity (dimension 1) whose arc length is to be computed.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    length : float</span>
+<span class="sd">        Total arc length of the curve, computed by integrating the norm of the</span>
+<span class="sd">        first derivative (dx/dt, dy/dt, dz/dt) over the curve&#39;s parametric domain.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - This function uses `gmsh.model.getDerivative` to obtain the first derivative</span>
+<span class="sd">      of the OCC curve with respect to its parameter `u`, and numerically integrates</span>
+<span class="sd">      the magnitude of the derivative using `scipy.integrate.quad`.</span>
+<span class="sd">    - Requires that `gmsh.model.occ.synchronize()` has been called before use.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dim</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># OCC curves are dimension 1</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">integrand</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getDerivative</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">curveTag</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">dz</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">dx</span> <span class="o">*</span> <span class="n">dx</span> <span class="o">+</span> <span class="n">dy</span> <span class="o">*</span> <span class="n">dy</span> <span class="o">+</span> <span class="n">dz</span> <span class="o">*</span> <span class="n">dz</span><span class="p">)</span>
+
+    <span class="n">u1</span><span class="p">,</span> <span class="n">u2</span> <span class="o">=</span> <span class="n">gmsh</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getParametrizationBounds</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">curveTag</span><span class="p">)</span>
+    <span class="n">length</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">integrate</span><span class="o">.</span><span class="n">quad</span><span class="p">(</span><span class="n">integrand</span><span class="p">,</span> <span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">length</span></div>
+
+
+
+<div class="viewcode-block" id="find_optimal_inflation_layer">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.nozzle_meshing.html#barotropy.fluent_automation.nozzle_meshing.find_optimal_inflation_layer">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">find_optimal_inflation_layer</span><span class="p">(</span>
+    <span class="n">h_wall</span><span class="p">,</span> <span class="n">inflation_ratio</span><span class="p">,</span> <span class="n">H_total</span><span class="p">,</span> <span class="n">N_total</span><span class="p">,</span> <span class="n">check_errors</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Determine the optimal inflation layer configuration given a geometric growth rate</span>
+<span class="sd">    and total wall-normal mesh height and resolution.</span>
+
+<span class="sd">    The function finds the number of inflation layer cells such that the last inflation cell</span>
+<span class="sd">    matches the height of the uniform core cells. It also recomputes the exact inflation</span>
+<span class="sd">    ratio that achieves this match after rounding the number of inflation cells.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    h_wall : float</span>
+<span class="sd">        Height of the first cell at the wall (e.g., to meet y⁺ constraint).</span>
+<span class="sd">    </span>
+<span class="sd">    inflation_ratio : float</span>
+<span class="sd">        Initial approximation for the geometric growth ratio (r &gt; 1). If r ≈ 1, a uniform grid is used.</span>
+
+<span class="sd">    H_total : float</span>
+<span class="sd">        Total height of the mesh in the wall-normal direction.</span>
+
+<span class="sd">    N_total : int</span>
+<span class="sd">        Total number of mesh cells in the wall-normal direction.</span>
+
+<span class="sd">    check_errors : bool, default=True</span>
+<span class="sd">        Whether to check and report mismatch between core and inflation cell heights.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Dictionary containing resolved inflation and core region parameters:</span>
+<span class="sd">        - &quot;H_total&quot;: total height of the domain</span>
+<span class="sd">        - &quot;N_total&quot;: total number of cells</span>
+<span class="sd">        - &quot;h_wall&quot;: height of the first inflation cell</span>
+<span class="sd">        - &quot;N_inflation&quot;: integer number of inflation cells (after rounding)</span>
+<span class="sd">        - &quot;H_inflation&quot;: height of the inflation region</span>
+<span class="sd">        - &quot;h_inflation&quot;: height of the last inflation cell</span>
+<span class="sd">        - &quot;N_core&quot;: number of core cells</span>
+<span class="sd">        - &quot;H_core&quot;: height of the core region</span>
+<span class="sd">        - &quot;h_core&quot;: uniform height of core cells</span>
+<span class="sd">        - &quot;inflation_ratio&quot;: recomputed exact geometric ratio used</span>
+
+<span class="sd">    Method</span>
+<span class="sd">    ------</span>
+<span class="sd">    1. Model the inflation layer as a geometric series:</span>
+<span class="sd">         h_i = h_wall * r^(i - 1) for i = 1...N_inflation</span>
+
+<span class="sd">    2. Compute the total inflation height:</span>
+<span class="sd">         H_inflation = h_wall * (1 - r^N) / (1 - r)</span>
+
+<span class="sd">    3. Impose a matching constraint:</span>
+<span class="sd">         h_last = h_wall * r^(N - 1) = h_core = (H_total - H_inflation) / (N_total - N)</span>
+
+<span class="sd">    4. Solve this constraint as a root-finding problem for a floating-point N_inflation.</span>
+
+<span class="sd">    5. Round N_inflation to the nearest integer, then recompute the exact inflation ratio</span>
+<span class="sd">       that matches the target H_inflation height.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - If inflation_ratio ≈ 1, the method falls back to uniform spacing</span>
+<span class="sd">      with no dedicated inflation layer (N_inflation = 0).</span>
+<span class="sd">    - This ensures a smooth transition between inflation and core regions,</span>
+<span class="sd">      and that the inflation region integrates cleanly into the mesh.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="n">inflation_ratio</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">inflation_ratio</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-12</span><span class="p">:</span>
+        <span class="c1"># --- Step 0: No inflation layer: uniform spacing</span>
+        <span class="n">check_errors</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">converged</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">N_inflation</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">h_inflation_last</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">H_inflation</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">N_core</span> <span class="o">=</span> <span class="n">N_total</span>
+        <span class="n">H_core</span> <span class="o">=</span> <span class="n">H_total</span>
+        <span class="n">h_core</span> <span class="o">=</span> <span class="n">H_total</span> <span class="o">/</span> <span class="n">N_total</span>
+
+    <span class="k">else</span><span class="p">:</span>
+
+        <span class="c1"># --- Step 1: Define mismatch between inflation and core layer thickness ---</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">objective</span><span class="p">(</span><span class="n">N_inflation_guess</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Root function: match h_last (inflation) to h_core (uniform core).&quot;&quot;&quot;</span>
+            <span class="n">H_infl</span> <span class="o">=</span> <span class="n">h_wall</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r</span><span class="o">**</span><span class="n">N_inflation_guess</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r</span><span class="p">)</span>
+            <span class="n">h_last</span> <span class="o">=</span> <span class="n">h_wall</span> <span class="o">*</span> <span class="n">r</span><span class="o">**</span><span class="p">(</span><span class="n">N_inflation_guess</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">N_core</span> <span class="o">=</span> <span class="n">N_total</span> <span class="o">-</span> <span class="n">N_inflation_guess</span>
+            <span class="n">H_core</span> <span class="o">=</span> <span class="n">H_total</span> <span class="o">-</span> <span class="n">H_infl</span>
+            <span class="n">h_core</span> <span class="o">=</span> <span class="n">H_core</span> <span class="o">/</span> <span class="n">N_core</span>
+            <span class="k">return</span> <span class="n">h_core</span> <span class="o">-</span> <span class="n">h_last</span>
+
+        <span class="c1"># --- Step 2: Solve for floating-point N_inflation ---</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">root_scalar</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="n">N_total</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">converged</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">converged</span>
+        <span class="n">N_inflation_float</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">root</span>
+
+        <span class="c1"># --- Step 3: Compute provisional last inflation height from floating-point result ---</span>
+        <span class="n">H_inflation</span> <span class="o">=</span> <span class="n">h_wall</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r</span><span class="o">**</span><span class="n">N_inflation_float</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r</span><span class="p">)</span>
+        <span class="n">h_inflation_last</span> <span class="o">=</span> <span class="n">h_wall</span> <span class="o">*</span> <span class="n">r</span><span class="o">**</span><span class="p">(</span><span class="n">N_inflation_float</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">N_core</span> <span class="o">=</span> <span class="n">N_total</span> <span class="o">-</span> <span class="n">N_inflation_float</span>
+        <span class="n">H_core</span> <span class="o">=</span> <span class="n">H_total</span> <span class="o">-</span> <span class="n">H_inflation</span>
+        <span class="n">h_core</span> <span class="o">=</span> <span class="n">H_core</span> <span class="o">/</span> <span class="n">N_core</span>
+
+        <span class="c1"># --- Step 4: Round to nearest integer and recompute exact ratio ---</span>
+        <span class="n">N_inflation</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">N_inflation_float</span><span class="p">))</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">residual</span><span class="p">(</span><span class="n">r_corrected</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Fix r to match the rounded N_inflation and original H_inflation.&quot;&quot;&quot;</span>
+            <span class="c1"># return h_wall * (1 - r_eff**N_inflation) / (1 - r_eff) - H_inflation</span>
+            <span class="n">H_infl</span> <span class="o">=</span> <span class="n">h_wall</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r_corrected</span><span class="o">**</span><span class="n">N_inflation</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r_corrected</span><span class="p">)</span>
+            <span class="n">h_last</span> <span class="o">=</span> <span class="n">h_wall</span> <span class="o">*</span> <span class="n">r_corrected</span><span class="o">**</span><span class="p">(</span><span class="n">N_inflation</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">N_core</span> <span class="o">=</span> <span class="n">N_total</span> <span class="o">-</span> <span class="n">N_inflation</span>
+            <span class="n">H_core</span> <span class="o">=</span> <span class="n">H_total</span> <span class="o">-</span> <span class="n">H_infl</span>
+            <span class="n">h_core</span> <span class="o">=</span> <span class="n">H_core</span> <span class="o">/</span> <span class="n">N_core</span>
+            <span class="k">return</span> <span class="n">h_core</span> <span class="o">-</span> <span class="n">h_last</span>
+        
+        <span class="n">r</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">root_scalar</span><span class="p">(</span><span class="n">residual</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="n">inflation_ratio</span><span class="p">)</span><span class="o">.</span><span class="n">root</span>
+
+        <span class="c1"># --- Step 5: Final geometry based on corrected r ---</span>
+        <span class="n">H_inflation</span> <span class="o">=</span> <span class="n">h_wall</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r</span><span class="o">**</span><span class="n">N_inflation</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r</span><span class="p">)</span>
+        <span class="n">N_core</span> <span class="o">=</span> <span class="n">N_total</span> <span class="o">-</span> <span class="n">N_inflation</span>
+        <span class="n">H_core</span> <span class="o">=</span> <span class="n">H_total</span> <span class="o">-</span> <span class="n">H_inflation</span>
+        <span class="n">h_inflation_last</span> <span class="o">=</span> <span class="n">h_wall</span> <span class="o">*</span> <span class="n">r</span><span class="o">**</span><span class="p">(</span><span class="n">N_inflation</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">h_core</span> <span class="o">=</span> <span class="n">H_core</span> <span class="o">/</span> <span class="n">N_core</span>
+
+    <span class="n">inflation_data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="c1"># &quot;r&quot;: r,  # skipped as requested</span>
+        <span class="s2">&quot;H_total&quot;</span><span class="p">:</span> <span class="n">H_total</span><span class="p">,</span>
+        <span class="s2">&quot;N_total&quot;</span><span class="p">:</span> <span class="n">N_total</span><span class="p">,</span>
+        <span class="s2">&quot;h_wall&quot;</span><span class="p">:</span> <span class="n">h_wall</span><span class="p">,</span>
+        <span class="s2">&quot;N_inflation&quot;</span><span class="p">:</span> <span class="n">N_inflation</span><span class="p">,</span>
+        <span class="s2">&quot;H_inflation&quot;</span><span class="p">:</span> <span class="n">H_inflation</span><span class="p">,</span>
+        <span class="s2">&quot;h_inflation&quot;</span><span class="p">:</span> <span class="n">h_inflation_last</span><span class="p">,</span>
+        <span class="s2">&quot;N_core&quot;</span><span class="p">:</span> <span class="n">N_core</span><span class="p">,</span>
+        <span class="s2">&quot;h_core&quot;</span><span class="p">:</span> <span class="n">h_core</span><span class="p">,</span>
+        <span class="s2">&quot;H_core&quot;</span><span class="p">:</span> <span class="n">H_core</span><span class="p">,</span>
+        <span class="s2">&quot;inflation_ratio&quot;</span><span class="p">:</span> <span class="n">r</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Sanity checks on the computed results</span>
+    <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">converged</span><span class="p">:</span>
+        <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="s2">&quot;Inflation layer calculation failed: the Newton method did not converge.</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">H_inflation</span> <span class="o">&gt;</span> <span class="n">H_total</span><span class="p">:</span>
+        <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;H_inflation &gt; H_total. Try reducing the inflation ratio.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">N_inflation</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="s2">&quot;The Newton method did not find a solution with a positive number of inflation cells.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Try increasing the inflation ratio or the number of cells.</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">relative_diff</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">h_inflation_last</span> <span class="o">-</span> <span class="n">h_core</span><span class="p">)</span> <span class="o">/</span> <span class="n">h_core</span>
+    <span class="n">threshold</span> <span class="o">=</span> <span class="n">inflation_ratio</span> <span class="o">-</span> <span class="mf">1.0</span>
+    <span class="k">if</span> <span class="n">relative_diff</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">:</span>
+        <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;h_inflation and h_core differ by </span><span class="si">{</span><span class="n">relative_diff</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">, which exceeds the allowed threshold (r - 1 = </span><span class="si">{</span><span class="n">threshold</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">).</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;This indicates a mismatch between the last inflation cell and the core mesh height.</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Raise error with full report if any checks fail</span>
+    <span class="k">if</span> <span class="n">errors</span> <span class="ow">and</span> <span class="n">check_errors</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errors</span><span class="p">),</span> <span class="s2">&quot;Computed inflation layer parameters:&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">inflation_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">msg</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">16</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.4g</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\t</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">16</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">msg</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">inflation_data</span></div>
+
+
+
+<div class="viewcode-block" id="plot_y_mesh">
+<a class="viewcode-back" href="../../../source/api/barotropy.fluent_automation.nozzle_meshing.html#barotropy.fluent_automation.nozzle_meshing.plot_y_mesh">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_y_mesh</span><span class="p">(</span><span class="n">h_wall</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">H_total</span><span class="p">,</span> <span class="n">N_total</span><span class="p">):</span>
+
+    <span class="n">params</span> <span class="o">=</span> <span class="n">find_optimal_inflation_layer</span><span class="p">(</span><span class="n">h_wall</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">H_total</span><span class="p">,</span> <span class="n">N_total</span><span class="p">)</span>
+    <span class="n">N_inflation</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;N_inflation&quot;</span><span class="p">]</span>
+    <span class="n">N_core</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;N_core&quot;</span><span class="p">]</span>
+    <span class="n">h_wall</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;h_wall&quot;</span><span class="p">]</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;inflation_ratio&quot;</span><span class="p">]</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;H_total&quot;</span><span class="p">]</span>
+
+    <span class="c1"># y positions of cell edges</span>
+    <span class="n">y_bl</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_inflation</span><span class="p">):</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">h_wall</span> <span class="o">*</span> <span class="n">r</span><span class="o">**</span><span class="n">i</span>
+        <span class="n">y_bl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_bl</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span><span class="p">)</span>
+    <span class="n">y_bl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y_bl</span><span class="p">)</span>
+
+    <span class="n">y_core</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">y_bl</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">H</span><span class="p">,</span> <span class="n">N_core</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Plot (vertical orientation)</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">y_bl</span><span class="p">),</span> <span class="n">y_bl</span><span class="p">,</span> <span class="s2">&quot;ro-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Inflation layer&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">y_core</span><span class="p">),</span> <span class="n">y_core</span><span class="p">,</span> <span class="s2">&quot;bo-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Core region&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">y_bl</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">y_core</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+
+    <span class="c1"># ax.set_ylim(0, H)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;y-position&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Y-direction mesh: </span><span class="si">{</span><span class="n">N_inflation</span><span class="si">}</span><span class="s2"> BL cells, </span><span class="si">{</span><span class="n">N_core</span><span class="si">}</span><span class="s2"> core cells&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor, Simone Parisi, Amit Kumar, Fredrik Haglind
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Sustainable Thermal Power DTU.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

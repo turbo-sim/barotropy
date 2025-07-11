@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>barotropy.barotropic_model &#8212; barotropy v0.2.4 documentation</title>
+    <title>barotropy.barotropic_model &#8212; barotropy v0.2.7 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=880b6864"></script>
+    <script src="../../_static/documentation_options.js?v=9f7fe802"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>let toggleHintShow = 'Click to show';</script>
@@ -140,7 +140,7 @@
   
   
   
-    <p class="title logo__title">barotropy v0.2.4 documentation</p>
+    <p class="title logo__title">barotropy v0.2.7 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -291,6 +291,7 @@ document.write(`
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mcolors</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pysolver_view</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">psv</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">coolpropx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">props</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">numpy.polynomial</span><span class="w"> </span><span class="kn">import</span> <span class="n">Polynomial</span>
@@ -299,7 +300,6 @@ document.write(`
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">graphics</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">utilities</span> <span class="k">as</span> <span class="n">utils</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">properties</span> <span class="k">as</span> <span class="n">props</span>
 
 <span class="n">COLORS_MATLAB</span> <span class="o">=</span> <span class="n">graphics</span><span class="o">.</span><span class="n">COLORS_MATLAB</span>
 <span class="n">PROCESS_TYPES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;polytropic&quot;</span><span class="p">,</span> <span class="s2">&quot;adiabatic&quot;</span><span class="p">]</span>
@@ -1988,7 +1988,7 @@ document.write(`
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">LABEL_MAPPING</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var_y</span><span class="p">,</span> <span class="n">var_y</span><span class="p">))</span>
 
         <span class="c1"># Plot phase diagram for the first subplot</span>
-        <span class="n">ax</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">plot_phase_diagram</span><span class="p">(</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">plot_phase_diagram</span><span class="p">(</span>
             <span class="n">var_x</span><span class="p">,</span>
             <span class="n">var_y</span><span class="p">,</span>
             <span class="n">axes</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Barotropic model &#8212; barotropy v0.2.6 documentation</title>
+    <title>Barotropic model &#8212; barotropy v0.2.7 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=24836a1f"></script>
+    <script src="../../_static/documentation_options.js?v=9f7fe802"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>let toggleHintShow = 'Click to show';</script>
@@ -49,6 +49,7 @@
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'source/api/barotropy.barotropic_model';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -141,7 +142,7 @@
   
   
   
-    <p class="title logo__title">barotropy v0.2.6 documentation</p>
+    <p class="title logo__title">barotropy v0.2.7 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -308,7 +309,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -324,6 +327,38 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.BarotropicModel"><code class="docutils literal notranslate"><span class="pre">BarotropicModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.BarotropicModel.export_expressions_cfx"><code class="docutils literal notranslate"><span class="pre">BarotropicModel.export_expressions_cfx()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.BarotropicModel.export_expressions_fluent"><code class="docutils literal notranslate"><span class="pre">BarotropicModel.export_expressions_fluent()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.BarotropicModel.fit_polynomials"><code class="docutils literal notranslate"><span class="pre">BarotropicModel.fit_polynomials()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.BarotropicModel.solve"><code class="docutils literal notranslate"><span class="pre">BarotropicModel.solve()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.ExpressionExporter"><code class="docutils literal notranslate"><span class="pre">ExpressionExporter</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.ExpressionExporter.export_expressions_cfx"><code class="docutils literal notranslate"><span class="pre">ExpressionExporter.export_expressions_cfx()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.ExpressionExporter.export_expressions_fluent"><code class="docutils literal notranslate"><span class="pre">ExpressionExporter.export_expressions_fluent()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.ExpressionExporter.generate_expressions"><code class="docutils literal notranslate"><span class="pre">ExpressionExporter.generate_expressions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.ExpressionExporter.if_expression"><code class="docutils literal notranslate"><span class="pre">ExpressionExporter.if_expression()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.ExpressionExporter.polynomial_expression"><code class="docutils literal notranslate"><span class="pre">ExpressionExporter.polynomial_expression()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.PolynomialFitter"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.PolynomialFitter.evaluate_polynomial"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter.evaluate_polynomial()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.PolynomialFitter.fit_polynomials"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter.fit_polynomials()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.PolynomialFitter.plot_phase_diagram"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter.plot_phase_diagram()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.PolynomialFitter.plot_polynomial"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter.plot_polynomial()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.PolynomialFitter.plot_polynomial_and_error"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter.plot_polynomial_and_error()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.barotropic_model_one_component"><code class="docutils literal notranslate"><span class="pre">barotropic_model_one_component()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.barotropic_model_two_component"><code class="docutils literal notranslate"><span class="pre">barotropic_model_two_component()</span></code></a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -333,8 +368,781 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="barotropic-model">
-<h1>Barotropic model<a class="headerlink" href="#barotropic-model" title="Link to this heading">#</a></h1>
+  <section id="module-barotropy.barotropic_model">
+<span id="barotropic-model"></span><h1>Barotropic model<a class="headerlink" href="#module-barotropy.barotropic_model" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="barotropy.barotropic_model.BarotropicModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">barotropy.barotropic_model.</span></span><span class="sig-name descname"><span class="pre">BarotropicModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fluid_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_in</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_in</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho_in</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_out</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">efficiency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mixture_ratio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">process_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calculation_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blending_onset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blending_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HEOS_solver</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'hybr'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HEOS_tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HEOS_max_iter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HEOS_print_convergence</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ODE_solver</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'LSODA'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ODE_tolerance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polynomial_degree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polynomial_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'horner'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polynomial_variables</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">['density',</span> <span class="pre">'viscosity',</span> <span class="pre">'speed_sound',</span> <span class="pre">'void_fraction',</span> <span class="pre">'vapor_quality']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'barotropic_model'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#BarotropicModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.BarotropicModel" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Coordinates the simulation and polynomial fitting for a barotropic process.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>fluid_name</strong><span class="classifier">str or list of str</span></dt><dd><p>The name(s) of the fluid(s) for the barotropic model.</p>
+<ul class="simple">
+<li><p>Specify a single string (e.g., ‘co2’) to use the single-component model.</p></li>
+<li><p>Specify a list of two strings (e.g., [‘water’, ‘nitrogen’]) to use the two-component model.</p></li>
+</ul>
+</dd>
+<dt><strong>T_in</strong><span class="classifier">float</span></dt><dd><p>Inlet temperature of the fluid in Kelvin.</p>
+</dd>
+<dt><strong>p_in</strong><span class="classifier">float</span></dt><dd><p>Inlet pressure of the fluid in Pascals.</p>
+</dd>
+<dt><strong>rho_in</strong><span class="classifier">float</span></dt><dd><p>Inlet density of the fluid in kilogram per cubic meter.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Applicable only to the one-component model.</p>
+</div>
+</dd>
+<dt><strong>p_min: float</strong></dt><dd><p>Minimum pressure for the barotropic process integration in Pascals.</p>
+</dd>
+<dt><strong>p_max</strong><span class="classifier">float</span></dt><dd><p>Maximum pressure for the barotropic process integration in Pascals.</p>
+</dd>
+<dt><strong>efficiency</strong><span class="classifier">float</span></dt><dd><p>The efficiency of the polytropic process, dimensionless.</p>
+</dd>
+<dt><strong>mixture_ratio</strong><span class="classifier">float</span></dt><dd><p>Mass ratio of the first to the second fluid in the mixture.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Applicable only to the two-component model.</p>
+</div>
+</dd>
+<dt><strong>process_type</strong><span class="classifier">str, optional</span></dt><dd><p>The type of polytropic process that the fluid experiences. Must be ‘expansion’ or ‘compression’.</p>
+</dd>
+<dt><strong>calculation_type</strong><span class="classifier">str, optional</span></dt><dd><p>The type of fluid property calculation for the one-component model. Options include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">equilibrium</span></code>: Computes equilibrium properties only.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">metastable</span></code>: Computes metastable properties only.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">blending</span></code>: Computes both equilibrium and metastable properties, blends them, and returns the blended properties.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Applicable only to the one-component model.</p>
+</div>
+</dd>
+<dt><strong>blending_onset</strong><span class="classifier">float, optional</span></dt><dd><p>The onset of blending in the process, typically a value between 0 and 1. Required when <cite>calculation_type</cite> is <code class="docutils literal notranslate"><span class="pre">blending</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Applicable only to the one-component model.</p>
+</div>
+</dd>
+<dt><strong>blending_width</strong><span class="classifier">float, optional</span></dt><dd><p>The width of the blending region, typically a value between 0 and 1. Required when <cite>calculation_type</cite> is <code class="docutils literal notranslate"><span class="pre">blending</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Applicable only to the one-component model.</p>
+</div>
+</dd>
+<dt><strong>HEOS_solver</strong><span class="classifier">str, optional</span></dt><dd><p>The solver algorithm used to compute the metastable states. Valid options:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 28.6%" />
+<col style="width: 71.4%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Solver name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">hybr</span></code></p></td>
+<td><p>Powell’s hybrid trust-region algorithm</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">lm</span></code></p></td>
+<td><p>Levenberg–Marquardt algorithm</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>See <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.root.html">Scipy root()</a> for more info.
+Recommended solvers: Both <code class="docutils literal notranslate"><span class="pre">hybr</span></code> and <code class="docutils literal notranslate"><span class="pre">lm</span></code> work well for the tested cases.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Applicable only to the one-component model.</p>
+</div>
+</dd>
+<dt><strong>HEOS_tolerance</strong><span class="classifier">float, optional</span></dt><dd><p>The tolerance for the HEOS solver.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Applicable only to the one-component model.</p>
+</div>
+</dd>
+<dt><strong>HEOS_max_iter</strong><span class="classifier">int, optional</span></dt><dd><p>The maximum number of iterations for the HEOS solver.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Applicable only to the one-component model.</p>
+</div>
+</dd>
+<dt><strong>HEOS_print_convergence</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, prints convergence information for the HEOS solver.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Applicable only to the one-component model.</p>
+</div>
+</dd>
+<dt><strong>ODE_solver</strong><span class="classifier">str, optional</span></dt><dd><p>The solver to use for the ODE integration. Valid options:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 28.6%" />
+<col style="width: 71.4%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Solver name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">RK23</span></code></p></td>
+<td><p>Explicit Runge-Kutta method of order 3(2)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">RK45</span></code></p></td>
+<td><p>Explicit Runge-Kutta method of order 5(4)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DOP853</span></code></p></td>
+<td><p>Explicit Runge-Kutta method of order 8</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Radau</span></code></p></td>
+<td><p>Implicit Runge-Kutta method of the Radau IIA family of order 5</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">BDF</span></code></p></td>
+<td><p>Implicit multi-step variable-order (1 to 5) method based on a backward differentiation formula for the derivative approximation</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">LSODA</span></code></p></td>
+<td><p>Adams/BDF method with automatic stiffness detection and switching</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>See <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html">Scipy solver_ivp()</a>  for more info.
+Recommended solvers: <code class="docutils literal notranslate"><span class="pre">BDF</span></code>, <code class="docutils literal notranslate"><span class="pre">LSODA</span></code>, or <code class="docutils literal notranslate"><span class="pre">Radau</span></code> for stiff problems or <code class="docutils literal notranslate"><span class="pre">RK45</span></code> for non-stiff problems with smooth blending.</p>
+</dd>
+<dt><strong>ODE_tolerance</strong><span class="classifier">float, optional</span></dt><dd><p>The relative and absolute tolerance for the ODE solver.</p>
+</dd>
+<dt><strong>polynomial_degree</strong><span class="classifier">int</span></dt><dd><p>Degree of the polynomials to fit.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When <cite>calculation_type</cite> is <code class="docutils literal notranslate"><span class="pre">blending</span></code> the degree of the polynomial in the blending region is set to 4 to achieve sufficient accuracy while preventing numerical round-off errors associated with single-precision arithmetic in CFD solvers.</p>
+</div>
+</dd>
+<dt><strong>polynomial_format</strong><span class="classifier">str, optional</span></dt><dd><p>Type of polynomial representation (<code class="docutils literal notranslate"><span class="pre">horner</span></code> or <code class="docutils literal notranslate"><span class="pre">standard</span></code>).</p>
+</dd>
+<dt><strong>polynomial_variables</strong><span class="classifier">list of str</span></dt><dd><p>A list of variable names to fit polynomials to, such as ‘density’, ‘viscosity’, ‘speed_sound’, ‘void_fraction’, ‘vapor_quality’.</p>
+</dd>
+<dt><strong>output_dir</strong><span class="classifier">str</span></dt><dd><p>The directory where output will be saved.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#barotropy.barotropic_model.BarotropicModel.export_expressions_cfx" title="barotropy.barotropic_model.BarotropicModel.export_expressions_cfx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">export_expressions_cfx</span></code></a>([output_dir])</p></td>
+<td><p>Exports the polynomial expressions in a format suitable for Ansys CFX.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#barotropy.barotropic_model.BarotropicModel.export_expressions_fluent" title="barotropy.barotropic_model.BarotropicModel.export_expressions_fluent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">export_expressions_fluent</span></code></a>([output_dir])</p></td>
+<td><p>Exports the polynomial expressions in a format suitable for Ansys Fluent.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#barotropy.barotropic_model.BarotropicModel.fit_polynomials" title="barotropy.barotropic_model.BarotropicModel.fit_polynomials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_polynomials</span></code></a>()</p></td>
+<td><p>Fits polynomials to the states using the PolynomialFitter class.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#barotropy.barotropic_model.BarotropicModel.solve" title="barotropy.barotropic_model.BarotropicModel.solve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solve</span></code></a>()</p></td>
+<td><p>Solves the equations for the one-component or two-component barotropic model and stores the fluid properties.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="barotropy.barotropic_model.BarotropicModel.export_expressions_cfx">
+<span class="sig-name descname"><span class="pre">export_expressions_cfx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#BarotropicModel.export_expressions_cfx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.BarotropicModel.export_expressions_cfx" title="Link to this definition">#</a></dt>
+<dd><p>Exports the polynomial expressions in a format suitable for Ansys CFX.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>output_dir</strong><span class="classifier">str, optional</span></dt><dd><p>The directory where the expressions will be saved. It uses a default directory if not provided.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#barotropy.barotropic_model.ExpressionExporter" title="barotropy.barotropic_model.ExpressionExporter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExpressionExporter</span></code></a></dt><dd><p>Class for exporting polynomial expressions for use in CFD software.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="barotropy.barotropic_model.BarotropicModel.export_expressions_fluent">
+<span class="sig-name descname"><span class="pre">export_expressions_fluent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#BarotropicModel.export_expressions_fluent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.BarotropicModel.export_expressions_fluent" title="Link to this definition">#</a></dt>
+<dd><p>Exports the polynomial expressions in a format suitable for Ansys Fluent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>output_dir</strong><span class="classifier">str, optional</span></dt><dd><p>The directory where the expressions will be saved. It uses a default directory if not provided.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#barotropy.barotropic_model.ExpressionExporter" title="barotropy.barotropic_model.ExpressionExporter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExpressionExporter</span></code></a></dt><dd><p>Class for exporting polynomial expressions for use in CFD software.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="barotropy.barotropic_model.BarotropicModel.fit_polynomials">
+<span class="sig-name descname"><span class="pre">fit_polynomials</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#BarotropicModel.fit_polynomials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.BarotropicModel.fit_polynomials" title="Link to this definition">#</a></dt>
+<dd><p>Fits polynomials to the states using the PolynomialFitter class.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#barotropy.barotropic_model.PolynomialFitter" title="barotropy.barotropic_model.PolynomialFitter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PolynomialFitter</span></code></a></dt><dd><p>Class used for generating fitting polynomials.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="barotropy.barotropic_model.BarotropicModel.solve">
+<span class="sig-name descname"><span class="pre">solve</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#BarotropicModel.solve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.BarotropicModel.solve" title="Link to this definition">#</a></dt>
+<dd><p>Solves the equations for the one-component or two-component barotropic model and stores the fluid properties.
+The type of calculation performed is selected automatically depending on the number of fluid names defined when initializing the class.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#barotropy.barotropic_model.barotropic_model_one_component" title="barotropy.barotropic_model.barotropic_model_one_component"><code class="xref py py-obj docutils literal notranslate"><span class="pre">barotropic_model_one_component</span></code></a></dt><dd><p>Calculation of fluid properties for the one-component model.</p>
+</dd>
+<dt><a class="reference internal" href="#barotropy.barotropic_model.barotropic_model_two_component" title="barotropy.barotropic_model.barotropic_model_two_component"><code class="xref py py-obj docutils literal notranslate"><span class="pre">barotropic_model_two_component</span></code></a></dt><dd><p>Calculation of fluid properties for the two-component model.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="barotropy.barotropic_model.ExpressionExporter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">barotropy.barotropic_model.</span></span><span class="sig-name descname"><span class="pre">ExpressionExporter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">poly_fitter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poly_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'horner'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#ExpressionExporter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.ExpressionExporter" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Exports expressions describing the barotropic model for use within CFD solvers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>poly_fitter</strong><span class="classifier">PolynomialFitter</span></dt><dd><p>An instance of PolynomialFitter containing the polynomial coefficients and breakpoints.</p>
+</dd>
+<dt><strong>poly_format</strong><span class="classifier">str, optional</span></dt><dd><p>Type of polynomial representation (‘horner’ or ‘standard’).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#barotropy.barotropic_model.ExpressionExporter.export_expressions_cfx" title="barotropy.barotropic_model.ExpressionExporter.export_expressions_cfx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">export_expressions_cfx</span></code></a>([output_dir])</p></td>
+<td><p>Exports the barotropic model polynomials as expressions for use in CFX CFD software.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#barotropy.barotropic_model.ExpressionExporter.export_expressions_fluent" title="barotropy.barotropic_model.ExpressionExporter.export_expressions_fluent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">export_expressions_fluent</span></code></a>([output_dir])</p></td>
+<td><p>Exports the barotropic model polynomials as expressions for use in Fluent CFD software.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#barotropy.barotropic_model.ExpressionExporter.generate_expressions" title="barotropy.barotropic_model.ExpressionExporter.generate_expressions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_expressions</span></code></a>(var, unit)</p></td>
+<td><p>Generates a piecewise polynomial expression with extrapolation safeguards for a given variable.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#barotropy.barotropic_model.ExpressionExporter.if_expression" title="barotropy.barotropic_model.ExpressionExporter.if_expression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">if_expression</span></code></a>(expression_1, expression_2, ...)</p></td>
+<td><p>Generates an IF expression string for piecewise functions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#barotropy.barotropic_model.ExpressionExporter.polynomial_expression" title="barotropy.barotropic_model.ExpressionExporter.polynomial_expression"><code class="xref py py-obj docutils literal notranslate"><span class="pre">polynomial_expression</span></code></a>(coefficients)</p></td>
+<td><p>Generates a polynomial expression string.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="barotropy.barotropic_model.ExpressionExporter.export_expressions_cfx">
+<span class="sig-name descname"><span class="pre">export_expressions_cfx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#ExpressionExporter.export_expressions_cfx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.ExpressionExporter.export_expressions_cfx" title="Link to this definition">#</a></dt>
+<dd><p>Exports the barotropic model polynomials as expressions for use in CFX CFD software.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>output_dir</strong><span class="classifier">str, optional</span></dt><dd><p>The directory where the expressions will be saved. It uses a default directory if not provided.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="barotropy.barotropic_model.ExpressionExporter.export_expressions_fluent">
+<span class="sig-name descname"><span class="pre">export_expressions_fluent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#ExpressionExporter.export_expressions_fluent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.ExpressionExporter.export_expressions_fluent" title="Link to this definition">#</a></dt>
+<dd><p>Exports the barotropic model polynomials as expressions for use in Fluent CFD software.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>output_dir</strong><span class="classifier">str, optional</span></dt><dd><p>The directory where the expressions will be saved. It uses a default directory if not provided.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="barotropy.barotropic_model.ExpressionExporter.generate_expressions">
+<span class="sig-name descname"><span class="pre">generate_expressions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#ExpressionExporter.generate_expressions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.ExpressionExporter.generate_expressions" title="Link to this definition">#</a></dt>
+<dd><p>Generates a piecewise polynomial expression with extrapolation safeguards for a given variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>var</strong><span class="classifier">str</span></dt><dd><p>The variable name for which to generate the expression.</p>
+</dd>
+<dt><strong>unit</strong><span class="classifier">str</span></dt><dd><p>The unit of the variable.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>str</dt><dd><p>The piecewise polynomial expression with extrapolation safeguards.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="barotropy.barotropic_model.ExpressionExporter.if_expression">
+<span class="sig-name descname"><span class="pre">if_expression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expression_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transition_pressure</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#ExpressionExporter.if_expression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.ExpressionExporter.if_expression" title="Link to this definition">#</a></dt>
+<dd><p>Generates an IF expression string for piecewise functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>expression_1</strong><span class="classifier">str</span></dt><dd><p>The expression for the condition being true.</p>
+</dd>
+<dt><strong>expression_2</strong><span class="classifier">str</span></dt><dd><p>The expression for the condition being false.</p>
+</dd>
+<dt><strong>transition_pressure</strong><span class="classifier">float</span></dt><dd><p>The transition pressure where the expressions change.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>str</dt><dd><p>The IF expression string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="barotropy.barotropic_model.ExpressionExporter.polynomial_expression">
+<span class="sig-name descname"><span class="pre">polynomial_expression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coefficients</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#ExpressionExporter.polynomial_expression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.ExpressionExporter.polynomial_expression" title="Link to this definition">#</a></dt>
+<dd><p>Generates a polynomial expression string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>coefficients</strong><span class="classifier">array-like</span></dt><dd><p>Coefficients of the polynomial.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>str</dt><dd><p>The polynomial expression string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="barotropy.barotropic_model.PolynomialFitter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">barotropy.barotropic_model.</span></span><span class="sig-name descname"><span class="pre">PolynomialFitter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">states</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degree</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calculation_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'barotropic_model'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#PolynomialFitter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.PolynomialFitter" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p># TODO update docstring
+Fits polynomials to the thermodynamic properties of a fluid across various states.</p>
+<dl>
+<dt>polynomial_degree<span class="classifier">int</span></dt><dd><p>Degree of the polynomials to fit.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When <cite>calculation_type</cite> is <code class="docutils literal notranslate"><span class="pre">blending</span></code> the degree of the polynomial in the blending region is set to 4 to achieve sufficient accuracy while preventing numerical round-off errors associated with single-precision arithmetic in CFD solvers.</p>
+</div>
+</dd>
+<dt>polynomial_format<span class="classifier">str, optional</span></dt><dd><p>Type of polynomial representation (<code class="docutils literal notranslate"><span class="pre">horner</span></code> or <code class="docutils literal notranslate"><span class="pre">standard</span></code>). Default is ‘horner’.</p>
+</dd>
+<dt>polynomial_variables<span class="classifier">list of str</span></dt><dd><p>A list of variable names to fit polynomials to, such as ‘density’, ‘viscosity’, ‘speed_sound’, ‘void_fraction’, ‘vapor_quality’.</p>
+</dd>
+<dt>output_dir<span class="classifier">str</span></dt><dd><p>The directory where output will be saved.</p>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#barotropy.barotropic_model.PolynomialFitter.evaluate_polynomial" title="barotropy.barotropic_model.PolynomialFitter.evaluate_polynomial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">evaluate_polynomial</span></code></a>(p, variable)</p></td>
+<td><p>Evaluates the polynomials for a given variable at a specified pressure values.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#barotropy.barotropic_model.PolynomialFitter.fit_polynomials" title="barotropy.barotropic_model.PolynomialFitter.fit_polynomials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_polynomials</span></code></a>()</p></td>
+<td><p>Fits polynomials to the data obtained from the ODE solution based on the specified calculation type.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#barotropy.barotropic_model.PolynomialFitter.plot_phase_diagram" title="barotropy.barotropic_model.PolynomialFitter.plot_phase_diagram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_phase_diagram</span></code></a>(fluid, var_x, var_y[, ...])</p></td>
+<td><p>Plots the barotropic process in the phase diagram of the specified fluid.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#barotropy.barotropic_model.PolynomialFitter.plot_polynomial" title="barotropy.barotropic_model.PolynomialFitter.plot_polynomial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_polynomial</span></code></a>(var[, p_eval, showfig, ...])</p></td>
+<td><p>Plots the polynomials for the specified variable.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#barotropy.barotropic_model.PolynomialFitter.plot_polynomial_and_error" title="barotropy.barotropic_model.PolynomialFitter.plot_polynomial_and_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_polynomial_and_error</span></code></a>(var[, num_points, ...])</p></td>
+<td><p>Plots the barotropic polynomials and original data points from the ODE solution to illustrate the quality of the fit.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="barotropy.barotropic_model.PolynomialFitter.evaluate_polynomial">
+<span class="sig-name descname"><span class="pre">evaluate_polynomial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#PolynomialFitter.evaluate_polynomial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.PolynomialFitter.evaluate_polynomial" title="Link to this definition">#</a></dt>
+<dd><p>Evaluates the polynomials for a given variable at a specified pressure values.</p>
+<p>The function evaluates the polynomial values at a given physical pressure <cite>p</cite>
+for a variable (e.g., density). It automatically determines the correct branch
+of the piecewise polynomial based on the breakpoints, and applies safeguards for 
+pressures outside the limits to ensure sensible values and continuity.</p>
+<p>The evaluation follows a piecewise definition depending on the range of <span class="math notranslate nohighlight">\(\hat{p}=p/p_{\text{in}}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\phi(\hat{p}) = 
+\begin{cases}
+a_1 \, e^\left(\frac{\hat{p} - \hat{p}_{\text{out}}}{a_2}\right) &amp; \text{ for } &amp; \hat{p} &lt; \hat{p}_{\text{out}} \\
+\sum_{i=0}^{d} b_{i,1} \, \hat{p}^i &amp; \text{ for }  &amp; \hat{p}_{\text{ out}} \leq \hat{p} \leq \hat{p}_{1} \\
+&amp; \;\; \vdots  &amp; \\
+\sum_{i=0}^{d} b_{i,n} \, \hat{p}^i &amp; \text{ for }  &amp; \hat{p}_{n} \leq \hat{p} \leq \hat{p}_{\text{in}} \\
+c_1 + c_2 \left(\hat{p} - \hat{p}_{\text{in}}\right) &amp; \text{ for }  &amp; \hat{p} &gt; \hat{p}_{\text{in}}
+\end{cases}\end{split}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\phi(p)\)</span> is the variable being fitted (e.g., density, viscosity).</p></li>
+<li><p><span class="math notranslate nohighlight">\(a_1\)</span> and <span class="math notranslate nohighlight">\(a_2\)</span> are constants of the exponential function used to extrapolate the properties below the outlet pressure. The numerical values are determined to match the polynomial value and its first derivative at the endpoint <span class="math notranslate nohighlight">\(\hat{p}=\hat{p}_{\text{out}}\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(b_{i,j}\)</span> is the <span class="math notranslate nohighlight">\(i\)</span>-th polynomial coefficient of the <span class="math notranslate nohighlight">\(j\)</span>-th polynomial segment, where <span class="math notranslate nohighlight">\(d\)</span> is the degree of the polynomials, <span class="math notranslate nohighlight">\(n\)</span> is the number of breakpoints, and <span class="math notranslate nohighlight">\(n+1\)</span> is the number of polynomial segments. Additionally, <span class="math notranslate nohighlight">\([\hat{p}_{\text{out}},\, \hat{p}_{1},\,\ldots,\, \hat{p}_{n},\,\hat{p}_{\text{in}}]\)</span> are normalized pressures at the breakpoints.</p></li>
+<li><p><span class="math notranslate nohighlight">\(c_1\)</span> and <span class="math notranslate nohighlight">\(c_2\)</span> are constants of the linear function used to extrapolate the properties above the inlet pressure. The numerical values are determined to match the polynomial value and its first derivative at the endpoint <span class="math notranslate nohighlight">\(\hat{p}=\hat{p}_{\text{in}}\)</span>.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The safeguards for pressures outside the specified limits help to avoid numerical issues by applying 
+exponential decay for pressures below <span class="math notranslate nohighlight">\(p_{\text{out}}\)</span> and linear extrapolation for pressures above 
+<span class="math notranslate nohighlight">\(p_{\text{in}}\)</span>. These measures prevent properties from becoming negative or excessively large, which 
+can occur with very high or low (even negative) pressures during internal iterations of CFD solvers.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>p</strong><span class="classifier">array-like</span></dt><dd><p>The physical pressure values at which to evaluate the polynomials. 
+Given in Pascals (Pa).</p>
+</dd>
+<dt><strong>variable</strong><span class="classifier">str</span></dt><dd><p>The variable for which to evaluate the polynomial, such as ‘density’, ‘viscosity’, 
+‘speed_of_sound’, or ‘void_fraction’.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>var_values</strong><span class="classifier">ndarray</span></dt><dd><p>The evaluated values of the variable at the given physical pressures.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="barotropy.barotropic_model.PolynomialFitter.fit_polynomials">
+<span class="sig-name descname"><span class="pre">fit_polynomials</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#PolynomialFitter.fit_polynomials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.PolynomialFitter.fit_polynomials" title="Link to this definition">#</a></dt>
+<dd><p>Fits polynomials to the data obtained from the ODE solution based on the specified calculation type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="barotropy.barotropic_model.PolynomialFitter.plot_phase_diagram">
+<span class="sig-name descname"><span class="pre">plot_phase_diagram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fluid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savefig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showfig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_spinodal_line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_quality_isolines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#PolynomialFitter.plot_phase_diagram"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.PolynomialFitter.plot_phase_diagram" title="Link to this definition">#</a></dt>
+<dd><p>Plots the barotropic process in the phase diagram of the specified fluid.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function is applicable to single-component systems</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>fluid</strong><span class="classifier">Fluid</span></dt><dd><p>Fluid object used to plot the phase diagram.</p>
+</dd>
+<dt><strong>var_x</strong><span class="classifier">str</span></dt><dd><p>Variable for the x-axis (e.g., “s” for entropy).</p>
+</dd>
+<dt><strong>var_y</strong><span class="classifier">str</span></dt><dd><p>Variable for the y-axis (e.g., “T” for temperature).</p>
+</dd>
+<dt><strong>savefig</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, saves the figure to the specified directory. Default is True.</p>
+</dd>
+<dt><strong>showfig</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, displays the figure after plotting. Default is True.</p>
+</dd>
+<dt><strong>output_dir</strong><span class="classifier">str, optional</span></dt><dd><p>Directory where the plot will be saved if <cite>savefig</cite> is True. If not specified, 
+uses the default output directory of the class.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>fig</strong><span class="classifier">matplotlib.figure.Figure</span></dt><dd><p>The figure object containing the plotted phase diagram.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="barotropy.barotropic_model.PolynomialFitter.plot_polynomial">
+<span class="sig-name descname"><span class="pre">plot_polynomial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_eval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showfig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savefig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#PolynomialFitter.plot_polynomial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.PolynomialFitter.plot_polynomial" title="Link to this definition">#</a></dt>
+<dd><p>Plots the polynomials for the specified variable. If the pressure values for plotting are not provided, a suitable range is generated internally.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>var</strong><span class="classifier">str</span></dt><dd><p>The variable for which to plot the polynomial.</p>
+</dd>
+<dt><strong>p_eval</strong><span class="classifier">array-like, optional</span></dt><dd><p>The pressure values at which to plot the polynomial. If not provided, automatic values are generated.</p>
+</dd>
+<dt><strong>showfig</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, displays the plot.</p>
+</dd>
+<dt><strong>savefig</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, saves the plot to a file.</p>
+</dd>
+<dt><strong>output_dir</strong><span class="classifier">str, optional</span></dt><dd><p>The directory where the plot will be saved if <cite>savefig</cite> is True. If not specified, uses the default output directory of the class.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>fig</strong><span class="classifier">matplotlib.figure.Figure</span></dt><dd><p>The figure object containing the plotted data.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="barotropy.barotropic_model.PolynomialFitter.plot_polynomial_and_error">
+<span class="sig-name descname"><span class="pre">plot_polynomial_and_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showfig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savefig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#PolynomialFitter.plot_polynomial_and_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.PolynomialFitter.plot_polynomial_and_error" title="Link to this definition">#</a></dt>
+<dd><p>Plots the barotropic polynomials and original data points from the ODE solution to illustrate
+the quality of the fit. Additionally, plots the relative error between the polynomial and the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>var</strong><span class="classifier">str</span></dt><dd><p>The variable to plot (e.g., ‘density’, ‘viscosity’, etc.).</p>
+</dd>
+<dt><strong>num_points</strong><span class="classifier">int, optional</span></dt><dd><p>Number of plot points for each of the polynomial segments.</p>
+</dd>
+<dt><strong>showfig</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, displays the plot.</p>
+</dd>
+<dt><strong>savefig</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, saves the plot to a file.</p>
+</dd>
+<dt><strong>output_dir</strong><span class="classifier">str, optional</span></dt><dd><p>The directory where the plot will be saved if <cite>savefig</cite> is True. If not specified, uses the default output directory of the class.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>fig</strong><span class="classifier">matplotlib.figure.Figure</span></dt><dd><p>The figure object containing the plotted data and error.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.barotropic_model.barotropic_model_one_component">
+<span class="sig-prename descclassname"><span class="pre">barotropy.barotropic_model.</span></span><span class="sig-name descname"><span class="pre">barotropic_model_one_component</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fluid_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">efficiency</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">process_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calculation_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blending_onset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blending_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HEOS_solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'hybr'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HEOS_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HEOS_max_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HEOS_print_convergence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ODE_solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lsoda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ODE_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#barotropic_model_one_component"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.barotropic_model_one_component" title="Link to this definition">#</a></dt>
+<dd><p>Simulates a polytropic process for a given fluid from an inlet state to a specified outlet pressure.</p>
+<p>This function integrates the differential equation describing the polytropic process, which may involve phase changes, using the relationship:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\text{d}h}{\text{d}p} = \frac{\eta_p}{\rho}\]</div>
+<p>where <span class="math notranslate nohighlight">\(h\)</span> is the specific enthalpy, <span class="math notranslate nohighlight">\(p\)</span> is the pressure, <span class="math notranslate nohighlight">\(\eta_p\)</span> is the process efficiency, and <span class="math notranslate nohighlight">\(\rho\)</span> is the density of the fluid.</p>
+<p>The evaluation of fluid properties varies based on the <code class="docutils literal notranslate"><span class="pre">calculation_type</span></code> parameter:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">calculation_type='equilibrium'</span></code>: Computes properties assuming thermodynamic equilibrium using the CoolProp property solver.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">calculation_type='metastable'</span></code>: Computes properties based on the Helmholtz energy equations of state, iterating on density and temperature.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">calculation_type='blending'</span></code>: Blends equilibrium and metastable properties according to the fluid vapor quality.</p></li>
+</ul>
+<p>In single-phase regions, all calculation types yield identical results. The differences arise in the evaluation within the two-phase region, where the handling of equilibrium and metastable fluid properties differs.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The choice of ODE solver can significantly impact the accuracy and stability of the simulation. The <code class="docutils literal notranslate"><span class="pre">BDF</span></code> and <code class="docutils literal notranslate"><span class="pre">LSODA</span></code> solvers are recommended for general use, particularly for stiff problems involving equilibrium phase change or narrow blending widths, while <cite>RK45</cite> may be suitable for non-stiff problems with no phase change or smooth phase transitions.</p>
+</div>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>fluid_name</strong><span class="classifier">str</span></dt><dd><p>The name of the fluid to be used in the simulation (e.g., ‘Water’).</p>
+</dd>
+<dt><strong>p_in</strong><span class="classifier">float</span></dt><dd><p>Inlet pressure of the fluid in Pascal.</p>
+</dd>
+<dt><strong>rho_in</strong><span class="classifier">float</span></dt><dd><p>Inlet density of the fluid in kilogram per cubic meter.</p>
+</dd>
+<dt><strong>p_out</strong><span class="classifier">float</span></dt><dd><p>Outlet pressure of the fluid in Pascals.</p>
+</dd>
+<dt><strong>efficiency</strong><span class="classifier">float</span></dt><dd><p>The efficiency of the polytropic process, dimensionless.</p>
+</dd>
+<dt><strong>calculation_type</strong><span class="classifier">str</span></dt><dd><p>The type of calculation to perform. Options include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">equilibrium</span></code>: Computes equilibrium properties only.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">metastable</span></code>: Computes metastable properties only.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">blending</span></code>: Computes both equilibrium and metastable properties, blends them, and returns the blended properties.</p></li>
+</ul>
+</dd>
+<dt><strong>blending_onset</strong><span class="classifier">float, optional</span></dt><dd><p>The onset of blending in the process, typically a value between 0 and 1. Required when <cite>calculation_type</cite> is <code class="docutils literal notranslate"><span class="pre">blending</span></code>.</p>
+</dd>
+<dt><strong>blending_width</strong><span class="classifier">float, optional</span></dt><dd><p>The width of the blending region, typically a value between 0 and 1. Required when <cite>calculation_type</cite> is <code class="docutils literal notranslate"><span class="pre">blending</span></code>.</p>
+</dd>
+<dt><strong>HEOS_solver</strong><span class="classifier">str, optional</span></dt><dd><p>The solver algorithm used to compute the metastable states. Valid options:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 28.6%" />
+<col style="width: 71.4%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Solver name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">hybr</span></code></p></td>
+<td><p>Powell’s hybrid trust-region algorithm</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">lm</span></code></p></td>
+<td><p>Levenberg–Marquardt algorithm</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>See <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.root.html">Scipy root()</a> for more info.
+Recommended solvers: Both <code class="docutils literal notranslate"><span class="pre">hybr</span></code> and <code class="docutils literal notranslate"><span class="pre">lm</span></code> work well for the tested cases.</p>
+</dd>
+<dt><strong>HEOS_tolerance</strong><span class="classifier">float, optional</span></dt><dd><p>The tolerance for the HEOS solver.</p>
+</dd>
+<dt><strong>HEOS_max_iter</strong><span class="classifier">int, optional</span></dt><dd><p>The maximum number of iterations for the HEOS solver.</p>
+</dd>
+<dt><strong>HEOS_print_convergence</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, prints convergence information for the HEOS solver.</p>
+</dd>
+<dt><strong>ODE_solver</strong><span class="classifier">str, optional</span></dt><dd><p>The solver to use for the ODE integration. Valid options:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 28.6%" />
+<col style="width: 71.4%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Solver name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">RK23</span></code></p></td>
+<td><p>Explicit Runge-Kutta method of order 3(2)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">RK45</span></code></p></td>
+<td><p>Explicit Runge-Kutta method of order 5(4)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DOP853</span></code></p></td>
+<td><p>Explicit Runge-Kutta method of order 8</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Radau</span></code></p></td>
+<td><p>Implicit Runge-Kutta method of the Radau IIA family of order 5</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">BDF</span></code></p></td>
+<td><p>Implicit multi-step variable-order (1 to 5) method based on a backward differentiation formula for the derivative approximation</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">LSODA</span></code></p></td>
+<td><p>Adams/BDF method with automatic stiffness detection and switching</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>See <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html">Scipy solver_ivp()</a>  for more info.
+Recommended solvers: <code class="docutils literal notranslate"><span class="pre">BDF</span></code>, <code class="docutils literal notranslate"><span class="pre">LSODA</span></code>, or <code class="docutils literal notranslate"><span class="pre">Radau</span></code> for stiff problems or <code class="docutils literal notranslate"><span class="pre">RK45</span></code> for non-stiff problems with smooth blending.</p>
+</dd>
+<dt><strong>ODE_tolerance</strong><span class="classifier">float, optional</span></dt><dd><p>The relative and absolute tolerance for the ODE solver.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>states</strong><span class="classifier">dictionary of arrays</span></dt><dd><p>A dictionary of Numpy arrays representing the properties of the fluid at each evaluation point.</p>
+</dd>
+<dt><strong>solution</strong><span class="classifier">scipy.integrate.OdeResult</span></dt><dd><p>The result of the ODE integration containing information about the solver process.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.barotropic_model.barotropic_model_two_component">
+<span class="sig-prename descclassname"><span class="pre">barotropy.barotropic_model.</span></span><span class="sig-name descname"><span class="pre">barotropic_model_two_component</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fluid_name_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fluid_name_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mixture_ratio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">efficiency</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">process_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ODE_solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lsoda'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ODE_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/barotropy/barotropic_model.html#barotropic_model_two_component"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.barotropic_model.barotropic_model_two_component" title="Link to this definition">#</a></dt>
+<dd><p>Simulates a polytropic process for a mixture of two different fluids.</p>
+<p>TODO: add model equations and explanation</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>fluid_name_1</strong><span class="classifier">str</span></dt><dd><p>The name of the first component of the mixture.</p>
+</dd>
+<dt><strong>fluid_name_2</strong><span class="classifier">str</span></dt><dd><p>The name of the second component of the mixture.</p>
+</dd>
+<dt><strong>mixture_ratio</strong><span class="classifier">float</span></dt><dd><p>Mass ratio of the first to the second fluid in the mixture.</p>
+</dd>
+<dt><strong>T_in</strong><span class="classifier">float</span></dt><dd><p>Inlet temperature of the mixture in Kelvin.</p>
+</dd>
+<dt><strong>p_in</strong><span class="classifier">float</span></dt><dd><p>Inlet pressure of the mixture in Pascals.</p>
+</dd>
+<dt><strong>p_out</strong><span class="classifier">float</span></dt><dd><p>Outlet pressure of the mixture in Pascals.</p>
+</dd>
+<dt><strong>efficiency</strong><span class="classifier">float</span></dt><dd><p>The efficiency of the polytropic process, (between zero and one).</p>
+</dd>
+<dt><strong>ODE_solver</strong><span class="classifier">str, optional</span></dt><dd><p>The solver to use for the ODE integration. Valid options:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 28.6%" />
+<col style="width: 71.4%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Solver name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">RK23</span></code></p></td>
+<td><p>Explicit Runge-Kutta method of order 3(2)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">RK45</span></code></p></td>
+<td><p>Explicit Runge-Kutta method of order 5(4)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DOP853</span></code></p></td>
+<td><p>Explicit Runge-Kutta method of order 8</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Radau</span></code></p></td>
+<td><p>Implicit Runge-Kutta method of the Radau IIA family of order 5</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">BDF</span></code></p></td>
+<td><p>Implicit multi-step variable-order (1 to 5) method based on a backward differentiation formula for the derivative approximation</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">LSODA</span></code></p></td>
+<td><p>Adams/BDF method with automatic stiffness detection and switching</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>See <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html">Scipy solver_ivp()</a>  for more info.
+Recommended solvers: <code class="docutils literal notranslate"><span class="pre">BDF</span></code>, <code class="docutils literal notranslate"><span class="pre">LSODA</span></code>, or <code class="docutils literal notranslate"><span class="pre">Radau</span></code> for stiff problems or <code class="docutils literal notranslate"><span class="pre">RK45</span></code> for non-stiff problems with smooth blending.</p>
+</dd>
+<dt><strong>ODE_tolerance</strong><span class="classifier">float, optional</span></dt><dd><p>The relative and absolute tolerance for the ODE solver.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>states</strong><span class="classifier">dictionary of arrays</span></dt><dd><p>A dictionary of Numpy arrays representing the properties of the fluid at each evaluation point.</p>
+</dd>
+<dt><strong>solution</strong><span class="classifier">scipy.integrate.OdeResult</span></dt><dd><p>The result of the ODE integration containing information about the solver process.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 
@@ -372,6 +1180,45 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.BarotropicModel"><code class="docutils literal notranslate"><span class="pre">BarotropicModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.BarotropicModel.export_expressions_cfx"><code class="docutils literal notranslate"><span class="pre">BarotropicModel.export_expressions_cfx()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.BarotropicModel.export_expressions_fluent"><code class="docutils literal notranslate"><span class="pre">BarotropicModel.export_expressions_fluent()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.BarotropicModel.fit_polynomials"><code class="docutils literal notranslate"><span class="pre">BarotropicModel.fit_polynomials()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.BarotropicModel.solve"><code class="docutils literal notranslate"><span class="pre">BarotropicModel.solve()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.ExpressionExporter"><code class="docutils literal notranslate"><span class="pre">ExpressionExporter</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.ExpressionExporter.export_expressions_cfx"><code class="docutils literal notranslate"><span class="pre">ExpressionExporter.export_expressions_cfx()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.ExpressionExporter.export_expressions_fluent"><code class="docutils literal notranslate"><span class="pre">ExpressionExporter.export_expressions_fluent()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.ExpressionExporter.generate_expressions"><code class="docutils literal notranslate"><span class="pre">ExpressionExporter.generate_expressions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.ExpressionExporter.if_expression"><code class="docutils literal notranslate"><span class="pre">ExpressionExporter.if_expression()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.ExpressionExporter.polynomial_expression"><code class="docutils literal notranslate"><span class="pre">ExpressionExporter.polynomial_expression()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.PolynomialFitter"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.PolynomialFitter.evaluate_polynomial"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter.evaluate_polynomial()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.PolynomialFitter.fit_polynomials"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter.fit_polynomials()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.PolynomialFitter.plot_phase_diagram"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter.plot_phase_diagram()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.PolynomialFitter.plot_polynomial"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter.plot_polynomial()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.PolynomialFitter.plot_polynomial_and_error"><code class="docutils literal notranslate"><span class="pre">PolynomialFitter.plot_polynomial_and_error()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.barotropic_model_one_component"><code class="docutils literal notranslate"><span class="pre">barotropic_model_one_component()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.barotropic_model.barotropic_model_two_component"><code class="docutils literal notranslate"><span class="pre">barotropic_model_two_component()</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
