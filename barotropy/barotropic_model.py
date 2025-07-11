@@ -1664,7 +1664,7 @@ class PolynomialFitter:
         ax.set_ylabel(props.LABEL_MAPPING.get(var_y, var_y))
 
         # Plot phase diagram for the first subplot
-        ax = fluid.plot_phase_diagram(
+        fig, ax = fluid.plot_phase_diagram(
             var_x,
             var_y,
             axes=ax,
