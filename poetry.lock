@@ -622,21 +622,19 @@ name = "coolpropx"
 version = "0.1.2"
 description = "A lightweight wrapper to CoolProp's low-level interface."
 optional = false
-python-versions = ">=3.10,<3.14"
+python-versions = "<3.14,>=3.10"
 groups = ["main"]
-files = []
-develop = true
+files = [
+    {file = "coolpropx-0.1.2-py3-none-any.whl", hash = "sha256:a65cf5f8f069cbbc3e027aad351e56347a08f1c5bc2fe5cb7e1dc629d726867c"},
+    {file = "coolpropx-0.1.2.tar.gz", hash = "sha256:5037da1ba7f6c9a67ff901d5859153cfd5af5ba5d59959b05a891eeaf843d560"},
+]
 
 [package.dependencies]
-CoolProp = "^6.6.0"
-matplotlib = "^3.10.1"
-numpy = "^2.2.4"
-pysolver_view = "^0.6.2"
-scipy = "^1.15.2"
-
-[package.source]
-type = "directory"
-url = "../coolpropx"
+CoolProp = ">=6.6.0,<7.0.0"
+matplotlib = ">=3.10.1,<4.0.0"
+numpy = ">=2.2.4,<3.0.0"
+pysolver_view = ">=0.6.2,<0.7.0"
+scipy = ">=1.15.2,<2.0.0"
 
 [[package]]
 name = "cycler"
@@ -2212,30 +2210,28 @@ diagrams = ["jinja2", "railroad-diagrams"]
 
 [[package]]
 name = "pysolver-view"
-version = "0.6.3"
+version = "0.6.8"
 description = "Visualization of solver convergence evolution"
 optional = false
-python-versions = ">=3.10,<3.14"
+python-versions = "<3.14,>=3.10"
 groups = ["main"]
-files = []
-develop = true
+files = [
+    {file = "pysolver_view-0.6.8-py3-none-any.whl", hash = "sha256:0a2178299d2010326c0323c90f6fe7c4f35c732bd4e39ec943d9ea75badc355c"},
+    {file = "pysolver_view-0.6.8.tar.gz", hash = "sha256:3ba36c44428d4179e3af88539fc8289618931409aba43aa0abd381573a827380"},
+]
 
 [package.dependencies]
-cycler = "^0.12.1"
-matplotlib = "^3.10.1"
-numpy = "^2.2.4"
-openpyxl = "^3.1.5"
-pandas = "^2.2.3"
-PyYAML = "^6.0.2"
-scipy = "^1.15.2"
-toml = "^0.10.2"
+cycler = ">=0.12.1,<0.13.0"
+matplotlib = ">=3.10.1,<4.0.0"
+numpy = ">=2.2.4,<3.0.0"
+openpyxl = ">=3.1.5,<4.0.0"
+pandas = ">=2.2.3,<3.0.0"
+PyYAML = ">=6.0.2,<7.0.0"
+scipy = ">=1.15.2,<2.0.0"
+toml = ">=0.10.2,<0.11.0"
 
 [package.extras]
 jax = ["jax (>=0.5.3,<0.6.0)"]
-
-[package.source]
-type = "directory"
-url = "../pysolver_view"
 
 [[package]]
 name = "pytest"
@@ -3503,4 +3499,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<3.14"
-content-hash = "86c7e47ee25b45b13008b5572826d3faba26a0b030befdd914eb143fe97a19da"
+content-hash = "43b64e09d692bc16f090d66f52181b416d452849e76384191743c374d3d5b7e7"
