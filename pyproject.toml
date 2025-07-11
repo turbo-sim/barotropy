@@ -9,7 +9,6 @@ repository = "https://github.com/turbo-sim/barotropy"
 documentation = "https://turbo-sim.github.io/barotropy/"
 
 [tool.poetry.dependencies]
-CoolProp = "^6.6.0"
 python = ">=3.10,<3.14"
 numpy = "^2.2.4"
 scipy = "^1.15.2"
@@ -21,8 +20,10 @@ toml = "^0.10.2"
 cycler = "^0.12.1"
 parse = "^1.20.2"
 pexpect = "^4.9.0"
-pysolver_view = "^0.4.7"
-# pysolver_view = { path = "../pysolver_view/", develop = true }
+#pysolver_view = "^0.6.2"
+#coolpropx = "^0.1.0"
+pysolver_view = { path = "../pysolver_view/", develop = true }
+coolpropx = { path = "../coolpropx/", develop = true }
 
 [tool.poetry.group.dev.dependencies]
 ipython = ">=8.13,<8.17"

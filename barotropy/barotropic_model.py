@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import pysolver_view as psv
+import coolpropx as props
 
 from functools import wraps
 from numpy.polynomial import Polynomial
@@ -12,7 +13,6 @@ from scipy.integrate._ivp.ivp import METHODS as ODE_METHODS
 
 from . import graphics
 from . import utilities as utils
-from . import properties as props
 
 COLORS_MATLAB = graphics.COLORS_MATLAB
 PROCESS_TYPES = ["polytropic", "adiabatic"]
