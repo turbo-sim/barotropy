@@ -72,5 +72,6 @@ for var in model.poly_fitter.variables:
     )
 
 
-# Show figure
-plt.show()
+# Show figures
+if not os.environ.get("DISABLE_PLOTS"):
+    plt.show()
