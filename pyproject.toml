@@ -24,7 +24,12 @@ pysolver_view = "^0.6.2"
 coolpropx = "^0.2.8"
 #pysolver_view = { path = "../pysolver_view/", develop = true }
 #coolpropx = { path = "../coolpropx/", develop = true }
-gmsh = "^4.14.0"
+gmsh = { version = "^4.14.0", optional = true }
+ansys-fluent-core = { version = "^0.30.2", optional = true }
+
+[tool.poetry.extras]
+gmsh = ["gmsh"]
+pyfluent = ["ansys-fluent-core"]
 
 [tool.poetry.group.dev.dependencies]
 ipython = ">=8.13,<8.17"
@@ -43,8 +48,6 @@ sphinx-togglebutton = "^0.3.2"
 sphinx-autobuild = "^2024.10.3"
 myst-parser = "^4.0.1"
 bump2version = "^1.0.1"
-ansys-fluent-core = "^0.30.2"
-gmsh = "^4.13.1"
 
 [build-system]
 requires = ["poetry-core"]
@@ -52,3 +55,11 @@ build-backend = "poetry.core.masonry.api"
 
 # Rememeber to add --tags when publishing a new version
 # git push origin main --tags
+
+
+# How to install optional dependencies
+# poetry install --with gmsh
+# pip install barotropy[gmsh]
+# poetry install --with gmsh,pyfluent
+# pip install barotropy[gmsh,pyfluent]
+
