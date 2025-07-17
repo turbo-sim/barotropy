@@ -8,11 +8,11 @@ import matplotlib.pyplot as plt
 # Base path relative to this script's location
 # Robust regardless from where the script is executed
 THIS_DIR = Path(__file__).resolve().parent
-EXAMPLES_DIR = THIS_DIR.parent / "demos" / "barotropy"
+EXAMPLES_DIR = THIS_DIR.parent / "demos"
 
 # Manually define relative paths from examples/ root
 example_relative_paths = [
-    "CO2_supercritical.py",
+    "sCO2_compression/demo_CO2_compression.py",
 ]
 
 # Full absolute paths
