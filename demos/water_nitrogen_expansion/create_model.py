@@ -53,5 +53,7 @@ for i, (idx, row) in enumerate(case_table.iterrows()):
     for var in model.poly_fitter.variables:
         model.poly_fitter.plot_polynomial_and_error(var=var, savefig=SAVE_FIGURES, showfig=SHOW_FIGURES)
 
-# Show figure
-plt.show()
+# Show figures
+if not os.environ.get("DISABLE_PLOTS"):
+    plt.show()
+

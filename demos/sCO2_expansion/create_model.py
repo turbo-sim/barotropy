@@ -24,15 +24,17 @@ fluid_name = "CO2"
 fluid = bpy.Fluid(name=fluid_name, backend="HEOS")
 
 # Define inlet state and outlet pressure
-p_in = 2.0*fluid.critical_point.p
-# s_in = 0.9*fluid.critical_point.s
-s_in = 1.1*fluid.critical_point.s
+p_in = 3.0*fluid.critical_point.p
+s_in = 0.8*fluid.critical_point.s
+# s_in = 1.1*fluid.critical_point.s
 state_in = fluid.get_state(bpy.PSmass_INPUTS, p_in, s_in)
-p_out = 1.01*fluid.triple_point_liquid.p
+p_out = 3*fluid.triple_point_liquid.p
 
 # Additional parameters for the calculations
 polytropic_efficiency = 1.0
-q_onset = 0.95
+# q_onset = 0.95
+# q_transition = 0.05
+q_onset = 0.0
 q_transition = 0.05
 
 # Create barotropic model object
@@ -49,10 +51,12 @@ model = bpy.BarotropicModel(
     blending_width=q_transition,
     HEOS_solver="hybr",
     ODE_solver="LSODA",
-    ODE_tolerance=1e-9,
-    polynomial_degree=6,
+    ODE_tolerance=1e-12,
+    polynomial_degree=8,
+    # polynomial_degree=[4, 8],
     polynomial_format="horner",
     output_dir=DIR_OUT,
+    # polynomial_variables=["vapor_quality"]
 )
 
 # Evaluate barotropic model and export polynomial expressions
@@ -74,6 +78,6 @@ for var in model.poly_fitter.variables:
         showfig=SHOW_FIG,
     )
 
-
-# Show figure
-plt.show()
+# Show figures
+if not os.environ.get("DISABLE_PLOTS"):
+    plt.show()

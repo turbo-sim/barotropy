@@ -118,5 +118,7 @@ for key, (fig, ax) in figs_axes.items():
         file_path = os.path.join(DIR_OUT, f"barotropic_model_{key[0]}_{key[1]}")
         bpy.savefig_in_formats(fig, file_path)
 
-# Show figure
-plt.show()
+# Show figures
+if not os.environ.get("DISABLE_PLOTS"):
+    plt.show()
+

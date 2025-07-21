@@ -51,8 +51,8 @@ model = bpy.BarotropicModel(
     p_out=p_out,
     efficiency=polytropic_efficiency,
     calculation_type=calculation_type,
-    blending_onset=q_onset,
-    blending_width=q_transition,
+    # blending_onset=q_onset,
+    # blending_width=q_transition,
     HEOS_solver="hybr",
     ODE_solver="LSODA",
     ODE_tolerance=1e-9,
@@ -76,4 +76,5 @@ for var in model.poly_fitter.variables:
     )
 
 # Show figures
-plt.show()
+if not os.environ.get("DISABLE_PLOTS"):
+    plt.show()
