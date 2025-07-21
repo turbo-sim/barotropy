@@ -630,14 +630,14 @@ files = [
 
 [[package]]
 name = "coolpropx"
-version = "0.2.8"
+version = "0.2.10"
 description = "A lightweight wrapper to CoolProp's low-level interface."
 optional = false
 python-versions = "<3.14,>=3.10"
 groups = ["main"]
 files = [
-    {file = "coolpropx-0.2.8-py3-none-any.whl", hash = "sha256:16df4d15af7d4d37c7bb0adebe19758ba5c0c0d573b680c78c5b0431d2e441b7"},
-    {file = "coolpropx-0.2.8.tar.gz", hash = "sha256:c91c182044c07045fab1b925c35a93a75333df2588573a74409a61a23676ab3f"},
+    {file = "coolpropx-0.2.10-py3-none-any.whl", hash = "sha256:f16cc682d96eee6069a19baacd5de3052b21bda7ab09e490bfb35549ddc77a8e"},
+    {file = "coolpropx-0.2.10.tar.gz", hash = "sha256:6f3103ddf8853542934fc75afbd23406bc71f1201f9eca8c650f767f033b6dbf"},
 ]
 
 [package.dependencies]

@@ -12,7 +12,11 @@ EXAMPLES_DIR = THIS_DIR.parent / "demos"
 
 # Manually define relative paths from examples/ root
 example_relative_paths = [
-    "sCO2_compression/demo_CO2_compression.py",
+    "cyclopentane_expansion/create_model.py",
+    "nitrogen_expansion/create_model.py",
+    "sCO2_compression/create_model.py",
+    "sCO2_expansion/create_model.py",
+    "water_nitrogen_expansion/create_model.py",
 ]
 
 # Full absolute paths
@@ -24,11 +28,19 @@ example_ids = [p.name for p in EXAMPLE_SCRIPTS]
 @pytest.mark.parametrize("script_path", EXAMPLE_SCRIPTS, ids=example_ids)
 def test_examples(script_path):
     # Use sys.executable instead of just 'python' to run correctly in GitHub actions (Windows)
+    working_dir = script_path.parent
     result = subprocess.run(
         [sys.executable, str(script_path)],
+        cwd=working_dir,
         capture_output=True,
         text=True,
         env={**os.environ, "DISABLE_PLOTS": "1"}
     )
 
     assert result.returncode == 0, f"Failed: {script_path}\n{result.stderr}"
+
+
+if __name__ == "__main__":
+
+    # Running pytest from this script
+    pytest.main([__file__, "-v"])
