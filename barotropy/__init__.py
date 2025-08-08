@@ -21,7 +21,7 @@ from .graphics import *
 from .utilities import *
 
 # Package info
-__version__ = "0.2.15"
+__version__ = "0.2.16"
 PACKAGE_NAME = "barotropy"
 URL_GITHUB = "https://github.com/turbo-sim/barotropy"
 URL_DOCS = "https://turbo-sim.github.io/barotropy/"
