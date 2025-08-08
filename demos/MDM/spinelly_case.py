@@ -39,8 +39,6 @@ model = bpy.BarotropicModel(
     polynomial_format="horner",
     output_dir=DIR_OUT,
     polynomial_variables=["density", "viscosity", "speed_sound", "void_fraction", "vapor_quality"],
- 
-   
 )
  
 # Evaluate barotropic model and export polynomial expressions
