@@ -179,6 +179,7 @@ class BarotropicModel:
         efficiency: float = 1.00,
         mixture_ratio: float = None,
         process_type: str = None,
+        backend="HEOS",
         calculation_type: str = None,
         blending_onset: float = None,
         blending_width: float = None,
@@ -211,6 +212,7 @@ class BarotropicModel:
 
         # Define inlet state
         self.fluid_name = fluid_name
+        self.backend = backend
 
         if self.model_type == "one-component":
             state_in = self._resolve_inlet_state(fluid_name, p_in, T_in, rho_in)
@@ -317,7 +319,7 @@ class BarotropicModel:
             ValueError if input combination is invalid
         """
 
-        fluid = props.Fluid(name=fluid_name, backend="HEOS")
+        fluid = props.Fluid(name=fluid_name, backend=self.backend)
         num_given = sum(x is not None for x in [p_in, T_in, rho_in])
         if num_given < 2:
             raise ValueError("At least two of (p_in, T_in, rho_in) must be provided.")
@@ -413,6 +415,7 @@ class BarotropicModel:
             # Integrate upward from p_in to p_max:
             states_up, ode_solution_up = barotropic_model_one_component(
                 fluid_name=self.fluid_name,
+                backend=self.backend,
                 p_in=self.p_in,
                 rho_in=self.rho_in,
                 p_out=self.p_max,
@@ -432,6 +435,7 @@ class BarotropicModel:
             # Integrate downward from p_in to p_min:
             states_down, ode_solution_down = barotropic_model_one_component(
                 fluid_name=self.fluid_name,
+                backend=self.backend,
                 p_in=self.p_in,
                 rho_in=self.rho_in,
                 p_out=self.p_min,
@@ -577,6 +581,7 @@ def barotropic_model_one_component(
     rho_in,
     p_out,
     efficiency,
+    backend="HEOS",
     process_type=None,
     calculation_type=None,
     blending_onset=None,
@@ -652,7 +657,7 @@ def barotropic_model_one_component(
             * - ``hybr``
               -  Powell's hybrid trust-region algorithm
             * - ``lm``
-              - Levenberg–Marquardt algorithm
+              - Levenberg-Marquardt algorithm
 
         See `Scipy root() <https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.root.html>`_ for more info.
         Recommended solvers: Both ``hybr`` and ``lm`` work well for the tested cases.
@@ -739,7 +744,7 @@ def barotropic_model_one_component(
         )
 
     # Initialize fluid and compute inlet state
-    fluid = props.Fluid(name=fluid_name, backend="HEOS", exceptions=True)
+    fluid = props.Fluid(name=fluid_name, backend=backend, exceptions=True)
     state_in = fluid.get_state(
         props.DmassP_INPUTS, rho_in, p_in, supersaturation=True, generalize_quality=True
     )
@@ -932,6 +937,7 @@ def barotropic_model_two_component(
     p_in,
     p_out,
     efficiency,
+    backend="HEOS",
     process_type=None,
     ODE_solver="lsoda",
     ODE_tolerance=1e-8,
@@ -1024,8 +1030,8 @@ def barotropic_model_two_component(
     y_2 = 1 / (1 + mixture_ratio)
 
     # Initialize fluid and compute inlet state
-    fluid_1 = props.Fluid(name=fluid_name_1, backend="HEOS", exceptions=True)
-    fluid_2 = props.Fluid(name=fluid_name_2, backend="HEOS", exceptions=True)
+    fluid_1 = props.Fluid(name=fluid_name_1, backend=backend, exceptions=True)
+    fluid_2 = props.Fluid(name=fluid_name_2, backend=backend, exceptions=True)
 
     # Compute the inlet enthalpy of the mixture (ODE initial value)
     props_in_1 = fluid_1.get_state(props.PT_INPUTS, p_in, T_in)

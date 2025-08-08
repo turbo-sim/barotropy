@@ -16,7 +16,7 @@ if not os.path.isdir(DIR_OUT):
     os.makedirs(DIR_OUT)
 
 # Load cases from Excel
-case_table = pd.read_excel("../simulation_cases.xlsx")
+case_table = pd.read_excel("./simulation_cases.xlsx")
 case_indices = case_table["index"]
 case_indices = [6]
 case_table = case_table[case_table["index"].isin(case_indices)]
