@@ -722,14 +722,14 @@ files = [
 
 [[package]]
 name = "coolpropx"
-version = "0.2.10"
+version = "0.2.14"
 description = "A lightweight wrapper to CoolProp's low-level interface."
 optional = false
 python-versions = "<3.14,>=3.10"
 groups = ["main"]
 files = [
-    {file = "coolpropx-0.2.10-py3-none-any.whl", hash = "sha256:f16cc682d96eee6069a19baacd5de3052b21bda7ab09e490bfb35549ddc77a8e"},
-    {file = "coolpropx-0.2.10.tar.gz", hash = "sha256:6f3103ddf8853542934fc75afbd23406bc71f1201f9eca8c650f767f033b6dbf"},
+    {file = "coolpropx-0.2.14-py3-none-any.whl", hash = "sha256:614deac6a20bba935c79d809e746f99ec093823705fd5d857b3c68d9891294ae"},
+    {file = "coolpropx-0.2.14.tar.gz", hash = "sha256:81af2a15a9e0f43c254294d0aae8b0c490b8ef343ec83956ba5d9915691021e9"},
 ]
 
 [package.dependencies]
@@ -738,6 +738,9 @@ matplotlib = ">=3.10.1,<4.0.0"
 numpy = ">=2.2.4,<3.0.0"
 pysolver_view = ">=0.6.8,<0.7.0"
 scipy = ">=1.15.2,<2.0.0"
+
+[package.extras]
+jax = ["jax (>=0.5.3,<0.6.0)", "jaxlib (>=0.5.3,<0.6.0)"]
 
 [[package]]
 name = "cycler"
@@ -3684,4 +3687,4 @@ pyfluent = ["ansys-fluent-core"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<3.14"
-content-hash = "51884fc49830dd256db89b35803a0ec928d8907055e136502ad3eb54e843ebaf"
+content-hash = "2af76cc2045f37966409c909f8007ffb8ef3ddc9054aa6ea4be2d6ffc860b6d4"
