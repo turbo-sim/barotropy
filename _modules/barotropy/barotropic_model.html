@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>barotropy.barotropic_model &#8212; barotropy v0.2.14 documentation</title>
+    <title>barotropy.barotropic_model &#8212; barotropy v0.2.15 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=37c70904"></script>
+    <script src="../../_static/documentation_options.js?v=8c3b8b19"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>let toggleHintShow = 'Click to show';</script>
@@ -140,7 +140,7 @@
   
   
   
-    <p class="title logo__title">barotropy v0.2.14 documentation</p>
+    <p class="title logo__title">barotropy v0.2.15 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -468,6 +468,7 @@ document.write(`
         <span class="n">efficiency</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.00</span><span class="p">,</span>
         <span class="n">mixture_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">process_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;HEOS&quot;</span><span class="p">,</span>
         <span class="n">calculation_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">blending_onset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">blending_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -500,6 +501,7 @@ document.write(`
 
         <span class="c1"># Define inlet state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fluid_name</span> <span class="o">=</span> <span class="n">fluid_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">backend</span> <span class="o">=</span> <span class="n">backend</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_type</span> <span class="o">==</span> <span class="s2">&quot;one-component&quot;</span><span class="p">:</span>
             <span class="n">state_in</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_inlet_state</span><span class="p">(</span><span class="n">fluid_name</span><span class="p">,</span> <span class="n">p_in</span><span class="p">,</span> <span class="n">T_in</span><span class="p">,</span> <span class="n">rho_in</span><span class="p">)</span>
@@ -606,7 +608,7 @@ document.write(`
 <span class="sd">            ValueError if input combination is invalid</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">fluid</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">Fluid</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">fluid_name</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;HEOS&quot;</span><span class="p">)</span>
+        <span class="n">fluid</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">Fluid</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">fluid_name</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">backend</span><span class="p">)</span>
         <span class="n">num_given</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="n">p_in</span><span class="p">,</span> <span class="n">T_in</span><span class="p">,</span> <span class="n">rho_in</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">num_given</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;At least two of (p_in, T_in, rho_in) must be provided.&quot;</span><span class="p">)</span>
@@ -704,6 +706,7 @@ document.write(`
             <span class="c1"># Integrate upward from p_in to p_max:</span>
             <span class="n">states_up</span><span class="p">,</span> <span class="n">ode_solution_up</span> <span class="o">=</span> <span class="n">barotropic_model_one_component</span><span class="p">(</span>
                 <span class="n">fluid_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fluid_name</span><span class="p">,</span>
+                <span class="n">backend</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">backend</span><span class="p">,</span>
                 <span class="n">p_in</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_in</span><span class="p">,</span>
                 <span class="n">rho_in</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rho_in</span><span class="p">,</span>
                 <span class="n">p_out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_max</span><span class="p">,</span>
@@ -723,6 +726,7 @@ document.write(`
             <span class="c1"># Integrate downward from p_in to p_min:</span>
             <span class="n">states_down</span><span class="p">,</span> <span class="n">ode_solution_down</span> <span class="o">=</span> <span class="n">barotropic_model_one_component</span><span class="p">(</span>
                 <span class="n">fluid_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fluid_name</span><span class="p">,</span>
+                <span class="n">backend</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">backend</span><span class="p">,</span>
                 <span class="n">p_in</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_in</span><span class="p">,</span>
                 <span class="n">rho_in</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rho_in</span><span class="p">,</span>
                 <span class="n">p_out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">p_min</span><span class="p">,</span>
@@ -881,6 +885,7 @@ document.write(`
     <span class="n">rho_in</span><span class="p">,</span>
     <span class="n">p_out</span><span class="p">,</span>
     <span class="n">efficiency</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;HEOS&quot;</span><span class="p">,</span>
     <span class="n">process_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">calculation_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">blending_onset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -956,7 +961,7 @@ document.write(`
 <span class="sd">            * - ``hybr``</span>
 <span class="sd">              -  Powell&#39;s hybrid trust-region algorithm</span>
 <span class="sd">            * - ``lm``</span>
-<span class="sd">              - Levenberg–Marquardt algorithm</span>
+<span class="sd">              - Levenberg-Marquardt algorithm</span>
 
 <span class="sd">        See `Scipy root() &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.root.html&gt;`_ for more info.</span>
 <span class="sd">        Recommended solvers: Both ``hybr`` and ``lm`` work well for the tested cases.</span>
@@ -1043,7 +1048,7 @@ document.write(`
         <span class="p">)</span>
 
     <span class="c1"># Initialize fluid and compute inlet state</span>
-    <span class="n">fluid</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">Fluid</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">fluid_name</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;HEOS&quot;</span><span class="p">,</span> <span class="n">exceptions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">fluid</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">Fluid</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">fluid_name</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="n">exceptions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">state_in</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span>
         <span class="n">props</span><span class="o">.</span><span class="n">DmassP_INPUTS</span><span class="p">,</span> <span class="n">rho_in</span><span class="p">,</span> <span class="n">p_in</span><span class="p">,</span> <span class="n">supersaturation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">generalize_quality</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
@@ -1239,6 +1244,7 @@ document.write(`
     <span class="n">p_in</span><span class="p">,</span>
     <span class="n">p_out</span><span class="p">,</span>
     <span class="n">efficiency</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;HEOS&quot;</span><span class="p">,</span>
     <span class="n">process_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">ODE_solver</span><span class="o">=</span><span class="s2">&quot;lsoda&quot;</span><span class="p">,</span>
     <span class="n">ODE_tolerance</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
@@ -1331,8 +1337,8 @@ document.write(`
     <span class="n">y_2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">mixture_ratio</span><span class="p">)</span>
 
     <span class="c1"># Initialize fluid and compute inlet state</span>
-    <span class="n">fluid_1</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">Fluid</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">fluid_name_1</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;HEOS&quot;</span><span class="p">,</span> <span class="n">exceptions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">fluid_2</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">Fluid</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">fluid_name_2</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;HEOS&quot;</span><span class="p">,</span> <span class="n">exceptions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">fluid_1</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">Fluid</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">fluid_name_1</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="n">exceptions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">fluid_2</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">Fluid</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">fluid_name_2</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="n">exceptions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="c1"># Compute the inlet enthalpy of the mixture (ODE initial value)</span>
     <span class="n">props_in_1</span> <span class="o">=</span> <span class="n">fluid_1</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">PT_INPUTS</span><span class="p">,</span> <span class="n">p_in</span><span class="p">,</span> <span class="n">T_in</span><span class="p">)</span>
