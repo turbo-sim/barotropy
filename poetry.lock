@@ -3708,4 +3708,4 @@ pyfluent = ["ansys-fluent-core"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<3.14"
-content-hash = "2af76cc2045f37966409c909f8007ffb8ef3ddc9054aa6ea4be2d6ffc860b6d4"
+content-hash = "ac1eb141106d0659914e40be3a2852232781eba32d1e6524c73eeaa0268013b6"

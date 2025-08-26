@@ -14,7 +14,6 @@ bpy.set_plot_options()
 # ------ Barotropic Model ------ #
 # ------------------------------ #
 
-# Create Barotropic Model Subfolder
 dir_barotropic = "barotropic_kaist"
 if not os.path.isdir(dir_barotropic):
     os.makedirs(dir_barotropic)
