@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "barotropy"
-version = "0.2.17"
+version = "0.2.18"
 description = "A Python tool for barotropic fluid property modeling."
 authors = ["Roberto Agromayor",  "Amit Kumar", "Simone Parisi"]
 license = "MIT"
