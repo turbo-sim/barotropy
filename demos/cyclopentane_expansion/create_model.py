@@ -64,7 +64,7 @@ p_out = state_in.p / 20
 
 fig, ax = fluid.plot_phase_diagram("s", "T", plot_two_phase_patch=True, dT_crit=2)
 ax.set_ylim([300, 600])
-bpy.savefig_in_formats(fig, "phase_diagram", [".svg"])
+# bpy.savefig_in_formats(fig, "phase_diagram", [".svg"])
 
  
 # Show figures
