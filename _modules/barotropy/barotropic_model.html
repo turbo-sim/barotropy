@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>barotropy.barotropic_model &#8212; barotropy v0.2.18 documentation</title>
+    <title>barotropy.barotropic_model &#8212; barotropy v0.4.0 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=6a15089c"></script>
+    <script src="../../_static/documentation_options.js?v=6d25dc78"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>let toggleHintShow = 'Click to show';</script>
@@ -140,7 +140,7 @@
   
   
   
-    <p class="title logo__title">barotropy v0.2.18 documentation</p>
+    <p class="title logo__title">barotropy v0.4.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -746,7 +746,7 @@ document.write(`
             <span class="c1"># Store solution</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">state_in</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">states_up</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">states</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="n">key</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">states_up</span><span class="p">[</span><span class="n">key</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">states_down</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span>
+                <span class="n">key</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">states_up</span><span class="p">[</span><span class="n">key</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">states_down</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="mf">0.</span><span class="p">))))</span>
                 <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">states_up</span>
             <span class="p">}</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ode_solution</span> <span class="o">=</span> <span class="p">(</span><span class="n">ode_solution_up</span><span class="p">,</span> <span class="n">ode_solution_down</span><span class="p">)</span>
@@ -1510,6 +1510,62 @@ document.write(`
             <span class="n">poly</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">p_scaled</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">deg</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">poly_degree</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">poly_handles</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">poly</span><span class="p">]</span>
 
+    <span class="c1"># def _fit_equilibrium(self):</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     Fits polynomials for calculation_type=&quot;equilibrium&quot;.</span>
+
+    <span class="c1">#     This method scales pressure, identifies the phase transition, and fits polynomials for the specified variables based on single-phase and two-phase regions.</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     # Scale pressure by inlet pressure to improve polynomial conditioning</span>
+    <span class="c1">#     p_scaled = self.states[&quot;p&quot;] / self.p_in</span>
+
+    <span class="c1">#     # Determine points within the two-phase region</span>
+    <span class="c1">#     # eps = 1e-9</span>
+    <span class="c1">#     # mask_1phase = np.abs(self.states[&quot;supersaturation_degree&quot;]) &gt; eps</span>
+    <span class="c1">#     # mask_2phase = np.abs(self.states[&quot;supersaturation_degree&quot;]) &lt;= eps</span>
+    <span class="c1">#     mask_1phase = ~self.states[&quot;is_two_phase&quot;]</span>
+    <span class="c1">#     mask_2phase = self.states[&quot;is_two_phase&quot;]</span>
+
+    <span class="c1">#     # Determine breakpoints for polynomial segments</span>
+    <span class="c1">#     if mask_1phase.any() and mask_2phase.any():</span>
+    <span class="c1">#         # Transition from single- to two-phase</span>
+    <span class="c1">#         p_transition = p_scaled[np.where(mask_2phase)[0][0]]</span>
+    <span class="c1">#         self.poly_breakpoints = [self.p_in_scaled, p_transition, self.p_out_scaled]</span>
+    <span class="c1">#     else:</span>
+    <span class="c1">#         # Only one phase present — no transition</span>
+    <span class="c1">#         self.poly_breakpoints = [self.p_in_scaled, self.p_out_scaled]</span>
+
+    <span class="c1">#     # Determine number of segments based on breakpoints</span>
+    <span class="c1">#     n_segments = len(self.poly_breakpoints) - 1</span>
+
+    <span class="c1">#     # Parse polynomial degrees</span>
+    <span class="c1">#     if isinstance(self.poly_degree, (int, float)):</span>
+    <span class="c1">#         degrees = [int(self.poly_degree)] * n_segments</span>
+    <span class="c1">#     elif isinstance(self.poly_degree, list) and len(self.poly_degree) == n_segments:</span>
+    <span class="c1">#         degrees = [int(d) for d in self.poly_degree]</span>
+    <span class="c1">#     else:</span>
+    <span class="c1">#         raise ValueError(f&quot;Invalid poly_degree: expected scalar or list of length {n_segments}, but got: {self.poly_degree}.&quot;)</span>
+
+    <span class="c1">#     # Fit polynomials to data</span>
+    <span class="c1">#     for var in self.variables:</span>
+
+    <span class="c1">#         self.poly_handles[var] = []</span>
+    <span class="c1">#         for i in range(len(self.poly_breakpoints) - 1):</span>
+    <span class="c1">#             p_start = self.poly_breakpoints[i]</span>
+    <span class="c1">#             p_end = self.poly_breakpoints[i + 1]</span>
+
+    <span class="c1">#             # Mask for points within this segment</span>
+    <span class="c1">#             mask_segment = (p_scaled &lt;= p_start) &amp; (p_scaled &gt; p_end)</span>
+    <span class="c1">#             if not np.any(mask_segment):</span>
+    <span class="c1">#                 # No data in this segment; skip</span>
+    <span class="c1">#                 self.poly_handles[var].append(None)</span>
+    <span class="c1">#                 continue</span>
+
+    <span class="c1">#             p_seg = p_scaled[mask_segment]</span>
+    <span class="c1">#             y_seg = np.array(self.states[var])[mask_segment]</span>
+    <span class="c1">#             poly = Polynomial.fit(p_seg, y_seg, deg=degrees[i]).convert()</span>
+    <span class="c1">#             self.poly_handles[var].append(poly)</span>
+              
     <span class="k">def</span><span class="w"> </span><span class="nf">_fit_equilibrium</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fits polynomials for calculation_type=&quot;equilibrium&quot;.</span>
@@ -1526,13 +1582,31 @@ document.write(`
         <span class="n">mask_1phase</span> <span class="o">=</span> <span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;is_two_phase&quot;</span><span class="p">]</span>
         <span class="n">mask_2phase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;is_two_phase&quot;</span><span class="p">]</span>
 
-        <span class="c1"># Determine breakpoints for polynomial segments</span>
-        <span class="k">if</span> <span class="n">mask_1phase</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="ow">and</span> <span class="n">mask_2phase</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
-            <span class="c1"># Transition from single- to two-phase</span>
-            <span class="n">p_transition</span> <span class="o">=</span> <span class="n">p_scaled</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask_2phase</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">poly_breakpoints</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">p_in_scaled</span><span class="p">,</span> <span class="n">p_transition</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_out_scaled</span><span class="p">]</span>
+        <span class="c1"># Determine breakpoints for polynomial segments (covers wet-to-dry expansion!)</span>
+        <span class="n">idx_2phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask_2phase</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">idx_2phase</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">i_start</span> <span class="o">=</span> <span class="n">idx_2phase</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">i_end</span> <span class="o">=</span> <span class="n">idx_2phase</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span> <span class="c1"># Offset by 1 point</span>
+
+            <span class="c1"># Always include start and end of domain</span>
+            <span class="n">bp</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">p_in_scaled</span><span class="p">]</span>
+
+            <span class="c1"># Enter two-phase region</span>
+            <span class="k">if</span> <span class="n">i_start</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">bp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p_scaled</span><span class="p">[</span><span class="n">i_start</span><span class="p">])</span>
+
+            <span class="c1"># Exit two-phase region</span>
+            <span class="k">if</span> <span class="n">i_end</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">p_scaled</span><span class="p">):</span>
+                <span class="n">bp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p_scaled</span><span class="p">[</span><span class="n">i_end</span><span class="p">])</span>
+
+            <span class="c1"># Add outlet breakpoint</span>
+            <span class="n">bp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p_out_scaled</span><span class="p">)</span>
+
+            <span class="c1"># Remove duplicates while preserving order</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">poly_breakpoints</span> <span class="o">=</span> <span class="p">[</span><span class="n">bp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bp</span><span class="p">))</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">bp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">bp</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># Only one phase present — no transition</span>
+            <span class="c1"># Only single phase</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">poly_breakpoints</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">p_in_scaled</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_out_scaled</span><span class="p">]</span>
 
         <span class="c1"># Determine number of segments based on breakpoints</span>
@@ -1728,7 +1802,7 @@ document.write(`
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">mask_lower</span><span class="p">):</span>
             <span class="n">poly_last</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">poly_handles</span><span class="p">[</span><span class="n">variable</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">a1</span> <span class="o">=</span> <span class="n">poly_last</span><span class="p">(</span><span class="n">p_min_scaled</span><span class="p">)</span>
-            <span class="n">a2</span> <span class="o">=</span> <span class="n">a1</span> <span class="o">/</span> <span class="n">poly_last</span><span class="o">.</span><span class="n">deriv</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="mi">1</span><span class="p">)(</span><span class="n">p_min_scaled</span><span class="p">)</span>
+            <span class="n">a2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="mf">1e-9</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">poly_last</span><span class="o">.</span><span class="n">deriv</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="mi">1</span><span class="p">)(</span><span class="n">p_min_scaled</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">)</span>
             <span class="n">exp_values</span> <span class="o">=</span> <span class="n">a1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">p_scaled</span><span class="p">[</span><span class="n">mask_lower</span><span class="p">]</span> <span class="o">-</span> <span class="n">p_min_scaled</span><span class="p">)</span> <span class="o">/</span> <span class="n">a2</span><span class="p">)</span>
             <span class="n">var_values</span><span class="p">[</span><span class="n">mask_lower</span><span class="p">]</span> <span class="o">=</span> <span class="n">exp_values</span>
 
@@ -1850,7 +1924,7 @@ document.write(`
 <a class="viewcode-back" href="../../source/api/barotropy.barotropic_model.html#barotropy.barotropic_model.PolynomialFitter.plot_polynomial_and_error">[docs]</a>
     <span class="nd">@_ensure_data_available</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_polynomial_and_error</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">num_points</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">showfig</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">savefig</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="kc">None</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">num_points</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">showfig</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">savefig</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Plots the barotropic polynomials and original data points from the ODE solution to illustrate</span>
@@ -1918,7 +1992,7 @@ document.write(`
                 <span class="n">prop_poly_segment</span><span class="p">,</span>
                 <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
                 <span class="c1"># marker=&quot;+&quot;,</span>
-                <span class="n">color</span><span class="o">=</span><span class="n">COLORS_MATLAB</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="c1"># color=COLORS_MATLAB[1],</span>
             <span class="p">)</span>
 
         <span class="c1"># Plot original data points</span>
@@ -2291,7 +2365,7 @@ document.write(`
         <span class="c1"># Safeguard for pressures lower than p_out (Exponential decay)</span>
         <span class="n">poly_last</span> <span class="o">=</span> <span class="n">polynomials</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">a1</span> <span class="o">=</span> <span class="n">poly_last</span><span class="p">(</span><span class="n">p_out_scaled</span><span class="p">)</span>
-        <span class="n">a2</span> <span class="o">=</span> <span class="n">a1</span> <span class="o">/</span> <span class="n">poly_last</span><span class="o">.</span><span class="n">deriv</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="mi">1</span><span class="p">)(</span><span class="n">p_out_scaled</span><span class="p">)</span>
+        <span class="n">a2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="mf">1e-9</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">poly_last</span><span class="o">.</span><span class="n">deriv</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="mi">1</span><span class="p">)(</span><span class="n">p_out_scaled</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">)</span>
         <span class="n">exp_safeguard</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">a1</span><span class="si">:{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_format</span><span class="si">}}</span><span class="s2"> * exp((</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">syntax</span><span class="p">[</span><span class="s1">&#39;pressure&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> / </span><span class="si">{</span><span class="n">p_in</span><span class="si">:{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_format</span><span class="si">}}</span><span class="s2"> [Pa] - </span><span class="si">{</span><span class="n">p_out_scaled</span><span class="si">}</span><span class="s2">) / (</span><span class="si">{</span><span class="n">a2</span><span class="si">:{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_format</span><span class="si">}}</span><span class="s2">))&quot;</span>
         <span class="n">expression</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">if_expression</span><span class="p">(</span><span class="n">expression</span><span class="p">,</span> <span class="n">exp_safeguard</span><span class="p">,</span> <span class="n">breakpoints</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
