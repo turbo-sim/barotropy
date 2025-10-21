@@ -455,7 +455,7 @@ class BarotropicModel:
             # Store solution
             self.state_in = {key: value[0] for key, value in states_up.items()}
             self.states = {
-                key: np.concatenate((np.flipud(states_up[key][:-1]), states_down[key]))
+                key: np.concatenate((np.flipud(states_up[key][:-1]), states_down.get(key, np.atleast_1d(0.))))
                 for key in states_up
             }
             self.ode_solution = (ode_solution_up, ode_solution_down)
@@ -1197,6 +1197,62 @@ class PolynomialFitter:
             poly = Polynomial.fit(p_scaled, y, deg=self.poly_degree).convert()
             self.poly_handles[var] = [poly]
 
+    # def _fit_equilibrium(self):
+    #     """
+    #     Fits polynomials for calculation_type="equilibrium".
+
+    #     This method scales pressure, identifies the phase transition, and fits polynomials for the specified variables based on single-phase and two-phase regions.
+    #     """
+    #     # Scale pressure by inlet pressure to improve polynomial conditioning
+    #     p_scaled = self.states["p"] / self.p_in
+
+    #     # Determine points within the two-phase region
+    #     # eps = 1e-9
+    #     # mask_1phase = np.abs(self.states["supersaturation_degree"]) > eps
+    #     # mask_2phase = np.abs(self.states["supersaturation_degree"]) <= eps
+    #     mask_1phase = ~self.states["is_two_phase"]
+    #     mask_2phase = self.states["is_two_phase"]
+
+    #     # Determine breakpoints for polynomial segments
+    #     if mask_1phase.any() and mask_2phase.any():
+    #         # Transition from single- to two-phase
+    #         p_transition = p_scaled[np.where(mask_2phase)[0][0]]
+    #         self.poly_breakpoints = [self.p_in_scaled, p_transition, self.p_out_scaled]
+    #     else:
+    #         # Only one phase present — no transition
+    #         self.poly_breakpoints = [self.p_in_scaled, self.p_out_scaled]
+
+    #     # Determine number of segments based on breakpoints
+    #     n_segments = len(self.poly_breakpoints) - 1
+
+    #     # Parse polynomial degrees
+    #     if isinstance(self.poly_degree, (int, float)):
+    #         degrees = [int(self.poly_degree)] * n_segments
+    #     elif isinstance(self.poly_degree, list) and len(self.poly_degree) == n_segments:
+    #         degrees = [int(d) for d in self.poly_degree]
+    #     else:
+    #         raise ValueError(f"Invalid poly_degree: expected scalar or list of length {n_segments}, but got: {self.poly_degree}.")
+
+    #     # Fit polynomials to data
+    #     for var in self.variables:
+
+    #         self.poly_handles[var] = []
+    #         for i in range(len(self.poly_breakpoints) - 1):
+    #             p_start = self.poly_breakpoints[i]
+    #             p_end = self.poly_breakpoints[i + 1]
+
+    #             # Mask for points within this segment
+    #             mask_segment = (p_scaled <= p_start) & (p_scaled > p_end)
+    #             if not np.any(mask_segment):
+    #                 # No data in this segment; skip
+    #                 self.poly_handles[var].append(None)
+    #                 continue
+
+    #             p_seg = p_scaled[mask_segment]
+    #             y_seg = np.array(self.states[var])[mask_segment]
+    #             poly = Polynomial.fit(p_seg, y_seg, deg=degrees[i]).convert()
+    #             self.poly_handles[var].append(poly)
+              
     def _fit_equilibrium(self):
         """
         Fits polynomials for calculation_type="equilibrium".
@@ -1213,13 +1269,31 @@ class PolynomialFitter:
         mask_1phase = ~self.states["is_two_phase"]
         mask_2phase = self.states["is_two_phase"]
 
-        # Determine breakpoints for polynomial segments
-        if mask_1phase.any() and mask_2phase.any():
-            # Transition from single- to two-phase
-            p_transition = p_scaled[np.where(mask_2phase)[0][0]]
-            self.poly_breakpoints = [self.p_in_scaled, p_transition, self.p_out_scaled]
+        # Determine breakpoints for polynomial segments (covers wet-to-dry expansion!)
+        idx_2phase = np.where(mask_2phase)[0]
+
+        if idx_2phase.size > 0:
+            i_start = idx_2phase[0]
+            i_end = idx_2phase[-1] + 1 # Offset by 1 point
+
+            # Always include start and end of domain
+            bp = [self.p_in_scaled]
+
+            # Enter two-phase region
+            if i_start > 0:
+                bp.append(p_scaled[i_start])
+
+            # Exit two-phase region
+            if i_end < len(p_scaled):
+                bp.append(p_scaled[i_end])
+
+            # Add outlet breakpoint
+            bp.append(self.p_out_scaled)
+
+            # Remove duplicates while preserving order
+            self.poly_breakpoints = [bp[i] for i in range(len(bp)) if i == 0 or bp[i] != bp[i-1]]
         else:
-            # Only one phase present — no transition
+            # Only single phase
             self.poly_breakpoints = [self.p_in_scaled, self.p_out_scaled]
 
         # Determine number of segments based on breakpoints
@@ -1413,7 +1487,7 @@ class PolynomialFitter:
         if np.any(mask_lower):
             poly_last = self.poly_handles[variable][-1]
             a1 = poly_last(p_min_scaled)
-            a2 = a1 / poly_last.deriv(m=1)(p_min_scaled)
+            a2 = np.maximum(a1, 1e-9) / np.maximum(poly_last.deriv(m=1)(p_min_scaled), 1.0)
             exp_values = a1 * np.exp((p_scaled[mask_lower] - p_min_scaled) / a2)
             var_values[mask_lower] = exp_values
 
@@ -1529,7 +1603,7 @@ class PolynomialFitter:
 
     @_ensure_data_available
     def plot_polynomial_and_error(
-        self, var, num_points=500, showfig=True, savefig=False, output_dir=None
+        self, var, num_points=1000, showfig=True, savefig=False, output_dir=None
     ):
         r"""
         Plots the barotropic polynomials and original data points from the ODE solution to illustrate
@@ -1597,7 +1671,7 @@ class PolynomialFitter:
                 prop_poly_segment,
                 linestyle="-",
                 # marker="+",
-                color=COLORS_MATLAB[1],
+                # color=COLORS_MATLAB[1],
             )
 
         # Plot original data points
@@ -1955,7 +2029,7 @@ class ExpressionExporter:
         # Safeguard for pressures lower than p_out (Exponential decay)
         poly_last = polynomials[-1]
         a1 = poly_last(p_out_scaled)
-        a2 = a1 / poly_last.deriv(m=1)(p_out_scaled)
+        a2 = np.maximum(a1, 1e-9) / np.maximum(poly_last.deriv(m=1)(p_out_scaled), 1.0)
         exp_safeguard = f"{a1:{self.num_format}} * exp(({self.syntax['pressure']} / {p_in:{self.num_format}} [Pa] - {p_out_scaled}) / ({a2:{self.num_format}}))"
         expression = self.if_expression(expression, exp_safeguard, breakpoints[-1])
 
