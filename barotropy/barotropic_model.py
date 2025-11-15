@@ -1917,6 +1917,7 @@ class ExpressionExporter:
             "speed_sound": "m/s",
             "void_fraction": "none",
             "vapor_quality": "none",
+            "compressibility_factor": "none",
         }
 
         # Define syntax specifics for different solvers

@@ -43,7 +43,7 @@ model = bpy.BarotropicModel(
     T_in=state_in.T,
     p_in=state_in.p,
     p_min=p_out,
-    p_max=p_in,
+    p_max=1.05*p_in,
     efficiency=polytropic_efficiency,
     process_type="expansion",
     calculation_type="blending",
@@ -56,7 +56,7 @@ model = bpy.BarotropicModel(
     # polynomial_degree=[4, 8],
     polynomial_format="horner",
     output_dir=DIR_OUT,
-    # polynomial_variables=["vapor_quality"]
+    polynomial_variables=["compressibility_factor"]
 )
 
 # Evaluate barotropic model and export polynomial expressions
