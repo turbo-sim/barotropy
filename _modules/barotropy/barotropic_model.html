@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>barotropy.barotropic_model &#8212; barotropy v0.4.0 documentation</title>
+    <title>barotropy.barotropic_model &#8212; barotropy v0.4.2 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=6d25dc78"></script>
+    <script src="../../_static/documentation_options.js?v=c1adde03"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>let toggleHintShow = 'Click to show';</script>
@@ -140,7 +140,7 @@
   
   
   
-    <p class="title logo__title">barotropy v0.4.0 documentation</p>
+    <p class="title logo__title">barotropy v0.4.2 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -291,7 +291,7 @@ document.write(`
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mcolors</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pysolver_view</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">psv</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">coolpropx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">props</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jaxprop</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">props</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">numpy.polynomial</span><span class="w"> </span><span class="kn">import</span> <span class="n">Polynomial</span>
@@ -449,7 +449,7 @@ document.write(`
 <span class="sd">        Type of polynomial representation (``horner`` or ``standard``).</span>
 
 <span class="sd">    polynomial_variables : list of str</span>
-<span class="sd">        A list of variable names to fit polynomials to, such as &#39;density&#39;, &#39;viscosity&#39;, &#39;speed_sound&#39;, &#39;void_fraction&#39;, &#39;vapor_quality&#39;.</span>
+<span class="sd">        A list of variable names to fit polynomials to, such as &#39;density&#39;, &#39;viscosity&#39;, &#39;speed_of_sound&#39;, &#39;void_fraction&#39;, &#39;vapor_quality&#39;.</span>
 
 <span class="sd">    output_dir : str</span>
 <span class="sd">        The directory where output will be saved.</span>
@@ -483,7 +483,7 @@ document.write(`
         <span class="n">polynomial_variables</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s2">&quot;density&quot;</span><span class="p">,</span>
             <span class="s2">&quot;viscosity&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;speed_sound&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;speed_of_sound&quot;</span><span class="p">,</span>
             <span class="s2">&quot;void_fraction&quot;</span><span class="p">,</span>
             <span class="s2">&quot;vapor_quality&quot;</span><span class="p">,</span>
         <span class="p">],</span>
@@ -1085,9 +1085,9 @@ document.write(`
             <span class="k">except</span><span class="p">:</span>  <span class="c1"># Switch custom solver if something goes wrong</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: CoolProp solver failed, switching to custom solver...&quot;</span><span class="p">)</span>
                 <span class="n">state_eq</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">get_state_equilibrium</span><span class="p">(</span>
-                    <span class="n">prop_1</span><span class="o">=</span><span class="s2">&quot;h&quot;</span><span class="p">,</span>
+                    <span class="n">prop_1</span><span class="o">=</span><span class="s2">&quot;enthalpy&quot;</span><span class="p">,</span>
                     <span class="n">prop_1_value</span><span class="o">=</span><span class="n">h</span><span class="p">,</span>
-                    <span class="n">prop_2</span><span class="o">=</span><span class="s2">&quot;p&quot;</span><span class="p">,</span>
+                    <span class="n">prop_2</span><span class="o">=</span><span class="s2">&quot;pressure&quot;</span><span class="p">,</span>
                     <span class="n">prop_2_value</span><span class="o">=</span><span class="n">p</span><span class="p">,</span>
                     <span class="n">rhoT_guess</span><span class="o">=</span><span class="n">rhoT_guess_metastable</span><span class="p">,</span>
                     <span class="n">generalize_quality</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -1101,14 +1101,14 @@ document.write(`
             <span class="c1"># Update guess for the next integration step</span>
             <span class="n">rhoT_guess_metastable</span> <span class="o">=</span> <span class="p">[</span><span class="n">state_eq</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">state_eq</span><span class="o">.</span><span class="n">T</span><span class="p">]</span>
             <span class="n">dhdp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">efficiency</span> <span class="o">/</span> <span class="n">state_eq</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">])</span>
-            <span class="k">return</span> <span class="n">dhdp</span><span class="p">,</span> <span class="n">state_eq</span>
+            <span class="k">return</span> <span class="n">dhdp</span><span class="p">,</span> <span class="n">state_eq</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
 
         <span class="k">elif</span> <span class="n">calculation_type</span> <span class="o">==</span> <span class="s2">&quot;metastable&quot;</span><span class="p">:</span>
             <span class="c1"># Compute metastable state using custom solver</span>
             <span class="n">state_meta</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">get_state_metastable</span><span class="p">(</span>
-                <span class="n">prop_1</span><span class="o">=</span><span class="s2">&quot;h&quot;</span><span class="p">,</span>
+                <span class="n">prop_1</span><span class="o">=</span><span class="s2">&quot;enthalpy&quot;</span><span class="p">,</span>
                 <span class="n">prop_1_value</span><span class="o">=</span><span class="n">h</span><span class="p">,</span>
-                <span class="n">prop_2</span><span class="o">=</span><span class="s2">&quot;p&quot;</span><span class="p">,</span>
+                <span class="n">prop_2</span><span class="o">=</span><span class="s2">&quot;pressure&quot;</span><span class="p">,</span>
                 <span class="n">prop_2_value</span><span class="o">=</span><span class="n">p</span><span class="p">,</span>
                 <span class="n">rhoT_guess</span><span class="o">=</span><span class="n">rhoT_guess_metastable</span><span class="p">,</span>
                 <span class="n">generalize_quality</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -1122,7 +1122,7 @@ document.write(`
             <span class="c1"># Update guess for the next integration step</span>
             <span class="n">rhoT_guess_metastable</span> <span class="o">=</span> <span class="p">[</span><span class="n">state_meta</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span> <span class="n">state_meta</span><span class="o">.</span><span class="n">T</span><span class="p">]</span>
             <span class="n">dhdp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">efficiency</span> <span class="o">/</span> <span class="n">state_meta</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">])</span>
-            <span class="k">return</span> <span class="n">dhdp</span><span class="p">,</span> <span class="n">state_meta</span>
+            <span class="k">return</span> <span class="n">dhdp</span><span class="p">,</span> <span class="n">state_meta</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
 
         <span class="k">elif</span> <span class="n">calculation_type</span> <span class="o">==</span> <span class="s2">&quot;blending&quot;</span><span class="p">:</span>
 
@@ -1143,9 +1143,9 @@ document.write(`
             <span class="k">except</span><span class="p">:</span>  <span class="c1"># Switch custom solver if something goes wrong</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: CoolProp solver failed, switching to custom solver...&quot;</span><span class="p">)</span>
                 <span class="n">state_eq</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">get_state_equilibrium</span><span class="p">(</span>
-                    <span class="n">prop_1</span><span class="o">=</span><span class="s2">&quot;h&quot;</span><span class="p">,</span>
+                    <span class="n">prop_1</span><span class="o">=</span><span class="s2">&quot;enthalpy&quot;</span><span class="p">,</span>
                     <span class="n">prop_1_value</span><span class="o">=</span><span class="n">h</span><span class="p">,</span>
-                    <span class="n">prop_2</span><span class="o">=</span><span class="s2">&quot;p&quot;</span><span class="p">,</span>
+                    <span class="n">prop_2</span><span class="o">=</span><span class="s2">&quot;pressure&quot;</span><span class="p">,</span>
                     <span class="n">prop_2_value</span><span class="o">=</span><span class="n">p</span><span class="p">,</span>
                     <span class="n">rhoT_guess</span><span class="o">=</span><span class="n">rhoT_guess_metastable</span><span class="p">,</span>
                     <span class="n">generalize_quality</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -1170,9 +1170,9 @@ document.write(`
             <span class="c1"># Do the calculation only within the blending region to avoid using the HEOS solver too deep into the two-phase region</span>
             <span class="k">if</span> <span class="n">use_metastable</span><span class="p">:</span>
                 <span class="n">state_meta</span> <span class="o">=</span> <span class="n">fluid</span><span class="o">.</span><span class="n">get_state_metastable</span><span class="p">(</span>
-                    <span class="n">prop_1</span><span class="o">=</span><span class="s2">&quot;h&quot;</span><span class="p">,</span>
+                    <span class="n">prop_1</span><span class="o">=</span><span class="s2">&quot;enthalpy&quot;</span><span class="p">,</span>
                     <span class="n">prop_1_value</span><span class="o">=</span><span class="n">h</span><span class="p">,</span>
-                    <span class="n">prop_2</span><span class="o">=</span><span class="s2">&quot;p&quot;</span><span class="p">,</span>
+                    <span class="n">prop_2</span><span class="o">=</span><span class="s2">&quot;pressure&quot;</span><span class="p">,</span>
                     <span class="n">prop_2_value</span><span class="o">=</span><span class="n">p</span><span class="p">,</span>
                     <span class="n">rhoT_guess</span><span class="o">=</span><span class="n">rhoT_guess_metastable</span><span class="p">,</span>
                     <span class="n">generalize_quality</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -1204,8 +1204,8 @@ document.write(`
             <span class="p">)</span>
 
             <span class="c1"># Compute right-hand-side of the ODE</span>
-            <span class="n">dhdp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">efficiency</span> <span class="o">/</span> <span class="n">state_blend</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">])</span>
-            <span class="k">return</span> <span class="n">dhdp</span><span class="p">,</span> <span class="n">props</span><span class="o">.</span><span class="n">FluidState</span><span class="p">(</span><span class="n">state_blend</span><span class="p">,</span> <span class="n">fluid</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">dhdp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">efficiency</span> <span class="o">/</span> <span class="n">state_blend</span><span class="p">[</span><span class="s2">&quot;density&quot;</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">dhdp</span><span class="p">,</span> <span class="n">state_blend</span>
 
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -1332,43 +1332,29 @@ document.write(`
             <span class="sa">f</span><span class="s2">&quot;Invalid process_type=&#39;</span><span class="si">{</span><span class="n">process_type</span><span class="si">}</span><span class="s2">&#39;. Must be &#39;expansion&#39; or &#39;compression&#39;.&quot;</span>
         <span class="p">)</span>
 
-    <span class="c1"># Calculate mass fractions of each component (constant values)</span>
-    <span class="n">y_1</span> <span class="o">=</span> <span class="n">mixture_ratio</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">mixture_ratio</span><span class="p">)</span>
-    <span class="n">y_2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">mixture_ratio</span><span class="p">)</span>
-
     <span class="c1"># Initialize fluid and compute inlet state</span>
     <span class="n">fluid_1</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">Fluid</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">fluid_name_1</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="n">exceptions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">fluid_2</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">Fluid</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">fluid_name_2</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="n">exceptions</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="c1"># Compute the inlet enthalpy of the mixture (ODE initial value)</span>
-    <span class="n">props_in_1</span> <span class="o">=</span> <span class="n">fluid_1</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">PT_INPUTS</span><span class="p">,</span> <span class="n">p_in</span><span class="p">,</span> <span class="n">T_in</span><span class="p">)</span>
-    <span class="n">props_in_2</span> <span class="o">=</span> <span class="n">fluid_2</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">PT_INPUTS</span><span class="p">,</span> <span class="n">p_in</span><span class="p">,</span> <span class="n">T_in</span><span class="p">)</span>
-    <span class="n">h_in</span> <span class="o">=</span> <span class="n">y_1</span> <span class="o">*</span> <span class="n">props_in_1</span><span class="o">.</span><span class="n">h</span> <span class="o">+</span> <span class="n">y_2</span> <span class="o">*</span> <span class="n">props_in_2</span><span class="o">.</span><span class="n">h</span>
+    <span class="n">state_in</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">get_mixture_state</span><span class="p">(</span><span class="n">fluid_1</span><span class="p">,</span> <span class="n">fluid_2</span><span class="p">,</span> <span class="n">p_in</span><span class="p">,</span> <span class="n">T_in</span><span class="p">,</span> <span class="n">mixture_ratio</span><span class="p">)</span>
+    <span class="n">h_in</span> <span class="o">=</span> <span class="n">state_in</span><span class="o">.</span><span class="n">enthalpy</span>
 
     <span class="c1"># Define the ODE system</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">odefun</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
 
-        <span class="c1"># Rename arguments</span>
+        <span class="c1"># Compute mixture thermodynamic properties</span>
         <span class="n">p</span> <span class="o">=</span> <span class="n">t</span>
         <span class="n">h</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">get_mixture_state</span><span class="p">(</span><span class="n">fluid_1</span><span class="p">,</span> <span class="n">fluid_2</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">mixture_ratio</span><span class="p">)</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
 
-        <span class="c1"># Compute fluid states</span>
-        <span class="n">state_1</span> <span class="o">=</span> <span class="n">fluid_1</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">PT_INPUTS</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
-        <span class="n">state_2</span> <span class="o">=</span> <span class="n">fluid_2</span><span class="o">.</span><span class="n">get_state</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">PT_INPUTS</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
-
-        <span class="c1"># Compute mixture thermodynamic properties</span>
-        <span class="n">state</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">calculate_mixture_properties</span><span class="p">(</span><span class="n">state_1</span><span class="p">,</span> <span class="n">state_2</span><span class="p">,</span> <span class="n">y_1</span><span class="p">,</span> <span class="n">y_2</span><span class="p">)</span>
-
-        <span class="c1"># Add individual phases to the mixture properties</span>
-        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">state_1</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">state</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">_1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">state_2</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">state</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">_2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="c1"># Compute derived properties</span>
+        <span class="n">state</span><span class="p">[</span><span class="s2">&quot;velocity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">h_in</span> <span class="o">-</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;enthalpy&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1e-6</span><span class="p">))</span>
+        <span class="n">state</span><span class="p">[</span><span class="s2">&quot;Mach&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;velocity&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;speed_of_sound&quot;</span><span class="p">]</span>
 
         <span class="c1"># Compute right-hand-side of the ODE</span>
-        <span class="n">dhdp</span> <span class="o">=</span> <span class="n">efficiency</span> <span class="o">/</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;rho&quot;</span><span class="p">]</span>
-        <span class="n">dTdp</span> <span class="o">=</span> <span class="p">(</span><span class="n">dhdp</span> <span class="o">-</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;dhdp_T&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;cp&quot;</span><span class="p">]</span>
-
+        <span class="n">dhdp</span> <span class="o">=</span> <span class="n">efficiency</span> <span class="o">/</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;density&quot;</span><span class="p">]</span>
+        <span class="n">dTdp</span> <span class="o">=</span> <span class="n">dhdp</span> <span class="o">/</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;isobaric_heat_capacity&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;joule_thomson&quot;</span><span class="p">]</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">dhdp</span><span class="p">,</span> <span class="n">dTdp</span><span class="p">],</span> <span class="n">state</span>
 
     <span class="c1"># Solve polytropic expansion differential equation</span>
@@ -1424,7 +1410,7 @@ document.write(`
 <span class="sd">        Type of polynomial representation (``horner`` or ``standard``). Default is &#39;horner&#39;.</span>
 
 <span class="sd">    polynomial_variables : list of str</span>
-<span class="sd">        A list of variable names to fit polynomials to, such as &#39;density&#39;, &#39;viscosity&#39;, &#39;speed_sound&#39;, &#39;void_fraction&#39;, &#39;vapor_quality&#39;.</span>
+<span class="sd">        A list of variable names to fit polynomials to, such as &#39;density&#39;, &#39;viscosity&#39;, &#39;speed_of_sound&#39;, &#39;void_fraction&#39;, &#39;vapor_quality&#39;.</span>
 
 <span class="sd">    output_dir : str</span>
 <span class="sd">        The directory where output will be saved.</span>
@@ -1454,8 +1440,8 @@ document.write(`
         <span class="c1"># Initialize variables</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">poly_handles</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">poly_breakpoints</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">p_in</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">p_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p_in</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">p_in_scaled</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_in</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_in</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">p_out_scaled</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_out</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_in</span>
 
@@ -1498,7 +1484,7 @@ document.write(`
     <span class="k">def</span><span class="w"> </span><span class="nf">_fit_single_segment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Fits a single polynomial segment when &#39;calculation_type&#39; is not specified&#39;&quot;&quot;&quot;</span>
         <span class="c1"># Scale pressure by inlet pressure to improve polynomial conditioning</span>
-        <span class="n">p_scaled</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_in</span>
+        <span class="n">p_scaled</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_in</span>
 
         <span class="c1"># Determine the polynomial limits</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">poly_breakpoints</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">p_in_scaled</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_out_scaled</span><span class="p">]</span>
@@ -1517,7 +1503,7 @@ document.write(`
     <span class="c1">#     This method scales pressure, identifies the phase transition, and fits polynomials for the specified variables based on single-phase and two-phase regions.</span>
     <span class="c1">#     &quot;&quot;&quot;</span>
     <span class="c1">#     # Scale pressure by inlet pressure to improve polynomial conditioning</span>
-    <span class="c1">#     p_scaled = self.states[&quot;p&quot;] / self.p_in</span>
+    <span class="c1">#     p_scaled = self.states[&quot;pressure&quot;] / self.p_in</span>
 
     <span class="c1">#     # Determine points within the two-phase region</span>
     <span class="c1">#     # eps = 1e-9</span>
@@ -1573,14 +1559,14 @@ document.write(`
 <span class="sd">        This method scales pressure, identifies the phase transition, and fits polynomials for the specified variables based on single-phase and two-phase regions.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Scale pressure by inlet pressure to improve polynomial conditioning</span>
-        <span class="n">p_scaled</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_in</span>
+        <span class="n">p_scaled</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_in</span>
 
         <span class="c1"># Determine points within the two-phase region</span>
         <span class="c1"># eps = 1e-9</span>
         <span class="c1"># mask_1phase = np.abs(self.states[&quot;supersaturation_degree&quot;]) &gt; eps</span>
         <span class="c1"># mask_2phase = np.abs(self.states[&quot;supersaturation_degree&quot;]) &lt;= eps</span>
-        <span class="n">mask_1phase</span> <span class="o">=</span> <span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;is_two_phase&quot;</span><span class="p">]</span>
-        <span class="n">mask_2phase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;is_two_phase&quot;</span><span class="p">]</span>
+        <span class="n">mask_2phase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;is_two_phase&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span>
+        <span class="n">mask_1phase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;is_two_phase&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span>
 
         <span class="c1"># Determine breakpoints for polynomial segments (covers wet-to-dry expansion!)</span>
         <span class="n">idx_2phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask_2phase</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -1649,7 +1635,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Get the scaled pressure values</span>
-        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_in</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_in</span>
 
         <span class="c1"># Define masks for different regions based on states[&quot;x&quot;]</span>
         <span class="c1"># limit = 0.96</span>
@@ -1966,7 +1952,7 @@ document.write(`
         <span class="n">y_label</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">LABEL_MAPPING</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
 
         <span class="c1"># Generate pressure values for the state points and calculate relative error</span>
-        <span class="n">p_states</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">]</span>
+        <span class="n">p_states</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">]</span>
         <span class="n">prop_states</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
         <span class="n">relative_error</span> <span class="o">=</span> <span class="p">(</span>
             <span class="mi">100</span>
@@ -2006,7 +1992,7 @@ document.write(`
             <span class="n">color</span><span class="o">=</span><span class="n">COLORS_MATLAB</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
         <span class="p">)</span>
         <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">state_in</span><span class="p">[</span><span class="s2">&quot;p&quot;</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state_in</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">],</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">state_in</span><span class="p">[</span><span class="n">var</span><span class="p">],</span>
             <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span>
             <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.25</span><span class="p">,</span>
@@ -2120,6 +2106,8 @@ document.write(`
         <span class="p">)</span>
 
         <span class="c1"># Apply the mapping if it exists; otherwise, use the variable name</span>
+        <span class="n">var_x</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">ALIAS_TO_CANONICAL</span><span class="p">[</span><span class="n">var_x</span><span class="p">]</span>
+        <span class="n">var_y</span> <span class="o">=</span> <span class="n">props</span><span class="o">.</span><span class="n">ALIAS_TO_CANONICAL</span><span class="p">[</span><span class="n">var_y</span><span class="p">]</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">LABEL_MAPPING</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var_x</span><span class="p">,</span> <span class="n">var_x</span><span class="p">))</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">props</span><span class="o">.</span><span class="n">LABEL_MAPPING</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">var_y</span><span class="p">,</span> <span class="n">var_y</span><span class="p">))</span>
 
@@ -2242,9 +2230,10 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">units</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;density&quot;</span><span class="p">:</span> <span class="s2">&quot;kg/m^3&quot;</span><span class="p">,</span>
             <span class="s2">&quot;viscosity&quot;</span><span class="p">:</span> <span class="s2">&quot;Pa*s&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;speed_sound&quot;</span><span class="p">:</span> <span class="s2">&quot;m/s&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;speed_of_sound&quot;</span><span class="p">:</span> <span class="s2">&quot;m/s&quot;</span><span class="p">,</span>
             <span class="s2">&quot;void_fraction&quot;</span><span class="p">:</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span>
             <span class="s2">&quot;vapor_quality&quot;</span><span class="p">:</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;compressibility_factor&quot;</span><span class="p">:</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span>
         <span class="p">}</span>
 
         <span class="c1"># Define syntax specifics for different solvers</span>

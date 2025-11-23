@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>barotropy.utilities &#8212; barotropy v0.4.0 documentation</title>
+    <title>barotropy.utilities &#8212; barotropy v0.4.2 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=6d25dc78"></script>
+    <script src="../../_static/documentation_options.js?v=c1adde03"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>let toggleHintShow = 'Click to show';</script>
@@ -140,7 +140,7 @@
   
   
   
-    <p class="title logo__title">barotropy v0.4.0 documentation</p>
+    <p class="title logo__title">barotropy v0.4.2 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -1119,6 +1119,26 @@ document.write(`
 
 
 
+
+<div class="viewcode-block" id="flatten_state_dict">
+<a class="viewcode-back" href="../../source/api/barotropy.utilities.html#barotropy.utilities.flatten_state_dict">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">flatten_state_dict</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">out</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Recursively flattens a dict or BaseState into &#39;out&#39;.</span>
+<span class="sd">    Keys become &#39;prefix.key&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">flat_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">prefix</span> <span class="k">else</span> <span class="n">k</span>
+            <span class="n">flatten_state_dict</span><span class="p">(</span><span class="n">flat_key</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="c1"># Base case: scalar/array -&gt; store directly</span>
+    <span class="n">out</span><span class="p">[</span><span class="n">prefix</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span></div>
+
+
+
+
 <div class="viewcode-block" id="postprocess_ode">
 <a class="viewcode-back" href="../../source/api/barotropy.utilities.html#barotropy.utilities.postprocess_ode">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">postprocess_ode</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ode_handle</span><span class="p">):</span>
@@ -1152,20 +1172,31 @@ document.write(`
     <span class="c1"># Initialize ode_out as a dictionary</span>
     <span class="n">ode_out</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">t_i</span><span class="p">,</span> <span class="n">y_i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">):</span>
-        <span class="n">_</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">ode_handle</span><span class="p">(</span><span class="n">t_i</span><span class="p">,</span> <span class="n">y_i</span><span class="p">)</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">out_raw</span> <span class="o">=</span> <span class="n">ode_handle</span><span class="p">(</span><span class="n">t_i</span><span class="p">,</span> <span class="n">y_i</span><span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">out</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="c1"># Initialize with an empty list</span>
+        <span class="c1"># flatten nested dict/BaseState</span>
+        <span class="n">flat_out</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">out_raw</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">flatten_state_dict</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">flat_out</span><span class="p">)</span>
+
+        <span class="c1"># accumulate time series</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">flat_out</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ode_out</span><span class="p">:</span>
                 <span class="n">ode_out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="c1"># Append the value to list of current key</span>
             <span class="n">ode_out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
-    <span class="c1"># Convert lists to numpy arrays</span>
+    <span class="c1"># convert lists to numpy arrays where possible</span>
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">ode_out</span><span class="p">:</span>
-        <span class="n">ode_out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ode_out</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ode_out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ode_out</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="c1"># fallback: keep as list of objects</span>
+            <span class="n">ode_out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ode_out</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">ode_out</span></div>
+
+
+
 
 </pre></div>
 
