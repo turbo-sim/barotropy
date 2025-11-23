@@ -17,7 +17,7 @@ fluid_name = "MDM"
 fluid = bpy.Fluid(name=fluid_name, backend="REFPROP")
 T_in = 269+273.15
 p_in = 9.02e5
-state_in= bpy.compute_properties_coolprop(fluid._AS, bpy.PT_INPUTS, p_in, T_in)
+state_in= fluid.get_state(bpy.PT_INPUTS, p_in, T_in)
 
 # p_out = fluid.triple_point_liquid.p*25
 # p_out = 1e+5/60
@@ -38,7 +38,7 @@ model = bpy.BarotropicModel(
     polynomial_degree=12,
     polynomial_format="horner",
     output_dir=DIR_OUT,
-    polynomial_variables=["density", "viscosity", "speed_sound", "void_fraction", "vapor_quality"],
+    polynomial_variables=["density", "viscosity", "speed_of_sound", "void_fraction", "vapor_quality"],
 )
  
 # Evaluate barotropic model and export polynomial expressions

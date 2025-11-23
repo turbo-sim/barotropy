@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import pysolver_view as psv
-import coolpropx as props
+import jaxprop as props
 
 from functools import wraps
 from numpy.polynomial import Polynomial
@@ -160,7 +160,7 @@ class BarotropicModel:
         Type of polynomial representation (``horner`` or ``standard``).
 
     polynomial_variables : list of str
-        A list of variable names to fit polynomials to, such as 'density', 'viscosity', 'speed_sound', 'void_fraction', 'vapor_quality'.
+        A list of variable names to fit polynomials to, such as 'density', 'viscosity', 'speed_of_sound', 'void_fraction', 'vapor_quality'.
 
     output_dir : str
         The directory where output will be saved.
@@ -194,7 +194,7 @@ class BarotropicModel:
         polynomial_variables: list = [
             "density",
             "viscosity",
-            "speed_sound",
+            "speed_of_sound",
             "void_fraction",
             "vapor_quality",
         ],
@@ -781,9 +781,9 @@ def barotropic_model_one_component(
             except:  # Switch custom solver if something goes wrong
                 print("Warning: CoolProp solver failed, switching to custom solver...")
                 state_eq = fluid.get_state_equilibrium(
-                    prop_1="h",
+                    prop_1="enthalpy",
                     prop_1_value=h,
-                    prop_2="p",
+                    prop_2="pressure",
                     prop_2_value=p,
                     rhoT_guess=rhoT_guess_metastable,
                     generalize_quality=False,
@@ -797,14 +797,14 @@ def barotropic_model_one_component(
             # Update guess for the next integration step
             rhoT_guess_metastable = [state_eq.rho, state_eq.T]
             dhdp = np.atleast_1d(efficiency / state_eq["rho"])
-            return dhdp, state_eq
+            return dhdp, state_eq.to_dict()
 
         elif calculation_type == "metastable":
             # Compute metastable state using custom solver
             state_meta = fluid.get_state_metastable(
-                prop_1="h",
+                prop_1="enthalpy",
                 prop_1_value=h,
-                prop_2="p",
+                prop_2="pressure",
                 prop_2_value=p,
                 rhoT_guess=rhoT_guess_metastable,
                 generalize_quality=False,
@@ -818,7 +818,7 @@ def barotropic_model_one_component(
             # Update guess for the next integration step
             rhoT_guess_metastable = [state_meta.rho, state_meta.T]
             dhdp = np.atleast_1d(efficiency / state_meta["rho"])
-            return dhdp, state_meta
+            return dhdp, state_meta.to_dict()
 
         elif calculation_type == "blending":
 
@@ -839,9 +839,9 @@ def barotropic_model_one_component(
             except:  # Switch custom solver if something goes wrong
                 print("Warning: CoolProp solver failed, switching to custom solver...")
                 state_eq = fluid.get_state_equilibrium(
-                    prop_1="h",
+                    prop_1="enthalpy",
                     prop_1_value=h,
-                    prop_2="p",
+                    prop_2="pressure",
                     prop_2_value=p,
                     rhoT_guess=rhoT_guess_metastable,
                     generalize_quality=False,
@@ -866,9 +866,9 @@ def barotropic_model_one_component(
             # Do the calculation only within the blending region to avoid using the HEOS solver too deep into the two-phase region
             if use_metastable:
                 state_meta = fluid.get_state_metastable(
-                    prop_1="h",
+                    prop_1="enthalpy",
                     prop_1_value=h,
-                    prop_2="p",
+                    prop_2="pressure",
                     prop_2_value=p,
                     rhoT_guess=rhoT_guess_metastable,
                     generalize_quality=False,
@@ -900,8 +900,8 @@ def barotropic_model_one_component(
             )
 
             # Compute right-hand-side of the ODE
-            dhdp = np.atleast_1d(efficiency / state_blend["rho"])
-            return dhdp, props.FluidState(state_blend, fluid.name)
+            dhdp = np.atleast_1d(efficiency / state_blend["density"])
+            return dhdp, state_blend
 
         else:
             raise ValueError(
@@ -1025,43 +1025,29 @@ def barotropic_model_two_component(
             f"Invalid process_type='{process_type}'. Must be 'expansion' or 'compression'."
         )
 
-    # Calculate mass fractions of each component (constant values)
-    y_1 = mixture_ratio / (1 + mixture_ratio)
-    y_2 = 1 / (1 + mixture_ratio)
-
     # Initialize fluid and compute inlet state
     fluid_1 = props.Fluid(name=fluid_name_1, backend=backend, exceptions=True)
     fluid_2 = props.Fluid(name=fluid_name_2, backend=backend, exceptions=True)
 
     # Compute the inlet enthalpy of the mixture (ODE initial value)
-    props_in_1 = fluid_1.get_state(props.PT_INPUTS, p_in, T_in)
-    props_in_2 = fluid_2.get_state(props.PT_INPUTS, p_in, T_in)
-    h_in = y_1 * props_in_1.h + y_2 * props_in_2.h
+    state_in = props.get_mixture_state(fluid_1, fluid_2, p_in, T_in, mixture_ratio)
+    h_in = state_in.enthalpy
 
     # Define the ODE system
     def odefun(t, y):
 
-        # Rename arguments
+        # Compute mixture thermodynamic properties
         p = t
         h, T = y
+        state = props.get_mixture_state(fluid_1, fluid_2, p, T, mixture_ratio).to_dict()
 
-        # Compute fluid states
-        state_1 = fluid_1.get_state(props.PT_INPUTS, p, T)
-        state_2 = fluid_2.get_state(props.PT_INPUTS, p, T)
-
-        # Compute mixture thermodynamic properties
-        state = props.calculate_mixture_properties(state_1, state_2, y_1, y_2)
-
-        # Add individual phases to the mixture properties
-        for key, value in state_1.items():
-            state[f"{key}_1"] = value
-        for key, value in state_2.items():
-            state[f"{key}_2"] = value
+        # Compute derived properties
+        state["velocity"] = np.sqrt(2*(h_in - state["enthalpy"] + 1e-6))
+        state["Mach"] = state["velocity"] / state["speed_of_sound"]
 
         # Compute right-hand-side of the ODE
-        dhdp = efficiency / state["rho"]
-        dTdp = (dhdp - state["dhdp_T"]) / state["cp"]
-
+        dhdp = efficiency / state["density"]
+        dTdp = dhdp / state["isobaric_heat_capacity"] - state["joule_thomson"]
         return [dhdp, dTdp], state
 
     # Solve polytropic expansion differential equation
@@ -1114,7 +1100,7 @@ class PolynomialFitter:
         Type of polynomial representation (``horner`` or ``standard``). Default is 'horner'.
 
     polynomial_variables : list of str
-        A list of variable names to fit polynomials to, such as 'density', 'viscosity', 'speed_sound', 'void_fraction', 'vapor_quality'.
+        A list of variable names to fit polynomials to, such as 'density', 'viscosity', 'speed_of_sound', 'void_fraction', 'vapor_quality'.
 
     output_dir : str
         The directory where output will be saved.
@@ -1144,8 +1130,8 @@ class PolynomialFitter:
         # Initialize variables
         self.poly_handles = {}
         self.poly_breakpoints = None
-        self.p_in = self.states["p"][0]
-        self.p_out = self.states["p"][-1]
+        self.p_in = self.states["pressure"][0]
+        self.p_out = self.states["pressure"][-1]
         self.p_in_scaled = self.p_in / self.p_in
         self.p_out_scaled = self.p_out / self.p_in
 
@@ -1185,7 +1171,7 @@ class PolynomialFitter:
     def _fit_single_segment(self):
         """Fits a single polynomial segment when 'calculation_type' is not specified'"""
         # Scale pressure by inlet pressure to improve polynomial conditioning
-        p_scaled = self.states["p"] / self.p_in
+        p_scaled = self.states["pressure"] / self.p_in
 
         # Determine the polynomial limits
         self.poly_breakpoints = [self.p_in_scaled, self.p_out_scaled]
@@ -1204,7 +1190,7 @@ class PolynomialFitter:
     #     This method scales pressure, identifies the phase transition, and fits polynomials for the specified variables based on single-phase and two-phase regions.
     #     """
     #     # Scale pressure by inlet pressure to improve polynomial conditioning
-    #     p_scaled = self.states["p"] / self.p_in
+    #     p_scaled = self.states["pressure"] / self.p_in
 
     #     # Determine points within the two-phase region
     #     # eps = 1e-9
@@ -1260,14 +1246,14 @@ class PolynomialFitter:
         This method scales pressure, identifies the phase transition, and fits polynomials for the specified variables based on single-phase and two-phase regions.
         """
         # Scale pressure by inlet pressure to improve polynomial conditioning
-        p_scaled = self.states["p"] / self.p_in
+        p_scaled = self.states["pressure"] / self.p_in
 
         # Determine points within the two-phase region
         # eps = 1e-9
         # mask_1phase = np.abs(self.states["supersaturation_degree"]) > eps
         # mask_2phase = np.abs(self.states["supersaturation_degree"]) <= eps
-        mask_1phase = ~self.states["is_two_phase"]
-        mask_2phase = self.states["is_two_phase"]
+        mask_2phase = self.states["is_two_phase"] != 0
+        mask_1phase = self.states["is_two_phase"] == 0
 
         # Determine breakpoints for polynomial segments (covers wet-to-dry expansion!)
         idx_2phase = np.where(mask_2phase)[0]
@@ -1336,7 +1322,7 @@ class PolynomialFitter:
         """
 
         # Get the scaled pressure values
-        p = self.states["p"] / self.p_in
+        p = self.states["pressure"] / self.p_in
 
         # Define masks for different regions based on states["x"]
         # limit = 0.96
@@ -1645,7 +1631,7 @@ class PolynomialFitter:
         y_label = props.LABEL_MAPPING.get(var, var)
 
         # Generate pressure values for the state points and calculate relative error
-        p_states = self.states["p"]
+        p_states = self.states["pressure"]
         prop_states = self.states[var]
         relative_error = (
             100
@@ -1685,7 +1671,7 @@ class PolynomialFitter:
             color=COLORS_MATLAB[0],
         )
         ax1.plot(
-            self.state_in["p"],
+            self.state_in["pressure"],
             self.state_in[var],
             color="k",
             linewidth=1.25,
@@ -1796,6 +1782,8 @@ class PolynomialFitter:
         )
 
         # Apply the mapping if it exists; otherwise, use the variable name
+        var_x = props.ALIAS_TO_CANONICAL[var_x]
+        var_y = props.ALIAS_TO_CANONICAL[var_y]
         ax.set_xlabel(props.LABEL_MAPPING.get(var_x, var_x))
         ax.set_ylabel(props.LABEL_MAPPING.get(var_y, var_y))
 
@@ -1914,7 +1902,7 @@ class ExpressionExporter:
         self.units = {
             "density": "kg/m^3",
             "viscosity": "Pa*s",
-            "speed_sound": "m/s",
+            "speed_of_sound": "m/s",
             "void_fraction": "none",
             "vapor_quality": "none",
             "compressibility_factor": "none",

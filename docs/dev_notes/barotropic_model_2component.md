@@ -152,6 +152,26 @@ The density of the mixture is given by the mass-weighted harmonic average of the
 
 $$\frac{1}{\rho} = \frac{y_1}{\rho_1(p,T)} +  \frac{y_2}{\rho_2(p,T)}$$
 
+
+
+$$-\frac{1}{\rho^2} \left(\frac{\partial \rho}{\partial p}\right)_s = -\frac{y_1}{\rho_1^2} \left(\frac{\partial \rho_1}{\partial p}\right)_{s_1} -\frac{y_2}{\rho_2^2} \left(\frac{\partial \rho_2}{\partial p}\right)_{s_2} $$
+
+$$
+y_1 / \rho_1 = \alpha_1 / \rho \qquad y_2 / \rho_2 = \alpha_2 / \rho
+$$
+
+$$\frac{1}{\rho^2} \left(\frac{\partial \rho}{\partial p}\right)_s = \frac{\alpha_1}{\rho \rho_1} \left(\frac{\partial \rho_1}{\partial p}\right)_{s_1} + \frac{\alpha_2}{\rho \rho_2} \left(\frac{\partial \rho_2}{\partial p}\right)_{s_2} $$
+
+$$\frac{1}{\rho} \left(\frac{\partial \rho}{\partial p}\right)_s = \frac{\alpha_1}{\rho_1} \left(\frac{\partial \rho_1}{\partial p}\right)_{s_1} + \frac{\alpha_2}{\rho_2} \left(\frac{\partial \rho_2}{\partial p}\right)_{s_2} $$
+
+$$\frac{1}{\rho c^2} = \frac{\alpha_1}{\rho_1 c_1^2} + \frac{\alpha_2}{\rho_2 c_2^2} $$
+
+
+$$
+\rho = \rho (p, T(s, p)) ????
+$$
+
+
 #### Isobaric heat capacity
 
 The isobaric heat capacity of the mixture is given by the mass-weighted arithmetic average of the heat capacity of each component:

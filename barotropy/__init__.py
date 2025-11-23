@@ -9,7 +9,7 @@ else:
     import sys
     sys.excepthook = IPython.core.ultratb.FormattedTB(color_scheme='linux', call_pdb=False)
     
-from coolpropx import *
+from jaxprop import *
 
 # Import subpackages
 from .fluent_automation import *

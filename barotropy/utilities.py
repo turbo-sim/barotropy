@@ -781,6 +781,23 @@ def print_object(obj):
 
 
 
+
+def flatten_state_dict(prefix, data, out):
+    """
+    Recursively flattens a dict or BaseState into 'out'.
+    Keys become 'prefix.key'.
+    """
+    if isinstance(data, dict):
+        for k, v in data.items():
+            flat_key = f"{prefix}.{k}" if prefix else k
+            flatten_state_dict(flat_key, v, out)
+        return
+
+    # Base case: scalar/array -> store directly
+    out[prefix] = data
+
+
+
 def postprocess_ode(t, y, ode_handle):
     """
     Post-processes the output of an ordinary differential equation (ODE) solver.
@@ -812,17 +829,28 @@ def postprocess_ode(t, y, ode_handle):
     # Initialize ode_out as a dictionary
     ode_out = {}
     for t_i, y_i in zip(t, y.T):
-        _, out = ode_handle(t_i, y_i)
+        _, out_raw = ode_handle(t_i, y_i)
 
-        for key, value in out.items():
-            # Initialize with an empty list
+        # flatten nested dict/BaseState
+        flat_out = {}
+        for key, value in out_raw.items():
+            flatten_state_dict(key, value, flat_out)
+
+        # accumulate time series
+        for key, value in flat_out.items():
             if key not in ode_out:
                 ode_out[key] = []
-            # Append the value to list of current key
             ode_out[key].append(value)
 
-    # Convert lists to numpy arrays
+    # convert lists to numpy arrays where possible
     for key in ode_out:
-        ode_out[key] = np.array(ode_out[key])
+        try:
+            ode_out[key] = np.array(ode_out[key])
+        except Exception:
+            # fallback: keep as list of objects
+            ode_out[key] = np.array(ode_out[key], dtype=object)
 
     return ode_out
+
+
+

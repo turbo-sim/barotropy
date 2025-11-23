@@ -56,7 +56,7 @@ model = bpy.BarotropicModel(
     # polynomial_degree=[4, 8],
     polynomial_format="horner",
     output_dir=DIR_OUT,
-    polynomial_variables=["compressibility_factor"]
+    # polynomial_variables=["compressibility_factor"]
 )
 
 # Evaluate barotropic model and export polynomial expressions

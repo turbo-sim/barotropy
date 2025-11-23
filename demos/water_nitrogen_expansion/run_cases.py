@@ -25,7 +25,7 @@ colors = mpl.cm.Blues(np.linspace(0.2, 0.8, len(case_indices)))  # Reds, Blues, 
 figs_axes = {}
 plot_settings = [
     {
-        "var_x": "p",
+        "var_x": "pressure",
         "var_y": "density",
         # "x_lim": [0, 20e5],
         "y_lim": [1, 2000],
@@ -34,14 +34,14 @@ plot_settings = [
         "ylabel": "Density (kg/m$^3$)"
     },
     {
-        "var_x": "p",
-        "var_y": "T",
+        "var_x": "pressure",
+        "var_y": "temperature",
         "x_lim": [0, 20e5],
         "xlabel": "Pressure (bar)",
         "ylabel": "Temperature (K)"
     },
     {
-        "var_x": "p",
+        "var_x": "pressure",
         "var_y": "void_fraction",
         "x_lim": [0, 20e5],
         "y_lim": [0, 1],
@@ -49,8 +49,8 @@ plot_settings = [
         "ylabel": "Void Fraction (-)"
     },
     {
-        "var_x": "p",
-        "var_y": "speed_sound",
+        "var_x": "pressure",
+        "var_y": "speed_of_sound",
         "x_lim": [0, 20e5],
         "xlabel": "Pressure (bar)",
         "ylabel": "Speed of Sound (m/s)"
