@@ -1229,30 +1229,28 @@ scipy = ">=1.12"
 
 [[package]]
 name = "jaxprop"
-version = "0.4.3"
+version = "0.5.2"
 description = "JAX-compatible thermodynamic property calculations."
 optional = false
-python-versions = ">=3.11,<3.14"
+python-versions = "<3.14,>=3.11"
 groups = ["main"]
-files = []
-develop = true
+files = [
+    {file = "jaxprop-0.5.2-py3-none-any.whl", hash = "sha256:01a83bbd4d644817b1f42e82f7d641e124acbc8e65bccf6161e12bcc414cbbee"},
+    {file = "jaxprop-0.5.2.tar.gz", hash = "sha256:a656522baf7d43b58425a01bda2330a640d5fba4cfdc998946f259bc60a06a2c"},
+]
 
 [package.dependencies]
-CoolProp = "^7.0.0"
-diffrax = "^0.7.0"
-equinox = "^0.12.0"
-jax = "^0.6.0"
-jaxlib = "^0.6.0"
-matplotlib = "^3.10.6"
-numpy = "^2.3.0"
-optimistix = "^0.0.10"
-pysolver_view = "^0.6.8"
-scipy = "^1.16.1"
-tqdm = "^4.67.1"
-
-[package.source]
-type = "directory"
-url = "../jaxprop"
+CoolProp = ">=7.0.0,<8.0.0"
+diffrax = ">=0.7.0,<0.8.0"
+equinox = ">=0.12.0,<0.13.0"
+jax = ">=0.6.0,<0.7.0"
+jaxlib = ">=0.6.0,<0.7.0"
+matplotlib = ">=3.10.6,<4.0.0"
+numpy = ">=2.3.0,<3.0.0"
+optimistix = ">=0.0.10,<0.0.11"
+pysolver_view = ">=0.6.8,<0.7.0"
+scipy = ">=1.16.1,<2.0.0"
+tqdm = ">=4.67.1,<5.0.0"
 
 [[package]]
 name = "jaxtyping"
@@ -3683,4 +3681,4 @@ pyfluent = ["ansys-fluent-core"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11,<3.14"
-content-hash = "1b894713901744b45b68bc79e8da7271035281578599bd78e307af60973e5ef8"
+content-hash = "3e1d1fcfe37d5daaae782bc76994e4976bd1112c1e9c2e6013dd798a182b1d4c"

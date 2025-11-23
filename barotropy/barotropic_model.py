@@ -1047,7 +1047,7 @@ def barotropic_model_two_component(
 
         # Compute right-hand-side of the ODE
         dhdp = efficiency / state["density"]
-        dTdp = dhdp / state["isobaric_heat_capacity"] - state["joule_thomson"]
+        dTdp = dhdp / state["isobaric_heat_capacity"] + state["joule_thomson"]
         return [dhdp, dTdp], state
 
     # Solve polytropic expansion differential equation

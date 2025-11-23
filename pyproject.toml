@@ -21,8 +21,8 @@ cycler = "^0.12.1"
 parse = "^1.20.2"
 pexpect = "^4.9.0"
 pysolver_view = "^0.6.2"
-# coolpropx = "^0.2.20"
-jaxprop = { path = "../jaxprop/", develop = true }
+jaxprop = "^0.5.2"
+# jaxprop = { path = "../jaxprop/", develop = true }
 gmsh = { version = "^4.14.0", optional = true }
 ansys-fluent-core = { version = "^0.30.2", optional = true }
 
