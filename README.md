@@ -44,6 +44,20 @@ python -c "import barotropy; barotropy.print_package_info()"
 For detailed information and examples, visit the [documentation page](https://turbo-sim.github.io/barotropy/).
 
 
+## 🛠️ Developer installation (from source)
+
+To install `barotropy` from source, clone the repository and install it using [Poetry](https://python-poetry.org/):
+```bash
+git clone https://github.com/turbo-sim/barotropy.git
+cd barotropy
+poetry install
+```
+
+After installation, verify that everything is set up correctly by running:
+```bash
+poetry run python -c "import barotropy; barotropy.print_package_info()"
+```
+
 
 ## License
 The code in this repository is licensed under the terms of the MIT license. See the [license file](LICENSE.md) for more information.
