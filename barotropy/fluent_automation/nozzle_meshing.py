@@ -536,7 +536,7 @@ def set_transfinite_curves(curve_tags, total_nodes, meshType="Progression", coef
     distributing the given number of *points* (not elements) according to the
     arc length of each segment.
 
-    Parameters:
+    Parameters
     ----------
     curve_tags : list of int
         Tags of the OCC curves forming a continuous chain (e.g., lower or upper wall).
@@ -546,8 +546,8 @@ def set_transfinite_curves(curve_tags, total_nodes, meshType="Progression", coef
         Total number of mesh nodes along the full chain (including endpoints).
         This implies total_nodes - 1 mesh elements will be distributed.
 
-    Behavior:
-    --------
+    Notes
+    -----
     - If the chain has only one curve, assigns total_nodes directly to it.
     - If the chain has multiple curves, it:
         * Computes each curve’s arc length.
@@ -774,8 +774,8 @@ def find_optimal_inflation_layer(
         - "h_core": uniform height of core cells
         - "inflation_ratio": recomputed exact geometric ratio used
 
-    Method
-    ------
+    .. rubric:: Algorithm
+
     1. Model the inflation layer as a geometric series:
          h_i = h_wall * r^(i - 1) for i = 1...N_inflation
 

@@ -30,15 +30,13 @@ jobs:
       run: poetry install
 
     - name: Build Sphinx documentation
-      run: |
-        cd docs
-        poetry run python build_docs.py --no-autobuild
+      run: poetry run python docs/build_docs.py --no-autobuild
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: docs/_build/
+        publish_dir: docs/_build/html/
         keep_files: true
 
 
