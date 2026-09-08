@@ -2,77 +2,153 @@ import os
 import sys
 
 # Add package root dir to path
-sys.path.insert(0, os.path.abspath(".."))
+sys.path.insert(
+    0,
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "..")),
+)
+
+from pathlib import Path
+import tomllib
+
+# Read the source version without importing scientific or optional CFD packages.
+with (Path(__file__).resolve().parent.parent / "pyproject.toml").open("rb") as f:
+    __version__ = tomllib.load(f)["tool"]["poetry"]["version"]
 
 # Define project metadata
 project = "barotropy"
-copyright = "2024, Sustainable Thermal Power DTU"
+copyright = "2026, Sustainable Thermal Power DTU"
 author = "Roberto Agromayor, Simone Parisi, Amit Kumar, Fredrik Haglind"
-release = "v0.4.4"
+release = __version__
 
-# Define extensions
+# Project-specific settings used by build_docs.py.
+# Relative paths are resolved from the directory containing this file.
+docs_build_config = {
+    "source_dir": "source",
+    "build_dir": "_build/html",
+    "api_output_dir": "source/api",
+    "src_dir": "../barotropy",
+    # Legacy module still imports the removed barotropy.properties package.
+    "exclude_modules": ["../barotropy/fluent_automation/isentropic_nozzle.py"],
+    "sphinx_build_options": ["--fail-on-warning", "--keep-going"],
+    "zotero_api_key_env": "ZOTERO_API_KEY",
+    "zotero_group_id": "5252389",
+    "bibliography_file": "source/references/bibliography.bib",
+}
+
+# ---------------------------------------------------------------------------
+# Extensions
+# ---------------------------------------------------------------------------
 extensions = [
     "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
+    "sphinx.ext.viewcode",
     "sphinx.ext.intersphinx",
     "sphinx.ext.todo",
-    "sphinx.ext.viewcode",
-    "sphinx.ext.autosummary",
     "sphinx.ext.mathjax",
-    "sphinxcontrib.bibtex",
     "numpydoc",
-    "sphinx.ext.todo",
-    # 'sphinx_tabs.tabs',
+    "sphinxcontrib.bibtex",
+    "myst_parser",
     "sphinx_togglebutton",
     "sphinx_design",
-    "myst_parser",
 ]
 
+# ---------------------------------------------------------------------------
+# MyST-Parser — .md files are parsed by MyST, .rst kept for apidoc stubs
+# ---------------------------------------------------------------------------
+source_suffix = {
+    ".rst": "restructuredtext",
+    ".md": "myst",
+}
 
 myst_enable_extensions = [
+    "amsmath",
     "colon_fence",
-    "html_image",
+    "deflist",
+    "dollarmath",
     "html_admonition",
+    "html_image",
+    "substitution",
+    "tasklist",
 ]
 
-myst_html_img_enable = True
+myst_heading_anchors = 3
 
-
-# Avoid warnings when generating the summary table of class methods
+# ---------------------------------------------------------------------------
+# Autodoc / autosummary
+# ---------------------------------------------------------------------------
 autosummary_generate = True
+autodoc_default_options = {
+    "members": True,
+    "undoc-members": False,
+    "show-inheritance": True,
+}
 numpydoc_class_members_toctree = False
-
 todo_include_todos = True
 
-# Add bibliography file
-bibtex_bibfiles = ["source/bibliography.bib"]
+# ---------------------------------------------------------------------------
+# Bibliography
+# ---------------------------------------------------------------------------
+bibtex_bibfiles = [docs_build_config["bibliography_file"]]
 bibtex_default_style = "alpha"
 bibtex_reference_style = "author_year"
 
-# Exclude unnecessary files
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
-exclude_patterns.extend(["source/api/barotropy.isentropic_nozzle.rst", "source/api/barotropy.sCO2_utilities.rst"])
-exclude_patterns.extend(["source/api/modules.rst"])
-exclude_patterns.extend(["source/api/barotropy.fluid_properties.fluid_properties.rst", "source/api/barotropy.fluid_properties.core_calculations.rst"])
-exclude_patterns.extend(["dev_notes"])
+# The docname (path relative to the source directory, without extension)
+# of the page holding the ``{bibliography}`` directive.
+bibliography_docname = "references/bibliography"
 
-# Avoid runtime errors when building documentation with GitHub actions
-autodoc_mock_imports = ["gmsh"]
 
-# autodoc_mock_imports = [
-#     "mcerp",
-#     "mcerp.stats",
-#     "mcerp.umath",
-#     "uncertainties",
-#     "uncertainty_utilities",
-# ]
-# html_theme_options = {
-#     "show_toc_level": 2,  # Level of indentation on side panel TOC
-# }
+def _always_rebuild_bibliography(app, env, added, changed, removed):
+    """Always treat the bibliography page as outdated.
 
-# Define theme
+    sphinxcontrib-bibtex populates the ``{bibliography}`` directive from
+    citations it collects while *other* pages are read. Sphinx's incremental
+    build (used by both plain `sphinx-build` reruns and `sphinx-autobuild`)
+    only re-reads pages whose own source file changed on disk, so adding or
+    removing a `{cite}` role on some other page does not, by itself, mark
+    bibliography.md as needing a rebuild -- it silently goes stale. This is
+    a known limitation of sphinxcontrib-bibtex with incremental builds; the
+    ``env-get-outdated`` hook is the officially suggested workaround: it lets
+    an extension add extra docnames to the outdated set for a given build,
+    without touching any files on disk, so it can't create the file-watcher
+    feedback loop that a `touch()`-based pre-build hook risks under
+    sphinx-autobuild. It runs the same way for `sphinx-build`,
+    `sphinx-autobuild`, and CI.
+    """
+    return [bibliography_docname]
+
+
+def setup(app):
+    app.connect("env-get-outdated", _always_rebuild_bibliography)
+
+
+# ---------------------------------------------------------------------------
+# Build settings
+# ---------------------------------------------------------------------------
+exclude_patterns = [
+    "_build",
+    "Thumbs.db",
+    ".DS_Store",
+]
+
+# ---------------------------------------------------------------------------
+# HTML theme
+# ---------------------------------------------------------------------------
 html_theme = "sphinx_book_theme"
-# html_theme = 'pydata_sphinx_theme'
-# html_theme = 'sphinx_rtd_theme'
+html_title = "barotropy"
+html_baseurl = "https://turbo-sim.github.io/barotropy/"
 
-html_static_path = ['_static']
+html_theme_options = {
+    "repository_url": "https://github.com/turbo-sim/barotropy",
+    "use_repository_button": True,
+    "use_issues_button": True,
+    "use_edit_page_button": True,
+    # Path from the repository root to the Sphinx source directory.
+    # sphinx_book_theme prefixes this to each docname to build the
+    # "Edit this page" links, so it must match the actual folder name.
+    "path_to_docs": "docs/source",
+    "show_toc_level": 2,
+}
 
+# Optional CFD dependencies are not needed to read the API documentation.
+autodoc_mock_imports = ["gmsh", "ansys"]
+html_static_path = ["_static"]

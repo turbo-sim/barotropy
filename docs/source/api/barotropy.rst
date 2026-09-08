@@ -1,24 +1,26 @@
-API Reference
+barotropy package
 =================
 
-
-
-Submodules
-----------
-
-.. toctree::
-   :maxdepth: 1
-
-   barotropy.barotropic_model
-   barotropy.properties
-   barotropy.math
-   barotropy.graphics
-   barotropy.utilities
+.. automodule:: barotropy
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 Subpackages
 -----------
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 4
 
    barotropy.fluent_automation
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   barotropy.barotropic_model
+   barotropy.graphics
+   barotropy.math
+   barotropy.utilities

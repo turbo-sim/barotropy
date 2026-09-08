@@ -1,4 +1,4 @@
-Utility functions
+barotropy.utilities module
 ==========================
 
 .. automodule:: barotropy.utilities

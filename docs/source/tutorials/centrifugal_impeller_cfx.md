@@ -1,3 +1,4 @@
+(centrifugal_impeller_cfx)=
 
 # Centrifugal impeller CFX tutorial
 
@@ -14,7 +15,7 @@ Create a clean Python environment and install `barotropy`.
 If you use miniconda to manage your virtual environemnts
 
 ```bash
-conda create -n barotropy-env python=3.10 -y
+conda create -n barotropy-env python=3.13 -y
 conda activate barotropy-env
 pip install barotropy
 ```

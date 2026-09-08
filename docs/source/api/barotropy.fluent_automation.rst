@@ -1,4 +1,4 @@
-Fluent automation
+barotropy.fluent\_automation package
 ====================================
 
 .. automodule:: barotropy.fluent_automation
@@ -14,5 +14,6 @@ Submodules
 
    barotropy.fluent_automation.fluent_automation
    barotropy.fluent_automation.fluent_plot_nozzle_data
+   barotropy.fluent_automation.nozzle_meshing
    barotropy.fluent_automation.stream_residuals
    barotropy.fluent_automation.stream_transcript
