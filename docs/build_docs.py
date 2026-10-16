@@ -157,7 +157,7 @@ def venv_tool(name):
     subprocess search PATH.
 
     Calling these tools by bare name is unsafe on systems with multiple
-    Python environments on PATH (e.g. Conda): if the tool isn't installed in
+    Python environments on PATH: if the tool isn't installed in
     the active virtual environment, PATH lookup can silently fall through to
     a same-named executable from a different, incompatible environment.
     """

@@ -55,8 +55,7 @@ I improved my python code to:
 ## Documentation
 - Make installation instructions:
   - Basic (pip install)
-  - Recommended (conda environment)
-  - Developer
+  - Developer (git clone and poetry install)
 - Add developer instructions (installation, CI/CD, testing)
 - Add tutorials
 - Add theory about barotropic model

@@ -8,38 +8,14 @@ You can download the CFX files used in this tutorial from this [GitHub release](
 
 ## 1. Installation
 
-Create a clean Python environment and install `barotropy`.
-
-### Option 1: Using Conda
-
-If you use miniconda to manage your virtual environemnts
+Install `barotropy` using pip:
 
 ```bash
-conda create -n barotropy-env python=3.13 -y
-conda activate barotropy-env
 pip install barotropy
 ```
 
-### Option 2: Using Python `venv`
-
-If you prefer to avoid conda you can also create a lightweight virtual environmnet using `venv`.
-If you are using git-bash on windows
-
-```bash
-python -m venv env
-source env/Scripts/activate
-python -m pip install barotropy
-```
-
-Or if you are using Linux or mcOS
-
-```bash
-python3 -m venv env
-source env/bin/activate
-pip install barotropy
-```
-
-
+For installation verification, see [Getting started](../introduction.md).
+To modify the package source, follow the [developer installation guide](../developer_guide.md#installation-from-source).
 
 ## 2. Generate the barotropic model
 

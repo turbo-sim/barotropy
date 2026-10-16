@@ -6,72 +6,38 @@ Thank you for considering contributing to this project! Here are some guidelines
 
 ## Installation from source
 
-This installation guide is intended for developers who wish to contribute to or modify the `barotropy` source code. It assumes that the developer is using a Linux distribution or Windows with Git Bash terminal to have access to Git and Linux-like commands.
+With Git and Poetry installed, clone the repository and install its dependencies:
 
-1. **Fork the repository**
+```bash
+git clone https://github.com/turbo-sim/barotropy.git
+cd barotropy
+poetry install
+```
 
-   Go to the [project’s GitHub page](https://github.com/turbo-sim/barotropy) and click the **"Fork"** button in the upper right corner to create your own copy of the repository.
+Poetry manages the development environment and installs the package and its dependencies.
+If you plan to submit changes through a fork, use your fork's URL in the clone command.
 
-2. **Clone the forked repository**
+Verify the installation:
 
-   In your terminal, run:
+```bash
+poetry run python -c "import barotropy; barotropy.print_package_info()"
+```
 
-   ```bash
-   git clone https://github.com/<your-username>/barotropy.git
-   cd barotropy
-   ```
+### Adding dependencies
 
-3. **Create a development environment**
+To add a runtime dependency:
 
-   You can choose between two options:
+```bash
+poetry add <package-name>
+```
 
-   **Option A: Use Poetry directly**
+To add a development dependency:
 
-   If you already have Poetry installed on your system, run:
+```bash
+poetry add --group dev <package-name>
+```
 
-   ```bash
-   poetry install
-   ```
-
-   Poetry will automatically create a virtual environment and install the required dependencies.
-
-   **Option B: Use Conda to manage the environment**
-
-   If you prefer Conda for environment management, run:
-
-   ```bash
-   conda create --name barotropy_env python=3.13 pip poetry
-   conda activate barotropy_env
-   poetry install
-   ```
-
-   This sets up a Conda environment and installs Poetry inside it to manage dependencies.
-
-4. **Verify the installation**
-
-   Run the following to confirm the package is working:
-
-   ```bash
-   poetry run python -c "import barotropy; barotropy.print_package_info()"
-   ```
-
-   If the installation was successful, you will see the `barotropy` banner and package details printed in the terminal.
-
-5. **Install additional packages**
-
-   To add a runtime dependency:
-
-   ```bash
-   poetry add <package-name>
-   ```
-
-   To add a development-only dependency (e.g., for testing or docs):
-
-   ```bash
-   poetry add --dev <package-name>
-   ```
-
-   This will update both `pyproject.toml` and `poetry.lock` accordingly.
+These commands update both `pyproject.toml` and `poetry.lock`.
 
 ## Documentation
 
@@ -96,8 +62,7 @@ poetry run python docs/build_docs.py --no-autobuild
 The site is written to `docs/_build/html/index.html`. Builds fail on Sphinx
 warnings so broken references and API imports are caught before deployment.
 Use `--port 8080` to change the preview port, `--no-open-browser` to leave
-the browser closed, or `--clean-only` to remove the HTML build. Paths are resolved relative to the script, so it also works from other
-working directories when launched with the project's Python environment.
+the browser closed, or `--clean-only` to remove the HTML build. Paths are resolved relative to the script, so it also works from other working directories when launched with the project's Python environment.
 
 ### Editing pages
 
