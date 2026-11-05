@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+type: software
+message: If you use this software, please cite it using this metadata and record the version or commit used.
+title: 'Barotropy: Python package for real-fluid and two-phase barotropic property models, with export to CFD solvers'
+abstract: Python package for real-fluid and two-phase barotropic property models, with export to CFD solvers.
+authors:
+- family-names: Agromayor
+  given-names: Roberto
+  orcid: https://orcid.org/0009-0009-9289-1130
+- family-names: Kumar
+  given-names: Amit
+- family-names: Parisi
+  given-names: Simone
+version: 0.4.4
+repository-code: https://github.com/turbo-sim/barotropy
+url: https://github.com/turbo-sim/barotropy

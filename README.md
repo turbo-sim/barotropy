@@ -1,6 +1,6 @@
 # Barotropy
 
-Conduct your two-phase turbomachinery CFD simulations with **`barotropy`**, a Python package designed to create barotropic fluid property models. The barotropic approximation assumes that fluid properties (e.g., density, viscosity, speed of sound) depend solely on pressure, which is a very accurate assumption for most turbomachinery flows. This simplification reduces computational costs while improving convergence reliability in simulations involving complex fluid property variations, such as supercritical CO₂ compressors or two-phase flows in nozzles and turbines.
+Python package for real-fluid and two-phase barotropic property models, with export to CFD solvers. The barotropic approximation assumes that fluid properties (e.g., density, viscosity, speed of sound) depend solely on pressure, which is a very accurate assumption for most turbomachinery flows. This simplification reduces computational costs while improving convergence reliability in simulations involving complex fluid property variations, such as supercritical CO₂ compressors or two-phase flows in nozzles and turbines.
 
 📦 **PyPI package**: [https://pypi.org/project/barotropy/](https://pypi.org/project/barotropy/)
 
@@ -67,3 +67,10 @@ The code in this repository is licensed under the terms of the MIT license. See 
 
 The code in this repository was developed by the [Sustainable Thermal Power group](https://thermalpower.dtu.dk/) at [DTU Construct](https://construct.dtu.dk/). Drop us an email at [roagr@dtu.dk](mailto:roagr@dtu.dk) if you have questions about the code or have a bug to report!
 
+<!-- research-software-metadata:start -->
+## Development and citation
+
+Roberto Agromayor is the main developer of Barotropy.
+
+Citation metadata is provided in [CITATION.cff](CITATION.cff). For version-specific reproducibility, also record the release or commit used.
+<!-- research-software-metadata:end -->
