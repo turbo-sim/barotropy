@@ -89,6 +89,8 @@ Replay checks the jaxprop source version and original endpoint properties before
 
 ## Jaxprop 0.6.0 validation
 
+The [local verification record](VALIDATION_0_6_0.md) contains the tested wheel hashes, test outcomes, measured speedups and comparison limitations.
+
 Barotropy accepts jaxprop 0.5.8 through 0.6.x. The comprehensive process matrix is validated against the prepared 0.6.0 wheel; the published 0.5.8 package is retained as a historical performance baseline and has known limitations under these stronger checks. Until 0.6.0 is published, the Poetry lockfile deliberately resolves the published 0.5.8 dependency. Install the prepared wheel explicitly, or use the candidate-wheel CI workflow, for the complete 0.6.0 test run. After publication, run `poetry update jaxprop` to move the default locked environment to 0.6.0.
 
 For historical versions with failed benchmark cases, `--keep-going` records errors and continues measuring the remaining cases, while still returning a failing exit status. The HTML lists failed cases and omits their bars. Ratios also require matching endpoint pressure, temperature, density and enthalpy within the comparison budget; numerical changes are flagged instead of presented as speedups. Reports retain a measurement timestamp, optional cohort label, wheel hash, and CPU/x64/thread settings.
