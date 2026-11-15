@@ -27,8 +27,12 @@ docs_build_config = {
     "build_dir": "_build/html",
     "api_output_dir": "source/api",
     "src_dir": "../barotropy",
-    # Legacy module still imports the removed barotropy.properties package.
-    "exclude_modules": ["../barotropy/fluent_automation/isentropic_nozzle.py"],
+    # Exclude the legacy nozzle module and a standalone simulation script that
+    # reads local case files and launches Fluent when imported.
+    "exclude_modules": [
+        "../barotropy/fluent_automation/isentropic_nozzle.py",
+        "../barotropy/fluent_automation/barotropic_simulations_2D.py",
+    ],
     "sphinx_build_options": ["--fail-on-warning", "--keep-going"],
     "zotero_api_key_env": "ZOTERO_API_KEY",
     "zotero_group_id": "5252389",
