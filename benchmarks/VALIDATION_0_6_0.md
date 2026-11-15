@@ -2,7 +2,7 @@
 
 Local Windows verification completed on 15 November 2026 against the prepared jaxprop 0.6.0 wheel. Barotropy measurement code is committed as `3302d5d`; jaxprop source is `3192cade32b299059a19cd80a5f6a0294b217279`.
 
-The full numerical, fitting, exporter, diagnostic-report and demo suite passed **269 tests**. Two subsequently added benchmark failure-recording tests and five JavaScript calculation checks also passed. The barotropy wheel builds, and the project and lockfile checks pass. Remote Linux/Windows CI execution is not claimed.
+The initial prepared-wheel numerical, fitting, exporter, diagnostic-report and demo suite passed **269 tests**. Two subsequently added benchmark failure-recording tests and five JavaScript calculation checks also passed. The barotropy wheel builds, and the project and lockfile checks pass. This initial check predates the hosted Linux/Windows release gates; their completed results are recorded below.
 
 ## Matched timing comparison
 
@@ -48,3 +48,31 @@ This record describes the prepared wheel and the measurement code at `3302d5d`. 
 Jaxprop 0.6.0 was published on 15 November 2026 after its hosted Linux and Windows HEOS release gates passed. Its PyPI wheel SHA-256 is `0a8dfb68ca4d21cf97b7483e1da776b946cec108a94d50ebb770bb9848127d3c`; all 43 Python modules match the prepared downstream-validated code after line-ending normalization. Barotropy now requires `jaxprop>=0.6.0,<0.7.0`, and its lockfile pins the published 0.6.0 artifacts.
 
 Old-version mixture/blending adapters were removed. Binary processes now reuse a configured model through the public `Fluid(method="binary_mixture")` API, with an independent mixture volume-balance assertion. The complete **271-test** suite passed in a fresh environment with the published PyPI wheel installed directly, NumPy 2.5.4, SciPy 1.17.1 and pysolver_view 0.8.2; `pip check` also passed. Local XML evidence is `benchmarks/results/release-comparison/published-0.6.0-tests.xml`.
+
+## Barotropy 0.4.5 release verification
+
+Barotropy 0.4.5 was published on 15 November 2026 from commit `b68f3b9` after
+the [release workflow](https://github.com/turbo-sim/barotropy/actions/runs/43720439666)
+passed all **271 tests on Linux and all 271 tests on Windows**, including the
+five demo smoke tests. The local final-patch suite also passed all 271 tests.
+These checks used the published JaxProp 0.6.0 dependency.
+
+The actual PyPI Barotropy wheel was installed into a separate target and
+imported outside the source checkout. CO2 compression and Water/Nitrogen
+processes completed integration, polynomial fitting and Fluent/CFX expression
+export. Maximum density-fit errors at the integration nodes were approximately
+`4.86e-6` and `5.89e-9`, respectively; these smoke checks supplement the
+independent numerical regression tests. `pip check` found no broken
+requirements. All 13 Python modules in the published wheel match the prepared
+local artifact after line-ending normalization.
+
+Published Barotropy wheel SHA-256:
+`7d84a59ad8ce39f186710e0bcb708dcd6433e1c57a9de87ceb78dd2476cf60de`.
+Local evidence is `benchmarks/results/release-comparison/barotropy-0.4.5-tests.xml`
+and `benchmarks/results/release-comparison/published-barotropy-0.4.5-smoke.json`.
+The timing table above remains the comparison at measurement commit `3302d5d`;
+the final Barotropy patch was not timed again after its API cleanup.
+
+See the [changelog](../CHANGELOG.md),
+[PyPI package](https://pypi.org/project/barotropy/0.4.5/) and
+[GitHub release](https://github.com/turbo-sim/barotropy/releases/tag/v0.4.5/).
