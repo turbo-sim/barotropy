@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "barotropy"
-version = "0.4.4"
+version = "0.4.5"
 description = "Python package for real-fluid and two-phase barotropic property models, with export to CFD solvers."
 authors = ["Roberto Agromayor", "Amit Kumar", "Simone Parisi"]
 license = "MIT"

@@ -11,6 +11,6 @@ authors:
   given-names: Amit
 - family-names: Parisi
   given-names: Simone
-version: 0.4.4
+version: 0.4.5
 repository-code: https://github.com/turbo-sim/barotropy
 url: https://github.com/turbo-sim/barotropy

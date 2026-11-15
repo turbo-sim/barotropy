@@ -78,3 +78,5 @@ Citation metadata is provided in [CITATION.cff](CITATION.cff). For version-speci
 ## Regression tests and benchmarks
 
 See [release validation and performance](benchmarks/README.md) for the multi-fluid numerical suite, candidate jaxprop wheel validation, and repeatable timing comparisons.
+
+Barotropy 0.4.5 requires JaxProp 0.6.x. See the [changelog](CHANGELOG.md) for fixes and validation details.
