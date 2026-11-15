@@ -1321,14 +1321,14 @@ scipy = ">=1.12"
 
 [[package]]
 name = "jaxprop"
-version = "0.5.8"
-description = "JAX-compatible thermodynamic property calculations."
+version = "0.6.0"
+description = "JAX-compatible Python package for real-fluid thermodynamic properties, phase equilibria and metastable states, with automatic differentiation."
 optional = false
 python-versions = "<3.14,>=3.11"
 groups = ["main"]
 files = [
-    {file = "jaxprop-0.5.8-py3-none-any.whl", hash = "sha256:3b6db9bfa5bd9ee37a4c3441f92f86b772e0c88ce8609bf76d32c322fbc795a3"},
-    {file = "jaxprop-0.5.8.tar.gz", hash = "sha256:9bbc31ab353715827140a00f23ef01d1cf952e9a5d21516bb7e0fbefb607c815"},
+    {file = "jaxprop-0.6.0-py3-none-any.whl", hash = "sha256:0a8dfb68ca4d21cf97b7483e1da776b946cec108a94d50ebb770bb9848127d3c"},
+    {file = "jaxprop-0.6.0.tar.gz", hash = "sha256:e7dbf9b598403bdfbf8e44b52522a4ee130596576b41a6539863c037171d8432"},
 ]
 
 [package.dependencies]
@@ -4037,4 +4037,4 @@ pyfluent = ["ansys-fluent-core"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11,<3.14"
-content-hash = "768eb085d65253f70352fb258203cdcbc910a55d2db36f95d3092032e79feefd"
+content-hash = "6037780f3feae1fb4544abd1b107bbede22afcdba7ba7824b86e51e9f772ca48"

@@ -41,4 +41,10 @@ Regenerate the offline comparison from those local artifacts:
 python benchmarks/render_report.py --run "PyPI 0.5.8=benchmarks/results/release-comparison/pypi-0.5.8.json" --run "Local 0.6.0=benchmarks/results/release-comparison/jaxprop-0.6.0.json" --output benchmarks/results/report.html
 ```
 
-Until jaxprop 0.6.0 is published, install the prepared wheel explicitly for complete candidate validation. The Poetry lockfile retains the published 0.5.8 baseline; run `poetry update jaxprop` after publication. See [benchmark instructions](README.md) for candidate-wheel CI and recording fresh measurements.
+This record describes the prepared wheel and the measurement code at `3302d5d`. Barotropy now requires jaxprop 0.6.0 or newer within the 0.6 series; earlier versions are unsupported. Historical 0.5.8 measurements require the earlier code checkout. See [benchmark instructions](README.md) for current installation and candidate-wheel CI.
+
+## Published-release follow-up
+
+Jaxprop 0.6.0 was published on 15 November 2026 after its hosted Linux and Windows HEOS release gates passed. Its PyPI wheel SHA-256 is `0a8dfb68ca4d21cf97b7483e1da776b946cec108a94d50ebb770bb9848127d3c`; all 43 Python modules match the prepared downstream-validated code after line-ending normalization. Barotropy now requires `jaxprop>=0.6.0,<0.7.0`, and its lockfile pins the published 0.6.0 artifacts.
+
+Old-version mixture/blending adapters were removed. Binary processes now reuse a configured model through the public `Fluid(method="binary_mixture")` API, with an independent mixture volume-balance assertion. The complete **271-test** suite passed in a fresh environment with the published PyPI wheel installed directly, NumPy 2.5.4, SciPy 1.17.1 and pysolver_view 0.8.2; `pip check` also passed. Local XML evidence is `benchmarks/results/release-comparison/published-0.6.0-tests.xml`.

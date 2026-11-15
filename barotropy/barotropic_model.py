@@ -17,26 +17,8 @@ from . import graphics
 from . import utilities as utils
 
 
-try:
-    from jaxprop.binary_mixture.compat import get_mixture_state
-except ImportError:  # jaxprop releases before the unified fluid API
-    def get_mixture_state(*args, **kwargs):
-        # Some published releases contain an unusable legacy mixture module.
-        # Load it only for binary processes, preserving pure-fluid operation.
-        from jaxprop.two_component.mixture_calculations import get_mixture_state as evaluate
-
-        return evaluate(*args, **kwargs)
-
-
-class _PropertyMapping(dict):
-    """Numeric mapping accepted by both legacy and current blending helpers."""
-
-    def to_dict(self):
-        return dict(self)
-
-
 def _state_dict(state):
-    """Keep barotropy's public array names across jaxprop schema versions."""
+    """Expose barotropy's public array aliases for canonical jaxprop fields."""
     data = state.to_dict() if hasattr(state, "to_dict") else dict(state)
     for alias, canonical in {
         "p": "pressure", "T": "temperature", "rho": "density",
@@ -332,7 +314,7 @@ class BarotropicModel:
             and all(isinstance(f, str) for f in fluid_name)
         ):
             # Two-component model
-            if mixture_ratio is None or mixture_ratio <= 0:
+            if mixture_ratio is None or not np.isfinite(mixture_ratio) or mixture_ratio <= 0:
                 msg = f"Parameter mixture_ratio={mixture_ratio} must be a positive scalar for the two-component model."
                 raise ValueError(msg)
             elif (
@@ -953,7 +935,7 @@ def barotropic_model_one_component(
             # Compute blended state
             state_blend = blend_properties(
                 phase_change=phase_change_type,
-                props_equilibrium=_PropertyMapping(equilibrium_data),
+                props_equilibrium=equilibrium_data,
                 props_metastable=state_meta,
                 blending_variable="Q",
                 blending_onset=blending_onset,
@@ -1098,9 +1080,23 @@ def barotropic_model_two_component(
     # Initialize fluid and compute inlet state
     fluid_1 = props.Fluid(name=fluid_name_1, backend=backend)
     fluid_2 = props.Fluid(name=fluid_name_2, backend=backend)
+    if not np.isfinite(mixture_ratio) or mixture_ratio <= 0:
+        raise ValueError("Mixture ratio must be finite and positive.")
+    # Preserve the smaller mass fraction for extreme finite component ratios.
+    if mixture_ratio <= 1:
+        first = mixture_ratio / (1 + mixture_ratio)
+        mass_fractions = (first, 1 - first)
+    else:
+        second = 1 / (1 + mixture_ratio)
+        mass_fractions = (1 - second, second)
+    mixture = props.Fluid(
+        name=f"{fluid_name_1}_{fluid_name_2}",
+        method="binary_mixture",
+        model_options={"components": (fluid_1, fluid_2), "mass_fractions": mass_fractions},
+    )
 
     # Compute the inlet enthalpy of the mixture (ODE initial value)
-    state_in = get_mixture_state(fluid_1, fluid_2, p_in, T_in, mixture_ratio)
+    state_in = mixture.get_state(props.PT_INPUTS, p_in, T_in)
     h_in = state_in.enthalpy
 
     # Define the ODE system
@@ -1109,7 +1105,7 @@ def barotropic_model_two_component(
         # Compute mixture thermodynamic properties
         p = t
         h, T = y
-        state = _state_dict(get_mixture_state(fluid_1, fluid_2, p, T, mixture_ratio))
+        state = _state_dict(mixture.get_state(props.PT_INPUTS, p, T))
 
         # Compute derived properties
         state["velocity"] = np.sqrt(2*(h_in - state["enthalpy"] + 1e-6))

@@ -74,6 +74,14 @@ def test_two_component_smoke():
     model.fit_polynomials()
     assert all(sol.success for sol in model.ode_solution)
     assert np.all(model.states["density"] > 0)
+    import CoolProp.CoolProp as CP
+
+    pressure, temperature = model.states["pressure"], model.states["temperature"]
+    rho_water = CP.PropsSI("D", "P", pressure, "T", temperature, "Water")
+    rho_nitrogen = CP.PropsSI("D", "P", pressure, "T", temperature, "Nitrogen")
+    # Independent fixed-composition parcel volume balance.
+    reference_density = 1 / ((10 / 11) / rho_water + (1 / 11) / rho_nitrogen)
+    np.testing.assert_allclose(model.states["density"], reference_density, rtol=2e-10)
 
 
 @pytest.mark.parametrize("region", ["before", "early", "late", "after"])

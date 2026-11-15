@@ -20,8 +20,8 @@ toml = "^0.10.2"
 cycler = "^0.12.1"
 parse = "^1.20.2"
 pexpect = "^4.9.0"
-pysolver_view = ">=0.6.2,<1.0.0"
-jaxprop = ">=0.5.8,<0.7.0"
+pysolver_view = ">=0.7.1,<1.0.0"
+jaxprop = ">=0.6.0,<0.7.0"
 # jaxprop = { path = "../jaxprop/", develop = true }
 gmsh = { version = "^4.14.0", optional = true }
 ansys-fluent-core = { version = "^0.30.2", optional = true }
