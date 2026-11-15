@@ -1,0 +1,802 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>barotropy.fluent_automation.nozzle_meshing module &#8212; barotropy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=21ae117f"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/barotropy.fluent_automation.nozzle_meshing';</script>
+    <link rel="canonical" href="https://turbo-sim.github.io/barotropy/api/barotropy.fluent_automation.nozzle_meshing.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="barotropy.fluent_automation.stream_residuals module" href="barotropy.fluent_automation.stream_residuals.html" />
+    <link rel="prev" title="barotropy.fluent_automation.fluent_plot_nozzle_data module" href="barotropy.fluent_automation.fluent_plot_nozzle_data.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">barotropy</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Getting started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials.html">Guided tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/flashing_nozzle_fluent.html">Flashing nozzle Fluent tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/centrifugal_impeller_cfx.html">Centrifugal impeller CFX tutorial</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../barotropic_model.html">Barotropic model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../developer_guide.html">Developer guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/bibliography.html">Bibliography</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../api_reference.html">API reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="barotropy.html">barotropy package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="barotropy.fluent_automation.html">barotropy.fluent_automation package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="barotropy.fluent_automation.fluent_automation.html">barotropy.fluent_automation.fluent_automation module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.fluent_automation.fluent_plot_nozzle_data.html">barotropy.fluent_automation.fluent_plot_nozzle_data module</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">barotropy.fluent_automation.nozzle_meshing module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.fluent_automation.stream_residuals.html">barotropy.fluent_automation.stream_residuals module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="barotropy.fluent_automation.stream_transcript.html">barotropy.fluent_automation.stream_transcript module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.barotropic_model.html">barotropy.barotropic_model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.graphics.html">barotropy.graphics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.math.html">barotropy.math module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="barotropy.utilities.html">barotropy.utilities module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/barotropy" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/barotropy/edit/main/docs/source/api/barotropy.fluent_automation.nozzle_meshing.rst" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/barotropy/issues/new?title=Issue%20on%20page%20%2Fapi/barotropy.fluent_automation.nozzle_meshing.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/api/barotropy.fluent_automation.nozzle_meshing.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>barotropy.fluent_automation.nozzle_meshing module</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.nozzle_meshing.NozzleMesher"><code class="docutils literal notranslate"><span class="pre">NozzleMesher</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.nozzle_meshing.NozzleMesher.create_mesh"><code class="docutils literal notranslate"><span class="pre">NozzleMesher.create_mesh()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.nozzle_meshing.NozzleMesher.create_physical_groups"><code class="docutils literal notranslate"><span class="pre">NozzleMesher.create_physical_groups()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.nozzle_meshing.NozzleMesher.show_mesh"><code class="docutils literal notranslate"><span class="pre">NozzleMesher.show_mesh()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.nozzle_meshing.NozzleMesher.write_mesh"><code class="docutils literal notranslate"><span class="pre">NozzleMesher.write_mesh()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.nozzle_meshing.check_gmsh"><code class="docutils literal notranslate"><span class="pre">check_gmsh()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.nozzle_meshing.create_structured_surface"><code class="docutils literal notranslate"><span class="pre">create_structured_surface()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.nozzle_meshing.find_optimal_inflation_layer"><code class="docutils literal notranslate"><span class="pre">find_optimal_inflation_layer()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.nozzle_meshing.get_arclength_occ"><code class="docutils literal notranslate"><span class="pre">get_arclength_occ()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.nozzle_meshing.plot_y_mesh"><code class="docutils literal notranslate"><span class="pre">plot_y_mesh()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.nozzle_meshing.sample_meshed_curves"><code class="docutils literal notranslate"><span class="pre">sample_meshed_curves()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.nozzle_meshing.set_transfinite_curves"><code class="docutils literal notranslate"><span class="pre">set_transfinite_curves()</span></code></a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-barotropy.fluent_automation.nozzle_meshing">
+<span id="barotropy-fluent-automation-nozzle-meshing-module"></span><h1>barotropy.fluent_automation.nozzle_meshing module<a class="headerlink" href="#module-barotropy.fluent_automation.nozzle_meshing" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="barotropy.fluent_automation.nozzle_meshing.NozzleMesher">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.nozzle_meshing.</span></span><span class="sig-name descname"><span class="pre">NozzleMesher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/barotropy/fluent_automation/nozzle_meshing.html#NozzleMesher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.nozzle_meshing.NozzleMesher" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#barotropy.fluent_automation.nozzle_meshing.NozzleMesher.create_mesh" title="barotropy.fluent_automation.nozzle_meshing.NozzleMesher.create_mesh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_mesh</span></code></a>()</p></td>
+<td><p>Create full nozzle mesh (geometry + structured meshing).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#barotropy.fluent_automation.nozzle_meshing.NozzleMesher.create_physical_groups" title="barotropy.fluent_automation.nozzle_meshing.NozzleMesher.create_physical_groups"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_physical_groups</span></code></a>()</p></td>
+<td><p>Define physical groups for Fluent boundary conditions based on self.curves.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><strong>show_mesh</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>write_mesh</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="barotropy.fluent_automation.nozzle_meshing.NozzleMesher.create_mesh">
+<span class="sig-name descname"><span class="pre">create_mesh</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/barotropy/fluent_automation/nozzle_meshing.html#NozzleMesher.create_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.nozzle_meshing.NozzleMesher.create_mesh" title="Link to this definition">#</a></dt>
+<dd><p>Create full nozzle mesh (geometry + structured meshing).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="barotropy.fluent_automation.nozzle_meshing.NozzleMesher.create_physical_groups">
+<span class="sig-name descname"><span class="pre">create_physical_groups</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/barotropy/fluent_automation/nozzle_meshing.html#NozzleMesher.create_physical_groups"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.nozzle_meshing.NozzleMesher.create_physical_groups" title="Link to this definition">#</a></dt>
+<dd><p>Define physical groups for Fluent boundary conditions based on self.curves.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>symmetry</strong><span class="classifier">bool</span></dt><dd><p>Whether the geometry includes a centerline symmetry boundary.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="barotropy.fluent_automation.nozzle_meshing.NozzleMesher.show_mesh">
+<span class="sig-name descname"><span class="pre">show_mesh</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/barotropy/fluent_automation/nozzle_meshing.html#NozzleMesher.show_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.nozzle_meshing.NozzleMesher.show_mesh" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="barotropy.fluent_automation.nozzle_meshing.NozzleMesher.write_mesh">
+<span class="sig-name descname"><span class="pre">write_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nozzle.msh'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/barotropy/fluent_automation/nozzle_meshing.html#NozzleMesher.write_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.nozzle_meshing.NozzleMesher.write_mesh" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent_automation.nozzle_meshing.check_gmsh">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.nozzle_meshing.</span></span><span class="sig-name descname"><span class="pre">check_gmsh</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/barotropy/fluent_automation/nozzle_meshing.html#check_gmsh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.nozzle_meshing.check_gmsh" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent_automation.nozzle_meshing.create_structured_surface">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.nozzle_meshing.</span></span><span class="sig-name descname"><span class="pre">create_structured_surface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curves_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curves_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curves_3</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">curves_4</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corner_12</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corner_23</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corner_34</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corner_41</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_horizontal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_vertical</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progression_horizontal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progression_vertical</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../_modules/barotropy/fluent_automation/nozzle_meshing.html#create_structured_surface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.nozzle_meshing.create_structured_surface" title="Link to this definition">#</a></dt>
+<dd><p>Create and mesh a structured quadrilateral surface with transfinite constraints.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str</span></dt><dd><p>Optional surface name for user reference or debugging.</p>
+</dd>
+<dt><strong>curves_1 to curves_4</strong><span class="classifier">list of int</span></dt><dd><p>OCC curve tags forming the four sides of the surface,
+ordered counter-clockwise: bottom, right, top, left.</p>
+</dd>
+<dt><strong>corner_12, corner_23, corner_34, corner_41</strong><span class="classifier">int</span></dt><dd><p>OCC point tags at the surface corners in CCW order.
+These are used for transfinite meshing.</p>
+</dd>
+<dt><strong>N_horizontal</strong><span class="classifier">int</span></dt><dd><p>Number of mesh divisions along curves_1 and curves_3.</p>
+</dd>
+<dt><strong>N_vertical</strong><span class="classifier">int</span></dt><dd><p>Number of mesh divisions along curves_2 and curves_4.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>int</dt><dd><p>The Gmsh surface tag of the created structured surface.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent_automation.nozzle_meshing.find_optimal_inflation_layer">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.nozzle_meshing.</span></span><span class="sig-name descname"><span class="pre">find_optimal_inflation_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">h_wall</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inflation_ratio</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H_total</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_total</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_errors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/barotropy/fluent_automation/nozzle_meshing.html#find_optimal_inflation_layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.nozzle_meshing.find_optimal_inflation_layer" title="Link to this definition">#</a></dt>
+<dd><p>Determine the optimal inflation layer configuration given a geometric growth rate
+and total wall-normal mesh height and resolution.</p>
+<p>The function finds the number of inflation layer cells such that the last inflation cell
+matches the height of the uniform core cells. It also recomputes the exact inflation
+ratio that achieves this match after rounding the number of inflation cells.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>h_wall</strong><span class="classifier">float</span></dt><dd><p>Height of the first cell at the wall (e.g., to meet y⁺ constraint).</p>
+</dd>
+<dt><strong>inflation_ratio</strong><span class="classifier">float</span></dt><dd><p>Initial approximation for the geometric growth ratio (r &gt; 1). If r ≈ 1, a uniform grid is used.</p>
+</dd>
+<dt><strong>H_total</strong><span class="classifier">float</span></dt><dd><p>Total height of the mesh in the wall-normal direction.</p>
+</dd>
+<dt><strong>N_total</strong><span class="classifier">int</span></dt><dd><p>Total number of mesh cells in the wall-normal direction.</p>
+</dd>
+<dt><strong>check_errors</strong><span class="classifier">bool, default=True</span></dt><dd><p>Whether to check and report mismatch between core and inflation cell heights.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>dict</dt><dd><p>Dictionary containing resolved inflation and core region parameters:
+- “H_total”: total height of the domain
+- “N_total”: total number of cells
+- “h_wall”: height of the first inflation cell
+- “N_inflation”: integer number of inflation cells (after rounding)
+- “H_inflation”: height of the inflation region
+- “h_inflation”: height of the last inflation cell
+- “N_core”: number of core cells
+- “H_core”: height of the core region
+- “h_core”: uniform height of core cells
+- “inflation_ratio”: recomputed exact geometric ratio used</p>
+</dd>
+</dl>
+<p class="rubric">Algorithm
+..</p>
+<ol class="arabic simple">
+<li><dl class="simple">
+<dt>Model the inflation layer as a geometric series:</dt><dd><p>h_i = h_wall * r^(i - 1) for i = 1…N_inflation</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Compute the total inflation height:</dt><dd><p>H_inflation = h_wall * (1 - r^N) / (1 - r)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Impose a matching constraint:</dt><dd><p>h_last = h_wall * r^(N - 1) = h_core = (H_total - H_inflation) / (N_total - N)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Solve this constraint as a root-finding problem for a floating-point N_inflation.</dt><dd></dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Round N_inflation to the nearest integer, then recompute the exact inflation ratio</dt><dd><p>that matches the target H_inflation height.</p>
+</dd>
+</dl>
+</li>
+</ol>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>If inflation_ratio ≈ 1, the method falls back to uniform spacing
+with no dedicated inflation layer (N_inflation = 0).</p></li>
+<li><p>This ensures a smooth transition between inflation and core regions,
+and that the inflation region integrates cleanly into the mesh.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent_automation.nozzle_meshing.get_arclength_occ">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.nozzle_meshing.</span></span><span class="sig-name descname"><span class="pre">get_arclength_occ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curveTag</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/barotropy/fluent_automation/nozzle_meshing.html#get_arclength_occ"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.nozzle_meshing.get_arclength_occ" title="Link to this definition">#</a></dt>
+<dd><p>Compute the arc length of a Gmsh OCC curve using numerical integration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>curveTag</strong><span class="classifier">int</span></dt><dd><p>Tag of the OCC curve entity (dimension 1) whose arc length is to be computed.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>length</strong><span class="classifier">float</span></dt><dd><p>Total arc length of the curve, computed by integrating the norm of the
+first derivative (dx/dt, dy/dt, dz/dt) over the curve’s parametric domain.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>This function uses <cite>gmsh.model.getDerivative</cite> to obtain the first derivative
+of the OCC curve with respect to its parameter <cite>u</cite>, and numerically integrates
+the magnitude of the derivative using <cite>scipy.integrate.quad</cite>.</p></li>
+<li><p>Requires that <cite>gmsh.model.occ.synchronize()</cite> has been called before use.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent_automation.nozzle_meshing.plot_y_mesh">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.nozzle_meshing.</span></span><span class="sig-name descname"><span class="pre">plot_y_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">h_wall</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">H_total</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_total</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/barotropy/fluent_automation/nozzle_meshing.html#plot_y_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.nozzle_meshing.plot_y_mesh" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent_automation.nozzle_meshing.sample_meshed_curves">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.nozzle_meshing.</span></span><span class="sig-name descname"><span class="pre">sample_meshed_curves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curve_tags</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/barotropy/fluent_automation/nozzle_meshing.html#sample_meshed_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.nozzle_meshing.sample_meshed_curves" title="Link to this definition">#</a></dt>
+<dd><p>Extracts ordered XYZ points from one or more curve tags,
+avoiding duplicated nodes at segment joints.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>curve_tags</strong><span class="classifier">int or list of int</span></dt><dd><p>A single curve tag or a list of curve tags.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>list of tuple</dt><dd><p>Ordered list of (x, y, z) points along the concatenated curves.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="barotropy.fluent_automation.nozzle_meshing.set_transfinite_curves">
+<span class="sig-prename descclassname"><span class="pre">barotropy.fluent_automation.nozzle_meshing.</span></span><span class="sig-name descname"><span class="pre">set_transfinite_curves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curve_tags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meshType</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Progression'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coef</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/barotropy/fluent_automation/nozzle_meshing.html#set_transfinite_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#barotropy.fluent_automation.nozzle_meshing.set_transfinite_curves" title="Link to this definition">#</a></dt>
+<dd><p>Assign transfinite meshing to a sequence of connected curves,
+distributing the given number of <em>points</em> (not elements) according to the
+arc length of each segment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>curve_tags</strong><span class="classifier">list of int</span></dt><dd><p>Tags of the OCC curves forming a continuous chain (e.g., lower or upper wall).
+Each curve is treated as a segment between two mesh nodes.</p>
+</dd>
+<dt><strong>total_nodes</strong><span class="classifier">int</span></dt><dd><p>Total number of mesh nodes along the full chain (including endpoints).
+This implies total_nodes - 1 mesh elements will be distributed.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>If the chain has only one curve, assigns total_nodes directly to it.</p></li>
+<li><dl class="simple">
+<dt>If the chain has multiple curves, it:</dt><dd><ul>
+<li><p>Computes each curve’s arc length.</p></li>
+<li><p>Distributes total_nodes - 1 elements proportionally to segment length.</p></li>
+<li><p>Rounds to integers and ensures the sum matches exactly.</p></li>
+<li><p>Applies <cite>setTransfiniteCurve</cite> to each segment with (elements + 1) points.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="barotropy.fluent_automation.fluent_plot_nozzle_data.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">barotropy.fluent_automation.fluent_plot_nozzle_data module</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="barotropy.fluent_automation.stream_residuals.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">barotropy.fluent_automation.stream_residuals module</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.nozzle_meshing.NozzleMesher"><code class="docutils literal notranslate"><span class="pre">NozzleMesher</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.nozzle_meshing.NozzleMesher.create_mesh"><code class="docutils literal notranslate"><span class="pre">NozzleMesher.create_mesh()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.nozzle_meshing.NozzleMesher.create_physical_groups"><code class="docutils literal notranslate"><span class="pre">NozzleMesher.create_physical_groups()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.nozzle_meshing.NozzleMesher.show_mesh"><code class="docutils literal notranslate"><span class="pre">NozzleMesher.show_mesh()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.nozzle_meshing.NozzleMesher.write_mesh"><code class="docutils literal notranslate"><span class="pre">NozzleMesher.write_mesh()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.nozzle_meshing.check_gmsh"><code class="docutils literal notranslate"><span class="pre">check_gmsh()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.nozzle_meshing.create_structured_surface"><code class="docutils literal notranslate"><span class="pre">create_structured_surface()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.nozzle_meshing.find_optimal_inflation_layer"><code class="docutils literal notranslate"><span class="pre">find_optimal_inflation_layer()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.nozzle_meshing.get_arclength_occ"><code class="docutils literal notranslate"><span class="pre">get_arclength_occ()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.nozzle_meshing.plot_y_mesh"><code class="docutils literal notranslate"><span class="pre">plot_y_mesh()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.nozzle_meshing.sample_meshed_curves"><code class="docutils literal notranslate"><span class="pre">sample_meshed_curves()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barotropy.fluent_automation.nozzle_meshing.set_transfinite_curves"><code class="docutils literal notranslate"><span class="pre">set_transfinite_curves()</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Roberto Agromayor, Simone Parisi, Amit Kumar, Fredrik Haglind
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026, Sustainable Thermal Power DTU.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

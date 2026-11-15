@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Welcome to barotropy’s documentation! &#8212; barotropy v0.4.4 documentation</title>
+    <title>Welcome to barotropy’s documentation! &#8212; barotropy</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=ef44decf"></script>
+    <script src="_static/documentation_options.js?v=21ae117f"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>let toggleHintShow = 'Click to show';</script>
@@ -49,11 +49,13 @@
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
+    <link rel="canonical" href="https://turbo-sim.github.io/barotropy/index.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Getting started" href="source/introduction.html" />
+    <link rel="next" title="Getting started" href="introduction.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -143,7 +145,7 @@
   
   
   
-    <p class="title logo__title">barotropy v0.4.4 documentation</p>
+    <p class="title logo__title">barotropy</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -160,27 +162,29 @@
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="source/introduction.html">Getting started</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="source/tutorials.html">Guided tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="source/tutorials/flashing_nozzle_fluent.html">Flashing nozzle Fluent tutorial</a></li>
-<li class="toctree-l2"><a class="reference internal" href="source/tutorials/centrifugal_impeller_cfx.html">Centrifugal impeller CFX tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tutorials.html">Guided tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/flashing_nozzle_fluent.html">Flashing nozzle Fluent tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/centrifugal_impeller_cfx.html">Centrifugal impeller CFX tutorial</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="source/barotropic_model.html">Barotropic model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="source/developer_guide.html">Developer guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="source/bibliography.html">Bibliography</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="source/api/barotropy.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="source/api/barotropy.barotropic_model.html">Barotropic model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="source/api/barotropy.properties.html">Fluid properties</a></li>
-
-<li class="toctree-l2"><a class="reference internal" href="source/api/barotropy.math.html">Math functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="source/api/barotropy.graphics.html">Graphic functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="source/api/barotropy.utilities.html">Utility functions</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="source/api/barotropy.fluent_automation.html">Fluent automation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.fluent_automation.fluent_automation.html">barotropy.fluent_automation.fluent_automation module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.fluent_automation.fluent_plot_nozzle_data.html">barotropy.fluent_automation.fluent_plot_nozzle_data module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.fluent_automation.stream_residuals.html">barotropy.fluent_automation.stream_residuals module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="source/api/barotropy.fluent_automation.stream_transcript.html">barotropy.fluent_automation.stream_transcript module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="barotropic_model.html">Barotropic model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_guide.html">Developer guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references/bibliography.html">Bibliography</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api_reference.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/barotropy.html">barotropy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/barotropy.fluent_automation.html">barotropy.fluent_automation package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/barotropy.fluent_automation.fluent_automation.html">barotropy.fluent_automation.fluent_automation module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/barotropy.fluent_automation.fluent_plot_nozzle_data.html">barotropy.fluent_automation.fluent_plot_nozzle_data module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/barotropy.fluent_automation.nozzle_meshing.html">barotropy.fluent_automation.nozzle_meshing module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/barotropy.fluent_automation.stream_residuals.html">barotropy.fluent_automation.stream_residuals module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/barotropy.fluent_automation.stream_transcript.html">barotropy.fluent_automation.stream_transcript module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="api/barotropy.barotropic_model.html">barotropy.barotropic_model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/barotropy.graphics.html">barotropy.graphics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/barotropy.math.html">barotropy.math module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/barotropy.utilities.html">barotropy.utilities module</a></li>
 </ul>
 </details></li>
 </ul>
@@ -231,6 +235,70 @@
 
 
 
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/barotropy" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/barotropy/edit/main/docs/source/index.md" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/turbo-sim/barotropy/issues/new?title=Issue%20on%20page%20%2Findex.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
 <div class="dropdown dropdown-download-buttons">
   <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
     <i class="fas fa-download"></i>
@@ -239,7 +307,7 @@
       
       
       
-      <li><a href="_sources/index.rst" target="_blank"
+      <li><a href="_sources/index.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -249,7 +317,7 @@
 <span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="btn__text-container">.rst</span>
+<span class="btn__text-container">.md</span>
 </a>
 </li>
       
@@ -345,13 +413,10 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="module-barotropy">
-<span id="welcome-to-barotropy-s-documentation"></span><h1>Welcome to barotropy’s documentation!<a class="headerlink" href="#module-barotropy" title="Link to this heading">#</a></h1>
-<p>Enhance your two-phase turbomachinery CFD simulations with <strong>barotropy</strong>,
-a Python package designed to generate <strong>barotropic fluid property models</strong> for use in CFD simlations.</p>
-<p>A <strong>barotropic model</strong> assumes that thermophysical properties such as <strong>density</strong>, <strong>viscosity</strong>, and <strong>speed of sound</strong> depend <strong>only on pressure</strong>.
-This simplification is highly accurate for flows in which the fluid approximately follows a known
-thermodynamic process, such as a polytropic processes in turbines and compressors. This simplification enables:</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="welcome-to-barotropy-s-documentation">
+<h1>Welcome to barotropy’s documentation!<a class="headerlink" href="#welcome-to-barotropy-s-documentation" title="Link to this heading">#</a></h1>
+<p>Conduct your two-phase turbomachinery CFD simulations with <strong>barotropy</strong>, a Python package to generate <strong>barotropic fluid property models</strong> for CFD simulations.</p>
+<p>A <strong>barotropic model</strong> assumes that thermophysical properties such as <strong>density</strong>, <strong>viscosity</strong>, and <strong>speed of sound</strong> depend <strong>only on pressure</strong>.  This simplification is highly accurate for flows in which the fluid approximately follows a known thermodynamic process, such as a polytropic processes in turbines and compressors. This simplification enables:</p>
 <ul class="simple">
 <li><p>Efficient and stable CFD convergence</p></li>
 <li><p>Physically plausible extrapolation near critical or two-phase conditions</p></li>
@@ -366,43 +431,36 @@ the fluid properties are automatically fitted with piece-wise polynomials and ex
 as Expressions to be used in conjunction with Fluent’s or CFX’s pressure-based solvers.</p>
 <p>Two-phase fluid properties between the saturation line and the spinodal line can be
 computed according to phase-equilibrium or by extrapolating the Helmholtz-energy
-equation of state into the metastable region. Check the
-<a class="reference external" href="./documentation/thermodynamic_properties.rst">documentation</a> for more information
-about extrapolating the equation of state beyond the saturation line and its limitations.</p>
-<p align="center">
-  <img src="_static/two-phase_turbine.jpg"  width="85%" />
-</p>
-
-<p align="center">
-  <img src="_static/sCO2_compressor.jpg"  width="95%" />
-</p><section id="table-of-contents">
+equation of state into the metastable region. See the <a class="reference internal" href="barotropic_model.html"><span class="std std-doc">barotropic model</span></a> for the modeling overview.</p>
+<a class="reference internal image-reference" href="_images/two-phase_turbine.jpg"><img alt="Two-phase turbine" class="align-center" src="_images/two-phase_turbine.jpg" style="width: 85%;" /></a>
+<a class="reference internal image-reference" href="_images/sCO2_compressor.jpg"><img alt="Supercritical CO2 compressor" class="align-center" src="_images/sCO2_compressor.jpg" style="width: 95%;" /></a>
+<section id="table-of-contents">
 <h2>Table of contents<a class="headerlink" href="#table-of-contents" title="Link to this heading">#</a></h2>
-<p>Use the panel to the left or the table of contents below to navigate the documentation.</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="source/introduction.html">Getting started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="source/introduction.html#user-installation-guide">User installation guide</a></li>
-<li class="toctree-l2"><a class="reference internal" href="source/introduction.html#minimal-working-example">Minimal working example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#user-installation-guide">User installation guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#minimal-working-example">Minimal working example</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="source/tutorials.html">Guided tutorials</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="source/tutorials/flashing_nozzle_fluent.html">Flashing nozzle Fluent tutorial</a></li>
-<li class="toctree-l2"><a class="reference internal" href="source/tutorials/centrifugal_impeller_cfx.html">Centrifugal impeller CFX tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Guided tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/flashing_nozzle_fluent.html">Flashing nozzle Fluent tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/centrifugal_impeller_cfx.html">Centrifugal impeller CFX tutorial</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="source/barotropic_model.html">Barotropic model</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="source/barotropic_model.html#two-component-systems">Two-component systems</a></li>
-<li class="toctree-l2"><a class="reference internal" href="source/barotropic_model.html#single-component-systems">Single-component systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="barotropic_model.html">Barotropic model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="barotropic_model.html#two-component-systems">Two-component systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="barotropic_model.html#single-component-systems">Single-component systems</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="source/developer_guide.html">Developer guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="source/developer_guide.html#installation-from-source">Installation from source</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_guide.html">Developer guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="developer_guide.html#installation-from-source">Installation from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer_guide.html#documentation">Documentation</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="source/bibliography.html">Bibliography</a></li>
-<li class="toctree-l1"><a class="reference internal" href="source/api/barotropy.html">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="source/api/barotropy.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="source/api/barotropy.html#subpackages">Subpackages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references/bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">API reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/barotropy.html">barotropy package</a></li>
 </ul>
 </li>
 </ul>
@@ -422,7 +480,7 @@ about extrapolating the equation of state beyond the saturation line and its lim
                   
 <div class="prev-next-area">
     <a class="right-next"
-       href="source/introduction.html"
+       href="introduction.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
@@ -471,7 +529,7 @@ By Roberto Agromayor, Simone Parisi, Amit Kumar, Fredrik Haglind
 
   <p class="copyright">
     
-      © Copyright 2024, Sustainable Thermal Power DTU.
+      © Copyright 2026, Sustainable Thermal Power DTU.
       <br/>
     
   </p>
