@@ -79,3 +79,23 @@ settings.json    # VS Code settings file
 **/.centrifugal_impeller_files.backup/
 *.cas.h5
 *.dat.h5
+# Local validation artifacts
+.pytest_cache/
+pytest-cache-files-*/
+benchmarks/results/
+dist/
+
+# Build, test, and local candidate-validation output
+/.venv/
+/build/
+/*.egg-info/
+/.cache/
+/.ruff_cache/
+/.mypy_cache/
+/.coverage
+/.coverage.*
+/coverage.xml
+/htmlcov/
+/test-results/
+/candidate-jaxprop/
+/candidate-wheel/

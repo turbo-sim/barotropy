@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import pysolver_view as psv
 import jaxprop as props
+from jaxprop.coolprop.core_calculations import blend_properties
+from jaxprop.coolprop.fluid_properties import compute_quality_grid
 
 from functools import wraps
 from numpy.polynomial import Polynomial
@@ -13,6 +15,44 @@ from scipy.integrate._ivp.ivp import METHODS as ODE_METHODS
 
 from . import graphics
 from . import utilities as utils
+
+
+try:
+    from jaxprop.binary_mixture.compat import get_mixture_state
+except ImportError:  # jaxprop releases before the unified fluid API
+    def get_mixture_state(*args, **kwargs):
+        # Some published releases contain an unusable legacy mixture module.
+        # Load it only for binary processes, preserving pure-fluid operation.
+        from jaxprop.two_component.mixture_calculations import get_mixture_state as evaluate
+
+        return evaluate(*args, **kwargs)
+
+
+class _PropertyMapping(dict):
+    """Numeric mapping accepted by both legacy and current blending helpers."""
+
+    def to_dict(self):
+        return dict(self)
+
+
+def _state_dict(state):
+    """Keep barotropy's public array names across jaxprop schema versions."""
+    data = state.to_dict() if hasattr(state, "to_dict") else dict(state)
+    for alias, canonical in {
+        "p": "pressure", "T": "temperature", "rho": "density",
+        "h": "enthalpy", "s": "entropy", "Q": "quality_mass",
+        "vapor_quality": "quality_mass", "void_fraction": "quality_volume",
+    }.items():
+        if canonical in data:
+            data[alias] = data[canonical]
+    if "quality_mass" not in data and "vol_frac_1" in data:
+        # Preserve the legacy binary-model markers: fractions of the less
+        # dense component, not a thermodynamic equilibrium vapor quality.
+        first_is_lighter = data["mass_frac_1"] * data["vol_frac_2"] < data["mass_frac_2"] * data["vol_frac_1"]
+        index = 1 if first_is_lighter else 2
+        data["vapor_quality"] = data[f"mass_frac_{index}"]
+        data["void_fraction"] = data[f"vol_frac_{index}"]
+    return data
 
 COLORS_MATLAB = graphics.COLORS_MATLAB
 PROCESS_TYPES = ["polytropic", "adiabatic"]
@@ -149,6 +189,10 @@ class BarotropicModel:
     ODE_tolerance : float, optional
         The relative and absolute tolerance for the ODE solver.
 
+    ODE_max_step : float, optional
+        Maximum pressure step in Pa for the one-component integration. The
+        default is unlimited; use a finite value to resolve narrow transitions.
+
     polynomial_degree : int
         Degree of the polynomials to fit.
 
@@ -199,6 +243,7 @@ class BarotropicModel:
             "vapor_quality",
         ],
         output_dir: str = "barotropic_model",
+        ODE_max_step: float = np.inf,
     ):
 
         # Validate inputs and find the correct model type
@@ -241,6 +286,7 @@ class BarotropicModel:
         self.blending_width = blending_width
         self.ODE_solver = ODE_solver
         self.ODE_tolerance = ODE_tolerance
+        self.ODE_max_step = ODE_max_step
         self.HEOS_solver = HEOS_solver
         self.HEOS_tolerance = HEOS_tolerance
         self.HEOS_max_iter = HEOS_max_iter
@@ -254,6 +300,7 @@ class BarotropicModel:
         self.states = None
         self.ode_solution = None
         self.poly_fitter = None
+        self.exporter = None
 
     def _resolve_model_type(
         self,
@@ -426,6 +473,7 @@ class BarotropicModel:
                 blending_width=self.blending_width,
                 ODE_solver=self.ODE_solver,
                 ODE_tolerance=self.ODE_tolerance,
+                ODE_max_step=self.ODE_max_step,
                 HEOS_solver=self.HEOS_solver,
                 HEOS_tolerance=self.HEOS_tolerance,
                 HEOS_max_iter=self.HEOS_max_iter,
@@ -446,6 +494,7 @@ class BarotropicModel:
                 blending_width=self.blending_width,
                 ODE_solver=self.ODE_solver,
                 ODE_tolerance=self.ODE_tolerance,
+                ODE_max_step=self.ODE_max_step,
                 HEOS_solver=self.HEOS_solver,
                 HEOS_tolerance=self.HEOS_tolerance,
                 HEOS_max_iter=self.HEOS_max_iter,
@@ -455,7 +504,7 @@ class BarotropicModel:
             # Store solution
             self.state_in = {key: value[0] for key, value in states_up.items()}
             self.states = {
-                key: np.concatenate((np.flipud(states_up[key][:-1]), states_down.get(key, np.atleast_1d(0.))))
+                key: np.concatenate((np.flipud(states_up[key][1:]), states_down.get(key, np.atleast_1d(0.))))
                 for key in states_up
             }
             self.ode_solution = (ode_solution_up, ode_solution_down)
@@ -490,7 +539,7 @@ class BarotropicModel:
             # Store solution
             self.state_in = {key: value[0] for key, value in states_up.items()}
             self.states = {
-                key: np.concatenate((np.flipud(states_up[key][:-1]), states_down[key]))
+                key: np.concatenate((np.flipud(states_up[key][1:]), states_down[key]))
                 for key in states_up
             }
             self.ode_solution = (ode_solution_up, ode_solution_down)
@@ -498,6 +547,10 @@ class BarotropicModel:
         else:
             msg = f"Invalid value for model_type={self.model_type}. Something went wrong during input validation."
             raise ValueError(msg)
+
+        # A zero-length integration can return the inlet twice.
+        keep = np.r_[True, np.diff(self.states["pressure"]) != 0]
+        self.states = {key: value[keep] for key, value in self.states.items()}
 
     def fit_polynomials(self):
         """
@@ -592,6 +645,7 @@ def barotropic_model_one_component(
     HEOS_print_convergence=False,
     ODE_solver="lsoda",
     ODE_tolerance=1e-8,
+    ODE_max_step=np.inf,
 ):
     r"""
     Simulates a polytropic process for a given fluid from an inlet state to a specified outlet pressure.
@@ -744,14 +798,14 @@ def barotropic_model_one_component(
         )
 
     # Initialize fluid and compute inlet state
-    fluid = props.Fluid(name=fluid_name, backend=backend, exceptions=True)
+    fluid = props.Fluid(name=fluid_name, backend=backend)
     state_in = fluid.get_state(
         props.DmassP_INPUTS, rho_in, p_in, supersaturation=True, generalize_quality=True
     )
 
     # Determine the type of phase change process
     phase_change_type = (
-        "flashing" if state_in.s < fluid.critical_point.s else "condensation"
+        "flashing" if state_in.rho > fluid.critical_point.rho else "condensation"
     )
 
     # Initial guess for the metastable state (is updated at each iteration)
@@ -797,7 +851,7 @@ def barotropic_model_one_component(
             # Update guess for the next integration step
             rhoT_guess_metastable = [state_eq.rho, state_eq.T]
             dhdp = np.atleast_1d(efficiency / state_eq["rho"])
-            return dhdp, state_eq.to_dict()
+            return dhdp, _state_dict(state_eq)
 
         elif calculation_type == "metastable":
             # Compute metastable state using custom solver
@@ -818,7 +872,7 @@ def barotropic_model_one_component(
             # Update guess for the next integration step
             rhoT_guess_metastable = [state_meta.rho, state_meta.T]
             dhdp = np.atleast_1d(efficiency / state_meta["rho"])
-            return dhdp, state_meta.to_dict()
+            return dhdp, _state_dict(state_meta)
 
         elif calculation_type == "blending":
 
@@ -853,7 +907,14 @@ def barotropic_model_one_component(
                 )
 
             # Determine if metastable state should be used (avoid metastable computations too deep into the 2-phase region)
-            q = state_eq["vapor_quality"]
+            equilibrium_data = _state_dict(state_eq)
+            if not state_eq.is_two_phase:
+                # A one-phase quality is a branch label. Density avoids the
+                # critical-entropy label reversing for dry fluids like Novec.
+                label = float(state_eq.rho < fluid.critical_point.rho)
+                equilibrium_data.update(quality_mass=label, quality_volume=label,
+                                        vapor_quality=label, void_fraction=label, Q=label)
+            q = equilibrium_data["vapor_quality"]
             use_metastable = (
                 phase_change_type == "flashing"
                 and q <= 1.0 * (blending_onset + blending_width)
@@ -890,14 +951,18 @@ def barotropic_model_one_component(
                 state_meta = state_eq
 
             # Compute blended state
-            state_blend = props.blend_properties(
+            state_blend = blend_properties(
                 phase_change=phase_change_type,
-                props_equilibrium=state_eq,
+                props_equilibrium=_PropertyMapping(equilibrium_data),
                 props_metastable=state_meta,
                 blending_variable="Q",
                 blending_onset=blending_onset,
                 blending_width=blending_width,
             )
+            state_blend = _state_dict(state_blend)
+            # Algorithm metadata belongs to the process, not FluidState.
+            sign = 1 if phase_change_type == "condensation" else -1
+            state_blend["x"] = 1 + sign * (q - blending_onset) / blending_width
 
             # Compute right-hand-side of the ODE
             dhdp = np.atleast_1d(efficiency / state_blend["density"])
@@ -915,6 +980,7 @@ def barotropic_model_one_component(
         t_span=[p_in, p_out],
         y0=[state_in.h],
         method=ODE_solver,
+        max_step=ODE_max_step,
         rtol=ODE_tolerance,
         atol=ODE_tolerance,
     )
@@ -925,6 +991,10 @@ def barotropic_model_one_component(
     # Start postprocessing from inlet state, otherwise initial guess will be too far away
     rhoT_guess_metastable = [state_in.rho, state_in.T]
     states = utils.postprocess_ode(ode_sol.t, ode_sol.y, odefun)
+    # Pressure is the independent coordinate; inverse EOS residuals must not
+    # create repeated or reversed nodes at the inlet.
+    states["pressure"] = ode_sol.t.copy()
+    states["p"] = ode_sol.t.copy()
 
     return states, ode_sol
 
@@ -1026,11 +1096,11 @@ def barotropic_model_two_component(
         )
 
     # Initialize fluid and compute inlet state
-    fluid_1 = props.Fluid(name=fluid_name_1, backend=backend, exceptions=True)
-    fluid_2 = props.Fluid(name=fluid_name_2, backend=backend, exceptions=True)
+    fluid_1 = props.Fluid(name=fluid_name_1, backend=backend)
+    fluid_2 = props.Fluid(name=fluid_name_2, backend=backend)
 
     # Compute the inlet enthalpy of the mixture (ODE initial value)
-    state_in = props.get_mixture_state(fluid_1, fluid_2, p_in, T_in, mixture_ratio)
+    state_in = get_mixture_state(fluid_1, fluid_2, p_in, T_in, mixture_ratio)
     h_in = state_in.enthalpy
 
     # Define the ODE system
@@ -1039,7 +1109,7 @@ def barotropic_model_two_component(
         # Compute mixture thermodynamic properties
         p = t
         h, T = y
-        state = props.get_mixture_state(fluid_1, fluid_2, p, T, mixture_ratio).to_dict()
+        state = _state_dict(get_mixture_state(fluid_1, fluid_2, p, T, mixture_ratio))
 
         # Compute derived properties
         state["velocity"] = np.sqrt(2*(h_in - state["enthalpy"] + 1e-6))
@@ -1064,6 +1134,10 @@ def barotropic_model_two_component(
 
     # Postprocess solution
     states = utils.postprocess_ode(ode_sol.t, ode_sol.y, odefun)
+    # Pressure is the independent coordinate; inverse EOS residuals must not
+    # create repeated or reversed nodes at the inlet.
+    states["pressure"] = ode_sol.t.copy()
+    states["p"] = ode_sol.t.copy()
 
     return states, ode_sol
 
@@ -1119,7 +1193,7 @@ class PolynomialFitter:
     ):
 
         # Rename arguments
-        self.states = states
+        self.states = {key: np.array(value, copy=True) for key, value in states.items()}
         self.state_in = state_in
         self.variables = variables
         self.poly_degree = degree
@@ -1137,6 +1211,8 @@ class PolynomialFitter:
 
         # Preprocess vapor quality and void fraction to avoid NaNs
         for var in ("vapor_quality", "void_fraction"):
+            if var not in self.states:
+                continue
             data = np.array(self.states[var])
             if np.isnan(data).any():
                 # Find the first finite (non-NaN) value
@@ -1175,12 +1251,12 @@ class PolynomialFitter:
 
         # Determine the polynomial limits
         self.poly_breakpoints = [self.p_in_scaled, self.p_out_scaled]
-        self.poly_degree = 6
+        degree = min(int(self.poly_degree), len(np.unique(p_scaled)) - 1)
 
         # Fit polynomials to data
         for var in self.variables:
             y = np.array(self.states[var])
-            poly = Polynomial.fit(p_scaled, y, deg=self.poly_degree).convert()
+            poly = Polynomial.fit(p_scaled, y, deg=degree).convert()
             self.poly_handles[var] = [poly]
 
     # def _fit_equilibrium(self):
@@ -1302,7 +1378,7 @@ class PolynomialFitter:
                 p_end = self.poly_breakpoints[i + 1]
 
                 # Mask for points within this segment
-                mask_segment = (p_scaled <= p_start) & (p_scaled > p_end)
+                mask_segment = (p_scaled <= p_start) & ((p_scaled > p_end) | ((i == n_segments - 1) & (p_scaled == p_end)))
                 if not np.any(mask_segment):
                     # No data in this segment; skip
                     self.poly_handles[var].append(None)
@@ -1310,7 +1386,7 @@ class PolynomialFitter:
 
                 p_seg = p_scaled[mask_segment]
                 y_seg = np.array(self.states[var])[mask_segment]
-                poly = Polynomial.fit(p_seg, y_seg, deg=degrees[i]).convert()
+                poly = Polynomial.fit(p_seg, y_seg, deg=min(degrees[i], len(p_seg) - 1)).convert()
                 self.poly_handles[var].append(poly)
                 
 
@@ -1321,75 +1397,30 @@ class PolynomialFitter:
         This method identifies different regions based on the blending parameter "x" and fits polynomials to ensure continuity across regions.
         """
 
-        # Get the scaled pressure values
         p = self.states["pressure"] / self.p_in
-
-        # Define masks for different regions based on states["x"]
-        # limit = 0.96
-        # limit = 0.8
-        limit = 1
-        mask_region_1 = self.states["x"] >= limit
-        mask_region_2 = (self.states["x"] > 0) & (self.states["x"] < limit)
-        mask_region_3 = self.states["x"] <= 0
-
-        # Determine breakpoints in terms of scaled pressure
-        p_region_2_start = p[mask_region_2][0]
-        p_region_2_end = p[mask_region_2][-1]
-        self.poly_breakpoints = [
-            self.p_in_scaled,
-            p_region_2_start,
-            p_region_2_end,
-            self.p_out_scaled,
-        ]
-
-        # Fit polynomials to data
+        x = self.states["x"]
+        labels = np.where(x >= 1, 0, np.where(x > 0, 1, 2))
+        starts = np.r_[0, np.flatnonzero(np.diff(labels)) + 1]
+        ends = np.r_[starts[1:], len(p) - 1]
+        degrees = self.poly_degree
+        if np.isscalar(degrees):
+            degrees = [int(degrees)] * 3
+        if len(degrees) != 3:
+            raise ValueError("Blending polynomial degree must be scalar or three items.")
+        self.poly_breakpoints = [p[i] for i in starts] + [p[-1]]
         for var in self.variables:
             self.poly_handles[var] = []
-
-            # TODO Clean
-            if isinstance(self.poly_degree, list) and len(self.poly_degree) == 3:
-                degree_1, degree_2, degree_3 = self.poly_degree
-            elif isinstance(self.poly_degree, (int, float)):
-                degree_1 = degree_2 = degree_3 = self.poly_degree
-            else:
-                raise ValueError(
-                    f"The variable poly_degree must be a scalar or a list with 3 items, but got {self.poly_degree}"
-                )
-
-            # Fit polynomial for Region 1 (x > 1)
-            y_1 = np.array(self.states[var])[mask_region_1]
-            p_1 = p[mask_region_1]
-            degree_1 = min(len(y_1) - 1, degree_1)
-            poly_1 = Polynomial.fit(p_1, y_1, deg=degree_1).convert()
-            self.poly_handles[var].append(poly_1)
-
-            # Fit polynomial for Region 2 (0 <= x <= 1)
-            y_2 = np.array(self.states[var])[mask_region_2]
-            p_2 = p[mask_region_2]
-            degree_2 = min(len(y_2) - 1, degree_2)
-            poly_2 = Polynomial.fit(p_2, y_2, deg=degree_2).convert()
-
-            # Ensure continuity by adjusting the first coefficient
-            y_1_end = poly_1(p_region_2_start)
-            y_2_start = poly_2(p_region_2_start)
-            coeffs_2 = poly_2.coef
-            coeffs_2[0] -= y_2_start - y_1_end
-            poly_2 = Polynomial(coeffs_2)
-            self.poly_handles[var].append(poly_2)
-
-            # Fit polynomial for Region 3 (x < 0)
-            y_3 = np.array(self.states[var])[mask_region_3]
-            p_3 = p[mask_region_3]
-            degree_3 = min(len(y_3) - 1, degree_3)
-            poly_3 = Polynomial.fit(p_3, y_3, deg=degree_3).convert()
-
-            # Ensure continuity by adjusting the first coefficient
-            y_2_end = poly_2(p_region_2_end)
-            y_3_start = poly_3(p_region_2_end)
-            coeffs_3 = poly_3.coef
-            coeffs_3[0] -= y_3_start - y_2_end
-            poly_3 = Polynomial(coeffs_3)
-            self.poly_handles[var].append(poly_3)
+            for start, end in zip(starts, ends):
+                # Include the boundary in each adjoining segment. Partial and
+                # absent transitions are valid and need no empty polynomials.
+                ps = p[start:end + 1]
+                ys = self.states[var][start:end + 1]
+                degree = min(int(degrees[labels[start]]), len(np.unique(ps)) - 1)
+                poly = Polynomial.fit(ps, ys, deg=degree).convert()
+                if self.poly_handles[var]:
+                    previous = self.poly_handles[var][-1]
+                    poly = poly + (previous(ps[0]) - poly(ps[0]))
+                self.poly_handles[var].append(poly)
 
     @_ensure_data_available
     def evaluate_polynomial(self, p, variable, print_warning=True):
@@ -1804,7 +1835,7 @@ class PolynomialFitter:
         if plot_quality_isolines:
             var_z = "vapor_quality"
             # var_z = "void_fraction"
-            prop_dict = props.compute_quality_grid(
+            prop_dict = compute_quality_grid(
                 fluid,
                 num_points=100,
                 quality_levels=np.linspace(0.0, 1.0, 100),

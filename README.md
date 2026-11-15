@@ -74,3 +74,7 @@ Roberto Agromayor is the main developer of Barotropy.
 
 Citation metadata is provided in [CITATION.cff](CITATION.cff). For version-specific reproducibility, also record the release or commit used.
 <!-- research-software-metadata:end -->
+
+## Regression tests and benchmarks
+
+See [release validation and performance](benchmarks/README.md) for the multi-fluid numerical suite, candidate jaxprop wheel validation, and repeatable timing comparisons.

@@ -23,8 +23,10 @@ example_relative_paths = [
 EXAMPLE_SCRIPTS = [EXAMPLES_DIR / rel_path for rel_path in example_relative_paths]
 
 # Optional: make test output more readable
-example_ids = [p.name for p in EXAMPLE_SCRIPTS]
+example_ids = [str(p.relative_to(EXAMPLES_DIR)) for p in EXAMPLE_SCRIPTS]
 
+
+@pytest.mark.examples
 @pytest.mark.parametrize("script_path", EXAMPLE_SCRIPTS, ids=example_ids)
 def test_examples(script_path):
     # Use sys.executable instead of just 'python' to run correctly in GitHub actions (Windows)
@@ -34,10 +36,13 @@ def test_examples(script_path):
         cwd=working_dir,
         capture_output=True,
         text=True,
-        env={**os.environ, "DISABLE_PLOTS": "1"}
+        env={**os.environ, "DISABLE_PLOTS": "1", "MPLBACKEND": "Agg"},
+        timeout=180,
     )
 
-    assert result.returncode == 0, f"Failed: {script_path}\n{result.stderr}"
+    assert (
+        result.returncode == 0
+    ), f"Failed: {script_path}\n{result.stdout}\n{result.stderr}"
 
 
 if __name__ == "__main__":
